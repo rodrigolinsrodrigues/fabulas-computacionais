@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Gravity : MonoBehaviour
+{
+    public GameObject planet;
+    public bool onGround;
+    float distanceToGround;
+    Vector3 groundNormal;
+    float gravity = 10f;
+    public Rigidbody rb;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+         // GroundControl
+        RaycastHit hit = new RaycastHit();
+        if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
+        {
+            distanceToGround = hit.distance;
+            groundNormal = hit.normal;
+
+            if(distanceToGround <= 0.6f)
+            {
+                onGround = true;
+            }
+            else
+            {
+                onGround = false;
+            }
+
+
+            //rotação
+            Quaternion toRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
+            transform.rotation = toRotation;
+    }
+    }
+
+    void FixedUpdate()
+    {
+         // Gravidade
+        Vector3 gravDirection = (transform.position - planet.transform.position).normalized;
+         if(onGround == false)
+            {
+                rb.AddForce(gravDirection * -gravity);
+            }
+    }
+}
+
