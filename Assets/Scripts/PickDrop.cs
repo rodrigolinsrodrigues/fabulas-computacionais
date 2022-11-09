@@ -11,8 +11,8 @@ public class PickDrop : MonoBehaviour
   
     void Start()
     {
-      intObj = GameObject.FindWithTag("PickDropObj");
-      rb = intObj.GetComponent<Rigidbody>();
+    intObj = GameObject.FindWithTag("PickDropObj");
+    rb = intObj.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class PickDrop : MonoBehaviour
     {
         // Teste rapido de pegar e soltar
         // Falta atualizar para o esquema novo de inputs
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) && other.gameObject.tag == "PickDropObj")
         {
             if(inHand == false)
             {
@@ -30,7 +30,7 @@ public class PickDrop : MonoBehaviour
             inHand = true;
             }
         }
-        else if(Input.GetKey(KeyCode.Q))
+        else if(Input.GetKey(KeyCode.Q) && other.gameObject.tag == "PickDropObj")
         {
             if(inHand == true)
             {
