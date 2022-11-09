@@ -1,23 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    //Começo - Controles
+    //PlayerInputs comandos;
+
+
+    // Começo - Mecanica
     public GameObject planet;
+    public GameObject guia;
     public float speed = 4f;
     public float  jumpHeight = 1.2f; 
-    public GameObject guia;
-
     float gravity = 10;
-    public bool onGround = false;
-
-    public Rigidbody rb;
-
     float distanceToGround;
+    public bool onGround = false;
+    public Rigidbody rb;
     Vector3 groundNormal;
+    // Final - Mecanica
 
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        // comandos = new PlayerInputs();
+        // comandos.Gameplay.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,10 +37,13 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Movimento
+        // Movimento - (OLD)
         float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         transform.Translate(x,0,z);
+        
+
+
 
         // GroundControl
         RaycastHit hit = new RaycastHit();
