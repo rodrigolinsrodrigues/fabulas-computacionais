@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     //Começo - Controles
-    //PlayerInputs comandos;
+   Comandos comandos;
 
 
     // Começo - Mecanica
@@ -24,8 +24,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        // comandos = new PlayerInputs();
-        // comandos.Gameplay.Enable();
+        comandos.Gameplay.Enable();
         Cursor.lockState = CursorLockMode.Locked;
     }
     void Start()
@@ -75,12 +74,19 @@ public class Player : MonoBehaviour
             {
                 rb.AddForce(gravDirection * -gravity);
             }
+            if(comandos.Gameplay.Jump.performed += Jump)
+            {
+                 Jump();
+            }
+           
+    }
 
+    public void Jump(InputAction.Call)
+    {
         //Pulo
-        if(onGround == true && Input.GetKey(KeyCode.Space))
+        if(onGround == true)
         {
             rb.AddForce(transform.up * 20000 * jumpHeight * Time.deltaTime);
         }
     }
-
 }

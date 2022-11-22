@@ -7,7 +7,8 @@ public class PickDrop : MonoBehaviour
     public Rigidbody rb; 
     public bool inHand = false; // Checa se o obj foi pego 
 
-    void OnTriggerStay(Collider other) 
+
+    public void OnTriggerStay(Collider other) 
     {
         rb = other.gameObject.GetComponent<Rigidbody>();
         // Teste rapido de pegar e soltar
@@ -15,7 +16,8 @@ public class PickDrop : MonoBehaviour
         if(Input.GetKey(KeyCode.E) && other.gameObject.tag == "PickDropObj")
         {
             if(inHand == false)
-            {
+            {    
+            other.transform.position = this.transform.position;
             other.transform.parent = this.transform.parent;
             rb.freezeRotation = true;
             rb.isKinematic = true;
@@ -34,6 +36,14 @@ public class PickDrop : MonoBehaviour
         }
         
     }
+
+    public void Pegar()
+    {
+
+    }
+
+    public void Soltar()
+    {}
 }
    
 
