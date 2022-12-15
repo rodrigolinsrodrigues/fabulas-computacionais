@@ -5,9 +5,10 @@ using UnityEngine;
 public class GravityOrbit : MonoBehaviour
 {
     // Codigo utilizado nos planetas
-    // Controla a orbita dos planetas
+        // Controla a orbita dos planetas
     public float Gravity;
     public bool FixedDirection; // se a gravidade desse objeto apenas puxa o player para baixo
+    
     // Start is called before the first frame update
     private void OnTriggerEnter(Collider other) 
     {

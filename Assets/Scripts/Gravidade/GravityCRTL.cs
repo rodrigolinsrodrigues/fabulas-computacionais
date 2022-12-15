@@ -9,6 +9,7 @@ public class GravityCRTL : MonoBehaviour
     private Rigidbody rb;
 
     public float RotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
+    
     // Start is called before the first frame update
     void Start()
     {

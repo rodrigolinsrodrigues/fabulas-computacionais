@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     public LayerMask LayerMask;
 
     public Rigidbody rb;
-
     private void Awake()
     {
        // comandos.Gameplay.Enable();
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+      
     }
 
     // Update is called once per frame
@@ -38,20 +38,14 @@ public class Player : MonoBehaviour
         transform.Translate(x,0,z);
         
        
-
-        // Sistema de identificação de objetos
-        // Será utilizado para visualizar objetos na frente do personagem
-       // RaycastHit hit = new RaycastHit();
-       
     }
 
     void FixedUpdate() 
     {
         // Codigo responsavel pelo pulo
-        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
+        if (Input.GetKeyDown(KeyCode.Space) )//&& GroundCheck())
             {
                 rb.AddForce(Vector3.up * jumpforce,ForceMode.Impulse);
-
             }
     }
     bool GroundCheck()
