@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 90222169}
   - component: {fileID: 90222173}
   - component: {fileID: 90222174}
+  - component: {fileID: 90222175}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -216,12 +217,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90222168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.78, z: 0}
+  m_LocalPosition: {x: 0, y: 7.034, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &90222173
 Rigidbody:
@@ -253,6 +255,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gravity: {fileID: 0}
   RotationSpeed: 20
+--- !u!114 &90222175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90222168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6567fda9178c9494d92815b6d0b10ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  jumpforce: 10
+  Boxsize: {x: 1, y: 0.05, z: 1}
+  MaxDistance: 1
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  rb: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +381,7 @@ GameObject:
   - component: {fileID: 917208617}
   - component: {fileID: 917208616}
   - component: {fileID: 917208615}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Planeta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +465,7 @@ Transform:
   m_Children:
   - {fileID: 1900738849}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -521,14 +543,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.2364627, y: -0, z: -0, w: 0.9716406}
-  m_LocalPosition: {x: 0, y: 14.4, z: -9.6}
+  m_LocalRotation: {x: 0.13520762, y: -0, z: -0, w: 0.9908173}
+  m_LocalPosition: {x: 0, y: 3.2059999, z: -7.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 27.356, y: 0, z: 0}
+  m_Father: {fileID: 90222172}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 15.541, y: 0, z: 0}
 --- !u!1 &1108549979
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +563,7 @@ GameObject:
   - component: {fileID: 1108549982}
   - component: {fileID: 1108549981}
   - component: {fileID: 1108549980}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Planeta 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +647,7 @@ Transform:
   m_Children:
   - {fileID: 1621623155}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435464270
 GameObject:
@@ -639,7 +661,7 @@ GameObject:
   - component: {fileID: 1435464273}
   - component: {fileID: 1435464272}
   - component: {fileID: 1435464271}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: passagem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,12 +740,12 @@ Transform:
   m_GameObject: {fileID: 1435464270}
   m_LocalRotation: {x: 0.09616713, y: -0.029935548, z: -0.29570803, w: 0.949954}
   m_LocalPosition: {x: -13.47, y: 1.28, z: 6.03}
-  m_LocalScale: {x: 15, y: 2.46, z: 15}
+  m_LocalScale: {x: 15, y: 2.46, z: 25.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1749260047}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 9.497, y: -6.623, z: -35.132}
 --- !u!1 &1621623154
 GameObject:
@@ -908,7 +930,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.29
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1900738851
 MeshFilter:
@@ -930,5 +952,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb63a36a91469c46a9ae2d70de661cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gravity: 25
+  Gravity: 65
   FixedDirection: 0

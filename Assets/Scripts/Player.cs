@@ -6,31 +6,27 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     //Começo - Controles
-   Comandos comandos;
+    // Comandos comandos;
 
 
-    // Começo - Mecanica
-    public GameObject planet;
-    public GameObject guia;
     public float speed = 4f;
-    public float  jumpHeight = 1.2f; 
-    float gravity = 10;
-    float distanceToGround;
-    public bool onGround = false;
-    public Rigidbody rb;
-    Vector3 groundNormal;
-    // Final - Mecanica
+    public float  jumpforce = 10f; 
 
+    //Teste de colisão com o chão
+    public Vector3 Boxsize;
+    public float MaxDistance;
+    public LayerMask LayerMask;
+
+    public Rigidbody rb;
 
     private void Awake()
     {
-        comandos.Gameplay.Enable();
+       // comandos.Gameplay.Enable();
         Cursor.lockState = CursorLockMode.Locked;
     }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
     }
 
     // Update is called once per frame
@@ -41,52 +37,41 @@ public class Player : MonoBehaviour
         float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         transform.Translate(x,0,z);
         
+       
 
-
-
-        // GroundControl
-        RaycastHit hit = new RaycastHit();
-        if(Physics.Raycast(transform.position, -transform.up, out hit, 10))
-        {
-            distanceToGround = hit.distance;
-            groundNormal = hit.normal;
-
-            if(distanceToGround <= 0.6f)
-            {
-                onGround = true;
-            }
-            else
-            {
-                onGround = false;
-            }
-
-            //rotação
-            Quaternion toRotation = Quaternion.FromToRotation(transform.up, groundNormal) * transform.rotation;
-            transform.rotation = toRotation;
-        }
+        // Sistema de identificação de objetos
+        // Será utilizado para visualizar objetos na frente do personagem
+       // RaycastHit hit = new RaycastHit();
+       
     }
 
-    void FixedUpdate()
+    void FixedUpdate() 
     {
-        // Gravidade
-        Vector3 gravDirection = (transform.position - planet.transform.position).normalized;
-            if(onGround == false)
+        // Codigo responsavel pelo pulo
+        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
             {
-                rb.AddForce(gravDirection * -gravity);
+                rb.AddForce(Vector3.up * jumpforce,ForceMode.Impulse);
+
             }
-        //    // if(comandos.Gameplay.Jump.performed += Jump)
-        //     {
-        //          Jump();
-        //     }
-           
+    }
+    bool GroundCheck()
+    {
+        // Checa se o player esta pisando no chão, evitando pulos no ar
+        if(Physics.BoxCast(transform.position,Boxsize, - transform.up,transform.rotation,MaxDistance,LayerMask))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+     void OnDrawGizmos() 
+    {
+        // cria uma caixa de colisão como guia
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position - transform.up * MaxDistance,Boxsize);
     }
 
-    // public void Jump(InputAction.Call)
-    // {
-    //     //Pulo
-    //     if(onGround == true)
-    //     {
-    //         rb.AddForce(transform.up * 20000 * jumpHeight * Time.deltaTime);
-    //     }
-    // }
 }
