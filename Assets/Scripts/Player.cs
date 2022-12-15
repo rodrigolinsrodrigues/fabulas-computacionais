@@ -74,19 +74,19 @@ public class Player : MonoBehaviour
             {
                 rb.AddForce(gravDirection * -gravity);
             }
-            if(comandos.Gameplay.Jump.performed += Jump)
-            {
-                 Jump();
-            }
+        //    // if(comandos.Gameplay.Jump.performed += Jump)
+        //     {
+        //          Jump();
+        //     }
            
     }
 
-    public void Jump(InputAction.Call)
-    {
-        //Pulo
-        if(onGround == true)
-        {
-            rb.AddForce(transform.up * 20000 * jumpHeight * Time.deltaTime);
-        }
-    }
+    // public void Jump(InputAction.Call)
+    // {
+    //     //Pulo
+    //     if(onGround == true)
+    //     {
+    //         rb.AddForce(transform.up * 20000 * jumpHeight * Time.deltaTime);
+    //     }
+    // }
 }
