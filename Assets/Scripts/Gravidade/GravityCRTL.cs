@@ -30,7 +30,6 @@ public class GravityCRTL : MonoBehaviour
             {
                 gravityUp = (transform.position - Gravity.transform.position).normalized;
             }
-           
 
             Vector3 localUp = transform.up;
 
