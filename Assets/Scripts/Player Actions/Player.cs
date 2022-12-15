@@ -43,9 +43,9 @@ public class Player : MonoBehaviour
     void FixedUpdate() 
     {
         // Codigo responsavel pelo pulo
-        if (Input.GetKeyDown(KeyCode.Space) )//&& GroundCheck())
+        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
             {
-                rb.AddForce(Vector3.up * jumpforce,ForceMode.Impulse);
+                rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
             }
     }
     bool GroundCheck()
