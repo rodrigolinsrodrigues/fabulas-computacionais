@@ -6,11 +6,10 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     //Começo - Controles
-    // Comandos comandos;
-
+    private Comandos comandos;
 
     public float speed = 4f;
-    public float  jumpforce = 10f; 
+    public float  jumpforce = 5f; 
 
     //Teste de colisão com o chão
     public Vector3 Boxsize;
@@ -18,35 +17,34 @@ public class Player : MonoBehaviour
     public LayerMask LayerMask;
 
     public Rigidbody rb;
+
     private void Awake()
     {
-       // comandos.Gameplay.Enable();
-        Cursor.lockState = CursorLockMode.Locked;
+        comandos = new Comandos();
+        comandos.Gameplay.Enable();
+        // Cursor.lockState = CursorLockMode.Locked;
     }
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-      
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Movimento - (OLD)
-        float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-        transform.Translate(x,0,z);
-        
-       
+        Vector2 move = comandos.Gameplay.Move.ReadValue<Vector2>();
+        transform.Translate(move.x * speed * Time.deltaTime, 0 ,move.y * speed * Time.deltaTime);
     }
     
     void FixedUpdate() 
     {
         // Codigo responsavel pelo pulo
-        if (Input.GetKeyDown(KeyCode.Space) && GroundCheck())
-            {
-                rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
-            }
+        if(comandos.Gameplay.Jump.ReadValue<float>() == 1 && GroundCheck())
+        {
+            rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
+        }
+        
     }
     bool GroundCheck()
     {
