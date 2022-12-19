@@ -240,7 +240,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1edaeb02-7a25-43c9-a37b-d5801872cdeb"",
-                    ""path"": ""<Mouse>/position"",
+                    ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",

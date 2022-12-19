@@ -8,7 +8,7 @@ public class GravityCRTL : MonoBehaviour
     public GravityOrbit Gravity; // identifica qual gravidade está atuando sob o personagem
     private Rigidbody rb;
 
-    public float RotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
+    public float rotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
     
     // Start is called before the first frame update
     void Start()
@@ -34,8 +34,12 @@ public class GravityCRTL : MonoBehaviour
             Vector3 localUp = transform.up;
 
             Quaternion targetrotation = Quaternion.FromToRotation(localUp,gravityUp) * transform.rotation;
+            rb.GetComponent<Rigidbody>().rotation = targetrotation;
 
-            transform.up = Vector3.Lerp(transform.up, gravityUp, RotationSpeed * Time.deltaTime);
+            // transform.up = Vector3.Lerp(transform.up, gravityUp, RotationSpeed * Time.deltaTime);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetrotation, rotationSpeed * Time.deltaTime);
+            
 
             // Força da gravidade
             rb.AddForce((-gravityUp * Gravity.Gravity) * rb.mass);
