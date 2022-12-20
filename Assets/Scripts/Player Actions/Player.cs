@@ -5,13 +5,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //Começo - Controles
+    //Comeco - Controles
     private Comandos comandos;
 
     public float speed = 4f;
     public float  jumpforce = 5f; 
 
-    //Teste de colisão com o chão
+    //Teste de colisao com o chao
     public Vector3 Boxsize;
     public float MaxDistance;
     public LayerMask LayerMask;
@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
         comandos = new Comandos();
         comandos.Gameplay.Enable();
         // Cursor.lockState = CursorLockMode.Locked;
+         Cursor.visible = false; 
     }
     
     void Start()
@@ -36,12 +37,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         Vector2 move = comandos.Gameplay.Move.ReadValue<Vector2>();
-       
         Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
-        Vector3 lookDirection = moveDirection + gameObject.transform.position;
+        // Vector3 lookDirection = moveDirection + gameObject.transform.position;
         // Vector3 look = new Vector3(transform.rotation.x, lookDirection.y, transform.rotation.z);
-        gameObject.transform.LookAt(lookDirection);
-        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+        // gameObject.transform.LookAt(lookDirection);
+        transform.Translate(moveDirection * speed * Time.deltaTime);
 
 
 

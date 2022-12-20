@@ -5,18 +5,16 @@ using UnityEngine;
 public class GravityCRTL : MonoBehaviour
 {
     // Codigo utilizado dentro do player !
-    public GravityOrbit Gravity; // identifica qual gravidade está atuando sob o personagem
-    private Rigidbody rb;
 
+    public GravityOrbit Gravity; // identifica qual gravidade esta atuando sob o personagem
+    private Rigidbody rb;
     public float rotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
     
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void FixedUpdate() 
     {
         if(Gravity) // caso haja contato com a orbita de um planeta
@@ -41,7 +39,7 @@ public class GravityCRTL : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, targetrotation, rotationSpeed * Time.deltaTime);
             
 
-            // Força da gravidade
+            // Forca da gravidade
             rb.AddForce((-gravityUp * Gravity.Gravity) * rb.mass);
 
 
