@@ -10,6 +10,7 @@ public class GravityCRTL : MonoBehaviour
     private Rigidbody rb;
     public float rotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
     
+    public bool sobEfeito; // Indica se o objeto esta ou nao sob efeito da gravidade, pensado para objetos que estejam com a rotacao baseada na orbita do planeta, mas nao serao puxados pela gravidade. Ideal para plataformas suspensas no ar
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -40,7 +41,11 @@ public class GravityCRTL : MonoBehaviour
             
 
             // Forca da gravidade
-            rb.AddForce((-gravityUp * Gravity.Gravity) * rb.mass);
+            if(sobEfeito == true)
+            {
+                rb.AddForce((-gravityUp * Gravity.Gravity) * rb.mass);
+            }
+           
 
 
         }

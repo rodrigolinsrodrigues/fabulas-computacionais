@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public LayerMask LayerMask;
 
     public Rigidbody rb;
-    bool canJump;
+    public bool canJump;
     public float rotSpeed;
 
     private void Awake()
@@ -38,11 +38,18 @@ public class Player : MonoBehaviour
     {
         Vector2 move = comandos.Gameplay.Move.ReadValue<Vector2>();
         Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
+        transform.Translate(moveDirection * speed * Time.deltaTime);
+
+        // Vector3 lookDirection = transform.forward;
+        // // // Calcule o ângulo em graus entre a direção que o personagem está olhando e a direção para a frente (positiva no eixo z)
+        // float angle = Vector3.Angle(lookDirection, Vector3.forward);
+        // // // Rotação em torno do eixo y
+
+
         // Vector3 lookDirection = moveDirection + gameObject.transform.position;
         // Vector3 look = new Vector3(transform.rotation.x, lookDirection.y, transform.rotation.z);
         // gameObject.transform.LookAt(lookDirection);
-        transform.Translate(moveDirection * speed * Time.deltaTime);
-
+       
 
 
         // float horDirection = Input.GetAxisRaw("Horizontal");

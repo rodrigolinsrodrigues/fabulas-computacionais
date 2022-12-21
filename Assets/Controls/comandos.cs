@@ -37,15 +37,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Cam"",
-                    ""type"": ""Value"",
-                    ""id"": ""3470d616-6d61-408d-ab32-0740ec77d965"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""520b876e-c999-4dcc-a60e-be4e2d1ebe26"",
@@ -236,28 +227,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1edaeb02-7a25-43c9-a37b-d5801872cdeb"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""Cam"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7c443fd3-220c-49b5-b1f5-ae20d486a3eb"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Cam"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,7 +259,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Cam = m_Gameplay.FindAction("Cam", throwIfNotFound: true);
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_PickUp = m_Gameplay.FindAction("PickUp", throwIfNotFound: true);
         m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
@@ -355,7 +323,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Cam;
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_PickUp;
     private readonly InputAction m_Gameplay_Drop;
@@ -365,7 +332,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         private @Comandos m_Wrapper;
         public GameplayActions(@Comandos wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Cam => m_Wrapper.m_Gameplay_Cam;
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @PickUp => m_Wrapper.m_Gameplay_PickUp;
         public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
@@ -382,9 +348,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Cam.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
-                @Cam.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
-                @Cam.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
                 @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
@@ -404,9 +367,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Cam.started += instance.OnCam;
-                @Cam.performed += instance.OnCam;
-                @Cam.canceled += instance.OnCam;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -444,7 +404,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnCam(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);

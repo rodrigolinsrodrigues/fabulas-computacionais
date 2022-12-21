@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Cam",
-                    "type": "Value",
-                    "id": "3470d616-6d61-408d-ab32-0740ec77d965",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "520b876e-c999-4dcc-a60e-be4e2d1ebe26",
@@ -214,28 +205,6 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "1edaeb02-7a25-43c9-a37b-d5801872cdeb",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Teclado/Mouse",
-                    "action": "Cam",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7c443fd3-220c-49b5-b1f5-ae20d486a3eb",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Cam",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }
