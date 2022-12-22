@@ -24,8 +24,8 @@ public class Player : MonoBehaviour
     {
         comandos = new Comandos();
         comandos.Gameplay.Enable();
-        // Cursor.lockState = CursorLockMode.Locked;
-         Cursor.visible = false; 
+        
+        Cursor.visible = false; 
     }
     
     void Start()
