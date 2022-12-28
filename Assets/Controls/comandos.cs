@@ -64,12 +64,12 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Push/Pull"",
+                    ""name"": ""Push"",
                     ""type"": ""Button"",
                     ""id"": ""d7578dcc-3ebf-4430-92e9-dc8be039ee0d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -152,11 +152,11 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dbb028ef-df35-45c7-b74b-d0aa1c360210"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""Push/Pull"",
+                    ""action"": ""Push"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -167,7 +167,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Push/Pull"",
+                    ""action"": ""Push"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -293,7 +293,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_PickUp = m_Gameplay.FindAction("PickUp", throwIfNotFound: true);
         m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
-        m_Gameplay_PushPull = m_Gameplay.FindAction("Push/Pull", throwIfNotFound: true);
+        m_Gameplay_Push = m_Gameplay.FindAction("Push", throwIfNotFound: true);
         m_Gameplay_Cam = m_Gameplay.FindAction("Cam", throwIfNotFound: true);
     }
 
@@ -358,7 +358,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_PickUp;
     private readonly InputAction m_Gameplay_Drop;
-    private readonly InputAction m_Gameplay_PushPull;
+    private readonly InputAction m_Gameplay_Push;
     private readonly InputAction m_Gameplay_Cam;
     public struct GameplayActions
     {
@@ -368,7 +368,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
         public InputAction @PickUp => m_Wrapper.m_Gameplay_PickUp;
         public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
-        public InputAction @PushPull => m_Wrapper.m_Gameplay_PushPull;
+        public InputAction @Push => m_Wrapper.m_Gameplay_Push;
         public InputAction @Cam => m_Wrapper.m_Gameplay_Cam;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
@@ -391,9 +391,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Drop.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
                 @Drop.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
                 @Drop.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @PushPull.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPushPull;
-                @PushPull.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPushPull;
-                @PushPull.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPushPull;
+                @Push.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
+                @Push.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
+                @Push.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
                 @Cam.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
                 @Cam.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
                 @Cam.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
@@ -413,9 +413,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Drop.started += instance.OnDrop;
                 @Drop.performed += instance.OnDrop;
                 @Drop.canceled += instance.OnDrop;
-                @PushPull.started += instance.OnPushPull;
-                @PushPull.performed += instance.OnPushPull;
-                @PushPull.canceled += instance.OnPushPull;
+                @Push.started += instance.OnPush;
+                @Push.performed += instance.OnPush;
+                @Push.canceled += instance.OnPush;
                 @Cam.started += instance.OnCam;
                 @Cam.performed += instance.OnCam;
                 @Cam.canceled += instance.OnCam;
@@ -447,7 +447,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
-        void OnPushPull(InputAction.CallbackContext context);
+        void OnPush(InputAction.CallbackContext context);
         void OnCam(InputAction.CallbackContext context);
     }
 }

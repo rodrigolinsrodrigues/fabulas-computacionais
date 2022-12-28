@@ -20,6 +20,14 @@ public class Player : MonoBehaviour
     public bool canJump;
     public float rotSpeed;
 
+    // Empurrar objetos
+    public GameObject pushableObj; 
+    public float pushDistance; // Controla a distancia em que o player precisa estar do objeto para interagir
+    //public bool pushing;
+
+    // Carregar Objetos
+
+    
     private void Awake()
     {
         comandos = new Comandos();
@@ -31,6 +39,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+       
     }
 
     // Update is called once per frame
@@ -77,7 +86,46 @@ public class Player : MonoBehaviour
             rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
             canJump = false;
         }
-        
+
+        // Codigo responsavel por empurrar objetos
+            // Verifique se ha um objeto com o tag "Pushable" na frente do personagem
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
+        {
+            if (hit.collider.tag == "Pushable" && comandos.Gameplay.Push.ReadValue<float>() == 1)
+            {
+                pushableObj.transform.SetParent(this.transform);
+                this.speed = 2f;// exemplo de reducao de velocidade
+                
+            }
+            else if(hit.collider.tag == "Pushable" && comandos.Gameplay.Push.ReadValue<float>() == 0)
+            {
+                pushableObj.transform.SetParent(null);
+                this.speed = 4f;
+            }
+        }
+    
+    // Pegar e Soltar Objetos menores
+        // RaycastHit hit;
+        // if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
+        // {
+        //     if (hit.collider.tag == "Pushable" && pushing == false && comandos.Gameplay.Push.ReadValue<float>() == 1)
+        //     {
+        //         Debug.Log("Pegar");
+        //         pushableObj.transform.SetParent(this.transform);
+        //         this.speed = 2f;// exemplo de reducao de velocidade
+        //         pushing = true;
+                
+        //     }
+        //     else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Gameplay.Push.ReadValue<float>() == 1)
+        //     {
+        //         Debug.Log("Soltar");
+        //         pushing = false;
+        //         pushableObj.transform.SetParent(null);
+        //         this.speed = 4f;
+        //     }
+        // }
+
     }
     bool GroundCheck()
     {
