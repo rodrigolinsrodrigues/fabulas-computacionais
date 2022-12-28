@@ -24,7 +24,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     ""name"": ""comandos"",
     ""maps"": [
         {
-            ""name"": ""Gameplay"",
+            ""name"": ""Movement"",
             ""id"": ""2da9a074-3b1d-45fc-b136-962bce3d7a1d"",
             ""actions"": [
                 {
@@ -46,36 +46,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PickUp"",
+                    ""name"": ""Run"",
                     ""type"": ""Button"",
-                    ""id"": ""30e7edd9-c4c9-4316-9f03-c4288d998335"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Tap"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Drop"",
-                    ""type"": ""Button"",
-                    ""id"": ""d761fd2f-5b5e-4198-8e12-f65c51c80ece"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Tap"",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Push"",
-                    ""type"": ""Button"",
-                    ""id"": ""d7578dcc-3ebf-4430-92e9-dc8be039ee0d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cam"",
-                    ""type"": ""Button"",
-                    ""id"": ""c70dd4b9-4d44-4f78-8ba5-736f78b5f427"",
+                    ""id"": ""2829eb37-3351-44c0-a18d-46ae5925cebe"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -102,72 +75,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""874060d0-5610-4636-b000-11faea5f362e"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""PickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fa1c3de-3c7d-4bd8-80e6-c458a372ecfa"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""PickUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c0a0b9d9-e342-484d-8e15-34c9a7f5b849"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""Drop"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6c033705-53d9-46e0-8d3a-9a01bc92699a"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Drop"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""dbb028ef-df35-45c7-b74b-d0aa1c360210"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""Push"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2ee8b20a-c27a-4444-a816-2dcb3e713897"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Push"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -239,7 +146,147 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""994cc862-0e34-4db6-9428-2f93af7a22cf"",
+                    ""id"": ""1c09283c-13b7-40ea-89f0-40e7119d1af2"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4286f47a-6149-4c6b-879a-50a9e5f2d49c"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Actions"",
+            ""id"": ""e3a38c6f-d7b4-4958-ac96-cbc1c686f1a6"",
+            ""actions"": [
+                {
+                    ""name"": ""PickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8109767-952e-42e1-b29d-42aaeaf3f245"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Push"",
+                    ""type"": ""Button"",
+                    ""id"": ""2458c57e-e519-47e0-adb4-6f81643c70b7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""ece541d6-7d6e-4613-bc0a-62018939e3a7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5fb58862-192c-4480-ab6c-8c14ec250f12"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""902bef3f-7455-49fa-be90-45284d5e3c96"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f53d5802-cd4f-4dfa-85af-8b063d48d709"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76f01d39-ba89-4632-ac04-7f4c32042e54"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e398439b-96b1-4ee4-91d6-f82d518b4cd4"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Push"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2947049-ceca-4465-81b3-081336cefedf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Push"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""f96fb984-e2e7-4209-829c-ec498044a4ed"",
+            ""actions"": [
+                {
+                    ""name"": ""Cam"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e721957-aa1f-43bb-83b3-0e123541c423"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5a78bc10-0d16-4153-9475-39dc4cf40fc5"",
                     ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -250,7 +297,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5dbc9ff5-1100-4c8d-a1f4-2a2677f4ddc9"",
+                    ""id"": ""ad8f633a-ed3a-44db-a3fd-19bc40350925"",
                     ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -287,14 +334,19 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Gameplay
-        m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
-        m_Gameplay_PickUp = m_Gameplay.FindAction("PickUp", throwIfNotFound: true);
-        m_Gameplay_Drop = m_Gameplay.FindAction("Drop", throwIfNotFound: true);
-        m_Gameplay_Push = m_Gameplay.FindAction("Push", throwIfNotFound: true);
-        m_Gameplay_Cam = m_Gameplay.FindAction("Cam", throwIfNotFound: true);
+        // Movement
+        m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
+        m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
+        m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
+        m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
+        // Actions
+        m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
+        m_Actions_PickUp = m_Actions.FindAction("PickUp", throwIfNotFound: true);
+        m_Actions_Push = m_Actions.FindAction("Push", throwIfNotFound: true);
+        m_Actions_Drop = m_Actions.FindAction("Drop", throwIfNotFound: true);
+        // Camera
+        m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+        m_Camera_Cam = m_Camera.FindAction("Cam", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -351,54 +403,39 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Gameplay
-    private readonly InputActionMap m_Gameplay;
-    private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Move;
-    private readonly InputAction m_Gameplay_Jump;
-    private readonly InputAction m_Gameplay_PickUp;
-    private readonly InputAction m_Gameplay_Drop;
-    private readonly InputAction m_Gameplay_Push;
-    private readonly InputAction m_Gameplay_Cam;
-    public struct GameplayActions
+    // Movement
+    private readonly InputActionMap m_Movement;
+    private IMovementActions m_MovementActionsCallbackInterface;
+    private readonly InputAction m_Movement_Move;
+    private readonly InputAction m_Movement_Jump;
+    private readonly InputAction m_Movement_Run;
+    public struct MovementActions
     {
         private @Comandos m_Wrapper;
-        public GameplayActions(@Comandos wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
-        public InputAction @PickUp => m_Wrapper.m_Gameplay_PickUp;
-        public InputAction @Drop => m_Wrapper.m_Gameplay_Drop;
-        public InputAction @Push => m_Wrapper.m_Gameplay_Push;
-        public InputAction @Cam => m_Wrapper.m_Gameplay_Cam;
-        public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
+        public MovementActions(@Comandos wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Movement_Move;
+        public InputAction @Jump => m_Wrapper.m_Movement_Jump;
+        public InputAction @Run => m_Wrapper.m_Movement_Run;
+        public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GameplayActions set) { return set.Get(); }
-        public void SetCallbacks(IGameplayActions instance)
+        public static implicit operator InputActionMap(MovementActions set) { return set.Get(); }
+        public void SetCallbacks(IMovementActions instance)
         {
-            if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
+            if (m_Wrapper.m_MovementActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @PickUp.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
-                @PickUp.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
-                @PickUp.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPickUp;
-                @Drop.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @Drop.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @Drop.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDrop;
-                @Push.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
-                @Push.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
-                @Push.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPush;
-                @Cam.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
-                @Cam.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
-                @Cam.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCam;
+                @Move.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnMove;
+                @Jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @Run.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
             }
-            m_Wrapper.m_GameplayActionsCallbackInterface = instance;
+            m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Move.started += instance.OnMove;
@@ -407,22 +444,95 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+            }
+        }
+    }
+    public MovementActions @Movement => new MovementActions(this);
+
+    // Actions
+    private readonly InputActionMap m_Actions;
+    private IActionsActions m_ActionsActionsCallbackInterface;
+    private readonly InputAction m_Actions_PickUp;
+    private readonly InputAction m_Actions_Push;
+    private readonly InputAction m_Actions_Drop;
+    public struct ActionsActions
+    {
+        private @Comandos m_Wrapper;
+        public ActionsActions(@Comandos wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PickUp => m_Wrapper.m_Actions_PickUp;
+        public InputAction @Push => m_Wrapper.m_Actions_Push;
+        public InputAction @Drop => m_Wrapper.m_Actions_Drop;
+        public InputActionMap Get() { return m_Wrapper.m_Actions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
+        public void SetCallbacks(IActionsActions instance)
+        {
+            if (m_Wrapper.m_ActionsActionsCallbackInterface != null)
+            {
+                @PickUp.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPickUp;
+                @PickUp.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPickUp;
+                @PickUp.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPickUp;
+                @Push.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPush;
+                @Push.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPush;
+                @Push.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnPush;
+                @Drop.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
+                @Drop.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
+                @Drop.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
+            }
+            m_Wrapper.m_ActionsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
                 @PickUp.started += instance.OnPickUp;
                 @PickUp.performed += instance.OnPickUp;
                 @PickUp.canceled += instance.OnPickUp;
-                @Drop.started += instance.OnDrop;
-                @Drop.performed += instance.OnDrop;
-                @Drop.canceled += instance.OnDrop;
                 @Push.started += instance.OnPush;
                 @Push.performed += instance.OnPush;
                 @Push.canceled += instance.OnPush;
+                @Drop.started += instance.OnDrop;
+                @Drop.performed += instance.OnDrop;
+                @Drop.canceled += instance.OnDrop;
+            }
+        }
+    }
+    public ActionsActions @Actions => new ActionsActions(this);
+
+    // Camera
+    private readonly InputActionMap m_Camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private readonly InputAction m_Camera_Cam;
+    public struct CameraActions
+    {
+        private @Comandos m_Wrapper;
+        public CameraActions(@Comandos wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Cam => m_Wrapper.m_Camera_Cam;
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                @Cam.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnCam;
+                @Cam.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnCam;
+                @Cam.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnCam;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
                 @Cam.started += instance.OnCam;
                 @Cam.performed += instance.OnCam;
                 @Cam.canceled += instance.OnCam;
             }
         }
     }
-    public GameplayActions @Gameplay => new GameplayActions(this);
+    public CameraActions @Camera => new CameraActions(this);
     private int m_TecladoMouseSchemeIndex = -1;
     public InputControlScheme TecladoMouseScheme
     {
@@ -441,13 +551,20 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
-    public interface IGameplayActions
+    public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+    }
+    public interface IActionsActions
+    {
         void OnPickUp(InputAction.CallbackContext context);
-        void OnDrop(InputAction.CallbackContext context);
         void OnPush(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
         void OnCam(InputAction.CallbackContext context);
     }
 }

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     public float speed = 4f;
     public float  jumpforce = 5f; 
+    public bool Running;
 
     //Teste de colisao com o chao
     public Vector3 Boxsize;
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour
     // Empurrar objetos
     public GameObject pushableObj; 
     public float pushDistance; // Controla a distancia em que o player precisa estar do objeto para interagir
-    //public bool pushing;
+    public bool pushing;
 
     // Carregar Objetos
 
@@ -31,7 +32,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         comandos = new Comandos();
-        comandos.Gameplay.Enable();
+        comandos.Movement.Enable();
+        comandos.Actions.Enable();
         
         Cursor.visible = false; 
     }
@@ -39,104 +41,35 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
     }
 
     // Update is called once per frame
     void Update()
-    {
-        Vector2 move = comandos.Gameplay.Move.ReadValue<Vector2>();
-        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
-        transform.Translate(moveDirection * speed * Time.deltaTime);
-
-        // Vector3 lookDirection = transform.forward;
-        // // // Calcule o ângulo em graus entre a direção que o personagem está olhando e a direção para a frente (positiva no eixo z)
-        // float angle = Vector3.Angle(lookDirection, Vector3.forward);
-        // // // Rotação em torno do eixo y
-
-
-        // Vector3 lookDirection = moveDirection + gameObject.transform.position;
-        // Vector3 look = new Vector3(transform.rotation.x, lookDirection.y, transform.rotation.z);
-        // gameObject.transform.LookAt(lookDirection);
-       
-
-
-        // float horDirection = Input.GetAxisRaw("Horizontal");
-        // Vector3 rotationAngle = new Vector3(0, 1, 0); 
-        // rb.AddRelativeTorque(rotationAngle * (150 * horDirection));
-
-        // float heading = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg;
-        // rb.rotation = Quaternion.Euler(0, heading, 0);
-
-        // Vector3 rotate = new Vector3(move.x, 0, move.y);
-        // rotate.Normalize();
-
-        // if(move != Vector2.zero)
-        // {
-        //     Quaternion toRotation = Quaternion.LookRotation(move, Vector2.up);
-        //     transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotSpeed * Time.deltaTime);
-        // }
+    {   
+        Movement();
+        Run();
     }
     
     void FixedUpdate() 
     {
-        // Codigo responsavel pelo pulo
-        if(comandos.Gameplay.Jump.ReadValue<float>() == 1 && GroundCheck() && canJump == true)
-        {
-            rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
-            canJump = false;
-        }
-
-        // Codigo responsavel por empurrar objetos
-            // Verifique se ha um objeto com o tag "Pushable" na frente do personagem
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
-        {
-            if (hit.collider.tag == "Pushable" && comandos.Gameplay.Push.ReadValue<float>() == 1)
-            {
-                pushableObj.transform.SetParent(this.transform);
-                this.speed = 2f;// exemplo de reducao de velocidade
-                
-            }
-            else if(hit.collider.tag == "Pushable" && comandos.Gameplay.Push.ReadValue<float>() == 0)
-            {
-                pushableObj.transform.SetParent(null);
-                this.speed = 4f;
-            }
-        }
-    
-    // Pegar e Soltar Objetos menores
-        // RaycastHit hit;
-        // if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
-        // {
-        //     if (hit.collider.tag == "Pushable" && pushing == false && comandos.Gameplay.Push.ReadValue<float>() == 1)
-        //     {
-        //         Debug.Log("Pegar");
-        //         pushableObj.transform.SetParent(this.transform);
-        //         this.speed = 2f;// exemplo de reducao de velocidade
-        //         pushing = true;
-                
-        //     }
-        //     else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Gameplay.Push.ReadValue<float>() == 1)
-        //     {
-        //         Debug.Log("Soltar");
-        //         pushing = false;
-        //         pushableObj.transform.SetParent(null);
-        //         this.speed = 4f;
-        //     }
-        // }
-
+        Jump();
+        Empurrar();
+        
     }
+
     bool GroundCheck()
     {
         // Checa se o player esta pisando no chão, evitando pulos no ar
         if(Physics.BoxCast(transform.position,Boxsize, - transform.up,transform.rotation,MaxDistance,LayerMask))
         {
+            if(pushing == false)
             canJump = true;
             return true;
         }
-        else
+        else 
         {
+            if(pushing == true)
+            canJump = false;
             return false;
         }
 
@@ -147,5 +80,64 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position - transform.up * MaxDistance,Boxsize);
     }
-
+    void Movement()
+    {
+        //Codigo responsavel por mover o jogador
+        Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
+        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
+        transform.Translate(moveDirection * speed * Time.deltaTime);
+    }
+    void Run()
+    {
+        //Codigo de corrida do player
+        if(comandos.Movement.Run.ReadValue<float>() == 1 && GroundCheck() && pushing == false)
+        {
+            this.speed = 8f; 
+        }
+        else 
+        if(comandos.Movement.Run.ReadValue<float>() == 0)
+        {
+            this.speed = 4f;
+            if(pushing == true)
+            {
+                this.speed = 2f;
+            }
+        }
+    }
+    void Jump()
+    {
+         // Codigo responsavel pelo pulo
+        if(comandos.Movement.Jump.ReadValue<float>() == 1 && GroundCheck() && canJump == true)
+        {
+            rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
+            canJump = false;
+        }
+    }
+    void Empurrar()
+    {
+        //Codigo responsavel por empurrar objetos
+            //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
+        {
+            if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1 )
+            {
+                
+                pushableObj.transform.SetParent(this.transform);
+                this.speed = 2f;// exemplo de reducao de velocidade
+                pushing = true;
+                
+                
+            }
+            else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
+            {
+            
+                pushableObj.transform.SetParent(null);
+                this.speed = 4f;
+                pushing = false;
+               
+            }
+        }
+    }
+    
 }
