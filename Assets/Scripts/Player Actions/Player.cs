@@ -46,15 +46,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        Movement();
+        Walk();
         Run();
+        Jump();
+        Push();
     }
     
     void FixedUpdate() 
     {
-        Jump();
-        Empurrar();
-        
+    
     }
 
     bool GroundCheck()
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position - transform.up * MaxDistance,Boxsize);
     }
-    void Movement()
+    void Walk()
     {
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
@@ -107,13 +107,16 @@ public class Player : MonoBehaviour
     void Jump()
     {
          // Codigo responsavel pelo pulo
-        if(comandos.Movement.Jump.ReadValue<float>() == 1 && GroundCheck() && canJump == true)
+        if(comandos.Movement.Jump.triggered && GroundCheck() && canJump == true)
         {
+            Debug.Log("Pulo");
             rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
             canJump = false;
         }
+           
+        
     }
-    void Empurrar()
+    void Push()
     {
         //Codigo responsavel por empurrar objetos
             //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
