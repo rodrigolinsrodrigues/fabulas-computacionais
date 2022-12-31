@@ -8,18 +8,18 @@ public class Player : MonoBehaviour
     //Comeco - Controles
     private Comandos comandos;
 
+    //Movimento do player
     public float speed = 4f;
+    //public float rotSpeed = 280.0f;
     public float  jumpforce = 5f; 
     public bool Running;
+    public bool canJump;
+    public Rigidbody rb;
 
     //Teste de colisao com o chao
     public Vector3 Boxsize;
     public float MaxDistance;
     public LayerMask LayerMask;
-
-    public Rigidbody rb;
-    public bool canJump;
-    public float rotSpeed;
 
     // Empurrar objetos
     public GameObject pushableObj; 
@@ -80,19 +80,32 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(transform.position - transform.up * MaxDistance,Boxsize);
     }
+   
     void Walk()
     {
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
-        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
-        transform.Translate(moveDirection * speed * Time.deltaTime);
+       Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
+       transform.Translate(moveDirection * speed * Time.deltaTime);
     }
+        // if (moveDirection != Vector3.zero)
+        // {
+        // Quaternion rotateToMoveDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
+        // transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateToMoveDirection, rotSpeed * Time.deltaTime);
+        // }
+        
+        // Vector3 currentPos = transform.position;
+        // Vector3 newPos = new Vector3(move.x,0,move.y);
+        // Vector3 posToLookAt = currentPos + newPos;
+        // transform.LookAt(posToLookAt);
+
     void Run()
     {
         //Codigo de corrida do player
         if(comandos.Movement.Run.ReadValue<float>() == 1 && GroundCheck() && pushing == false)
         {
             this.speed = 8f; 
+            Debug.Log(speed + "Correndo");
         }
         else 
         if(comandos.Movement.Run.ReadValue<float>() == 0)
@@ -101,8 +114,10 @@ public class Player : MonoBehaviour
             if(pushing == true)
             {
                 this.speed = 2f;
+                Debug.Log(speed +"Carregando");
             }
         }
+
     }
     void Jump()
     {
