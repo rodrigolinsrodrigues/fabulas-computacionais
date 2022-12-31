@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     //Movimento do player
     public float speed = 4f;
-    //public float rotSpeed = 280.0f;
+    public Transform Target;
     public float  jumpforce = 5f; 
     public bool Running;
     public bool canJump;
@@ -87,17 +87,12 @@ public class Player : MonoBehaviour
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
        transform.Translate(moveDirection * speed * Time.deltaTime);
-    }
-        // if (moveDirection != Vector3.zero)
-        // {
-        // Quaternion rotateToMoveDirection = Quaternion.LookRotation(moveDirection, Vector3.up);
-        // transform.rotation = Quaternion.RotateTowards(transform.rotation, rotateToMoveDirection, rotSpeed * Time.deltaTime);
-        // }
+
+       //transform.rotation = Target.rotation;
         
-        // Vector3 currentPos = transform.position;
-        // Vector3 newPos = new Vector3(move.x,0,move.y);
-        // Vector3 posToLookAt = currentPos + newPos;
-        // transform.LookAt(posToLookAt);
+
+    }
+        
 
     void Run()
     {
@@ -105,7 +100,7 @@ public class Player : MonoBehaviour
         if(comandos.Movement.Run.ReadValue<float>() == 1 && GroundCheck() && pushing == false)
         {
             this.speed = 8f; 
-            Debug.Log(speed + "Correndo");
+            //Debug.Log(speed + "Correndo");
         }
         else 
         if(comandos.Movement.Run.ReadValue<float>() == 0)
@@ -114,7 +109,7 @@ public class Player : MonoBehaviour
             if(pushing == true)
             {
                 this.speed = 2f;
-                Debug.Log(speed +"Carregando");
+                //Debug.Log(speed +"Carregando");
             }
         }
 
