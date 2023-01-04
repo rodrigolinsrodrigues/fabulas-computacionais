@@ -7,9 +7,11 @@ public class Player : MonoBehaviour
 {
     //Comeco - Controles
     private Comandos comandos;
+    public GameObject guia;
 
     //Movimento do player
     public float speed = 4f;
+    public float rotSpeed = 0.5f;
     public Transform Target;
     public float  jumpforce = 5f; 
     public bool Running;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
     public GameObject pushableObj; 
     public float pushDistance; // Controla a distancia em que o player precisa estar do objeto para interagir
     public bool pushing;
+    
 
     // Carregar Objetos
 
@@ -85,15 +88,13 @@ public class Player : MonoBehaviour
     {
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
-       Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
-       transform.Translate(moveDirection * speed * Time.deltaTime);
-
-       //transform.rotation = Target.rotation;
+        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
+        transform.Translate(moveDirection * speed * Time.deltaTime);
+       
+        //transform.rotation = Target.rotation;
         
-
     }
-        
-
+       
     void Run()
     {
         //Codigo de corrida do player
@@ -133,9 +134,9 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
         {
-            if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1 )
+            if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
             {
-                
+                pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(this.transform);
                 this.speed = 2f;// exemplo de reducao de velocidade
                 pushing = true;
@@ -144,7 +145,7 @@ public class Player : MonoBehaviour
             }
             else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
             {
-            
+                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 pushableObj.transform.SetParent(null);
                 this.speed = 4f;
                 pushing = false;

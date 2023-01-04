@@ -53,6 +53,15 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""93cba47f-e23e-438e-a1e2-3085980c4b76"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -165,6 +174,39 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""810d45d3-bfed-47cc-9b28-07bca7171da5"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""84da2024-a4e7-4011-b8d5-5f4e0ef57b6c"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""16593947-d359-427e-810a-9e4faf8913ac"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -339,6 +381,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
+        m_Movement_Rotate = m_Movement.FindAction("Rotate", throwIfNotFound: true);
         // Actions
         m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
         m_Actions_PickUp = m_Actions.FindAction("PickUp", throwIfNotFound: true);
@@ -409,6 +452,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Move;
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Run;
+    private readonly InputAction m_Movement_Rotate;
     public struct MovementActions
     {
         private @Comandos m_Wrapper;
@@ -416,6 +460,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Movement_Move;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Run => m_Wrapper.m_Movement_Run;
+        public InputAction @Rotate => m_Wrapper.m_Movement_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -434,6 +479,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Rotate.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -447,6 +495,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
             }
         }
     }
@@ -556,6 +607,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
     public interface IActionsActions
     {
