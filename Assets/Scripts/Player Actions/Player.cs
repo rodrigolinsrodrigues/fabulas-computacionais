@@ -7,16 +7,20 @@ public class Player : MonoBehaviour
 {
     //Comeco - Controles
     private Comandos comandos;
-    public GameObject guia;
 
     //Movimento do player
-    public float speed = 4f;
-    public float rotSpeed = 0.5f;
+    public Rigidbody rb;
+    public Transform cam;
     public Transform Target;
+    public float speed = 4f;
+    public float turnSpeed = 10f;
     public float  jumpforce = 5f; 
+    public const float TURNSMOOTHTIME = .135f;
+    public float turnSmoothVelocity;
     public bool Running;
     public bool canJump;
-    public Rigidbody rb;
+    Vector3 moveDir;
+    Vector3 lastDir;
 
     //Teste de colisao com o chao
     public Vector3 Boxsize;
@@ -25,9 +29,8 @@ public class Player : MonoBehaviour
 
     // Empurrar objetos
     public GameObject pushableObj; 
-    public float pushDistance; // Controla a distancia em que o player precisa estar do objeto para interagir
+    public float pushDistance;
     public bool pushing;
-    
 
     // Carregar Objetos
 
@@ -62,7 +65,7 @@ public class Player : MonoBehaviour
 
     bool GroundCheck()
     {
-        // Checa se o player esta pisando no chão, evitando pulos no ar
+        // Checa se o player esta pisando no chao, evitando pulos no ar
         if(Physics.BoxCast(transform.position,Boxsize, - transform.up,transform.rotation,MaxDistance,LayerMask))
         {
             if(pushing == false)
@@ -86,14 +89,39 @@ public class Player : MonoBehaviour
    
     void Walk()
     {
+
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
         Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
         transform.Translate(moveDirection * speed * Time.deltaTime);
-       
-        //transform.rotation = Target.rotation;
+
+        Quaternion rotation = Quaternion.FromToRotation (
+        transform.up, transform.position.normalized);
+        transform.rotation = rotation * transform.rotation;
         
-    }
+        transform.Rotate(0, moveDirection.x * turnSpeed, 0);
+    //     if(comandos.Movement.Move.ReadValue<Vector2>() != Vector2.zero)
+    //     {
+    //    // Quaternion targetDir = cam.transform.rotation * transform.rotation;
+    //     float angle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.rotation.eulerAngles.y;
+    //     transform.rotation = Quaternion.Euler(0, -angle, 0);
+        //transform.Rotate(0, cam.transform.rotation.eulerAngles.y * turnSpeed, 0);
+        }
+        
+
+
+        // Vector2 rot = comandos.Movement.Rotate.ReadValue<Vector2>();
+        // Vector3 rotDirection = new Vector3(rot.x, 0, rot.y);
+
+        // if(comandos.Movement.Rotate.ReadValue<Vector2>() != Vector2.zero)
+        // {
+        
+        //}
+       
+
+         //transform.rotation = Target.rotation;
+        
+    
        
     void Run()
     {
@@ -101,7 +129,6 @@ public class Player : MonoBehaviour
         if(comandos.Movement.Run.ReadValue<float>() == 1 && GroundCheck() && pushing == false)
         {
             this.speed = 8f; 
-            //Debug.Log(speed + "Correndo");
         }
         else 
         if(comandos.Movement.Run.ReadValue<float>() == 0)
@@ -110,7 +137,7 @@ public class Player : MonoBehaviour
             if(pushing == true)
             {
                 this.speed = 2f;
-                //Debug.Log(speed +"Carregando");
+               
             }
         }
 
