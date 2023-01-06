@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public Rigidbody rb;
     public Transform cam;
     public Transform Target;
-    public float speed = 4f;
+    public float speed;
     public float turnSpeed = 10f;
     public float  jumpforce = 5f; 
     public const float TURNSMOOTHTIME = .135f;
@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public bool canJump;
     Vector3 moveDir;
     Vector3 lastDir;
+    public Vector3 moveDirection;
+    
 
     //Teste de colisao com o chao
     public Vector3 Boxsize;
@@ -46,13 +48,14 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {   
         Walk();
+        Rotate();
         Run();
         Jump();
         Push();
@@ -60,7 +63,8 @@ public class Player : MonoBehaviour
     
     void FixedUpdate() 
     {
-    
+        // Move o player pelo rigidbody
+        rb.MovePosition(transform.position + (moveDirection * speed * Time.deltaTime));
     }
 
     bool GroundCheck()
@@ -89,40 +93,23 @@ public class Player : MonoBehaviour
    
     void Walk()
     {
-
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
-        Vector3 moveDirection = new Vector3(move.x, 0, move.y).normalized;
-        transform.Translate(moveDirection * speed * Time.deltaTime);
-
-        Quaternion rotation = Quaternion.FromToRotation (
-        transform.up, transform.position.normalized);
-        transform.rotation = rotation * transform.rotation;
-        
-        transform.Rotate(0, moveDirection.x * turnSpeed, 0);
-    //     if(comandos.Movement.Move.ReadValue<Vector2>() != Vector2.zero)
-    //     {
-    //    // Quaternion targetDir = cam.transform.rotation * transform.rotation;
-    //     float angle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.rotation.eulerAngles.y;
-    //     transform.rotation = Quaternion.Euler(0, -angle, 0);
-        //transform.Rotate(0, cam.transform.rotation.eulerAngles.y * turnSpeed, 0);
-        }
-        
-
-
-        // Vector2 rot = comandos.Movement.Rotate.ReadValue<Vector2>();
-        // Vector3 rotDirection = new Vector3(rot.x, 0, rot.y);
-
-        // if(comandos.Movement.Rotate.ReadValue<Vector2>() != Vector2.zero)
-        // {
-        
-        //}
+        moveDirection = new Vector3(move.x, 0, move.y).normalized;
+         
        
-
-         //transform.rotation = Target.rotation;
-        
+    }
     
-       
+    void Rotate()
+    {
+        
+        // Quaternion rotation = Quaternion.FromToRotation (
+        // transform.forward, transform.position.normalized);
+        // transform.rotation = rotation * transform.rotation;
+        
+        // transform.Rotate(0, moveDirection.x * turnSpeed, 0);
+    }
+          
     void Run()
     {
         //Codigo de corrida do player
