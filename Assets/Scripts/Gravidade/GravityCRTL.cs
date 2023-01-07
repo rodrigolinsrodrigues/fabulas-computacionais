@@ -9,6 +9,9 @@ public class GravityCRTL : MonoBehaviour
     public GravityOrbit Gravity; // identifica qual gravidade esta atuando sob o personagem
     private Rigidbody rb;
     public float rotationSpeed = 20; // velocidade no qual o personagem troca de gravidade
+    public Quaternion targetrotation;
+    public  Vector3 gravityUp;
+    public Quaternion playerRot;
     
     public bool sobEfeito; // Indica se o objeto esta ou nao sob efeito da gravidade, pensado para objetos que estejam com a rotacao baseada na orbita do planeta, mas nao serao puxados pela gravidade. Ideal para plataformas suspensas no ar
     void Start()
@@ -20,7 +23,7 @@ public class GravityCRTL : MonoBehaviour
     {
         if(Gravity) // caso haja contato com a orbita de um planeta
         {
-            Vector3 gravityUp = Vector3.zero;
+             gravityUp = Vector3.zero;
             if(Gravity.FixedDirection)
             {
                 gravityUp = Gravity.transform.up;
@@ -32,11 +35,12 @@ public class GravityCRTL : MonoBehaviour
 
             Vector3 localUp = transform.up;
 
-            Quaternion targetrotation = Quaternion.FromToRotation(localUp,gravityUp) * transform.rotation;
+            targetrotation = Quaternion.FromToRotation(localUp,gravityUp) * transform.rotation;
             rb.GetComponent<Rigidbody>().rotation = targetrotation;
 
+           
             transform.rotation = Quaternion.Lerp(transform.rotation, targetrotation, rotationSpeed * Time.deltaTime);
-            
+            playerRot = transform.rotation;
 
             // Forca da gravidade
             if(sobEfeito == true)

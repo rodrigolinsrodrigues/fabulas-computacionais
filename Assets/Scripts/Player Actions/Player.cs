@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     Vector3 moveDir;
     Vector3 lastDir;
     public Vector3 moveDirection;
+    public GravityCRTL gc;
     
 
     //Teste de colisao com o chao
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour
     void Update()
     {   
         Walk();
-        Rotate();
         Run();
         Jump();
         Push();
@@ -64,7 +64,8 @@ public class Player : MonoBehaviour
     void FixedUpdate() 
     {
         // Move o player pelo rigidbody
-        rb.MovePosition(transform.position + (moveDirection * speed * Time.deltaTime));
+       // rb.MovePosition(transform.position + (moveDirection * speed * Time.fixedDeltaTime));
+       
     }
 
     bool GroundCheck()
@@ -95,20 +96,20 @@ public class Player : MonoBehaviour
     {
         //Codigo responsavel por mover o jogador
         Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
-        moveDirection = new Vector3(move.x, 0, move.y).normalized;
-         
-       
+        moveDirection = new Vector3(move.x, 0, move.y);
+
+        //transform.Translate(moveDirection * speed * Time.deltaTime);
+
+        move = Vector2.ClampMagnitude(move, 1);
+        Vector3 camF = cam.forward;
+        Vector3 camR = cam.right;
+        camF = camF.normalized;
+        camR = camR.normalized;
+
+        transform.position += (camF * move.y + camR * move.x) * Time.deltaTime * speed;
+        
     }
     
-    void Rotate()
-    {
-        
-        // Quaternion rotation = Quaternion.FromToRotation (
-        // transform.forward, transform.position.normalized);
-        // transform.rotation = rotation * transform.rotation;
-        
-        // transform.Rotate(0, moveDirection.x * turnSpeed, 0);
-    }
           
     void Run()
     {
