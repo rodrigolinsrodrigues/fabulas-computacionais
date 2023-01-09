@@ -9,22 +9,17 @@ public class Player : MonoBehaviour
     private Comandos comandos;
 
     //Movimento do player
-    public Rigidbody rb;
+    Rigidbody rb;
+    public GravityCRTL gc;
     public Transform cam;
-    public Transform Target;
     public float speed;
-    public float turnSpeed = 10f;
-    public float  jumpforce = 5f; 
-    public const float TURNSMOOTHTIME = .135f;
-    public float turnSmoothVelocity;
+    public float jumpforce = 5f; 
     public bool Running;
     public bool canJump;
-    Vector3 moveDir;
-    Vector3 lastDir;
     public Vector3 moveDirection;
-    public GravityCRTL gc;
+    Vector3 playerF;
+    Vector3 playerR;
     
-
     //Teste de colisao com o chao
     public Vector3 Boxsize;
     public float MaxDistance;
@@ -59,13 +54,16 @@ public class Player : MonoBehaviour
         Run();
         Jump();
         Push();
+
     }
     
     void FixedUpdate() 
     {
         // Move o player pelo rigidbody
-       // rb.MovePosition(transform.position + (moveDirection * speed * Time.fixedDeltaTime));
-       
+      rb.MovePosition(transform.position + (moveDirection * speed * Time.fixedDeltaTime)); 
+      // rb.AddForce(moveDirection, ForceMode.Impulse);
+
+       //rb.velocity = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical")) * speed;
     }
 
     bool GroundCheck()
@@ -95,22 +93,25 @@ public class Player : MonoBehaviour
     void Walk()
     {
         //Codigo responsavel por mover o jogador
-        Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
-        moveDirection = new Vector3(move.x, 0, move.y);
+       Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
+       moveDirection = new Vector3(move.x, 0, move.y).normalized;
 
-        //transform.Translate(moveDirection * speed * Time.deltaTime);
+    //    if(Input.GetAxis("Horizontal"))
+    //    {
+    //         transform.position += transform.right * speed * Time.deltaTime;
+    //         transform.position -= transform.right * speed * Time.deltaTime;
+    //    }
+    //    if(Input.GetAxis("Vertical"))
+       
+    //     transform.position += transform.forward * speed * Time.deltaTime;
+    //     transform.position -= transform.forward * speed * Time.deltaTime;
 
-        move = Vector2.ClampMagnitude(move, 1);
-        Vector3 camF = cam.forward;
-        Vector3 camR = cam.right;
-        camF = camF.normalized;
-        camR = camR.normalized;
-
-        transform.position += (camF * move.y + camR * move.x) * Time.deltaTime * speed;
+        // move = Vector2.ClampMagnitude(move, 1);
+        //transform.Translate((camF * moveDirection.z + camR * moveDirection.x) * speed * Time.deltaTime);
+        // transform.position += (camF * move.y + camR * move.x) * Time.deltaTime * speed;
         
     }
-    
-          
+       
     void Run()
     {
         //Codigo de corrida do player
@@ -135,7 +136,6 @@ public class Player : MonoBehaviour
          // Codigo responsavel pelo pulo
         if(comandos.Movement.Jump.triggered && GroundCheck() && canJump == true)
         {
-            Debug.Log("Pulo");
             rb.AddForce(transform.up * jumpforce,ForceMode.Impulse);
             canJump = false;
         }
