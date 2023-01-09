@@ -20,7 +20,7 @@ public class rotatePlayer : MonoBehaviour
         {
             targetAngle = Mathf.Atan2(p.moveDirection.x, p.moveDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;  // direcao que player vai rotacionar + onde a camera tiver olhando 
             Player.rotation = Quaternion.Euler(Player.eulerAngles.x, targetAngle, Player.eulerAngles.z); 
-           
+            
         }
     }
         

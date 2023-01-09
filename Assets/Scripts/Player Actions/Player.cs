@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public Vector3 moveDirection;
     Vector3 playerF;
     Vector3 playerR;
-    
+
     //Teste de colisao com o chao
     public Vector3 Boxsize;
     public float MaxDistance;
@@ -60,10 +60,8 @@ public class Player : MonoBehaviour
     void FixedUpdate() 
     {
         // Move o player pelo rigidbody
-      rb.MovePosition(transform.position + (moveDirection * speed * Time.fixedDeltaTime)); 
-      // rb.AddForce(moveDirection, ForceMode.Impulse);
-
-       //rb.velocity = new Vector3(Input.GetAxis("Horizontal"),0,Input.GetAxis("Vertical")) * speed;
+        rb.MovePosition(transform.position + (moveDirection.z * transform.forward * speed * Time.deltaTime) + (moveDirection.x * transform.right * speed * Time.deltaTime)); 
+        //rb.MovePosition(transform.position + transform.right * moveDirection.x * 0.3f+ transform.forward * moveDirection.z *0.3f);
     }
 
     bool GroundCheck()
@@ -95,23 +93,23 @@ public class Player : MonoBehaviour
         //Codigo responsavel por mover o jogador
        Vector2 move = comandos.Movement.Move.ReadValue<Vector2>();
        moveDirection = new Vector3(move.x, 0, move.y).normalized;
-
-    //    if(Input.GetAxis("Horizontal"))
-    //    {
-    //         transform.position += transform.right * speed * Time.deltaTime;
-    //         transform.position -= transform.right * speed * Time.deltaTime;
-    //    }
-    //    if(Input.GetAxis("Vertical"))
-       
-    //     transform.position += transform.forward * speed * Time.deltaTime;
-    //     transform.position -= transform.forward * speed * Time.deltaTime;
+    
+       // transform.Translate(moveDirection * speed * Time.deltaTime);
+        // U = transform.position.z;
+        // D = transform.position.z;
+        // L = transform.position.x;
+        // D = transform.position.x;
+        //     moveDirection.x += transform.right * speed * Time.deltaTime;
+        //     moveDirection.x -= transform.right * speed * Time.deltaTime;
+        //     moveDirection.z += transform.forward * speed * Time.deltaTime;
+        //     moveDirection.z -= transform.forward * speed * Time.deltaTime;
 
         // move = Vector2.ClampMagnitude(move, 1);
-        //transform.Translate((camF * moveDirection.z + camR * moveDirection.x) * speed * Time.deltaTime);
+       
         // transform.position += (camF * move.y + camR * move.x) * Time.deltaTime * speed;
         
     }
-       
+
     void Run()
     {
         //Codigo de corrida do player
@@ -122,7 +120,7 @@ public class Player : MonoBehaviour
         else 
         if(comandos.Movement.Run.ReadValue<float>() == 0)
         {
-            this.speed = 4f;
+            speed = 4f;
             if(pushing == true)
             {
                 this.speed = 2f;
@@ -153,7 +151,7 @@ public class Player : MonoBehaviour
             {
                 pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(this.transform);
-                this.speed = 2f;// exemplo de reducao de velocidade
+                speed = 2f;// exemplo de reducao de velocidade
                 pushing = true;
                 
                 
@@ -162,7 +160,7 @@ public class Player : MonoBehaviour
             {
                 pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 pushableObj.transform.SetParent(null);
-                this.speed = 4f;
+                speed = 4f;
                 pushing = false;
                
             }

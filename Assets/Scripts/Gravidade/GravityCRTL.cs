@@ -37,7 +37,6 @@ public class GravityCRTL : MonoBehaviour
             targetrotation = Quaternion.FromToRotation(localUp,gravityUp) * transform.rotation;
             rb.GetComponent<Rigidbody>().rotation = targetrotation;
 
-            //transform.up = Vector3.Lerp(transform.up, gravityUp, rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetrotation, rotationSpeed * Time.deltaTime);
 
             // Forca da gravidade
