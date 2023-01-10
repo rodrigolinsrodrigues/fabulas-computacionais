@@ -26,10 +26,9 @@ public class Player : MonoBehaviour
     public LayerMask LayerMask;
 
     // Empurrar objetos
-    public GameObject[] pushableObj; 
+    public GameObject pushableObj; 
     public float pushDistance;
     public bool pushing;
-    int i;
 
     // Carregar Objetos
 
@@ -46,7 +45,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-       // pushableObj = GameObject.FindGameObjectsWithTag("Pushable");
     }
 
     // Update is called once per frame
@@ -55,13 +53,7 @@ public class Player : MonoBehaviour
         Walk();
         Run();
         Jump();
-      //  Push();
-
-        // for(i = 0; i < pushableObj.Length; i++)
-        // {
-        //     Debug.Log(i);
-        // }
-
+        Push();
     }
     
     void FixedUpdate() 
@@ -131,31 +123,34 @@ public class Player : MonoBehaviour
            
         
     }
-    // void Push()
-    // {
-    //     //Codigo responsavel por empurrar objetos
-    //         //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
-    //     RaycastHit hit;
-    //     if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
-    //     {
-    //         if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
-    //         {
-    //             pushableObj[i].GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
-    //             pushableObj[i].transform.SetParent(this.transform);
-    //             speed = 2f;// exemplo de reducao de velocidade
-    //             pushing = true;
+    void Push()
+    {
+        //Codigo responsavel por empurrar objetos
+            //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
+        {
+            if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
+            {
+                string name = hit.collider.name;
+                pushableObj = GameObject.Find(name);
+                pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
+                pushableObj.transform.SetParent(this.transform);
+                speed = 2f;
+                pushing = true;
                 
                 
-    //         }
-    //         else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
-    //         {
-    //             pushableObj[i].GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-    //             pushableObj[i].transform.SetParent(null);
-    //             speed = 4f;
-    //             pushing = false;
+            }
+            else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
+            {
+                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                pushableObj.transform.SetParent(null);
+                speed = 4f;
+                pushing = false;
+                pushableObj = null;
                
-    //         }
-    //     }
-    // }
+            }
+        }
+    }
     
 }
