@@ -107,7 +107,6 @@ public class Player : MonoBehaviour
             if(pushing == true)
             {
                 speed = 2f;
-               
             }
         }
 
