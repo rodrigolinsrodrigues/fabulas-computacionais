@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
 
     //Movimento do player
     Rigidbody rb;
-    public GravityCRTL gc;
     public Transform cam;
     public float speed;
     public float jumpforce = 5f; 
@@ -59,7 +58,8 @@ public class Player : MonoBehaviour
     void FixedUpdate() 
     {
         // Move o player pelo rigidbody
-        rb.MovePosition(rb.position + (moveDirection.z * transform.forward * speed * Time.deltaTime) + (moveDirection.x * transform.right * speed * Time.deltaTime)); 
+    rb.MovePosition(transform.position + (moveDirection * speed * Time.deltaTime));
+     //rb.MovePosition(rb.position + (moveDirection.z * transform.forward * speed * Time.deltaTime) + (moveDirection.x * transform.right * speed * Time.deltaTime)); 
     }
 
     bool GroundCheck()
