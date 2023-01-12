@@ -53,15 +53,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Value"",
-                    ""id"": ""2dbaf5cc-1be9-4241-b518-d041ea873675"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -172,28 +163,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
                     ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e3c4fa9e-dde0-4f25-8b78-4466ebdfd5cd"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Teclado/Mouse"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9132e7dd-42bb-46f7-b15c-3f2a7ae916ce"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -370,7 +339,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
-        m_Movement_Rotate = m_Movement.FindAction("Rotate", throwIfNotFound: true);
         // Actions
         m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
         m_Actions_PickUp = m_Actions.FindAction("PickUp", throwIfNotFound: true);
@@ -441,7 +409,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Move;
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Run;
-    private readonly InputAction m_Movement_Rotate;
     public struct MovementActions
     {
         private @Comandos m_Wrapper;
@@ -449,7 +416,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Movement_Move;
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Run => m_Wrapper.m_Movement_Run;
-        public InputAction @Rotate => m_Wrapper.m_Movement_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,9 +434,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
-                @Rotate.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
-                @Rotate.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
-                @Rotate.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRotate;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -484,9 +447,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
-                @Rotate.started += instance.OnRotate;
-                @Rotate.performed += instance.OnRotate;
-                @Rotate.canceled += instance.OnRotate;
             }
         }
     }
@@ -596,7 +556,6 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
     }
     public interface IActionsActions
     {
