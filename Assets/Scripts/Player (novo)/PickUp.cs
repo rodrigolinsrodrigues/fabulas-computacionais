@@ -6,7 +6,7 @@ public class PickUp : MonoBehaviour
 {
       private Comandos comandos;
      // Careegar Objetos
-    public bool holding;
+    public bool holding, canPickup;
     public GameObject carryObj;
     public float pickupDistance;
     public Transform hand;
@@ -25,16 +25,22 @@ public class PickUp : MonoBehaviour
                 string name = other.GetComponent<Collider>().name;
                 carryObj = GameObject.Find(name);
                 carryObj.transform.SetParent(hand);
-                carryObj.GetComponent<Rigidbody>().useGravity = false;
                 carryObj.transform.position = hand.position;
+                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                carryObj.GetComponent<Rigidbody>().useGravity = false;
                 holding = true;
+                if(holding == true)
+                canPickup = false;
        }
        
        else if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.Drop.ReadValue<float>() == 1)
             {
-                holding = false;
                 carryObj.transform.SetParent(null);
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
+                carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
+                holding = false;
+                if(holding == false)
+                canPickup = true;
             }
     }
 
