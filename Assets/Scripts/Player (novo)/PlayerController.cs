@@ -25,6 +25,12 @@ public class PlayerController : MonoBehaviour
     public float launchDistance;
     public float launchForce = 5.0f;
 
+    // Careegar Objetos
+    public bool holding;
+    public GameObject carryObj;
+    public float pickupDistance;
+    public Transform hand;
+
     // gravidade
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask Ground; // layer dos objs q sao chão
@@ -50,6 +56,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Push();
         Launch();
+        //PickUp();
     }
 
     void Movement() // movimentação baseada no input e direção da camera
@@ -140,4 +147,25 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+     void OnTriggerStay(Collider other) 
+    {
+       if(other.GetComponent<Collider>().tag == "Pickable" && holding == false && comandos.Actions.PickUp.ReadValue<float>() == 1) 
+       {
+                string name = other.GetComponent<Collider>().name;
+                carryObj = GameObject.Find(name);
+                carryObj.transform.SetParent(hand);
+                carryObj.GetComponent<Rigidbody>().useGravity = false;
+                carryObj.transform.position = hand.position;
+                holding = true;
+       }
+       
+       else if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.Drop.ReadValue<float>() == 1)
+            {
+                holding = false;
+                carryObj.transform.SetParent(null);
+                carryObj.GetComponent<Rigidbody>().useGravity = true;
+            }
 }
+}
+
