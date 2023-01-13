@@ -230,6 +230,9 @@ GameObject:
   m_Component:
   - component: {fileID: 90222172}
   - component: {fileID: 90222178}
+  - component: {fileID: 90222179}
+  - component: {fileID: 90222180}
+  - component: {fileID: 90222181}
   - component: {fileID: 90222177}
   - component: {fileID: 90222169}
   - component: {fileID: 90222171}
@@ -358,21 +361,58 @@ MonoBehaviour:
   runSpeed: 8
   pushSpeed: 2
   jumpHeigh: 2
-  pushing: 0
-  pushableObj: {fileID: 0}
-  pushDistance: 0.8
-  pushForce: 5
-  launchObj: {fileID: 0}
-  launchDistance: 0.8
-  launchForce: 5
-  holding: 0
-  carryObj: {fileID: 0}
-  pickupDistance: 1
-  hand: {fileID: 1577897761}
+  push: {fileID: 90222179}
   isGrounded: 0
   Ground:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &90222179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90222168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff620344287544e469405b33a550f5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 90222178}
+  pushing: 0
+  pushableObj: {fileID: 0}
+  pushDistance: 0.8
+--- !u!114 &90222180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90222168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c36818be40e15443adf55fd900109c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchObj: {fileID: 0}
+  launchDistance: 0.8
+  launchForce: 5
+--- !u!114 &90222181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90222168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82938a6b7fdf2844ab3f577d722b31cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holding: 0
+  carryObj: {fileID: 0}
+  pickupDistance: 0.8
+  hand: {fileID: 1577897761}
 --- !u!1 &133632880
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,7 +958,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500491559}
-  m_LocalRotation: {x: 0.23653115, y: -0.000000018691438, z: 0.0000000045502246, w: 0.9716239}
+  m_LocalRotation: {x: 0.23653115, y: -0.00000001869144, z: 0.000000004550225, w: 0.9716239}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3996,7 +4036,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954670100}
-  m_LocalRotation: {x: 0.38911387, y: -0.000000015850343, z: 0.0000000066952435, w: 0.92118967}
+  m_LocalRotation: {x: 0.38911387, y: 0.000000015850341, z: -0.000000006695242, w: 0.92118967}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

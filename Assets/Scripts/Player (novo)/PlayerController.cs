@@ -14,22 +14,9 @@ public class PlayerController : MonoBehaviour
     private float turnSmoothVelocity, TURNSMOOTHTIME = 0.135f; // velocidade de rotacao
     public float jumpHeigh = .1f;
 
+    // Referencias a outros codigos
     // Empurrar Objetos
-    public bool pushing;
-    public GameObject pushableObj;
-    public float pushDistance;
-    public float pushForce = 5.0f;
-
-    // Lançar objetos
-     public GameObject launchObj;
-    public float launchDistance;
-    public float launchForce = 5.0f;
-
-    // Careegar Objetos
-    public bool holding;
-    public GameObject carryObj;
-    public float pickupDistance;
-    public Transform hand;
+    public Push push;
 
     // gravidade
     [SerializeField] private bool isGrounded;
@@ -54,9 +41,6 @@ public class PlayerController : MonoBehaviour
         Gravity();
         Run();
         Jump();
-        Push();
-        Launch();
-        //PickUp();
     }
 
     void Movement() // movimentação baseada no input e direção da camera
@@ -98,74 +82,8 @@ public class PlayerController : MonoBehaviour
         else
             curSpeed = walkSpeed;
 
-        if(pushing == true)
+        if(push.pushing == true)
             curSpeed = pushSpeed;
     }
-
-    void Push()
-    {
-        //Codigo responsavel por empurrar objetos
-            //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
-        {
-            if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
-            {
-                string name = hit.collider.name;
-                pushableObj = GameObject.Find(name);
-                pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
-                pushableObj.transform.SetParent(this.transform);
-                curSpeed = pushSpeed;
-                pushing = true;
-                
-                
-            }
-            else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
-            {
-                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                pushableObj.transform.SetParent(null);
-                curSpeed = walkSpeed;
-                pushing = false;
-                pushableObj = null;
-               
-            }
-        }
-    }
-
-    void Launch()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, launchDistance))
-        {
-            if (hit.collider.tag == "Launch" && comandos.Actions.Push.ReadValue<float>() == 1)
-            {
-                // Adicione uma forca a direcao em que o personagem esta olhando
-                string name = hit.collider.name;
-                launchObj = GameObject.Find(name);
-                launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
-            }
-        }
-
-    }
-
-     void OnTriggerStay(Collider other) 
-    {
-       if(other.GetComponent<Collider>().tag == "Pickable" && holding == false && comandos.Actions.PickUp.ReadValue<float>() == 1) 
-       {
-                string name = other.GetComponent<Collider>().name;
-                carryObj = GameObject.Find(name);
-                carryObj.transform.SetParent(hand);
-                carryObj.GetComponent<Rigidbody>().useGravity = false;
-                carryObj.transform.position = hand.position;
-                holding = true;
-       }
-       
-       else if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.Drop.ReadValue<float>() == 1)
-            {
-                holding = false;
-                carryObj.transform.SetParent(null);
-                carryObj.GetComponent<Rigidbody>().useGravity = true;
-            }
-}
 }
 
