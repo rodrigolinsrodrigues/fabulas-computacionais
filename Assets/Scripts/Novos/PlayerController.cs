@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float curSpeed, walkSpeed = 4f, runSpeed = 8f, pushSpeed = 2f; // velocidades
     private float turnSmoothVelocity, TURNSMOOTHTIME = 0.135f; // velocidade de rotacao
     public float jumpHeigh = .1f;
+   
 
     // Referencias a outros codigos
     // Empurrar Objetos
@@ -49,12 +50,22 @@ public class PlayerController : MonoBehaviour
         
         if (inputs.magnitude >= 0.1f) // se ta movendo pra qualquer direcao == apertou botão
         { 
+            if(push.pushing == false)
+            {
             float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + cam.eulerAngles.y;  // direcao que player vai rotacionar + onde a camera tiver olhando 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURNSMOOTHTIME); // calcula o angulo e tempo pra virar smooth
             transform.rotation = Quaternion.Euler(0f, angle, 0f); // rotaciona player
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
 
             controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // actually move player
+            }
+           
+           else
+           {
+                float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + transform.eulerAngles.y;
+                Vector3 MoveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
+           }
         }
     }
 
@@ -71,8 +82,9 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && comandos.Movement.Jump.triggered) // se ta no chao
+        if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
             _velocity.y = Mathf.Sqrt(jumpHeigh * -2 * gravidade);
+
     }
 
     void Run() // for surv
