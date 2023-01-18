@@ -40,7 +40,7 @@ public class Push : MonoBehaviour
             }
             else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
             {
-                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(null);
                 player.curSpeed = player.walkSpeed;
                 pushing = false;
