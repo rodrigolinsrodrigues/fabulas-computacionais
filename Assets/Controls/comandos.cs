@@ -147,8 +147,8 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c09283c-13b7-40ea-89f0-40e7119d1af2"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
-                    ""interactions"": """",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Run"",
@@ -158,7 +158,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4286f47a-6149-4c6b-879a-50a9e5f2d49c"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -204,7 +204,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5fb58862-192c-4480-ab6c-8c14ec250f12"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -215,7 +215,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""902bef3f-7455-49fa-be90-45284d5e3c96"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -248,7 +248,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e398439b-96b1-4ee4-91d6-f82d518b4cd4"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -259,7 +259,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d2947049-ceca-4465-81b3-081336cefedf"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
