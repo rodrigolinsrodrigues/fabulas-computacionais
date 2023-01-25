@@ -22,7 +22,7 @@ public class PickUp : MonoBehaviour
     }
     void OnTriggerStay(Collider other) 
     {
-       if(other.GetComponent<Collider>().tag == "Pickable" && comandos.Actions.PickUp.ReadValue<float>() == 1)
+       if(other.GetComponent<Collider>().tag == "Pickable" && holding == false && comandos.Actions.PickUp.ReadValue<float>() == 1)
        {
         
                 string name = other.GetComponent<Collider>().name;
@@ -38,7 +38,7 @@ public class PickUp : MonoBehaviour
             {
                 carryObj.transform.SetParent(null);
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
-                carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
+                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
                 holding = false;
             }
     }

@@ -28,8 +28,10 @@ public class Launch : MonoBehaviour
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
                 launchObj = GameObject.Find(name);
+                launchObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
                 launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
             }
+           
         }
     }
 }

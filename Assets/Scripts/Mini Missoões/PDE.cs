@@ -10,11 +10,11 @@ public class PDE : MonoBehaviour
         // Exemplo: Missões de entrega que liberam passagens. objetos ou outros objetivos. Basta adcionar aqui a condição especifica.
 
         public bool passagem,obj, concluido, checagem;
-        public int layer;
+        public int layer; // Layer do objeto correspondente a missão;
         public GameObject carryObj, area, Objetivo, bloqueio;
-        public int Objetos;
-        public PDE função;
-        public ChecarConclusao CC;
+        public int Objetos; // Faz a contagem de objetos necessarios para a conclusão da missão;
+        public PDE função; // Referencia o codigo atual;
+        public ChecarConclusao CC; // Faz referencia ao codigo de checagem de missões PDE;
      void Update()
     {
 
@@ -38,10 +38,10 @@ public class PDE : MonoBehaviour
         
 
     }
-     void OnTriggerStay(Collider other) 
+     void OnTriggerStay(Collider other) // Quando o jogador entra na area da missão com o objeto correto em mãos
     {
         // Codigo responsavel por identificar os objetos, pegando informações de Tag e Layers
-        if(other.GetComponent<Collider>().tag == "Pickable" && other.GetComponent<Collider>().gameObject.layer == layer)
+        if(other.GetComponent<Collider>().tag == "Pickable" && other.GetComponent<Collider>().gameObject.layer == layer) // Checa a Tag e a layer do objeto correspondente a missão
         {
         string name = other.GetComponent<Collider>().name;
         carryObj = GameObject.Find(name);
@@ -51,17 +51,17 @@ public class PDE : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other) 
+    void OnTriggerExit(Collider other) // Quando o player sair da area da missão
     {
-        if(other.GetComponent<Collider>().tag == "Player")
+        if(other.GetComponent<Collider>().tag == "Player") // identifica o player pela tag
          {
-            bloqueio.SetActive(true);
-            if(CC != null && concluido == false)
+            bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
+            if(CC != null && concluido == false) // Se o codigo de checagem não for nulo e as conclusões forem falsas
             {
                 concluido = true;
-                CC.Concluidos += 1;
+                CC.Concluidos += 1; // adciona mais um a lista de objetivos concluidos
             }
-            função.enabled = false;
+            função.enabled = false; //Desativa esse codigo, ja que n será mais utlizado, consumindo menos processamento
          }
          
         
