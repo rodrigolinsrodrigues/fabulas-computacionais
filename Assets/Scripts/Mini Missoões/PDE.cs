@@ -14,6 +14,7 @@ public class PDE : MonoBehaviour
         public GameObject carryObj, area, Objetivo, bloqueio;
         public int Objetos;
         public PDE função;
+        public ChecarConclusao CC;
      void Update()
     {
 
@@ -21,7 +22,7 @@ public class PDE : MonoBehaviour
         {
             if(area.transform.childCount == Objetos)
             {
-            concluido = true;
+            if(checagem == false)
             Objetivo.SetActive(false);
             }
         } 
@@ -30,8 +31,7 @@ public class PDE : MonoBehaviour
        {
             if(area.transform.childCount == Objetos)
             {
-            concluido = true;
-            if(Objetivo != null)
+            if(checagem == false)
             Objetivo.SetActive(true);
             }
        }
@@ -53,9 +53,14 @@ public class PDE : MonoBehaviour
 
     void OnTriggerExit(Collider other) 
     {
-        if(other.GetComponent<Collider>().tag == "Player" && concluido == true)
+        if(other.GetComponent<Collider>().tag == "Player")
          {
             bloqueio.SetActive(true);
+            if(CC != null && concluido == false)
+            {
+                concluido = true;
+                CC.Concluidos += 1;
+            }
             função.enabled = false;
          }
          
