@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-     private Comandos comandos;
+    //Script responsavel pela mecanica de pegar objetos
+     private Comandos comandos; // acessa o sistema de inputs
      // Careegar Objetos
-    public bool holding = false, rotacionar;
-    public GameObject carryObj;
-    public float pickupDistance;
-    public Transform hand;
-    public PlayerController player;
-   
-
-    // Start is called before the first frame update
+    public bool holding = false, rotacionar; // checa se o player esta segurando o obj (holding) e caso o obj precise alterar a rotação para se adequar(rotacionar)
+    public GameObject carryObj; // nome dado a qualquer obj que for pego
+    public Transform hand; // Posição do obj usado como mão do player
+    
     void Start()
     {
-         comandos = new Comandos();
+        //Acessos necessarios para inputs
+        comandos = new Comandos();
         comandos.Actions.Enable(); 
     }
-   void Update() {
-      
-    }
-    void OnTriggerStay(Collider other) 
+    void OnTriggerStay(Collider other) // enquanto estiver na area de colisão
     {
+        //Se a tag do obj for a correta e o player pressionar o botão de pegar
        if(other.GetComponent<Collider>().tag == "Pickable" && holding == false && comandos.Actions.PickUp.ReadValue<float>() == 1)
        {
         
@@ -32,7 +28,7 @@ public class PickUp : MonoBehaviour
                 carryObj.transform.SetParent(hand);
                 carryObj.transform.position = hand.position;
 
-                if(carryObj.GetComponent<AjustarObj>().rotacionar == true) { carryObj.transform.rotation = hand.rotation;}
+                if(carryObj.GetComponent<AjustarObj>().rotacionar == true) {carryObj.transform.rotation = hand.rotation;}
 
                 carryObj.GetComponent<Rigidbody>().mass = 10;
                 carryObj.GetComponent<Rigidbody>().isKinematic = true;
@@ -42,10 +38,11 @@ public class PickUp : MonoBehaviour
                 holding = true;
        }
 
+        //Se a tag do obj for a correta e o player soltar o botão de pegar
        if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.PickUp.ReadValue<float>() == 0)
             {
                 carryObj.transform.SetParent(null);
-                 carryObj.GetComponent<Rigidbody>().isKinematic = false;
+                carryObj.GetComponent<Rigidbody>().isKinematic = false;
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
                 carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
                 holding = false;

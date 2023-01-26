@@ -13,7 +13,7 @@ public class PDE : MonoBehaviour
         public int layer; // Layer do objeto correspondente a missão;
         public GameObject carryObj, area, Objetivo, bloqueio;
         public int Objetos; // Faz a contagem de objetos necessarios para a conclusão da missão;
-        public PDE função; // Referencia o codigo atual;
+        public PDE funcao; // Referencia o codigo atual;
         public ChecarConclusao CC; // Faz referencia ao codigo de checagem de missões PDE;
      void Update()
     {
@@ -22,7 +22,6 @@ public class PDE : MonoBehaviour
         {
             if(area.transform.childCount == Objetos)
             {
-
             if(checagem == false)
             Objetivo.SetActive(false);
             }
@@ -52,7 +51,6 @@ public class PDE : MonoBehaviour
         carryObj.GetComponent<Rigidbody>().useGravity = true;
         carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
         }
-       
         }
     }
 
@@ -60,16 +58,14 @@ public class PDE : MonoBehaviour
     {
         if(other.GetComponent<Collider>().tag == "Player" && area.transform.childCount == Objetos) // identifica o player pela tag
          {
-            
             bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
             if(CC != null && concluido == false) // Se o codigo de checagem não for nulo e as conclusões forem falsas
             {
                 concluido = true;
                 CC.Concluidos += 1; // adciona mais um a lista de objetivos concluidos
             }
-            função.enabled = false; //Desativa esse codigo, ja que n será mais utlizado, consumindo menos processamento
-         }
-         
-        
+            funcao.enabled = false; //Desativa esse codigo, ja que n será mais utlizado, consumindo menos processamento
+        }
+            
     }
 }
