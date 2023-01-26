@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             {
             float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + cam.eulerAngles.y;  // direcao que player vai rotacionar + onde a camera tiver olhando 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURNSMOOTHTIME); // calcula o angulo e tempo pra virar smooth
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); // rotaciona player
+            transform.rotation = Quaternion.Euler(-90f, angle, 0f); // rotaciona player
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
 
             controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // actually move player

@@ -30,6 +30,8 @@ public class PickUp : MonoBehaviour
                 carryObj.transform.SetParent(hand);
                 carryObj.transform.position = hand.position;
                 carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                 carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+
                 carryObj.GetComponent<Rigidbody>().useGravity = false;
                 holding = true;
        }
@@ -38,7 +40,7 @@ public class PickUp : MonoBehaviour
             {
                 carryObj.transform.SetParent(null);
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
-                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
                 holding = false;
             }
     }
