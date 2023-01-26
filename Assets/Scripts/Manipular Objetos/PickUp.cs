@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-      private Comandos comandos;
+     private Comandos comandos;
      // Careegar Objetos
-    public bool holding = false, canPickup, buttonPressed;
+    public bool holding = false, rotacionar;
     public GameObject carryObj;
     public float pickupDistance;
     public Transform hand;
+    public PlayerController player;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -29,16 +31,21 @@ public class PickUp : MonoBehaviour
                 carryObj = GameObject.Find(name);
                 carryObj.transform.SetParent(hand);
                 carryObj.transform.position = hand.position;
-                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
-                 carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 
+                if(carryObj.GetComponent<AjustarObj>().rotacionar == true) { carryObj.transform.rotation = hand.rotation;}
+
+                carryObj.GetComponent<Rigidbody>().mass = 10;
+                carryObj.GetComponent<Rigidbody>().isKinematic = true;
+                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 carryObj.GetComponent<Rigidbody>().useGravity = false;
                 holding = true;
        }
-       
-       else if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.PickUp.ReadValue<float>() == 0)
+
+       if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.PickUp.ReadValue<float>() == 0)
             {
                 carryObj.transform.SetParent(null);
+                 carryObj.GetComponent<Rigidbody>().isKinematic = false;
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
                 carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
                 holding = false;

@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public Push push;
 
     // gravidade
-    [SerializeField] private bool isGrounded;
+    [SerializeField] public bool isGrounded;
     [SerializeField] private LayerMask Ground; // layer dos objs q sao chão
     private Vector3 _velocity;
     private float gravidade = -20f;
