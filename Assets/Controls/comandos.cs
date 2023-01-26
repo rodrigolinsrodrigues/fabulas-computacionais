@@ -307,6 +307,54 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""System"",
+            ""id"": ""2ca6bf19-9a78-464b-8830-49303cc864ea"",
+            ""actions"": [
+                {
+                    ""name"": ""Close"",
+                    ""type"": ""Button"",
+                    ""id"": ""e9b29c7c-97b7-49ce-aa80-b1dfd0b702a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""926e1220-a1c5-475a-8f01-f8aebfeeb8a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""04902f17-25f3-4050-882e-335800be9d23"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Close"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76acb534-3d98-452b-9731-20a5c555db88"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -347,6 +395,10 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Cam = m_Camera.FindAction("Cam", throwIfNotFound: true);
+        // System
+        m_System = asset.FindActionMap("System", throwIfNotFound: true);
+        m_System_Close = m_System.FindAction("Close", throwIfNotFound: true);
+        m_System_Restart = m_System.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -533,6 +585,47 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // System
+    private readonly InputActionMap m_System;
+    private ISystemActions m_SystemActionsCallbackInterface;
+    private readonly InputAction m_System_Close;
+    private readonly InputAction m_System_Restart;
+    public struct SystemActions
+    {
+        private @Comandos m_Wrapper;
+        public SystemActions(@Comandos wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Close => m_Wrapper.m_System_Close;
+        public InputAction @Restart => m_Wrapper.m_System_Restart;
+        public InputActionMap Get() { return m_Wrapper.m_System; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SystemActions set) { return set.Get(); }
+        public void SetCallbacks(ISystemActions instance)
+        {
+            if (m_Wrapper.m_SystemActionsCallbackInterface != null)
+            {
+                @Close.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnClose;
+                @Close.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnClose;
+                @Close.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnClose;
+                @Restart.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnRestart;
+            }
+            m_Wrapper.m_SystemActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Close.started += instance.OnClose;
+                @Close.performed += instance.OnClose;
+                @Close.canceled += instance.OnClose;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
+            }
+        }
+    }
+    public SystemActions @System => new SystemActions(this);
     private int m_TecladoMouseSchemeIndex = -1;
     public InputControlScheme TecladoMouseScheme
     {
@@ -566,5 +659,10 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     public interface ICameraActions
     {
         void OnCam(InputAction.CallbackContext context);
+    }
+    public interface ISystemActions
+    {
+        void OnClose(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

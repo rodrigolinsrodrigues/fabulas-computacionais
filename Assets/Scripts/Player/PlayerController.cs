@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
-            _velocity.y = Mathf.Sqrt(jumpHeigh * -2 * gravidade);
+            _velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);
 
     }
 
