@@ -22,6 +22,7 @@ public class PDE : MonoBehaviour
         {
             if(area.transform.childCount == Objetos)
             {
+
             if(checagem == false)
             Objetivo.SetActive(false);
             }
@@ -45,16 +46,21 @@ public class PDE : MonoBehaviour
         {
         string name = other.GetComponent<Collider>().name;
         carryObj = GameObject.Find(name);
+        if(carryObj.transform.parent == null)
+        {
         carryObj.transform.SetParent(this.transform);
         carryObj.GetComponent<Rigidbody>().useGravity = true;
         carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
+        }
+       
         }
     }
 
     void OnTriggerExit(Collider other) // Quando o player sair da area da missão
     {
-        if(other.GetComponent<Collider>().tag == "Player") // identifica o player pela tag
+        if(other.GetComponent<Collider>().tag == "Player" && area.transform.childCount == Objetos) // identifica o player pela tag
          {
+            
             bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
             if(CC != null && concluido == false) // Se o codigo de checagem não for nulo e as conclusões forem falsas
             {
