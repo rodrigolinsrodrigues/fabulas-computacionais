@@ -45,6 +45,7 @@ public class PickUp : MonoBehaviour
                 carryObj.GetComponent<Rigidbody>().isKinematic = false;
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
                 carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
+                //if(carryObj.transform.position.y < -2.4){carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;}
                 holding = false;
             }
     }

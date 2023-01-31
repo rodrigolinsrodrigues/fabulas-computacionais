@@ -9,7 +9,7 @@ public class PDE : MonoBehaviour
         // A ideia é que seja utilizado apenas para missões desse tipo, possuindo variações dependendo do resultado da missão;
         // Exemplo: Missões de entrega que liberam passagens. objetos ou outros objetivos. Basta adcionar aqui a condição especifica.
 
-        public bool passagem,obj, concluido, checagem;
+        public bool passagem,obj, concluido, checagem, galinha, porco;
         public int layer; // Layer do objeto correspondente a missão;
         public GameObject carryObj, area, Objetivo, bloqueio;
         public int Objetos; // Faz a contagem de objetos necessarios para a conclusão da missão;
@@ -52,6 +52,22 @@ public class PDE : MonoBehaviour
         carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
         }
         }
+
+        if(other.GetComponent<Collider>().tag == "Pickable" && other.GetComponent<Collider>().gameObject.layer != layer && other.transform.parent == null)
+        {
+            string name = other.GetComponent<Collider>().name;
+            carryObj = GameObject.Find(name);
+            if(galinha == true)
+            {
+                carryObj.GetComponent<Rigidbody>().AddForce(transform.forward * 5f, ForceMode.Impulse);
+            }
+            if(porco == true)
+            {
+                 carryObj.GetComponent<Rigidbody>().AddForce(-transform.right * 5f, ForceMode.Impulse);
+            }
+           
+        }
+         
     }
 
     void OnTriggerExit(Collider other) // Quando o player sair da area da missão
