@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -414,11 +414,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000032279967
+      value: -0.000000032279967
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000002093565
+      value: 0.00000002093565
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -975,11 +975,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000003086235
+      value: -0.000000007053186
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000021555377
+      value: 0.0000000049262017
       objectReference: {fileID: 0}
     - target: {fileID: 3491981160213480247, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_FollowOffset.y
@@ -1071,11 +1071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000001613998
+      value: -0.000000016139982
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000010467822
+      value: 0.000000010467822
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -1091,11 +1091,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000027173497
+      value: 0.000000026583507
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000016339452
+      value: -0.000000015984691
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
@@ -1136,13 +1136,15 @@ MonoBehaviour:
   obj: 0
   concluido: 0
   checagem: 0
+  galinha: 0
+  porco: 0
   layer: 7
   carryObj: {fileID: 0}
   area: {fileID: 720458309}
   Objetivo: {fileID: 1013834410}
   bloqueio: {fileID: 1082665048}
   Objetos: 5
-  "fun\xE7\xE3o": {fileID: 720458310}
+  funcao: {fileID: 0}
   CC: {fileID: 0}
 --- !u!135 &720458311
 SphereCollider:
@@ -3541,6 +3543,8 @@ MonoBehaviour:
   - {fileID: 262012781747799666}
   Objetivo: {fileID: 1315803653}
   Concluidos: 0
+  ativar: 0
+  deativar: 0
 --- !u!33 &19156295113999588
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6700,13 +6704,15 @@ MonoBehaviour:
   obj: 1
   concluido: 0
   checagem: 1
+  galinha: 0
+  porco: 0
   layer: 8
   carryObj: {fileID: 0}
   area: {fileID: 262012781747799666}
   Objetivo: {fileID: 1315803653}
   bloqueio: {fileID: 189639968}
   Objetos: 4
-  "fun\xE7\xE3o": {fileID: 3612539098391078478}
+  funcao: {fileID: 0}
   CC: {fileID: 2030423843}
 --- !u!54 &3612539098391078479
 Rigidbody:
@@ -10807,13 +10813,15 @@ MonoBehaviour:
   obj: 1
   concluido: 0
   checagem: 1
+  galinha: 0
+  porco: 0
   layer: 9
   carryObj: {fileID: 0}
   area: {fileID: 6507901977435954131}
   Objetivo: {fileID: 0}
   bloqueio: {fileID: 1800348506}
   Objetos: 6
-  "fun\xE7\xE3o": {fileID: 7685259907514774054}
+  funcao: {fileID: 0}
   CC: {fileID: 2030423843}
 --- !u!65 &7685259907514774055
 BoxCollider:
