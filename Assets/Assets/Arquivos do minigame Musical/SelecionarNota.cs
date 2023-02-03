@@ -127,6 +127,7 @@ public class SelecionarNota : MonoBehaviour
         }
         SomDaNota.clip = this.GetComponent<AudioSource>().clip;
         SomDaNota.enabled = true;
+       
     }
     public void Dupla()
     {
