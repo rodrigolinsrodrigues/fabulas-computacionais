@@ -10,27 +10,27 @@ public class Repeat : MonoBehaviour
     {
         switch(this.gameObject.name)
         {
-            case "Repetição 0":
+            case "0":
             botRepet.pontoRepet = Ponto0;
             break;
 
-            case "Repetição 1":
+            case "1":
             botRepet.pontoRepet = Ponto1;
             break;
 
-            case "Repetição 2":
+            case "2":
             botRepet.pontoRepet = Ponto2;
             break;
 
-            case "Repetição 3":
+            case "3":
             botRepet.pontoRepet = Ponto3;
             break;
 
-            case "Repetição 4":
+            case "4":
             botRepet.pontoRepet = Ponto4;
             break;
         }
 
-        botRepet.repeticao = this.gameObject;
+        botRepet.lista.Add(this.gameObject);
     }
 }
