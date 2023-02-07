@@ -5,19 +5,11 @@ using UnityEngine.UI;
 
 public class HabilitarBotao : MonoBehaviour
 {
+    //Script utilizado para habilitar ou desabilitar a interação dos botoes de som e a sua imagem
+    //São atrelados ao objeto nota correspondente, habilitado apertando no botão da nota, desabilitado apertando o botão fechar
     public GameObject CaixaDeSelecao;
     // Start is called before the first frame update
-    void Start()
-    {
-        //CaixaDeSelecao = this.transform.GetChild(1).GetComponent<GameObject>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void Habilitar()
     {
         for(int i = 0; i < 4; i++)

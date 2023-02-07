@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelecionarNota : MonoBehaviour
 {
@@ -124,6 +125,7 @@ public class SelecionarNota : MonoBehaviour
         for(int i = 0; i < 3; i++)
         {
             Coluna.gameObject.transform.GetChild(i).GetComponent<AudioSource>().enabled = false;
+            Coluna.gameObject.transform.GetChild(i).GetComponent<Button>().interactable = false;
         }
         SomDaNota.clip = this.GetComponent<AudioSource>().clip;
         SomDaNota.enabled = true;

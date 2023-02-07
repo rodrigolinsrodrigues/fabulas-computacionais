@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Play : MonoBehaviour
 {
+    // Codigo responsavel por todo o controle de execução da partitura, além de controlar parte do sistema de repetição, atrelado a um objeto Reprodutor
     public float playSpeed;
     public bool tocar = false;
     public GameObject noteObj, RefPonto;
@@ -43,7 +44,7 @@ public class Play : MonoBehaviour
         MetodoDePlayMusica();
     }
 
-     void OnTriggerEnter2D(Collider2D other)
+     void OnTriggerEnter2D(Collider2D other) // Quando esse objeto entra em contato com as notas os sons são reproduzidos
     {
        if(other.gameObject.tag == "Notas")
        {
@@ -52,7 +53,7 @@ public class Play : MonoBehaviour
             noteObj.GetComponent<AudioSource>().Play();
        } 
 
-        if(other.gameObject.tag == "Ponto5")
+        if(other.gameObject.tag == "Ponto5") // Ao colidir com esse ponto o reprodutor para de tocar
        {
             string name = other.gameObject.name;
             RefPonto = GameObject.Find(name);
@@ -61,12 +62,12 @@ public class Play : MonoBehaviour
 
     }
 
-    public void Tocar()
+    public void Tocar() // Atrelado ao botão Play, faz com que a linha do reprodutor volte ao inicio e comece a execução
     {
         transform.position = Ponto0.position;
         tocar = true;
     }
-    public void Pontos(Transform Ponto_)
+    public void Pontos(Transform Ponto_) // Controlador de Pontos, os pontos nada mais são que os exatos pontos de intervalo das musicas, cada valor do ponto corresponde a seu numero em segundos.
     {
         if(transform.position.x != Ponto_.position.x)
         {
@@ -88,21 +89,23 @@ public class Play : MonoBehaviour
 
     void MetodoDePlayMusica()
     {
-       
         x = int.Parse(lista[0].gameObject.name);
         y = int.Parse(lista[1].gameObject.name);
-
+    if(lista.Count == 2)
+    {
+        if (x > y) // vai separar os botoes entre ultimo e primeiro
+        {
+            repeticao = pontos_[x]; // Ultimo
+            pontoRepet = pontos_[y]; // Primeiro
+        }
+        else
+        {
+            repeticao = pontos_[y];
+            pontoRepet = pontos_[x];
+        }
+    }
     // antes de começar o ponteiro
-    if (x > y) // vai separar os botoes entre ultimo e primeiro
-    {
-        repeticao = pontos_[y];
-        pontoRepet = pontos_[x];
-    }
-    else
-    {
-        repeticao = pontos_[y];
-        pontoRepet = pontos_[x];
-    }
+   
         
     }
 }
