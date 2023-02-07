@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -950,7 +950,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 920619354}
+      - m_Target: {fileID: 920619352}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1736852599}
+      - m_Target: {fileID: 1736852597}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -1283,7 +1283,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 352201251}
+      - m_Target: {fileID: 352201253}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -1896,7 +1896,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 730635488}
+      - m_Target: {fileID: 730635489}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -3199,9 +3199,9 @@ GameObject:
   - component: {fileID: 277753541}
   - component: {fileID: 277753544}
   - component: {fileID: 277753545}
-  - component: {fileID: 277753546}
-  - component: {fileID: 277753547}
   - component: {fileID: 277753548}
+  - component: {fileID: 277753547}
+  - component: {fileID: 277753546}
   m_Layer: 5
   m_Name: Nota 3 - Coluna3
   m_TagString: Notas
@@ -3301,7 +3301,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 277753546}
+      - m_Target: {fileID: 277753548}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -3472,10 +3472,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 277753539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 526534952}
+  fechar: {fileID: 1787831769}
+  apagar: {fileID: 2127374995}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &277753547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3485,7 +3487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 277753539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -3502,12 +3504,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 277753539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1787831769}
-  apagar: {fileID: 2127374995}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 526534952}
 --- !u!1 &292874048
 GameObject:
   m_ObjectHideFlags: 0
@@ -3860,9 +3860,9 @@ GameObject:
   - component: {fileID: 350825646}
   - component: {fileID: 350825649}
   - component: {fileID: 350825650}
-  - component: {fileID: 350825651}
-  - component: {fileID: 350825652}
   - component: {fileID: 350825653}
+  - component: {fileID: 350825652}
+  - component: {fileID: 350825651}
   m_Layer: 5
   m_Name: Nota 2 - Coluna3
   m_TagString: Notas
@@ -3962,7 +3962,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 350825651}
+      - m_Target: {fileID: 350825653}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -4133,10 +4133,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 350825644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 369806389}
+  fechar: {fileID: 1482531904}
+  apagar: {fileID: 1030123427}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &350825652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4146,7 +4148,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 350825644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -4163,12 +4165,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 350825644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1482531904}
-  apagar: {fileID: 1030123427}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 369806389}
 --- !u!1 &352201244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,9 +4183,9 @@ GameObject:
   - component: {fileID: 352201246}
   - component: {fileID: 352201249}
   - component: {fileID: 352201250}
-  - component: {fileID: 352201251}
-  - component: {fileID: 352201252}
   - component: {fileID: 352201253}
+  - component: {fileID: 352201252}
+  - component: {fileID: 352201251}
   m_Layer: 5
   m_Name: Nota 2 - Coluna1
   m_TagString: Notas
@@ -4285,7 +4285,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 352201251}
+      - m_Target: {fileID: 352201253}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -4456,10 +4456,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 352201244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 2094356554}
+  fechar: {fileID: 120607590}
+  apagar: {fileID: 1296337905}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &352201252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4469,7 +4471,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 352201244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -4486,12 +4488,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 352201244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 120607590}
-  apagar: {fileID: 1296337905}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 2094356554}
 --- !u!1 &368191189
 GameObject:
   m_ObjectHideFlags: 0
@@ -4617,7 +4617,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 496876405}
+      - m_Target: {fileID: 496876407}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -5074,7 +5074,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1207897274}
+      - m_Target: {fileID: 1207897272}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -5261,7 +5261,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 920619352}
+      - m_Target: {fileID: 920619354}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -6574,9 +6574,9 @@ GameObject:
   - component: {fileID: 496876400}
   - component: {fileID: 496876403}
   - component: {fileID: 496876404}
-  - component: {fileID: 496876405}
-  - component: {fileID: 496876406}
   - component: {fileID: 496876407}
+  - component: {fileID: 496876406}
+  - component: {fileID: 496876405}
   m_Layer: 5
   m_Name: Nota 2 - Coluna2
   m_TagString: Notas
@@ -6676,7 +6676,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 496876405}
+      - m_Target: {fileID: 496876407}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -6847,10 +6847,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 496876398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 1161500679}
+  fechar: {fileID: 368191189}
+  apagar: {fileID: 599999494}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &496876406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6860,7 +6862,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 496876398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -6877,12 +6879,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 496876398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 368191189}
-  apagar: {fileID: 599999494}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 1161500679}
 --- !u!1 &500588233
 GameObject:
   m_ObjectHideFlags: 0
@@ -7796,7 +7796,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2055073487}
+      - m_Target: {fileID: 2055073489}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -8445,7 +8445,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 496876407}
+      - m_Target: {fileID: 496876405}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -8849,7 +8849,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055073489}
+      - m_Target: {fileID: 2055073487}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -10114,9 +10114,9 @@ GameObject:
   - component: {fileID: 730635482}
   - component: {fileID: 730635485}
   - component: {fileID: 730635486}
-  - component: {fileID: 730635488}
   - component: {fileID: 730635489}
-  - component: {fileID: 730635490}
+  - component: {fileID: 730635488}
+  - component: {fileID: 730635487}
   m_Layer: 5
   m_Name: Nota 1 - Coluna1
   m_TagString: Notas
@@ -10216,7 +10216,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 730635488}
+      - m_Target: {fileID: 730635489}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -10378,6 +10378,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 70
+--- !u!114 &730635487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730635480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fechar: {fileID: 164518475}
+  apagar: {fileID: 1806523361}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &730635488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10387,10 +10402,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 730635480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 1217684740}
+  Sons:
+  - {fileID: 21300000, guid: 287954ee1f17cc74bb44de64759c14d5, type: 3}
+  - {fileID: 21300000, guid: 8f5059c391a8ca2498f2f6e61086177a, type: 3}
+  - {fileID: 21300000, guid: 91bf6f5ea8dfe31439f22d4ae69ba81e, type: 3}
+  - {fileID: 21300000, guid: 3a8175dfd0699b045bae962911494a27, type: 3}
 --- !u!114 &730635489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10400,29 +10419,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 730635480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sons:
-  - {fileID: 21300000, guid: 287954ee1f17cc74bb44de64759c14d5, type: 3}
-  - {fileID: 21300000, guid: 8f5059c391a8ca2498f2f6e61086177a, type: 3}
-  - {fileID: 21300000, guid: 91bf6f5ea8dfe31439f22d4ae69ba81e, type: 3}
-  - {fileID: 21300000, guid: 3a8175dfd0699b045bae962911494a27, type: 3}
---- !u!114 &730635490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730635480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fechar: {fileID: 164518475}
-  apagar: {fileID: 1806523361}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 1217684740}
 --- !u!1 &777518998
 GameObject:
   m_ObjectHideFlags: 0
@@ -11136,7 +11136,7 @@ MonoBehaviour:
   repeticao: {fileID: 0}
   ponteiro: {fileID: 808556648}
   pontoRepet: {fileID: 0}
-  qtdRepete: 1
+  qtdRepete: 2
   lista: []
   ultimo: {fileID: 0}
   primeiro: {fileID: 0}
@@ -12011,9 +12011,9 @@ GameObject:
   - component: {fileID: 920619347}
   - component: {fileID: 920619350}
   - component: {fileID: 920619351}
-  - component: {fileID: 920619352}
-  - component: {fileID: 920619353}
   - component: {fileID: 920619354}
+  - component: {fileID: 920619353}
+  - component: {fileID: 920619352}
   m_Layer: 5
   m_Name: Nota 3 - Coluna4
   m_TagString: Notas
@@ -12113,7 +12113,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 920619352}
+      - m_Target: {fileID: 920619354}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -12284,10 +12284,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 920619345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 1881624106}
+  fechar: {fileID: 423199241}
+  apagar: {fileID: 107684088}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &920619353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12297,7 +12299,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 920619345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -12314,12 +12316,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 920619345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 423199241}
-  apagar: {fileID: 107684088}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 1881624106}
 --- !u!1 &927996076
 GameObject:
   m_ObjectHideFlags: 0
@@ -13853,7 +13853,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 350825653}
+      - m_Target: {fileID: 350825651}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -15411,7 +15411,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1768244855}
+      - m_Target: {fileID: 1768244853}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -15810,9 +15810,9 @@ GameObject:
   - component: {fileID: 1207897267}
   - component: {fileID: 1207897270}
   - component: {fileID: 1207897271}
-  - component: {fileID: 1207897272}
-  - component: {fileID: 1207897273}
   - component: {fileID: 1207897274}
+  - component: {fileID: 1207897273}
+  - component: {fileID: 1207897272}
   m_Layer: 5
   m_Name: Nota 3 - Coluna1
   m_TagString: Notas
@@ -15912,7 +15912,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1207897272}
+      - m_Target: {fileID: 1207897274}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -16083,10 +16083,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207897265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 777518998}
+  fechar: {fileID: 1488235674}
+  apagar: {fileID: 421201911}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1207897273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16096,7 +16098,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207897265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -16113,12 +16115,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1207897265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1488235674}
-  apagar: {fileID: 421201911}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 777518998}
 --- !u!1 &1215415488
 GameObject:
   m_ObjectHideFlags: 0
@@ -16244,7 +16244,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1288179639}
+      - m_Target: {fileID: 1288179641}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -17444,9 +17444,9 @@ GameObject:
   - component: {fileID: 1288179634}
   - component: {fileID: 1288179637}
   - component: {fileID: 1288179638}
-  - component: {fileID: 1288179639}
-  - component: {fileID: 1288179640}
   - component: {fileID: 1288179641}
+  - component: {fileID: 1288179640}
+  - component: {fileID: 1288179639}
   m_Layer: 5
   m_Name: Nota 1 - Coluna4
   m_TagString: Notas
@@ -17546,7 +17546,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1288179639}
+      - m_Target: {fileID: 1288179641}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -17717,10 +17717,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1288179632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 654887969}
+  fechar: {fileID: 1215415488}
+  apagar: {fileID: 1682083350}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1288179640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17730,7 +17732,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1288179632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -17747,12 +17749,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1288179632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1215415488}
-  apagar: {fileID: 1682083350}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 654887969}
 --- !u!1 &1294230275
 GameObject:
   m_ObjectHideFlags: 0
@@ -18175,7 +18175,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 352201253}
+      - m_Target: {fileID: 352201251}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -19856,7 +19856,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1768244853}
+      - m_Target: {fileID: 1768244855}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -20324,7 +20324,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1885490576}
+      - m_Target: {fileID: 1885490574}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -20511,9 +20511,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 350825651}
+      - m_Target: {fileID: 350825653}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
-        m_MethodName: Desabilitar
+        m_MethodName: Habilitar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20686,7 +20686,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1207897272}
+      - m_Target: {fileID: 1207897274}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -23476,7 +23476,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1288179641}
+      - m_Target: {fileID: 1288179639}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -23686,9 +23686,9 @@ GameObject:
   - component: {fileID: 1736852592}
   - component: {fileID: 1736852595}
   - component: {fileID: 1736852596}
-  - component: {fileID: 1736852597}
-  - component: {fileID: 1736852598}
   - component: {fileID: 1736852599}
+  - component: {fileID: 1736852598}
+  - component: {fileID: 1736852597}
   m_Layer: 5
   m_Name: Nota 1 - Coluna2
   m_TagString: Notas
@@ -23788,7 +23788,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1736852597}
+      - m_Target: {fileID: 1736852599}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -23959,10 +23959,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736852590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 1009608017}
+  fechar: {fileID: 1986390323}
+  apagar: {fileID: 115242348}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1736852598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23972,7 +23974,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736852590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -23989,12 +23991,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736852590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1986390323}
-  apagar: {fileID: 115242348}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 1009608017}
 --- !u!1 &1757799980
 GameObject:
   m_ObjectHideFlags: 0
@@ -24089,9 +24089,9 @@ GameObject:
   - component: {fileID: 1768244848}
   - component: {fileID: 1768244851}
   - component: {fileID: 1768244852}
-  - component: {fileID: 1768244853}
-  - component: {fileID: 1768244854}
   - component: {fileID: 1768244855}
+  - component: {fileID: 1768244854}
+  - component: {fileID: 1768244853}
   m_Layer: 5
   m_Name: Nota 3 - Coluna2
   m_TagString: Notas
@@ -24191,7 +24191,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1768244853}
+      - m_Target: {fileID: 1768244855}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -24362,10 +24362,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768244846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 433884125}
+  fechar: {fileID: 1418358483}
+  apagar: {fileID: 1161871917}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1768244854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24375,7 +24377,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768244846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -24392,12 +24394,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768244846}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1418358483}
-  apagar: {fileID: 1161871917}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 433884125}
 --- !u!1 &1772273639
 GameObject:
   m_ObjectHideFlags: 0
@@ -25041,7 +25041,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 277753546}
+      - m_Target: {fileID: 277753548}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -25691,7 +25691,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 730635490}
+      - m_Target: {fileID: 730635487}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1
@@ -26762,9 +26762,9 @@ GameObject:
   - component: {fileID: 1885490569}
   - component: {fileID: 1885490572}
   - component: {fileID: 1885490573}
-  - component: {fileID: 1885490574}
-  - component: {fileID: 1885490575}
   - component: {fileID: 1885490576}
+  - component: {fileID: 1885490575}
+  - component: {fileID: 1885490574}
   m_Layer: 5
   m_Name: Nota 2 - Coluna4
   m_TagString: Notas
@@ -26864,7 +26864,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1885490574}
+      - m_Target: {fileID: 1885490576}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -27035,10 +27035,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1885490567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 59133520}
+  fechar: {fileID: 1983288464}
+  apagar: {fileID: 1458245879}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1885490575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27048,7 +27050,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1885490567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -27065,12 +27067,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1885490567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 1983288464}
-  apagar: {fileID: 1458245879}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 59133520}
 --- !u!1 &1897856309
 GameObject:
   m_ObjectHideFlags: 0
@@ -28333,7 +28333,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1885490574}
+      - m_Target: {fileID: 1885490576}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -28508,7 +28508,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1736852597}
+      - m_Target: {fileID: 1736852599}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Desabilitar
         m_Mode: 1
@@ -28830,9 +28830,9 @@ GameObject:
   - component: {fileID: 2055073482}
   - component: {fileID: 2055073485}
   - component: {fileID: 2055073486}
-  - component: {fileID: 2055073487}
-  - component: {fileID: 2055073488}
   - component: {fileID: 2055073489}
+  - component: {fileID: 2055073488}
+  - component: {fileID: 2055073487}
   m_Layer: 5
   m_Name: Nota 1 - Coluna3
   m_TagString: Notas
@@ -28932,7 +28932,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2055073487}
+      - m_Target: {fileID: 2055073489}
         m_TargetAssemblyTypeName: HabilitarBotao, Assembly-CSharp
         m_MethodName: Habilitar
         m_Mode: 1
@@ -29103,10 +29103,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055073480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9058a42faf2b948addde78e7ea5d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 36b7c094ebf48fc40bcf0242880285e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CaixaDeSelecao: {fileID: 902248744}
+  fechar: {fileID: 517410324}
+  apagar: {fileID: 634274839}
+  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &2055073488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29116,7 +29118,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055073480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68041780bbc316049a705daef0370906, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e54beb3ecad0642acbeaa6577e6e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Sons:
@@ -29133,12 +29135,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055073480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c898560962aead340b246bafc8933646, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ab6dc323cfd7044af0baafd1364ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fechar: {fileID: 517410324}
-  apagar: {fileID: 634274839}
-  original: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  CaixaDeSelecao: {fileID: 902248744}
 --- !u!1 &2076614734
 GameObject:
   m_ObjectHideFlags: 0
@@ -29656,7 +29656,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 277753548}
+      - m_Target: {fileID: 277753546}
         m_TargetAssemblyTypeName: ApagarNota, Assembly-CSharp
         m_MethodName: Apagar
         m_Mode: 1

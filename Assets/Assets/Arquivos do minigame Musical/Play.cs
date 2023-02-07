@@ -19,6 +19,8 @@ public class Play : MonoBehaviour
     public GameObject ultimo, primeiro;
     public GameObject[] pontos_;
 
+     int x,y;
+
     void Start()
     {
         if(botaoPlay)
@@ -86,7 +88,7 @@ public class Play : MonoBehaviour
 
     void MetodoDePlayMusica()
     {
-        int x,y;
+       
         x = int.Parse(lista[0].gameObject.name);
         y = int.Parse(lista[1].gameObject.name);
 
