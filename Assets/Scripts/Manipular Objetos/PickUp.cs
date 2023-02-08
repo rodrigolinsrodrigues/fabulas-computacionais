@@ -11,6 +11,7 @@ public class PickUp : MonoBehaviour
     public GameObject carryObj; // nome dado a qualquer obj que for pego
     public Transform hand; // Posição do obj usado como mão do player
     
+    public CapsuleCollider capsule;
     void Start()
     {
         //Acessos necessarios para inputs
@@ -27,7 +28,7 @@ public class PickUp : MonoBehaviour
                 carryObj = GameObject.Find(name);
                 carryObj.transform.SetParent(hand);
                 carryObj.transform.position = hand.position;
-
+                this.capsule.enabled = true;
                 if(carryObj.GetComponent<AjustarObj>().rotacionar == true) {carryObj.transform.rotation = hand.rotation;}
 
                 carryObj.GetComponent<Rigidbody>().mass = 10;
@@ -41,6 +42,7 @@ public class PickUp : MonoBehaviour
         //Se a tag do obj for a correta e o player soltar o botão de pegar
        if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.PickUp.ReadValue<float>() == 0)
             {
+                this.capsule.enabled = false;
                 carryObj.transform.SetParent(null);
                 carryObj.GetComponent<Rigidbody>().isKinematic = false;
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
