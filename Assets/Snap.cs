@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Snap : MonoBehaviour
 {
-    GameObject carryObj;
+    public GameObject carryObj;
     // Start is called before the first frame update
     void OnTriggerStay(Collider other) 
     {
@@ -21,15 +21,10 @@ public class Snap : MonoBehaviour
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             carryObj.GetComponent<Rigidbody>().useGravity = false;
         }
+        if(other.GetComponent<Collider>().tag != "Pickable")
+        {
+            carryObj = null;
+        }
     }
-    // void OnTriggerExit(Collider other)
-    // {
-    //    if(other.GetComponent<Collider>().tag == "Pickable")
-    //     {
-    //         string name = other.GetComponent<Collider>().name;
-    //         carryObj = GameObject.Find(name);
-    //         carryObj.transform.parent = null;
-    //     }
-
-    // }
+    
 }

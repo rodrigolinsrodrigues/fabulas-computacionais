@@ -7,17 +7,17 @@ public class PickUp : MonoBehaviour
     //Script responsavel pela mecanica de pegar objetos
      private Comandos comandos; // acessa o sistema de inputs
      // Careegar Objetos
-    public bool holding = false, rotacionar; // checa se o player esta segurando o obj (holding) e caso o obj precise alterar a rotação para se adequar(rotacionar)
+    public bool holding = false; // checa se o player esta segurando o obj (holding) e caso o obj precise alterar a rotação para se adequar(rotacionar)
     public GameObject carryObj; // nome dado a qualquer obj que for pego
     public Transform head,hand; // Posição do obj usado como mão do player
     
-    public CapsuleCollider capsule;
     void Start()
     {
         //Acessos necessarios para inputs
         comandos = new Comandos();
         comandos.Actions.Enable(); 
     }
+    
     void OnTriggerStay(Collider other) // enquanto estiver na area de colisão
     {
         //Se a tag do obj for a correta e o player pressionar o botão de pegar
@@ -28,9 +28,9 @@ public class PickUp : MonoBehaviour
                 carryObj = GameObject.Find(name);
                 carryObj.transform.SetParent(hand);
                 carryObj.transform.position = hand.position;
+        
                 if(carryObj.GetComponent<AjustarObj>().rotacionar == true) {carryObj.transform.rotation = hand.rotation;}
 
-                //capsule.enabled = true;
                 carryObj.GetComponent<Rigidbody>().mass = 10;
                 carryObj.GetComponent<Rigidbody>().isKinematic = true;
                 carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
@@ -41,14 +41,11 @@ public class PickUp : MonoBehaviour
 
         //Se a tag do obj for a correta e o player soltar o botão de pegar
        if (other.GetComponent<Collider>().tag == "Pickable" && holding == true && comandos.Actions.PickUp.ReadValue<float>() == 0)
-            {     
-                //capsule.enabled = false;
+            {   
                 carryObj.transform.SetParent(null);
-                //carryObj.GetComponent<Rigidbody>().AddForce(transform.forward * 0.5f, ForceMode.Impulse);
                 carryObj.GetComponent<Rigidbody>().isKinematic = false;
                 carryObj.GetComponent<Rigidbody>().useGravity = true;
                 carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
-                //if(carryObj.transform.position.y < -2.4){carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;}
                 holding = false;
             }
     }
