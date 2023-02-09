@@ -21,6 +21,15 @@ public class Snap : MonoBehaviour
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             carryObj.GetComponent<Rigidbody>().useGravity = false;
         }
-    
     }
+    // void OnTriggerExit(Collider other)
+    // {
+    //    if(other.GetComponent<Collider>().tag == "Pickable")
+    //     {
+    //         string name = other.GetComponent<Collider>().name;
+    //         carryObj = GameObject.Find(name);
+    //         carryObj.transform.parent = null;
+    //     }
+
+    // }
 }
