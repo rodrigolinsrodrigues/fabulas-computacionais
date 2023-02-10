@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BloquearPassagens : MonoBehaviour
 {
+    //Codigo responsvel por controlar os gatuilhos de bloqueio em areas de missões. utilizado para missões de teste, mas pode ser incrementado e usado como base para outras
     public GameObject carryObj, area;
-    public bool Cubo,Esfera;
+    public bool Cubo,Esfera; // Checa se a area de colisão é determinada por um campo esferico ou quadrado
     public PDE Layer;
     // Start is called before the first frame update
     

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Launch : MonoBehaviour
 {
+    //Codigo de lançar objetos, atribuido ao Player
      private Comandos comandos;
 
      // Lançar objetos

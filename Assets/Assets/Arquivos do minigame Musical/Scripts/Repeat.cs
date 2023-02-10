@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Repeat : MonoBehaviour
 {
+    //Script responsavel por pegar as informações dos botões de repetição e atrivuir os intervalos aos "POntos", que são transforms que existem para guiar o tempo de cada nota
     public Play botRepet;
     public GameObject Ponto0,Ponto1,Ponto2,Ponto3,Ponto4;
     public void RepeteEsse() // chamar no botao

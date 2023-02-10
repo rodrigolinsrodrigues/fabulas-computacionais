@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SonsPorInstrumento : MonoBehaviour
 {
+  //Script que serve como banco de dados para todos os registros de audio do mini game musical, possuindo todas as faixas existentes e podendo ser incrementado para novas faixas, seguindo o mesmo padrão
     public bool Violao,Handpan;
     public AudioClip[] SonsViolaoAgudo, SonsViolaoMed, SonsViolaoGrave;
     public AudioClip[] SonsHandpanAgudo, SonsHandpanMed, SonsHandpanGrave;

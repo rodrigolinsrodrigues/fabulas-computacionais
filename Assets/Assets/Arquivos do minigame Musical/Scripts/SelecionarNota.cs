@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SelecionarNota : MonoBehaviour
 {
+    //Script resposavel por controlar todo esquema de atrbuição de sons as notas disponiveis
     public AudioSource SomDaNota;
     public GameObject Coluna;
     public SonsPorInstrumento SPI;

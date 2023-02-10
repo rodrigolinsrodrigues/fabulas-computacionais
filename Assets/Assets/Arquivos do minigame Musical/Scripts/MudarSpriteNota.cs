@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MudarSpriteNota : MonoBehaviour
 {
+   //Script utilizado para trocar os sprites das notas de acordo com a faixa de audio escolhida
     public Sprite[] Sons;
     // Start is called before the first frame update
     void Start()

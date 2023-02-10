@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Push : MonoBehaviour
 {
+     //Codigo responsavel por empurrar objetos, atrbuido ao Player
      private Comandos comandos;
      // Referencia ao Player
     public PlayerController player;

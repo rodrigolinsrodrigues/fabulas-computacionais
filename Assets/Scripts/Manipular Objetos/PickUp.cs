@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-    //Script responsavel pela mecanica de pegar objetos
+    //Script responsavel pela mecanica de pegar objetos, atribuido ao Player
      private Comandos comandos; // acessa o sistema de inputs
      // Careegar Objetos
     public bool holding = false, podeSoltar; // checa se o player esta segurando o obj (holding) e verifica se o obj pode ser solto (podeSoltar)

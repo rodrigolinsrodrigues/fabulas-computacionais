@@ -26,7 +26,7 @@ public class Play : MonoBehaviour
 
     void Start()
     {
-        if(botaoPlay)
+        if(botaoPlay) // Ao iniciar o codigo procura pelo botão Play e o pre seleciona para que o player possa navegar entre os botões
         EventSystem.current.SetSelectedGameObject(botaoPlay);
 
     }

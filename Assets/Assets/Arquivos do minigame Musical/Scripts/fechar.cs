@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class fechar : MonoBehaviour
 {
+    //Script atribuido ao botão fechar, controla qual o obj a ser selecionado assim que o atual for fechado
     public bool podeFechar;
    public GameObject fechar_;
     // Update is called once per frame
