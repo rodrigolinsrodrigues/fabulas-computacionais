@@ -13,18 +13,26 @@ public class Snap : MonoBehaviour
             string name = other.GetComponent<Collider>().name;
             carryObj = GameObject.Find(name);
         }
-        if(carryObj.transform.parent == null)
+        if(carryObj != null)
         {
+            if(carryObj.transform.parent == null)
+            {
             carryObj.transform.SetParent(this.transform);
             carryObj.transform.position = this.transform.position;
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             carryObj.GetComponent<Rigidbody>().useGravity = false;
+            }
         }
-        if(other.GetComponent<Collider>().tag != "Pickable")
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(carryObj != null)
         {
-            carryObj = null;
+            carryObj = null;  
         }
+      
     }
     
 }

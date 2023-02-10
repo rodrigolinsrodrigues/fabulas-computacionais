@@ -18,7 +18,7 @@ public class ChecarColisao : MonoBehaviour
         }
         else{codPickUp.podeSoltar = true;}
         }
-       Debug.Log(other.collider.tag);
+    
     }
 
     void OnCollisionExit(Collision other)
