@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Recipiente : MonoBehaviour
 {
-     private Comandos comandos;
+     private Comandos comandos; // acessar controles do Player
   // public GameObject[] Recursos;
-   public bool PodePegar, PodeSoltar;
-   public GameObject ObjRecurso;
-    public List<GameObject> Recursos = new List<GameObject>();
+   public bool PodePegar, PodeSoltar; //Verificação
+   public GameObject ObjRecurso, area; // Nome dado a objetos
+    public List<GameObject> Recursos = new List<GameObject>(); // Lista contendo os objetos
 
     // Start is called before the first frame update
     void Start()
@@ -16,38 +16,44 @@ public class Recipiente : MonoBehaviour
         comandos = new Comandos();
         comandos.Actions.Enable(); 
     }
-     void Update() 
-    {
-        //Recursos[0] = this.transform.GetChild(0).gameObject;
-    }
+    
      void OnTriggerStay(Collider other)
     {
+        // Checa se o player entrou na area de colis~]ao e se n esta com nada em mãos
         if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == false)
         {
             if(Recursos[0] != null)
             {
-            Recursos[0].SetActive(true);
+            Recursos[0].SetActive(true); // Ativar o objeto na cena para ser pego
             PodePegar = true;
             }
             
         }
-
+        
+        //Se o player pegou o obj
         if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == true && PodePegar == true)
         {
-        Recursos.RemoveAt(0);
+        Recursos.RemoveAt(0); // remove da lista
         PodePegar = false;
         }
 
-
+        //Se o player estiver segurando o obj para repor no Recipiente
         if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == true)
         {
             PodePegar = false;
             PodeSoltar = true;
-            ObjRecurso = other.transform.GetChild(1).gameObject;
-            if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == false && PodePegar == false && PodeSoltar == true)
-            {
-             ObjRecurso.transform.parent = this.transform.parent;
-            }
+            ObjRecurso = other.transform.GetChild(1).gameObject; // pega o filho do player (mao)
+            ObjRecurso = ObjRecurso.transform.GetChild(0).gameObject; // Pega o filho da mao (item)
+            Debug.Log("Funcionando a leitura do filho");
+        }
+
+        //Se entrar na area com o obj e soltar no recipiente
+        if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == false && PodeSoltar == true)
+        {
+            ObjRecurso.transform.SetParent(area.transform);
+           // Recursos[0].SetActive(false);
+        
+            Debug.Log("Adicionar objeto de volta");
         }
 
     }      
@@ -62,7 +68,12 @@ public class Recipiente : MonoBehaviour
         //         } 
         //     }
         // }
-       
+        // if(other.GetComponent<Collider>().tag == "Player")
+        //  {
+        //     NPegou = other.GetComponent<PickUp>().holding = false;
+        //     Pegou =  other.GetComponent<PickUp>().holding = true;
+        //  }
+
    
     void OnTriggerExit(Collider other)
     {  
