@@ -9,7 +9,7 @@ public class Recipiente : MonoBehaviour
    public bool PodePegar, PodeSoltar; //Verificação
    public GameObject ObjRecurso, area; // Nome dado a objetos
     public List<GameObject> Recursos = new List<GameObject>(); // Lista contendo os objetos
-
+     public int layer;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,7 @@ public class Recipiente : MonoBehaviour
         }
        
         //Se o player estiver segurando o obj para repor no Recipiente
-        if(other.GetComponent<Collider>().tag == "Pickable" && other.gameObject.transform.parent == null)
+        if(other.GetComponent<Collider>().tag == "Pickable" && other.gameObject.layer == layer && other.gameObject.transform.parent == null)
         {
             Recursos.Add(other.gameObject);
             other.gameObject.transform.position = area.transform.position;
