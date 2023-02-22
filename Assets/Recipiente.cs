@@ -41,7 +41,6 @@ public class Recipiente : MonoBehaviour
             other.gameObject.transform.SetParent(area.transform);
             PodePegar = true;
           
-            Debug.Log("Parte 1");
         }
         
     }   

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Snap : MonoBehaviour
 {
     public GameObject carryObj, Lugar1, Lugar2;
-    public int Acoes1;
+    public int Acoes1 = 14;
     // Start is called before the first frame update
     void OnTriggerStay(Collider other) 
     {

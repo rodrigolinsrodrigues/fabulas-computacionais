@@ -7,79 +7,118 @@ public class LerMesa : MonoBehaviour
     public GameObject[] Mesas;
     public int[] Insumos;
     public int[] Acoes;
-    public bool comecar;
-    public bool  Pao, Queijo, Ovo, Cortar, Fritar;
-    public GameObject PCortado;
+    public bool comecar, parar;
+    public GameObject Player;
+    public Transform[] LocalPLayer;
+
+    public GameObject[] Cams;
+    // public string[] Receita1;
+    // public string[] Receita2;
     
-    // Update is called once per frame
+   
     void Update()
     {
-        if(comecar == true)
+        if(comecar == true && parar == false)
         {
-            Debug.Log("Iniciar Leitura");
+            StartCoroutine("TempoDeEspera");
+            Player.GetComponent<PlayerController>().enabled = false;
+            Player.GetComponent<PickUp>().enabled = false;
+            Cams[0].SetActive(false);
+            Cams[1].SetActive(true);
+           
+
+        }
+        if(parar == true)
+        {
+        comecar = false; 
+        Player.GetComponent<PlayerController>().enabled = true;
+        Player.GetComponent<PickUp>().enabled = true;
+        Cams[0].SetActive(true);
+        Cams[1].SetActive(false);
+        parar = false;
+        }
+       
+    }
+
+    IEnumerator TempoDeEspera()
+    {
+        Debug.Log("Iniciar Leitura");
+           
             for(int i = 0; i < Mesas.Length; i++)
             {
-                if(Mesas[i].transform.GetChild(2).gameObject != null)
+                if(Mesas[i].transform.childCount < 3)
                 {
-                    if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[0])
-                    {
-                    Pao = true;
-                    if(Pao == true){Debug.Log(Mesas[i] + "É Pão");}
-                    }
-                    if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[1])
-                    {
-                    Queijo = true;
-                    if(Queijo == true){Debug.Log(Mesas[i] + "É Queijo");}
-                    }
-                    if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[2])
-                    {
-                    Ovo = true;
-                    if(Ovo == true){ Debug.Log(Mesas[i] + "É Ovo");}
-                    }
-                }
-                if(Mesas[i].transform.GetChild(3).gameObject != null)
-                {
-
-                    if(Mesas[i].transform.GetChild(3).gameObject.layer == Acoes[0])
-                    {
-                    Cortar = true; 
-                    if(Cortar == true){Debug.Log(Mesas[i] + "Cortar");}
-                    }
+                    Debug.Log("Parar");
+                    parar = true;
+                    comecar = false;
+                    break;
                 }
 
-                 //Checar pão cortado
-                if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
+                else
                 {
-                Debug.Log("Pão Cortado");
+                      // Insumos
+                    switch(Mesas[i].transform.GetChild(2).gameObject.layer)
+                    {
+                        case 10:
+                        Debug.Log(Mesas[i] + "É Pão");
+                        Player.transform.position = LocalPLayer[i].position;
+                        break;
+
+                        case 8:
+                        Debug.Log(Mesas[i] + "É Queijo");
+                        Player.transform.position = LocalPLayer[i].position;
+                        break;
+
+                        case 7:
+                        Debug.Log(Mesas[i] + "É Queijo");
+                        Player.transform.position = LocalPLayer[i].position;
+                        break;
+
+                    }
+                      yield return new WaitForSeconds(5);
+                    
+
+                    // if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[0])
+                    // {
+                   
+                    // Debug.Log(Mesas[i] + "É Pão");
+                    // }
+
+                    // else if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[1])
+                    // {
+                    // Player.transform.position = LocalPLayer[i].position;
+                    // Debug.Log(Mesas[i] + "É Queijo");
+                    // }
+
+                    // else if(Mesas[i].transform.GetChild(2).gameObject.layer == Insumos[2])
+                    // {
+                    // Player.transform.position = LocalPLayer[i].position;
+                    // Debug.Log(Mesas[i] + "É Ovo");
+                    // }
+                    
+                    //Ações
+                    // if(Mesas[i].transform.GetChild(3).gameObject.layer == Acoes[0])
+                    // {
+                    // Player.transform.position = LocalPLayer[i].position;
+                    // Debug.Log(Mesas[i] + "Cortar");
+                    // }
+
+                  
+
+                //Checar combinações
+                // if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
+                // {
+                // Debug.Log("Pão Cortado");
+                // }
+                 
                 }
-
-
-
-
-
-
-
-
-
-
-
-
+                
             }
-        }
-
-       
-
-
-       
+             Debug.Log("Parar");
+            parar = true;
     }
-
-
-    void Receita1()
-    {
-        if(Pao == true && Queijo == true)
+     void Receita1()
         {
-            comecar = false;
-            Debug.Log("Pao com Queijo");
+       
         }
-    }
 }
