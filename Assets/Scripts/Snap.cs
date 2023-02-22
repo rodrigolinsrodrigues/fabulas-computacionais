@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class Snap : MonoBehaviour
 {
-    public GameObject carryObj, Lugar1, Lugar2;
-    public int Acoes1 = 14;
-    // Start is called before the first frame update
+    public GameObject carryObj, Lugar1, Lugar2, essaMesa;
+    public int Acoes = 14;
+    public bool objNaArea;
+     public PickUp pickup;
+   
+   void OnTriggerEnter(Collider other)
+    {
+        if(this.transform.childCount == 4)
+        {
+            Debug.Log("Bloqueada");
+            pickup.podeSoltar = false;
+        }
+    }
     void OnTriggerStay(Collider other) 
     {
-        if(other.GetComponent<Collider>().tag == "Pickable"  && other.gameObject.layer != Acoes1 ) //|| other.gameObject.layer != Acoes2)
+        if(other.GetComponent<Collider>().tag == "Pickable")
         {
             string name = other.GetComponent<Collider>().name;
             carryObj = GameObject.Find(name);
@@ -17,6 +27,8 @@ public class Snap : MonoBehaviour
         if(carryObj != null)
         {
             if(carryObj.transform.parent == null)
+            {
+            if(other.gameObject.layer != Acoes)
             {
             carryObj.transform.SetParent(this.transform);
             carryObj.transform.position = Lugar1.transform.position;
@@ -24,17 +36,9 @@ public class Snap : MonoBehaviour
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             carryObj.GetComponent<Rigidbody>().useGravity = false;
             carryObj.GetComponent<Rigidbody>().isKinematic = true;
-            carryObj.GetComponent<ChecarColisao>().comecar = true;
             }
-        }
-         if(other.GetComponent<Collider>().tag == "Pickable" && other.gameObject.layer == Acoes1) //|| other.gameObject.layer == Acoes2)
-        {
-            string name = other.GetComponent<Collider>().name;
-            carryObj = GameObject.Find(name);
-        }
-        if(carryObj != null)
-        {
-            if(carryObj.transform.parent == null)
+
+            else if(other.gameObject.layer == Acoes)
             {
             carryObj.transform.SetParent(this.transform);
             carryObj.transform.position = Lugar2.transform.position;
@@ -42,20 +46,23 @@ public class Snap : MonoBehaviour
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
             carryObj.GetComponent<Rigidbody>().useGravity = false;
             carryObj.GetComponent<Rigidbody>().isKinematic = true;
-            carryObj.GetComponent<ChecarColisao>().comecar = true;
             }
+            }
+           
         }
-
-
+        
     }
 
     void OnTriggerExit(Collider other)
     {
+         if(this.transform.childCount == 4)
+        {
+            Debug.Log("Desbloqueada");
+            pickup.podeSoltar = true;
+        }
         if(carryObj != null)
         {
-            carryObj = null;  
+            carryObj = null;
         }
-      
     }
-    
 }
