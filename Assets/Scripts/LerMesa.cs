@@ -5,28 +5,20 @@ using UnityEngine;
 public class LerMesa : MonoBehaviour
 {
     public GameObject[] Mesas;
-    public GameObject[] Bloqueio;
-    public int[] Insumos;
-    public int[] Acoes;
-    public bool comecar, parar;
-    public GameObject Player;
     public Transform[] LocalPLayer;
     public GameObject[] Cams;
-    // public string[] Receita1;
-    // public string[] Receita2;
-    
-   
+    public bool comecar, parar;
+    public GameObject Player;
+
     void Update()
     {
         if(comecar == true && parar == false)
         {
-            StartCoroutine("TempoDeEspera");
-            Player.GetComponent<PlayerController>().enabled = false;
-            Player.GetComponent<PickUp>().enabled = false;
-            Cams[0].SetActive(false);
-            Cams[1].SetActive(true);
-           
-
+        StartCoroutine("TempoDeEspera");
+        Player.GetComponent<PlayerController>().enabled = false;
+        Player.GetComponent<PickUp>().enabled = false;
+        Cams[0].SetActive(false);
+        Cams[1].SetActive(true);
         }
         if(parar == true)
         {
@@ -37,7 +29,6 @@ public class LerMesa : MonoBehaviour
         Cams[1].SetActive(false);
         parar = false;
         }
-       
     }
 
     IEnumerator TempoDeEspera()
@@ -46,6 +37,7 @@ public class LerMesa : MonoBehaviour
            
             for(int i = 0; i < Mesas.Length; i++)
             {
+                //Player.transform.position = LocalPLayer[i].position;
                 if(Mesas[i].transform.childCount < 3)
                 {
                     Debug.Log("Parar");
@@ -58,20 +50,18 @@ public class LerMesa : MonoBehaviour
                     // Insumos
                     switch(Mesas[i].transform.GetChild(2).gameObject.layer)
                     {
+                        
                         //Pão
                         case 10:
                         Debug.Log(Mesas[i] + "É Pão");
-                        Player.transform.position = LocalPLayer[i].position;
                         break;
                         //Queijo
                         case 8:
                         Debug.Log(Mesas[i] + "É Queijo");
-                        Player.transform.position = LocalPLayer[i].position;
                         break;
                         //Ovo
                         case 7:
                         Debug.Log(Mesas[i] + "É Queijo");
-                        Player.transform.position = LocalPLayer[i].position;
                         break;
                         
                     }
@@ -85,17 +75,15 @@ public class LerMesa : MonoBehaviour
                         } 
                     }
                     
-                      yield return new WaitForSeconds(5);
+                    yield return new WaitForSeconds(5);
                      //Checar combinações
                     if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
                     {
                     Debug.Log("Pão Cortado");
                     }
-
-                }
-                
+                }  
             }
-             Debug.Log("Parar");
+            Debug.Log("Parar");
             parar = true;
     }
     
