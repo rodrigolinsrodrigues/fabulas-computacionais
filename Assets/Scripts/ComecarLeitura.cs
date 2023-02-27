@@ -15,6 +15,8 @@ public class ComecarLeitura : MonoBehaviour
    void OnTriggerStay(Collider other)
     {
         if(comandos.Actions.PickUp.ReadValue<float>() == 1)
+        LM.iniciar();
         LM.comecar = true;
+        
     }
 }

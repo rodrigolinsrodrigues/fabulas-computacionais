@@ -12,14 +12,6 @@ public class LerMesa : MonoBehaviour
 
     void Update()
     {
-        if(comecar == true && parar == false)
-        {
-        StartCoroutine("TempoDeEspera");
-        Player.GetComponent<PlayerController>().enabled = false;
-        Player.GetComponent<PickUp>().enabled = false;
-        Cams[0].SetActive(false);
-        Cams[1].SetActive(true);
-        }
         if(parar == true)
         {
         comecar = false; 
@@ -30,14 +22,25 @@ public class LerMesa : MonoBehaviour
         parar = false;
         }
     }
-
-    IEnumerator TempoDeEspera()
+    public void iniciar()
+    {
+        if(comecar == true && parar == false)
+        {
+        StartCoroutine("TempoDeEspera");
+        Player.GetComponent<PlayerController>().enabled = false;
+        Player.GetComponent<PickUp>().enabled = false;
+        Cams[0].SetActive(false);
+        Cams[1].SetActive(true);
+        }
+      
+    }
+    public IEnumerator TempoDeEspera()
     {
         Debug.Log("Iniciar Leitura");
            
             for(int i = 0; i < Mesas.Length; i++)
             {
-                //Player.transform.position = LocalPLayer[i].position;
+               
                 if(Mesas[i].transform.childCount < 3)
                 {
                     Debug.Log("Parar");
@@ -47,6 +50,7 @@ public class LerMesa : MonoBehaviour
                 }
                 else
                 {
+                    Player.transform.position = LocalPLayer[i].position;
                     // Insumos
                     switch(Mesas[i].transform.GetChild(2).gameObject.layer)
                     {
@@ -65,7 +69,7 @@ public class LerMesa : MonoBehaviour
                         break;
                         
                     }
-                    if(Mesas[i].transform.GetChild(3) != null)
+                    if(Mesas[i].transform.childCount > 3 && Mesas[i].transform.GetChild(3)!= null)
                     {
                         switch(Mesas[i].transform.GetChild(3).gameObject.layer)
                         {
@@ -74,7 +78,6 @@ public class LerMesa : MonoBehaviour
                         break;
                         } 
                     }
-                    
                     yield return new WaitForSeconds(5);
                      //Checar combinações
                     if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
