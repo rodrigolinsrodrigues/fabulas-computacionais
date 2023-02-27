@@ -8,8 +8,8 @@ public class LerMesa : MonoBehaviour
     public Transform[] LocalPLayer;
     public GameObject[] Cams;
     public bool comecar, parar;
-    public GameObject Player;
-
+    public GameObject Player, PaoCortado, QueijoCortado;
+    public bool Receita,PCortado, QCortado;
     void Update()
     {
         if(parar == true)
@@ -83,7 +83,17 @@ public class LerMesa : MonoBehaviour
                     if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
                     {
                     Debug.Log("Pão Cortado");
+                    Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshFilter>().mesh = PaoCortado.GetComponent<MeshFilter>().mesh;
+                    Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshRenderer>().materials = PaoCortado.GetComponent<MeshRenderer>().materials;
                     }
+
+                    if(Mesas[i].transform.GetChild(2).name.Contains("Queijo") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
+                    {
+                    Debug.Log("Queijo Cortado");
+                    Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshFilter>().mesh = QueijoCortado.GetComponent<MeshFilter>().mesh;
+                    Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshRenderer>().materials = QueijoCortado.GetComponent<MeshRenderer>().materials;
+                    }
+
                 }  
             }
             Debug.Log("Parar");
