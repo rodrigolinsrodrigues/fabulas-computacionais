@@ -5,6 +5,7 @@ using UnityEngine;
 public class LerMesa : MonoBehaviour
 {
     public GameObject[] Mesas;
+    public GameObject Obj1,Obj2,Obj3;
     public Transform[] LocalPLayer;
     public GameObject[] Cams;
     public bool comecar, parar;
@@ -65,7 +66,7 @@ public class LerMesa : MonoBehaviour
                         break;
                         //Ovo
                         case 7:
-                        Debug.Log(Mesas[i] + "É Queijo");
+                        Debug.Log(Mesas[i] + "É Ovo");
                         break;
                         
                     }
@@ -80,11 +81,15 @@ public class LerMesa : MonoBehaviour
                     }
                     yield return new WaitForSeconds(5);
                      //Checar combinações
+                    if(Mesas[i].transform.childCount > 3)
+                    {
                     if(Mesas[i].transform.GetChild(2).name.Contains("Pao") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
                     {
                     Debug.Log("Pão Cortado");
                     Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshFilter>().mesh = PaoCortado.GetComponent<MeshFilter>().mesh;
                     Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshRenderer>().materials = PaoCortado.GetComponent<MeshRenderer>().materials;
+                    Obj1.GetComponent<MeshFilter>().mesh = PaoCortado.GetComponent<MeshFilter>().mesh;
+                    Obj1.GetComponent<MeshRenderer>().materials =  PaoCortado.GetComponent<MeshRenderer>().materials;
                     }
 
                     if(Mesas[i].transform.GetChild(2).name.Contains("Queijo") && Mesas[i].transform.GetChild(3).name.Contains("Cortar"))
@@ -92,7 +97,11 @@ public class LerMesa : MonoBehaviour
                     Debug.Log("Queijo Cortado");
                     Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshFilter>().mesh = QueijoCortado.GetComponent<MeshFilter>().mesh;
                     Mesas[i].transform.GetChild(2).gameObject.GetComponent<MeshRenderer>().materials = QueijoCortado.GetComponent<MeshRenderer>().materials;
+                    Obj2.GetComponent<MeshFilter>().mesh = QueijoCortado.GetComponent<MeshFilter>().mesh;
+                    Obj2.GetComponent<MeshRenderer>().materials =  QueijoCortado.GetComponent<MeshRenderer>().materials;
                     }
+                    }
+                    
 
                 }  
             }
