@@ -349,9 +349,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363384738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.53, y: 4.48, z: 2.21}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.000000059604638, y: 0.000000006482778, z: 0.000000074167055, w: 1}
+  m_LocalPosition: {x: -0.28, y: 3.9599998, z: 2.2100067}
+  m_LocalScale: {x: 1, y: 0.9999999, z: 0.99999964}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543450652415933042}
@@ -666,7 +666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.28606257
+      value: 0.2860626
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1172,7 +1172,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 743468443319486046, guid: a36a592018530314aa375af284e35581, type: 3}
+    - {fileID: 743468443319486045, guid: a36a592018530314aa375af284e35581, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a36a592018530314aa375af284e35581, type: 3}
 --- !u!33 &745443038746415675
 MeshFilter:
@@ -2670,18 +2672,6 @@ PrefabInstance:
       propertyPath: head
       value: 
       objectReference: {fileID: 276120120}
-    - target: {fileID: 3055071730025340644, guid: 9888a130e00240342a1171a37d90b92a, type: 3}
-      propertyPath: runSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3055071730025340644, guid: 9888a130e00240342a1171a37d90b92a, type: 3}
-      propertyPath: jumpHeigh
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3055071730025340644, guid: 9888a130e00240342a1171a37d90b92a, type: 3}
-      propertyPath: walkSpeed
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3309990627093182775, guid: 9888a130e00240342a1171a37d90b92a, type: 3}
       propertyPath: m_RootOrder
       value: 4
