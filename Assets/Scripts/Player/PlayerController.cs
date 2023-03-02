@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
                 controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
            }
         }
-        else if(inputs.magnitude == 0f){andando = false; animator.SetBool("Andar", false); } // 
+        else if(inputs.magnitude == 0f){andando = false; animator.SetBool("Andar", false);} //  
     }
 
     void Gravity() // adiciona gravidade
@@ -92,8 +92,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
             _velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);
 
-       if(isGrounded == false){animator.SetBool("Pular", true);} 
-       else{animator.SetBool("Pular", false);}
+        if(isGrounded == false){animator.SetBool("Pular", true);} 
+        else{animator.SetBool("Pular", false);}
        
 
     }
@@ -103,10 +103,10 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && comandos.Movement.Run.ReadValue<float>() == 1)
         {
             curSpeed = runSpeed;
-           if(andando == true)
-           {animator.SetBool("Correr", true);}
+        if(andando == true)
+        {animator.SetBool("Correr", true);}
         }
-        else if(comandos.Movement.Run.ReadValue<float>() == 0){andando = false; curSpeed = walkSpeed; animator.SetBool("Correr", false);} // 
+        else if(comandos.Movement.Run.ReadValue<float>() == 0){andando = false; curSpeed = walkSpeed; animator.SetBool("Correr", false); } // 
 
         if(push.pushing == true)
             curSpeed = pushSpeed;
