@@ -9,7 +9,7 @@ public class PDE : MonoBehaviour
         // A ideia é que seja utilizado apenas para missões desse tipo, possuindo variações dependendo do resultado da missão;
         // Exemplo: Missões de entrega que liberam passagens. objetos ou outros objetivos. Basta adcionar aqui a condição especifica.
 
-        public bool passagem,obj, concluido, checagem, galinha, porco;
+        public bool passagem,obj, concluido, checagem, coguVerde, CoguVermelho;
         public int layer; // Layer do objeto correspondente a missão;
         public GameObject carryObj, area, Objetivo, bloqueio;
         public int Objetos; // Faz a contagem de objetos necessarios para a conclusão da missão;
@@ -57,13 +57,13 @@ public class PDE : MonoBehaviour
         {
             string name = other.GetComponent<Collider>().name;
             carryObj = GameObject.Find(name);
-            if(galinha == true)
+            if(coguVerde == true)
             {
                 carryObj.GetComponent<Rigidbody>().AddForce(transform.forward * 5f, ForceMode.Impulse);
             }
-            if(porco == true)
+            if(CoguVermelho == true)
             {
-                 carryObj.GetComponent<Rigidbody>().AddForce(-transform.right * 5f, ForceMode.Impulse);
+                 carryObj.GetComponent<Rigidbody>().AddForce(transform.right * 5f, ForceMode.Impulse);
             }
            
         }
@@ -74,7 +74,8 @@ public class PDE : MonoBehaviour
     {
         if(other.GetComponent<Collider>().tag == "Player" && area.transform.childCount == Objetos) // identifica o player pela tag
          {
-            bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
+            
+            //bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
             if(CC != null && concluido == false) // Se o codigo de checagem não for nulo e as conclusões forem falsas
             {
                 concluido = true;

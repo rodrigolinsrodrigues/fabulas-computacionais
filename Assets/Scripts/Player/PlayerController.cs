@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     // Referencias a outros codigos
     // Empurrar Objetos
     public Push push;
-
+    public PickUp pickUp;
     // gravidade
     [SerializeField] public bool isGrounded;
     [SerializeField] private LayerMask Ground; // layer dos objs q sao chão
@@ -89,17 +89,22 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        if(pickUp.holding == false)
+        {
         if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
-            _velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);
+        {_velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);} 
 
         if(isGrounded == false){animator.SetBool("Pular", true);} 
         else{animator.SetBool("Pular", false);}
+        }
+       
        
 
     }
 
     void Run() // for surv
     {
+        
         if (isGrounded && comandos.Movement.Run.ReadValue<float>() == 1)
         {
             curSpeed = runSpeed;
