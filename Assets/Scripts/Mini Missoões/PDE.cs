@@ -75,7 +75,7 @@ public class PDE : MonoBehaviour
         if(other.GetComponent<Collider>().tag == "Player" && area.transform.childCount == Objetos) // identifica o player pela tag
          {
             
-            //bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
+            bloqueio.SetActive(true); // Ativa o bloqueio da area, impedindo o player de interagir com ela novamente
             if(CC != null && concluido == false) // Se o codigo de checagem não for nulo e as conclusões forem falsas
             {
                 concluido = true;
