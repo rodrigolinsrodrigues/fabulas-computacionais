@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NPCinteract : MonoBehaviour
+{
+    public GameObject Cam, fala, player;
+    // Start is called before the first frame update
+     void Update() 
+    {
+        if(this.GetComponent<SphereCollider>().enabled == false)
+        {
+            player.GetComponent<PlayerController>().enabled = true;
+        }
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            StartCoroutine("Tempo");
+            player = other.gameObject;
+            player.GetComponent<PlayerController>().enabled = false;
+            this.Cam.SetActive(true);
+            this.fala.SetActive(true);
+           
+        }
+       
+    }
+    IEnumerator Tempo()
+    {
+        yield return new WaitForSeconds(4);
+        this.GetComponent<SphereCollider>().enabled = false;
+        this.Cam.SetActive(false);
+        this.fala.SetActive(false);
+    }
+   
+}
