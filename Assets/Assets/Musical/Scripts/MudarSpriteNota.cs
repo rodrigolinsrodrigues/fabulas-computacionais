@@ -16,7 +16,9 @@ public class MudarSpriteNota : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x1"))
+      if(this.gameObject.GetComponent<AudioSource>().clip != null)
+      {
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x1"))
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[0];
         }
@@ -32,8 +34,7 @@ public class MudarSpriteNota : MonoBehaviour
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[3];
         }
+      }
         
-
-
     }
 }

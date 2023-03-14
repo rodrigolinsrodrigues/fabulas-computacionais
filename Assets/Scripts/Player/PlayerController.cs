@@ -61,10 +61,8 @@ public class PlayerController : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURNSMOOTHTIME); // calcula o angulo e tempo pra virar smooth
             transform.rotation = Quaternion.Euler(0f, angle, 0f); // rotaciona player
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
-
             controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // move o player
             }
-           
            else
            {
                 float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + transform.eulerAngles.y;
@@ -72,7 +70,7 @@ public class PlayerController : MonoBehaviour
                 controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
            }
         }
-        else if(inputs.magnitude == 0f){andando = false; animator.SetBool("Andar", false);} //  
+        else if(inputs.magnitude == 0f){andando = false; if(andando == false){animator.SetBool("Andar", false);}} //  
     }
 
     void Gravity() // adiciona gravidade
@@ -97,9 +95,6 @@ public class PlayerController : MonoBehaviour
         if(isGrounded == false){animator.SetBool("Pular", true);} 
         else{animator.SetBool("Pular", false);}
         }
-       
-       
-
     }
 
     void Run() // for surv
@@ -107,11 +102,14 @@ public class PlayerController : MonoBehaviour
         
         if (isGrounded && comandos.Movement.Run.ReadValue<float>() == 1)
         {
-            curSpeed = runSpeed;
+        curSpeed = runSpeed;
         if(andando == true)
         {animator.SetBool("Correr", true);}
         }
-        else if(comandos.Movement.Run.ReadValue<float>() == 0){andando = false; curSpeed = walkSpeed; animator.SetBool("Correr", false); } // 
+        else if(comandos.Movement.Run.ReadValue<float>() == 0)
+        {andando = false;
+        if(andando == false){curSpeed = walkSpeed; animator.SetBool("Correr", false) ;}
+        } // 
 
         if(push.pushing == true)
             curSpeed = pushSpeed;

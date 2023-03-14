@@ -9,61 +9,62 @@ public class SelecionarNota : MonoBehaviour
     public AudioSource SomDaNota;
     public GameObject Coluna;
     public SonsPorInstrumento SPI;
-
+    public string nomeClipe;
     void Update()
     {
+        if(SomDaNota != null)
+        {
+            nomeClipe = SomDaNota.clip.ToString();
+        }
        
-    
-         string nomeClipe = SomDaNota.clip.ToString();
-        
         // Violao
-        if (nomeClipe.Contains("agudo_x1") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x1") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoAgudo[0];
         }
-        if (nomeClipe.Contains("agudo_x2") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x2") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoAgudo[1];
         }
-        if (nomeClipe.Contains("agudo_x3") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x3") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoAgudo[2];
         }
-        if (nomeClipe.Contains("agudo_x4") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x4") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoAgudo[3];
         }
 
-         if (nomeClipe.Contains("medio_x1") && SPI.Violao == true)
+         if (nomeClipe.Contains("nota_x1") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoMed[0];
         }
-         if (nomeClipe.Contains("medio_x2") && SPI.Violao == true)
+         if (nomeClipe.Contains("nota_x2") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoMed[1];
         }
-         if (nomeClipe.Contains("medio_x3") && SPI.Violao == true)
+         if (nomeClipe.Contains("nota_x3") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoMed[2];
         }
-         if (nomeClipe.Contains("medio_x4") && SPI.Violao == true)
+         if (nomeClipe.Contains("nota_x4") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoMed[3];
         }
 
-         if (nomeClipe.Contains("grave_x1") && SPI.Violao == true)
+         if (nomeClipe.Contains("nota_x1") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoGrave[0];
         }
-        if (nomeClipe.Contains("grave_x2") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x2") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoGrave[1];
         }
-        if (nomeClipe.Contains("grave_x3") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x3") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoGrave[2];
         }
-        if (nomeClipe.Contains("grave_x4") && SPI.Violao == true)
+        if (nomeClipe.Contains("nota_x4") && SPI.Violao == true)
         {
             SomDaNota.clip = SPI.SonsViolaoGrave[3];
         }
