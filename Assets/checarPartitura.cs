@@ -9,7 +9,7 @@ public class checarPartitura : MonoBehaviour
     public string nota1tipo, nota2tipo, nota3tipo, nota4tipo;
     public GameObject repet1, repet2, repet3, repet4, repet5;
     public bool check;
-    public GameObject MiniGame, TeladeJogo, conluido;
+    public GameObject MiniGame, TeladeJogo, conluido, Rose;
     // Start is called before the first frame update
 
     public void Start()
@@ -36,6 +36,7 @@ public class checarPartitura : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         conluido.SetActive(false);
+        Rose.SetActive(true);
     }
   
 }

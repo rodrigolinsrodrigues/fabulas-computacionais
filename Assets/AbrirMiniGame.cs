@@ -5,7 +5,7 @@ using UnityEngine;
 public class AbrirMiniGame : MonoBehaviour
 {
       private Comandos comandos; // acessa o sistema de inputs
-      public GameObject MiniGame;
+      public GameObject MiniGame,Rose;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +19,7 @@ public class AbrirMiniGame : MonoBehaviour
         {
             Debug.Log(other.name);
             MiniGame.SetActive(true);
+            Rose.SetActive(false);
         }
     }
 }

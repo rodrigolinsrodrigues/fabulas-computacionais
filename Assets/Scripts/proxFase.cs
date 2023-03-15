@@ -10,7 +10,7 @@ public class proxFase : MonoBehaviour
     {
         if(Musical == true)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
 
         if(Proxima == true)

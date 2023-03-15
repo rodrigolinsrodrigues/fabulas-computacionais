@@ -16,7 +16,6 @@ public class HabilitarBotao : MonoBehaviour
         {
         CaixaDeSelecao.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = true;
         CaixaDeSelecao.transform.GetChild(i).gameObject.GetComponent<Image>().enabled = true;
-
         }
     }
 
@@ -26,7 +25,6 @@ public class HabilitarBotao : MonoBehaviour
         {
         CaixaDeSelecao.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = false;
         CaixaDeSelecao.transform.GetChild(i).gameObject.GetComponent<Image>().enabled = false;
-
         }
     }
 
