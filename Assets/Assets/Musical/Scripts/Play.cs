@@ -22,6 +22,9 @@ public class Play : MonoBehaviour
 
     // Cor
     public Color original;
+
+    //Checar Partitura
+    public  checarPartitura CP;
      int x,y;
 
     void Start()
@@ -64,7 +67,8 @@ public class Play : MonoBehaviour
        {
             string name = other.gameObject.name;
             RefPonto = GameObject.Find(name);
-            tocar = false;  
+            CP.check = true;
+            tocar = false; 
        } 
 
     }
