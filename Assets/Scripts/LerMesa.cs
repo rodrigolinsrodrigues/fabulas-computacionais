@@ -62,11 +62,11 @@ public class LerMesa : MonoBehaviour
                         break;
                         //Queijo
                         case 8:
-                        Debug.Log(Mesas[i] + "É Queijo");
+                        Debug.Log(Mesas[i] + "É Ovo");
                         break;
                         //Ovo
                         case 7:
-                        Debug.Log(Mesas[i] + "É Ovo");
+                        Debug.Log(Mesas[i] + "É Queijo");
                         break;
                         
                     }
