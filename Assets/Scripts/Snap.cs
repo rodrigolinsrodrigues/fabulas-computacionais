@@ -6,7 +6,7 @@ public class Snap : MonoBehaviour
 {
     public GameObject carryObj, obj1,obj2, Lugar1, Lugar2;
      public bool InsumoOk,AcaoOK;
-    public int Acoes = 14;
+    public int Cortar = 12, Fritar = 13;
     public PickUp pickup;
    
    void OnTriggerEnter(Collider other)
@@ -28,7 +28,7 @@ public class Snap : MonoBehaviour
         {
             if(carryObj.transform.parent == null)
             {
-            if(other.gameObject.layer != Acoes && InsumoOk == false)
+            if(other.gameObject.layer != Cortar && other.gameObject.layer != Fritar && InsumoOk == false)
             {
             obj1 = carryObj;
             obj1.transform.SetParent(this.transform);
@@ -40,7 +40,7 @@ public class Snap : MonoBehaviour
             obj1.GetComponent<Rigidbody>().isKinematic = true;
             }
 
-            else if(other.gameObject.layer == Acoes && AcaoOK == false)
+            else if(other.gameObject.layer == Cortar || other.gameObject.layer == Fritar && AcaoOK == false)
             {
             obj2 = carryObj;
             obj2.transform.SetParent(this.transform);

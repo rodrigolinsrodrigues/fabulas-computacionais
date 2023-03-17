@@ -198,6 +198,15 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Tap"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""864bdeae-b530-42b1-a0f6-e39d5bcfa049"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -264,6 +273,28 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Push"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f60858de-d5df-42f5-b1be-45b04273ce60"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84919fd8-2799-44fb-8261-4d68e25e4643"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -345,11 +376,33 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""bcf2abb7-faf2-40b8-9f47-c47a6fb94630"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Close"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""76acb534-3d98-452b-9731-20a5c555db88"",
                     ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""baa4d5c5-8720-4d21-8b6e-c950b481a52b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -392,6 +445,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         m_Actions_PickUp = m_Actions.FindAction("PickUp", throwIfNotFound: true);
         m_Actions_Push = m_Actions.FindAction("Push", throwIfNotFound: true);
         m_Actions_Drop = m_Actions.FindAction("Drop", throwIfNotFound: true);
+        m_Actions_Interact = m_Actions.FindAction("Interact", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Cam = m_Camera.FindAction("Cam", throwIfNotFound: true);
@@ -510,6 +564,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Actions_PickUp;
     private readonly InputAction m_Actions_Push;
     private readonly InputAction m_Actions_Drop;
+    private readonly InputAction m_Actions_Interact;
     public struct ActionsActions
     {
         private @Comandos m_Wrapper;
@@ -517,6 +572,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         public InputAction @PickUp => m_Wrapper.m_Actions_PickUp;
         public InputAction @Push => m_Wrapper.m_Actions_Push;
         public InputAction @Drop => m_Wrapper.m_Actions_Drop;
+        public InputAction @Interact => m_Wrapper.m_Actions_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -535,6 +591,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Drop.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
                 @Drop.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
                 @Drop.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDrop;
+                @Interact.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_ActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -548,6 +607,9 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Drop.started += instance.OnDrop;
                 @Drop.performed += instance.OnDrop;
                 @Drop.canceled += instance.OnDrop;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -655,6 +717,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         void OnPickUp(InputAction.CallbackContext context);
         void OnPush(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

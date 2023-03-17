@@ -17,14 +17,10 @@ public class Recipiente : MonoBehaviour
         comandos.Actions.Enable(); 
     }
 
-     void OnCollisionEnter(Collision other) 
-    {
-        
-    }
      void OnTriggerStay(Collider other)
     {
         // Checa se o player entrou na area de colis~]ao e se n esta com nada em mãos
-        if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == false && Recursos[0] != null && comandos.Actions.PickUp.ReadValue<float>() == 1)
+        if(other.GetComponent<Collider>().tag == "Player" && other.GetComponent<PickUp>().holding == false && Recursos[0] != null && comandos.Actions.Interact.ReadValue<float>() == 1)
         {
             // Ativar o objeto na cena para ser pego
             Recursos[0].SetActive(true);

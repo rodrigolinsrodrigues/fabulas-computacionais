@@ -8,15 +8,5 @@ public class ListaDeRecursos : MonoBehaviour
     public GameObject[] Ovo;
     public GameObject[] Queijo;
     public GameObject[] Cebola;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

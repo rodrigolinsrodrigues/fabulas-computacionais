@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Comandos comandos;
     // movimentação
     private CharacterController controller;
-     Animator animator;
+    public Animator animator;
     private Vector2 inputs;
     private Transform cam; // direcao da camera
     public float curSpeed, walkSpeed = 4f, runSpeed = 8f, pushSpeed = 2f; // velocidades
