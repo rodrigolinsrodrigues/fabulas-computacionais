@@ -67,8 +67,9 @@ public class Play : MonoBehaviour
        {
             string name = other.gameObject.name;
             RefPonto = GameObject.Find(name);
-            CP.check = true;
             tocar = false; 
+            if(tocar == false){StartCoroutine("Delay");}
+          
        } 
 
     }
@@ -147,5 +148,12 @@ public class Play : MonoBehaviour
     public void X2(){qtdRepete = 1;}
     public void X3(){qtdRepete = 2;}
     public void X4(){ qtdRepete = 3;}
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
+        CP.check = true;
+
+    }
 }
 

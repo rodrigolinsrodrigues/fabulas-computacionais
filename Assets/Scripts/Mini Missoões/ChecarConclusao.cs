@@ -6,7 +6,7 @@ public class ChecarConclusao : MonoBehaviour
 {
     // Script utilizado em situações de Missões PDE que precisem de uma verificação extra
     public GameObject[] Missoes; // lista de missões a serem realizadas;
-    public GameObject Objetivo1, objetivo2, Cam; // Objetivo final das missões;
+    public GameObject Objetivo1, objetivo2, Cam, concluido; // Objetivo final das missões;
     public int Concluidos; // Checa as missões concluidas
     
     IEnumerator Delay()
@@ -14,8 +14,10 @@ public class ChecarConclusao : MonoBehaviour
         Cam.SetActive(true);
         Objetivo1.SetActive(true);
         objetivo2.SetActive(false);
+        concluido.SetActive(true);
         yield return new WaitForSeconds(3);
         Cam.SetActive(false);
+        concluido.SetActive(false);
         this.GetComponent<ChecarConclusao>().enabled = false;
     }
     void Update()

@@ -5,18 +5,8 @@ using UnityEngine;
 public class LeituraResultado : MonoBehaviour
 {
     public GameObject[] Resultados;
-    public GameObject Bloquear, fala;
+    public GameObject Bloquear, fala, comecar;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
     
     public void ChecarResultado()
     {
@@ -24,10 +14,19 @@ public class LeituraResultado : MonoBehaviour
         {
             Debug.Log("Concluido");
             fala.SetActive(true);
+            comecar.SetActive(false);
+            Bloquear.GetComponent<Collider>().enabled = true;
+            StartCoroutine("delay");
         }
         else
         {
             Debug.Log("Tente de novo");
         }
+    }
+
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(5);
+         fala.SetActive(false);
     }
 }
