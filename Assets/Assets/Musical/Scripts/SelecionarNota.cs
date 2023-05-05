@@ -9,225 +9,15 @@ public class SelecionarNota : MonoBehaviour
     public AudioSource SomDaNota;
     public GameObject Coluna;
     public SonsPorInstrumento SPI;
-    private string nomeClipe;
+    public string nomeClipe;
+
     void Update()
     {
-        if(SomDaNota != null)
-        {
-            nomeClipe = SomDaNota.clip.ToString();
-        }
-       
-        //Notas Partitura 1
-        // Violao
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[0];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[1];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[2];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[3];
-        }
-
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[0];
-        }
-         if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[1];
-        }
-         if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[2];
-        }
-         if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[3];
-        }
-
-         if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[0];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[1];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[2];
-        }
-        if (SPI.ViolaoPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[3];
-        }
-
-        // Handpan
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[0];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[1];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[2];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[3];
-        }
-
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[0];
-        }
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[1];
-        }
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[2];
-        }
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[3];
-        }
-
-         if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[0];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[1];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[2];
-        }
-        if (SPI.HandpanPart1 == true && this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[3];
-        }
-
-
-        
-        //Notas Partitura 2
-        // Violao
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[0];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[1];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[2];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoAgudo[3];
-        }
-
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[0];
-        }
-         if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[1];
-        }
-         if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[2];
-        }
-         if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoMed[3];
-        }
-
-         if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[0];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[1];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[2];
-        }
-        if (SPI.ViolaoPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
-        {
-            SomDaNota.clip = SPI.SonsViolaoGrave[3];
-        }
-
-        // Handpan
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[0];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[1];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[2];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanAgudo[3];
-        }
-
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[0];
-        }
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[1];
-        }
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[2];
-        }
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanMed[3];
-        }
-
-         if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x1"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[0];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x2"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[1];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x3"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[2];
-        }
-        if (SPI.HandpanPart2 == true && this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x4"))
-        {
-            SomDaNota.clip = SPI.SonsHandpanGrave[3];
-        }
+        if(SomDaNota.clip.name != null){nomeClipe = SomDaNota.clip.name;}
+        if(SPI.ViolaoPart1 == true){ViolaoPart1Check();}
+        if(SPI.HandpanPart1 == true){HandpanPart1Check();}
+        if(SPI.ViolaoPart2 == true){ViolaoPart2Check();}
+        if(SPI.HandpanPart2 == true){HandpanPart2Check();}
         
     }
     public void Solo()
@@ -271,5 +61,221 @@ public class SelecionarNota : MonoBehaviour
         SomDaNota.clip = this.GetComponent<AudioSource>().clip;
         SomDaNota.enabled = true;
     }
-   
+    
+    void ViolaoPart1Check()
+    {
+       
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[0];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[1];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[2];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[3];
+        }
+
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[0];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[1];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[2];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[0];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[1];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[2];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[3];
+        }
+
+    }
+    void HandpanPart1Check()
+    {
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[0];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[1];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[2];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("agudo_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[0];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[1];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[2];
+        }
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("medio_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[0];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[1];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[2];
+        }
+        if (this.gameObject.name.Contains("Part 1") && nomeClipe.Contains("grave_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[3];
+        }
+
+    }
+    void ViolaoPart2Check()
+    {
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[0];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[1];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[2];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoAgudo[3];
+        }
+
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[0];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[1];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[2];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoMed[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x1"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[0];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x2"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[1];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x3"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[2];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("nota_x4"))
+        {
+            SomDaNota.clip = SPI.SonsViolaoGrave[3];
+        }
+    }
+    void HandpanPart2Check()
+    {
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[0];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[1];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[2];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("agudo_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanAgudo[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[0];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[1];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[2];
+        }
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("medio_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanMed[3];
+        }
+
+         if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x1"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[0];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x2"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[1];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x3"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[2];
+        }
+        if (this.gameObject.name.Contains("Part 2") && nomeClipe.Contains("grave_x4"))
+        {
+            SomDaNota.clip = SPI.SonsHandpanGrave[3];
+        }
+    }
+
 }
