@@ -9,8 +9,9 @@ public class Play : MonoBehaviour
     // Codigo responsavel por todo o controle de execução da partitura, além de controlar parte do sistema de repetição, atrelado a um objeto Reprodutor
     public float playSpeed;
     public bool tocar = false, Partitura1, Partitura2;
-    public GameObject noteObj, RefPontoPt1, RefPontoPt2;
-    public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4, Ponto5Pt1, Ponto5Pt2;
+    public GameObject noteObj, RefPonto;
+    public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1;
+    public Transform Ponto0Pt2,Ponto1Pt2,Ponto2Pt2,Ponto3Pt2,Ponto4Pt2, Ponto5Pt2;
     public GameObject botaoPlay, ContadorRepeticao;
     public GameObject repeticao, ponteiro, pontoRepet;
     public int qtdRepete = 0;
@@ -35,15 +36,16 @@ public class Play : MonoBehaviour
     }
     public void Update()
     {
-        if(tocar == true && Partitura1 == true)
+        if(tocar == true)
         {
-            Pontos(Ponto5Pt1);
-        }  
+            //Bools reposnsaveis pelo controle do reprodutor, deve ser trocada no inspector caso sejam comportados mais que uma partitura, fazendo assim o reprodutor mudar o destino final.
+            if(Partitura1 == true){Ponto5Pt1.tag = "Ponto5"; Ponto5Pt2.tag = "Untagged"; Pontos(Ponto5Pt1);}
+            if(Partitura2 == true){Ponto5Pt1.tag = "Untagged"; Ponto5Pt2.tag = "Ponto5"; Pontos(Ponto5Pt2);}
+            
+        } 
 
-        if(tocar == true && Partitura2 == true)
-        {
-            Pontos(Ponto5Pt2);
-        }
+       // if()
+
         //loop
         if (lista.Count > 2) // se tiver mais que dois botoes
         {
@@ -60,43 +62,22 @@ public class Play : MonoBehaviour
 
      void OnTriggerEnter2D(Collider2D other) // Quando esse objeto entra em contato com as notas os sons são reproduzidos
     {
-        if(Partitura1 == true && Partitura2 == false)
-        {
-        if(other.gameObject.name.Contains("Part1"))
+       
+        if(other.gameObject.tag == "Notas")
         {
             string name = other.gameObject.name;
             noteObj = GameObject.Find(name);
             noteObj.GetComponent<AudioSource>().Play();
-           // Debug.Log(noteObj);
         } 
-
+        
         if(other.gameObject.tag == "Ponto5") // Ao colidir com esse ponto o reprodutor para de tocar
         {
             string name = other.gameObject.name;
-            RefPontoPt1 = GameObject.Find(name);
+            RefPonto = GameObject.Find(name);
             tocar = false; 
             if(tocar == false){StartCoroutine("Delay");} 
-        } 
         }
-
-        if(Partitura2 == true && Partitura1 == true)
-        {
-        if(other.gameObject.name.Contains("Part2"))
-        {
-            string name = other.gameObject.name;
-            noteObj = GameObject.Find(name);
-            noteObj.GetComponent<AudioSource>().Play();
-           // Debug.Log(noteObj);
-        } 
-
-        if(other.gameObject.name.Contains("Ponto5 - Part2")) // Ao colidir com esse ponto o reprodutor para de tocar
-        {
-            string name = other.gameObject.name;
-            RefPontoPt2 = GameObject.Find(name);
-            tocar = false; 
-            if(tocar == false){StartCoroutine("Delay");} 
-        } 
-        }
+        
 
     }
 
@@ -107,7 +88,7 @@ public class Play : MonoBehaviour
     }
     public void Pontos(Transform Ponto_) // Controlador de Pontos, os pontos nada mais são que os exatos pontos de intervalo das musicas, cada valor do ponto corresponde a seu numero em segundos.
     {
-        if(transform.position.x != Ponto5Pt1.position.x)
+        if(transform.position.x != Ponto_.position.x)
         {
             transform.Translate(Vector3.right * Time.deltaTime * playSpeed);
         } 
