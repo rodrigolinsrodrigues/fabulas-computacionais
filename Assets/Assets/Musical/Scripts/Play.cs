@@ -10,15 +10,15 @@ public class Play : MonoBehaviour
     public float playSpeed;
     public bool tocar = false, Partitura1, Partitura2;
     public GameObject noteObj, RefPonto;
-    public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1;
-    public Transform Ponto0Pt2,Ponto1Pt2,Ponto2Pt2,Ponto3Pt2,Ponto4Pt2, Ponto5Pt2;
+    public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2;
+    //public Transform Ponto0Pt2,Ponto1Pt2,Ponto2Pt2,Ponto3Pt2,Ponto4Pt2; 
     public GameObject botaoPlay, ContadorRepeticao;
-    public GameObject repeticao, ponteiro, pontoRepet;
+    public GameObject  ponteiro, repeticao, pontoRepet;
     public int qtdRepete = 0;
 
     //teste de loop
     public List<GameObject> lista = new List<GameObject>(); // lista de botoes clicados
-    public GameObject ultimo, primeiro;
+    //public GameObject ultimo, primeiro;
     public GameObject[] pontos_;
 
     // Cor
@@ -26,7 +26,7 @@ public class Play : MonoBehaviour
 
     //Checar Partitura
     public  checarPartitura CP;
-     int x,y;
+     public int x,y;
 
     void Start()
     {
@@ -44,8 +44,6 @@ public class Play : MonoBehaviour
             
         } 
 
-       // if()
-
         //loop
         if (lista.Count > 2) // se tiver mais que dois botoes
         {
@@ -58,6 +56,7 @@ public class Play : MonoBehaviour
         }
 
         MetodoDePlayMusica();
+       
     }
 
      void OnTriggerEnter2D(Collider2D other) // Quando esse objeto entra em contato com as notas os sons são reproduzidos
@@ -94,35 +93,33 @@ public class Play : MonoBehaviour
         } 
     }
 
-    void OnTriggerExit2D (Collider2D col)
+    void OnTriggerExit2D (Collider2D col) // Verifica as repetiçoes
     {
-    if (col.gameObject.name == repeticao.gameObject.name)
+    if (col.gameObject.name == repeticao.gameObject.name) // checa se o ponteiro colidiu com o primeiro ponto de repetição
     {
-    if (qtdRepete > 0)
+    if (qtdRepete > 0) // se a quantidade de repetições for maior que 0
     {
-        ponteiro.transform.position = pontoRepet.transform.position;
-        qtdRepete--;
+        ponteiro.transform.position = pontoRepet.transform.position; // checa se o ponteiro colidiu com o ultimo ponto de reptição
+        qtdRepete--; // dimniniu a quantidade de repetições
     }
     }
     }
 
-    void MetodoDePlayMusica()
+    void MetodoDePlayMusica() // controla o esquema de repetições
     {
+        // X e Y se tratam dos pontos de loop
         x = int.Parse(lista[0].gameObject.name);
         y = int.Parse(lista[1].gameObject.name);
         
         var CorSelecionada = GetComponent<Button>().colors;
         CorSelecionada.normalColor = Color.red;
 
-        
 
     if(lista.Count == 2)
     {
-        
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {
            
-
             repeticao = pontos_[x]; // Ultimo
             pontoRepet = pontos_[y]; // Primeiro
             lista[0].transform.GetChild(1).gameObject.SetActive(true);
@@ -142,11 +139,11 @@ public class Play : MonoBehaviour
            
 
         }
-        ContadorRepeticao.SetActive(true);
+         ContadorRepeticao.SetActive(true);
     }
     else
     {
-         ContadorRepeticao.SetActive(false);
+        ContadorRepeticao.SetActive(false);
     }
     // antes de começar o ponteiro 
     }
