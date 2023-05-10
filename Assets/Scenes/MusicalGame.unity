@@ -4663,7 +4663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &172653188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4671,29 +4671,38 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172653187}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8396c574e242f0847a6d2ac1ae288234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nota1: {fileID: 730635480}
-  nota2: {fileID: 496876398}
-  nota3: {fileID: 2055073480}
-  nota4: {fileID: 920619345}
-  nota1tipo: Violao_agudo_x1
-  nota2tipo: Violao_medio_x1
-  nota3tipo: Violao_agudo_x2
-  nota4tipo: Violao_grave_x3
-  repet1: {fileID: 0}
-  repet2: {fileID: 0}
-  repet3: {fileID: 0}
-  repet4: {fileID: 0}
-  repet5: {fileID: 0}
+  NotaPart1:
+  - {fileID: 730635480}
+  - {fileID: 496876398}
+  - {fileID: 277753539}
+  - {fileID: 1288179632}
+  NotaPart2:
+  - {fileID: 1086163651}
+  - {fileID: 1523627705}
+  - {fileID: 2100999539}
+  - {fileID: 191413245}
+  TipoNotaPart1:
+  - Violao_agudo_x1
+  - Violao_medio_x2
+  - Violao_grave_x1
+  - Violao_agudo_x1
+  TipoNotaPart2:
+  - Handpan_agudo_x1
+  - Handpan_medio_x3
+  - Handpan_grave_x2
+  - Handpan_agudo_x2
   check: 0
-  MiniGame: {fileID: 446047783}
-  TeladeJogo: {fileID: 7053929537541059916}
+  part1: 0
+  part2: 0
+  ApenasPart1: 0
   conluido: {fileID: 11573032}
-  Rose: {fileID: 919097209}
+  vezes: 1
+  play: {fileID: 808556659}
 --- !u!4 &172653189
 Transform:
   m_ObjectHideFlags: 0
