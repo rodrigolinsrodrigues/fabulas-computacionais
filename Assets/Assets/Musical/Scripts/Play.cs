@@ -11,7 +11,6 @@ public class Play : MonoBehaviour
     public bool tocar = false, Partitura1, Partitura2;
     public GameObject noteObj, RefPonto;
     public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2;
-    //public Transform Ponto0Pt2,Ponto1Pt2,Ponto2Pt2,Ponto3Pt2,Ponto4Pt2; 
     public GameObject botaoPlay, ContadorRepeticao;
     public GameObject  ponteiro, repeticao, pontoRepet;
     public int qtdRepete = 0;
@@ -20,7 +19,6 @@ public class Play : MonoBehaviour
     public List<GameObject> lista = new List<GameObject>(); // lista de botoes clicados
     //public GameObject ultimo, primeiro;
     public GameObject[] pontos_;
-
     // Cor
     public Color original;
 
@@ -151,7 +149,7 @@ public class Play : MonoBehaviour
     // Voids atribuidos aos botões que adicionam repetições
     public void X2(){qtdRepete = 1;}
     public void X3(){qtdRepete = 2;}
-    public void X4(){ qtdRepete = 3;}
+    public void X4(){qtdRepete = 3;}
 
     IEnumerator Delay()
     {

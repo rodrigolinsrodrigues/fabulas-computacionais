@@ -22,15 +22,15 @@ public class Repeat : MonoBehaviour
             botRepet.pontoRepet = Ponto1;
             break;
 
-            case "2 - Pt1":
+            case "2":
             botRepet.pontoRepet = Ponto2;
             break;
 
-            case "3 - Pt1":
+            case "3":
             botRepet.pontoRepet = Ponto3;
             break;
 
-            case "4 - Pt1":
+            case "4":
             botRepet.pontoRepet = Ponto4;
             break;
         }
@@ -51,15 +51,15 @@ public class Repeat : MonoBehaviour
             botRepet2.pontoRepet = Ponto1;
             break;
 
-            case "2 - Pt1":
+            case "2":
             botRepet2.pontoRepet = Ponto2;
             break;
 
-            case "3 - Pt1":
+            case "3":
             botRepet2.pontoRepet = Ponto3;
             break;
 
-            case "4 - Pt1":
+            case "4":
             botRepet2.pontoRepet = Ponto4;
             break;
         }

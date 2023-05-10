@@ -3271,7 +3271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botRepet: {fileID: 0}
-  botRepet2: {fileID: 2005637948}
+  botRepet2: {fileID: 808556660}
   Ponto0: {fileID: 1308209423}
   Ponto1: {fileID: 1321517800}
   Ponto2: {fileID: 525412780}
@@ -9083,7 +9083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botRepet: {fileID: 0}
-  botRepet2: {fileID: 2005637948}
+  botRepet2: {fileID: 808556660}
   Ponto0: {fileID: 1308209423}
   Ponto1: {fileID: 1321517800}
   Ponto2: {fileID: 525412780}
@@ -18586,7 +18586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botRepet: {fileID: 0}
-  botRepet2: {fileID: 2005637948}
+  botRepet2: {fileID: 808556660}
   Ponto0: {fileID: 1308209423}
   Ponto1: {fileID: 1321517800}
   Ponto2: {fileID: 525412780}
@@ -25550,7 +25550,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2005637948}
+      - m_Target: {fileID: 808556660}
         m_TargetAssemblyTypeName: RepeatPart2, Assembly-CSharp
         m_MethodName: X3
         m_Mode: 1
@@ -26643,6 +26643,7 @@ GameObject:
   - component: {fileID: 808556658}
   - component: {fileID: 808556657}
   - component: {fileID: 808556659}
+  - component: {fileID: 808556660}
   m_Layer: 5
   m_Name: Reprodutor
   m_TagString: Untagged
@@ -26840,6 +26841,40 @@ MonoBehaviour:
   - {fileID: 475128895}
   original: {r: 1, g: 0.627451, b: 0.627451, a: 1}
   CP: {fileID: 172653188}
+  x: 0
+  y: 0
+--- !u!114 &808556660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808556648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791760bf280b7e04ab3015e003575a9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ponto0: {fileID: 1308209427}
+  Ponto1: {fileID: 1321517804}
+  Ponto2: {fileID: 525412784}
+  Ponto3: {fileID: 1774586704}
+  Ponto4: {fileID: 1264131327}
+  Ponto5Pt1: {fileID: 1555755250}
+  Ponto5Pt2: {fileID: 186956440}
+  ContadorRepeticao: {fileID: 339500951}
+  ponteiro: {fileID: 808556648}
+  repeticao: {fileID: 0}
+  pontoRepet: {fileID: 0}
+  qtdRepete: 0
+  lista: []
+  pontos_:
+  - {fileID: 1308209423}
+  - {fileID: 1321517800}
+  - {fileID: 525412780}
+  - {fileID: 1774586700}
+  - {fileID: 1264131323}
+  original: {r: 1, g: 0.627451, b: 0.627451, a: 1}
   x: 0
   y: 0
 --- !u!1 &819269905
@@ -30508,7 +30543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botRepet: {fileID: 0}
-  botRepet2: {fileID: 2005637948}
+  botRepet2: {fileID: 808556660}
   Ponto0: {fileID: 1308209423}
   Ponto1: {fileID: 1321517800}
   Ponto2: {fileID: 525412780}
@@ -54091,7 +54126,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2005637948}
+      - m_Target: {fileID: 808556660}
         m_TargetAssemblyTypeName: RepeatPart2, Assembly-CSharp
         m_MethodName: X2
         m_Mode: 1
@@ -55320,7 +55355,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2005637948}
+      - m_Target: {fileID: 808556660}
         m_TargetAssemblyTypeName: RepeatPart2, Assembly-CSharp
         m_MethodName: X4
         m_Mode: 1
@@ -63183,7 +63218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2005637941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63211,7 +63246,7 @@ MonoBehaviour:
   Ponto5Pt2: {fileID: 186956440}
   botaoPlay: {fileID: 1697150442}
   ContadorRepeticao: {fileID: 339500951}
-  ponteiro: {fileID: 2005637940}
+  ponteiro: {fileID: 808556648}
   repeticao: {fileID: 0}
   pontoRepet: {fileID: 0}
   qtdRepete: 0
@@ -63383,7 +63418,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005637940}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 791760bf280b7e04ab3015e003575a9e, type: 3}
   m_Name: 
@@ -67577,7 +67612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   botRepet: {fileID: 0}
-  botRepet2: {fileID: 2005637948}
+  botRepet2: {fileID: 808556660}
   Ponto0: {fileID: 1308209423}
   Ponto1: {fileID: 1321517800}
   Ponto2: {fileID: 525412780}

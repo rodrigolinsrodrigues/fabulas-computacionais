@@ -9,9 +9,9 @@ public class RepeatPart2 : MonoBehaviour
     // script de reptição apenas da partitura 2
     // Start is called before the first frame update
     public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2;
-     public GameObject ContadorRepeticao;
+    public GameObject ContadorRepeticao;
 
-      public GameObject  ponteiro, repeticao, pontoRepet;
+    public GameObject  ponteiro, repeticao, pontoRepet;
     public int qtdRepete = 0;
 
     //teste de loop
@@ -85,7 +85,7 @@ public class RepeatPart2 : MonoBehaviour
            
 
         }
-         ContadorRepeticao.SetActive(true);
+        ContadorRepeticao.SetActive(true);
     }
     else
     {
@@ -97,5 +97,5 @@ public class RepeatPart2 : MonoBehaviour
     // Voids atribuidos aos botões que adicionam repetições
     public void X2(){qtdRepete = 1;}
     public void X3(){qtdRepete = 2;}
-    public void X4(){ qtdRepete = 3;}
+    public void X4(){qtdRepete = 3;}
 }
