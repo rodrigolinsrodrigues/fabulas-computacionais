@@ -15,6 +15,23 @@ public class checarPartitura : MonoBehaviour
 
     public void Update()
     {
+        if(ApenasPart1 == true){Partitura1();}
+        if(ApenasPart1 == false){ Partitura1(); Partitura2();}
+       
+
+        if(check == true)
+        {
+            if(part1 == true || part1 == true && part2 == true)
+            {
+            check = false;
+            conluido.SetActive(true);
+            StartCoroutine("Delay");
+            }
+
+        }
+    }
+    void Partitura1()
+    {
         if(NotaPart1[0].GetComponent<AudioSource>().clip.name == TipoNotaPart1[0] && NotaPart1[1].GetComponent<AudioSource>().clip.name == TipoNotaPart1[1]
         && NotaPart1[2].GetComponent<AudioSource>().clip.name == TipoNotaPart1[2] && NotaPart1[3].GetComponent<AudioSource>().clip.name == TipoNotaPart1[3])
         {
@@ -25,54 +42,21 @@ public class checarPartitura : MonoBehaviour
         {
             part1 = false;
         }
+    }
 
-      /*  if(NotaPart1[0].GetComponent<AudioSource>().clip.name.Contains(TipoNotaPart1[0]) 
-        && NotaPart1[1].GetComponent<AudioSource>().clip.name.Contains(TipoNotaPart1[1]) && play.qtdRepete == vezes)
-        {
-            part1 = true;
-            Debug.Log("Partitura 1 - Correto");
-        } */
-        /*for(int i = 0; i < vezes; i++)
-        {
-           
-        }*/
+    void Partitura2()
+    {
         if(NotaPart2[0].GetComponent<AudioSource>().clip.name == TipoNotaPart2[0] && NotaPart2[1].GetComponent<AudioSource>().clip.name == TipoNotaPart2[1]
         && NotaPart2[2].GetComponent<AudioSource>().clip.name == TipoNotaPart2[2] && NotaPart2[3].GetComponent<AudioSource>().clip.name == TipoNotaPart2[3])
         {
             part2 = true;
-            Debug.Log("Partitura 2 - Correto");
         }
         if(NotaPart2[0].GetComponent<AudioSource>().clip.name != TipoNotaPart2[0] || NotaPart2[1].GetComponent<AudioSource>().clip.name != TipoNotaPart2[1]
         || NotaPart2[2].GetComponent<AudioSource>().clip.name != TipoNotaPart2[2] || NotaPart2[3].GetComponent<AudioSource>().clip.name != TipoNotaPart2[3])
         { 
             part2 = false;
         }
-
-        if(check == true)
-        {
-            if(ApenasPart1 == true)
-            {
-            if(part1 == true)
-            {
-            check = false;
-            conluido.SetActive(true);
-            StartCoroutine("Delay");
-            }
-            }
-       if(ApenasPart1 == false)
-        {
-            if(part1 == true && part2 == true)
-        {
-            check = false;
-            conluido.SetActive(true);
-            StartCoroutine("Delay");
-        } 
-
-        } 
-
-        }
     }
-
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(3);
