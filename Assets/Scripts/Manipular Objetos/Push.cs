@@ -10,7 +10,7 @@ public class Push : MonoBehaviour
     public PlayerController player;
       // Empurrar Objetos
     public bool pushing;
-    public GameObject pushableObj;
+    public GameObject pushableObj, hand;
     public float pushDistance;
    
     // Start is called before the first frame update
@@ -23,10 +23,10 @@ public class Push : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         //Codigo responsavel por empurrar objetos
+        //Codigo responsavel por empurrar objetos
             //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, pushDistance))
+        if(Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, pushDistance))
         {
             if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
             {
@@ -36,8 +36,7 @@ public class Push : MonoBehaviour
                 pushableObj.transform.SetParent(this.transform);
                 player.curSpeed = player.pushSpeed;
                 pushing = true;
-                
-                
+
             }
             else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
             {
@@ -47,7 +46,9 @@ public class Push : MonoBehaviour
                 pushing = false;
                 pushableObj = null;
                
-            }
+            } 
         }
+        
     }
 }
+

@@ -8,7 +8,7 @@ public class Launch : MonoBehaviour
      private Comandos comandos;
 
      // Lançar objetos
-     public GameObject launchObj;
+     public GameObject launchObj, hand;
     public float launchDistance;
     public float launchForce = 5.0f;
     // Start is called before the first frame update
@@ -22,9 +22,9 @@ public class Launch : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, launchDistance))
+        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, launchDistance))
         {
-            if (hit.collider.tag == "Launch" && comandos.Actions.Push.ReadValue<float>() == 1)
+        if (hit.collider.tag == "Launch" && comandos.Actions.Push.ReadValue<float>() == 1)
             {
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
