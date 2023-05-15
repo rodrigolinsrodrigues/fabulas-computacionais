@@ -9,11 +9,11 @@ public class RepeatPart2 : MonoBehaviour
     // script de reptição apenas da partitura 2
     // Start is called before the first frame update
     public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2;
-    public GameObject ContadorRepeticao;
+    public GameObject[] ContadorRepeticao;
 
-    public GameObject  ponteiro, repeticao, pontoRepet;
+    public GameObject  ponteiro, repeticao, pontoRepet, deletar;
     public int qtdRepete = 0;
-
+    public bool delete;
     //teste de loop
     public List<GameObject> lista = new List<GameObject>(); // lista de botoes clicados
     //public GameObject ultimo, primeiro;
@@ -22,6 +22,7 @@ public class RepeatPart2 : MonoBehaviour
     public Color original;
 
      public int x,y;
+     public GameObject[] Repet;
     // Update is called once per frame
     void Update()
     {
@@ -34,6 +35,22 @@ public class RepeatPart2 : MonoBehaviour
         lista[0].transform.GetChild(1).gameObject.SetActive(false);
         lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
         lista.RemoveAt(0); // remove primeiro item da lista
+        }
+
+        if(delete == true)
+        {
+
+        var CorOriginal = GetComponent<Button>().colors;
+        CorOriginal.normalColor = original;
+
+        lista[0].transform.GetChild(1).gameObject.SetActive(false);
+        lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista.RemoveAt(0); // remove primeiro item da lista
+
+        lista[1].transform.GetChild(1).gameObject.SetActive(false);
+        lista[1].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista.RemoveAt(1); // remove primeiro item da lista
+
         }
 
         MetodoDePlayMusica();
@@ -63,6 +80,8 @@ public class RepeatPart2 : MonoBehaviour
 
     if(lista.Count == 2)
     {
+       deletar.GetComponent<Image>().enabled = true;
+       deletar.GetComponent<Button>().enabled = true;
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {
            
@@ -85,12 +104,17 @@ public class RepeatPart2 : MonoBehaviour
            
 
         }
-        ContadorRepeticao.SetActive(true);
+        for(int i = 0; i <ContadorRepeticao.Length; i++)
+        {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = true;
+        }
+        
+        for(int x = 0; x < Repet.Length; x++)
+        {
+            Repet[x].GetComponent<Button>().interactable = false;
+        }
     }
-    else
-    {
-        ContadorRepeticao.SetActive(false);
-    }
+   
     // antes de começar o ponteiro 
     }
 

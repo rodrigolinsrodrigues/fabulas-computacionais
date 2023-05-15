@@ -8,10 +8,11 @@ public class Play : MonoBehaviour
 {
     // Codigo responsavel por todo o controle de execução da partitura, além de controlar parte do sistema de repetição, atrelado a um objeto Reprodutor
     public float playSpeed; // velocidade de reprodução
-    public bool tocar = false, Partitura1, Partitura2; // bools de tocar e identificar se o final da reprodução é na partitura 1 ou 2
+    public bool tocar = false, Partitura1, Partitura2, delete, fechar; // bools de tocar e identificar se o final da reprodução é na partitura 1 ou 2
     public GameObject noteObj, RefPonto; // Refeencias das notas e pontos
     public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2; // atrbuição dos pontos
-    public GameObject botaoPlay, ContadorRepeticao; // atribuição do botão de Play e do gameObjct contador que guarda a quantiade de repetições
+    public GameObject botaoPlay, deletar; 
+    public GameObject[] ContadorRepeticao;// atribuição do botão de Play e do gameObjct contador que guarda a quantiade de repetições
     public GameObject  ponteiro, repeticao, pontoRepet;
     public int qtdRepete = 0;
 
@@ -25,7 +26,7 @@ public class Play : MonoBehaviour
     //Checar Partitura
     public  checarPartitura CP;
      public int x,y;
-
+    public GameObject[] Repet;
     void Start()
     {
         if(botaoPlay) // Ao iniciar o codigo procura pelo botão Play e o pre seleciona para que o player possa navegar entre os botões
@@ -53,6 +54,20 @@ public class Play : MonoBehaviour
         lista.RemoveAt(0); // remove primeiro item da lista
         }
 
+        if (delete == true) // se tiver mais que dois botoes
+        {
+        var CorOriginal = GetComponent<Button>().colors;
+        CorOriginal.normalColor = original;
+
+        lista[0].transform.GetChild(1).gameObject.SetActive(false);
+        lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista.RemoveAt(0); // remove primeiro item da lista
+
+        lista[1].transform.GetChild(1).gameObject.SetActive(false);
+        lista[1].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista.RemoveAt(1); // remove primeiro item da lista
+        
+        }
         MetodoDePlayMusica();
        
     }
@@ -116,6 +131,9 @@ public class Play : MonoBehaviour
 
     if(lista.Count == 2)
     {
+        deletar.GetComponent<Image>().enabled = true;
+        deletar.GetComponent<Button>().enabled = true;
+        
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {
            
@@ -138,12 +156,17 @@ public class Play : MonoBehaviour
            
 
         }
-         ContadorRepeticao.SetActive(true);
+        for(int i = 0; i < ContadorRepeticao.Length; i++)
+        {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = true;
+        }
+        
+        for(int x = 0; x < Repet.Length; x++)
+        {
+            Repet[x].GetComponent<Button>().interactable = false;
+        }
     }
-    else
-    {
-        ContadorRepeticao.SetActive(false);
-    }
+  
     // antes de começar o ponteiro 
     }
 
@@ -155,6 +178,7 @@ public class Play : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1);
+       // CP.ChecarResultado();
         CP.check = true;
 
     }

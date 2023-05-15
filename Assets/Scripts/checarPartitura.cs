@@ -14,13 +14,47 @@ public class checarPartitura : MonoBehaviour
     GameObject  ContP1, ContP2; // Serve para fazer a checagem do identificador no script
    
     public bool check, part1, part1repet, part2,part2repet, ApenasPart1; // Bools de checagem a depender do caso
-    public GameObject conluido; // Pega o gameobjc do canvas 
+    public GameObject conluido, tenteDnv; // Pega o gameobjc do canvas 
     GameObject  botãoClicado1Part1,  botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
     // Start is called before the first frame update
 
+   /* public void ChecarResultado()
+    {
+        if(check == true)
+        {
+        if(ApenasPart1 == true)
+        {
+        Partitura1(); 
+        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}
+        }
+        
+        if(ApenasPart1 == false)
+        {
+        Partitura1(); Partitura2();
+        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
+        }
+        }
+      
+    } */
     public void Update()
     {
+        if(check == true)
+        {
         if(ApenasPart1 == true)
+        {
+        Partitura1(); 
+        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}
+        if((part1 != true || part1repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}
+        }
+        
+        if(ApenasPart1 == false)
+        {
+        Partitura1(); Partitura2();
+        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
+        if(check == true){if((part1 != true || part1repet != true) || (part2 != true || part2repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}}
+        }
+        }
+    /*   if(ApenasPart1 == true)
         {
         Partitura1(); 
         if(check == true){if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
@@ -30,9 +64,9 @@ public class checarPartitura : MonoBehaviour
         {
         Partitura1(); Partitura2();
         if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        }
+        } 
        
-
+        */
        
     }
     void Partitura1()
