@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -1513,6 +1513,7 @@ GameObject:
   - component: {fileID: 32989172}
   - component: {fileID: 32989171}
   - component: {fileID: 32989175}
+  - component: {fileID: 32989176}
   m_Layer: 5
   m_Name: Deletar
   m_TagString: Untagged
@@ -1622,6 +1623,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 32989176}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotaoDel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &32989173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,6 +1687,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   play: {fileID: 808556659}
   play2: {fileID: 0}
+--- !u!114 &32989176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32989168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &37099765
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,6 +3408,7 @@ GameObject:
   - component: {fileID: 114071255}
   - component: {fileID: 114071258}
   - component: {fileID: 114071256}
+  - component: {fileID: 114071261}
   m_Layer: 5
   m_Name: 4
   m_TagString: Untagged
@@ -3452,6 +3479,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 114071261}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3562,6 +3601,19 @@ RectTransform:
   m_AnchoredPosition: {x: 868.312, y: -268.016}
   m_SizeDelta: {x: 160, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &114071261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114071254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &115239778
 GameObject:
   m_ObjectHideFlags: 0
@@ -4392,6 +4444,7 @@ GameObject:
   - component: {fileID: 139694106}
   - component: {fileID: 139694109}
   - component: {fileID: 139694110}
+  - component: {fileID: 139694111}
   m_Layer: 5
   m_Name: '1 '
   m_TagString: Untagged
@@ -4489,6 +4542,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 139694111}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &139694107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4572,6 +4637,19 @@ MonoBehaviour:
   Ponto2: {fileID: 1579370948}
   Ponto3: {fileID: 1610865903}
   Ponto4: {fileID: 475128895}
+--- !u!114 &139694111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139694104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!4 &155939413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9ac9b0a15d9e4b7439ba387d6bda8c3b, type: 3}
@@ -9240,6 +9318,7 @@ GameObject:
   - component: {fileID: 286898119}
   - component: {fileID: 286898122}
   - component: {fileID: 286898120}
+  - component: {fileID: 286898125}
   m_Layer: 5
   m_Name: 3
   m_TagString: Untagged
@@ -9310,6 +9389,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 286898118}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 286898125}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9420,6 +9511,19 @@ RectTransform:
   m_AnchoredPosition: {x: 680, y: -268.016}
   m_SizeDelta: {x: 160, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &286898125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286898118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &292874048
 GameObject:
   m_ObjectHideFlags: 0
@@ -12692,6 +12796,7 @@ GameObject:
   - component: {fileID: 403285223}
   - component: {fileID: 403285226}
   - component: {fileID: 403285227}
+  - component: {fileID: 403285228}
   m_Layer: 5
   m_Name: 2
   m_TagString: Untagged
@@ -12789,6 +12894,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 403285228}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &403285224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12872,6 +12989,19 @@ MonoBehaviour:
   Ponto2: {fileID: 1579370948}
   Ponto3: {fileID: 1610865903}
   Ponto4: {fileID: 475128895}
+--- !u!114 &403285228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403285221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &406711292
 GameObject:
   m_ObjectHideFlags: 0
@@ -13503,6 +13633,7 @@ GameObject:
   - component: {fileID: 423809754}
   - component: {fileID: 423809757}
   - component: {fileID: 423809758}
+  - component: {fileID: 423809759}
   m_Layer: 5
   m_Name: '0 '
   m_TagString: Untagged
@@ -13600,6 +13731,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 423809759}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &423809755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13683,6 +13826,19 @@ MonoBehaviour:
   Ponto2: {fileID: 1579370948}
   Ponto3: {fileID: 1610865903}
   Ponto4: {fileID: 475128895}
+--- !u!114 &423809759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423809752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &432788733
 GameObject:
   m_ObjectHideFlags: 0
@@ -18780,6 +18936,7 @@ GameObject:
   - component: {fileID: 552679634}
   - component: {fileID: 552679637}
   - component: {fileID: 552679635}
+  - component: {fileID: 552679640}
   m_Layer: 5
   m_Name: 0
   m_TagString: Untagged
@@ -18850,6 +19007,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 552679640}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -18960,6 +19129,19 @@ RectTransform:
   m_AnchoredPosition: {x: 121.931885, y: -268.0157}
   m_SizeDelta: {x: 160, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &552679640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552679633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &557958804
 GameObject:
   m_ObjectHideFlags: 0
@@ -24586,7 +24768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -25802,7 +25984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -26360,6 +26542,7 @@ GameObject:
   - component: {fileID: 783521327}
   - component: {fileID: 783521326}
   - component: {fileID: 783521325}
+  - component: {fileID: 783521330}
   m_Layer: 5
   m_Name: Deletar
   m_TagString: Untagged
@@ -26483,6 +26666,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 783521330}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotaoDel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &783521328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26521,6 +26716,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783521323}
   m_CullTransparentMesh: 1
+--- !u!114 &783521330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783521323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &789018002
 GameObject:
   m_ObjectHideFlags: 0
@@ -30960,6 +31168,7 @@ GameObject:
   - component: {fileID: 954001292}
   - component: {fileID: 954001295}
   - component: {fileID: 954001293}
+  - component: {fileID: 954001298}
   m_Layer: 5
   m_Name: '1 '
   m_TagString: Untagged
@@ -31030,6 +31239,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 954001291}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 954001298}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -31140,6 +31361,19 @@ RectTransform:
   m_AnchoredPosition: {x: 307.12207, y: -268.016}
   m_SizeDelta: {x: 160, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &954001298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954001291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &958405820
 GameObject:
   m_ObjectHideFlags: 0
@@ -39076,6 +39310,7 @@ GameObject:
   - component: {fileID: 1259278216}
   - component: {fileID: 1259278219}
   - component: {fileID: 1259278220}
+  - component: {fileID: 1259278221}
   m_Layer: 5
   m_Name: 3
   m_TagString: Untagged
@@ -39173,6 +39408,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1259278221}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1259278217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39256,6 +39503,19 @@ MonoBehaviour:
   Ponto2: {fileID: 1579370948}
   Ponto3: {fileID: 1610865903}
   Ponto4: {fileID: 475128895}
+--- !u!114 &1259278221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259278214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &1261438306
 GameObject:
   m_ObjectHideFlags: 0
@@ -50889,7 +51149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -54696,7 +54956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -55925,7 +56185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -57042,6 +57302,7 @@ GameObject:
   - component: {fileID: 1825556903}
   - component: {fileID: 1825556906}
   - component: {fileID: 1825556907}
+  - component: {fileID: 1825556908}
   m_Layer: 5
   m_Name: 4
   m_TagString: Untagged
@@ -57139,6 +57400,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1825556908}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1825556904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57222,6 +57495,19 @@ MonoBehaviour:
   Ponto2: {fileID: 1579370948}
   Ponto3: {fileID: 1610865903}
   Ponto4: {fileID: 475128895}
+--- !u!114 &1825556908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825556901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &1833938423
 GameObject:
   m_ObjectHideFlags: 0
@@ -68156,6 +68442,7 @@ GameObject:
   - component: {fileID: 2146509317}
   - component: {fileID: 2146509320}
   - component: {fileID: 2146509318}
+  - component: {fileID: 2146509323}
   m_Layer: 5
   m_Name: '2 '
   m_TagString: Untagged
@@ -68226,6 +68513,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2146509323}
+        m_TargetAssemblyTypeName: trocarBotao, Assembly-CSharp
+        m_MethodName: TrocarBotao
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -68336,6 +68635,19 @@ RectTransform:
   m_AnchoredPosition: {x: 493.562, y: -268.016}
   m_SizeDelta: {x: 160, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2146509323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146509316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbaa287c2a59bb48ac1473c87343757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BotaoPlay: {fileID: 1697150442}
 --- !u!1 &2146527716
 GameObject:
   m_ObjectHideFlags: 0

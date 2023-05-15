@@ -166,7 +166,7 @@ public class Play : MonoBehaviour
             Repet[x].GetComponent<Button>().interactable = false;
         }
     }
-  
+    
     // antes de começar o ponteiro 
     }
 
