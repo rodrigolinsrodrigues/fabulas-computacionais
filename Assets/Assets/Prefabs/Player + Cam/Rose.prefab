@@ -209,6 +209,8 @@ GameObject:
   - component: {fileID: 3055071730025340635}
   - component: {fileID: 3055071730025340645}
   - component: {fileID: 3055071730025340634}
+  - component: {fileID: 961434334807290874}
+  - component: {fileID: 6477915610703344039}
   m_Layer: 0
   m_Name: Rose
   m_TagString: Player
@@ -299,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ec2313368627d488fbeee440d5f851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   curSpeed: 0
   walkSpeed: 15
   runSpeed: 20
@@ -343,6 +346,7 @@ MonoBehaviour:
   player: {fileID: 0}
   pushing: 0
   pushableObj: {fileID: 0}
+  hand: {fileID: 0}
   pushDistance: 0.8
 --- !u!114 &3055071730025340634
 MonoBehaviour:
@@ -351,14 +355,45 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2784528988518917005}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c36818be40e15443adf55fd900109c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   launchObj: {fileID: 0}
-  launchDistance: 0.8
+  hand: {fileID: 6692047640197113566}
+  launchDistance: 2
   launchForce: 5
+--- !u!114 &961434334807290874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784528988518917005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f95cfb9744fc4747b38c10a4d42f533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateObj: {fileID: 0}
+  hand: {fileID: 6692047640197113566}
+  checkDistance: 2
+--- !u!114 &6477915610703344039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784528988518917005}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57d138f46b42d645bdfa61950446a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontObj: {fileID: 0}
+  hand: {fileID: 6692047640197113566}
+  viewDistance: 2
 --- !u!1 &3055071730144042802
 GameObject:
   m_ObjectHideFlags: 0

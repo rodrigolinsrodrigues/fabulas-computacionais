@@ -147,7 +147,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c09283c-13b7-40ea-89f0-40e7119d1af2"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -158,7 +158,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4286f47a-6149-4c6b-879a-50a9e5f2d49c"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -207,13 +207,31 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Atack"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee8a72be-f682-4222-b37d-b006f6fc4b98"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Defense"",
+                    ""type"": ""Button"",
+                    ""id"": ""eeba2c5f-859a-4e2f-9a5b-e145abe78fd2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""5fb58862-192c-4480-ab6c-8c14ec250f12"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -224,7 +242,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""902bef3f-7455-49fa-be90-45284d5e3c96"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -257,7 +275,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e398439b-96b1-4ee4-91d6-f82d518b4cd4"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Teclado/Mouse"",
@@ -268,7 +286,7 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d2947049-ceca-4465-81b3-081336cefedf"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -295,6 +313,50 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8f8435c-94b3-41eb-819f-c7c3be89da64"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Teclado/Mouse"",
+                    ""action"": ""Atack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdd40eac-b0f3-4f02-a413-a609453675cd"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Atack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a20d54b-f463-406e-bfa9-e63e73138972"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Defense"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84092f6a-d607-4882-b11f-a298e541d4ad"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Defense"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -446,6 +508,8 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         m_Actions_Push = m_Actions.FindAction("Push", throwIfNotFound: true);
         m_Actions_Drop = m_Actions.FindAction("Drop", throwIfNotFound: true);
         m_Actions_Interact = m_Actions.FindAction("Interact", throwIfNotFound: true);
+        m_Actions_Atack = m_Actions.FindAction("Atack", throwIfNotFound: true);
+        m_Actions_Defense = m_Actions.FindAction("Defense", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Cam = m_Camera.FindAction("Cam", throwIfNotFound: true);
@@ -565,6 +629,8 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Actions_Push;
     private readonly InputAction m_Actions_Drop;
     private readonly InputAction m_Actions_Interact;
+    private readonly InputAction m_Actions_Atack;
+    private readonly InputAction m_Actions_Defense;
     public struct ActionsActions
     {
         private @Comandos m_Wrapper;
@@ -573,6 +639,8 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         public InputAction @Push => m_Wrapper.m_Actions_Push;
         public InputAction @Drop => m_Wrapper.m_Actions_Drop;
         public InputAction @Interact => m_Wrapper.m_Actions_Interact;
+        public InputAction @Atack => m_Wrapper.m_Actions_Atack;
+        public InputAction @Defense => m_Wrapper.m_Actions_Defense;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -594,6 +662,12 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @Atack.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnAtack;
+                @Atack.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnAtack;
+                @Atack.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnAtack;
+                @Defense.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDefense;
+                @Defense.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDefense;
+                @Defense.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnDefense;
             }
             m_Wrapper.m_ActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -610,6 +684,12 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Atack.started += instance.OnAtack;
+                @Atack.performed += instance.OnAtack;
+                @Atack.canceled += instance.OnAtack;
+                @Defense.started += instance.OnDefense;
+                @Defense.performed += instance.OnDefense;
+                @Defense.canceled += instance.OnDefense;
             }
         }
     }
@@ -718,6 +798,8 @@ public partial class @Comandos : IInputActionCollection2, IDisposable
         void OnPush(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnAtack(InputAction.CallbackContext context);
+        void OnDefense(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

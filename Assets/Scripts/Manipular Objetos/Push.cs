@@ -25,7 +25,18 @@ public class Push : MonoBehaviour
     {
         //Codigo responsavel por empurrar objetos
             //Verifique se ha um objeto com o tag "Pushable" na frente do personagem
+        Ray ray = new Ray(hand.transform.position, hand.transform.forward);
         RaycastHit hit;
+         if (Physics.Raycast(ray, out hit))
+        {
+            // Se o Raycast atingir algo, você pode desenhar uma linha até o ponto de impacto
+            Debug.DrawLine(ray.origin, hit.point, Color.red);
+        }
+        else
+        {
+            // Se o Raycast não atingir nada, desenhe uma linha até uma distância máxima
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green);
+        }
         if(Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, pushDistance))
         {
             if (hit.collider.tag == "Pushable" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
