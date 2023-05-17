@@ -1,0 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StopScale : MonoBehaviour
+{
+    public EmitLight emit;
+    public LightPass LP;
+    public bool Emissor, Espelho, Crystal;
+    public GameObject[] OtherLights;
+    // Start is called before the first frame update
+   
+  
+    void OnTriggerEnter(Collider other)
+    {
+        if(Emissor == true)
+        {
+            if(other.GetComponent<Collider>().tag == "Mirror")
+        {
+            Debug.Log(other.GetComponent<Collider>().tag);
+            emit.scaleFactor = 0;
+        }
+
+        if(other.GetComponent<Collider>().tag != "Mirror")
+        {
+            this.gameObject.SetActive(false);
+        }
+        }
+
+
+        if(Espelho == true)
+        {
+        if(other.GetComponent<Collider>().tag == "Mirror")
+        {
+            Debug.Log(other.GetComponent<Collider>().tag);
+            LP.scaleFactor = 0;
+        }
+
+        if(other.GetComponent<Collider>().tag != "Mirror")
+        {
+            
+            for(int i = 0; i < OtherLights.Length; i++)
+            {
+                OtherLights[i].SetActive(false);
+            }
+            this.gameObject.SetActive(false);
+        }
+        }
+
+        if(Crystal == true)
+        {
+        if(other.GetComponent<Collider>().tag == "Cristal")
+        {
+            Debug.Log("Concluido");
+            LP.scaleFactor = 0;
+        }
+        }
+       
+    }
+
+
+}
