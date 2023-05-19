@@ -9,7 +9,7 @@ public class Push : MonoBehaviour
      // Referencia ao Player
     public PlayerController player;
       // Empurrar Objetos
-    public bool pushing;
+    public bool pushing, canRotate;
     public GameObject pushableObj, hand;
     public float pushDistance;
    
@@ -58,6 +58,32 @@ public class Push : MonoBehaviour
                 pushableObj = null;
                
             } 
+
+
+            if (hit.collider.tag == "Rotate" && pushing == false && comandos.Actions.Push.ReadValue<float>() == 1)
+            {
+                string name = hit.collider.name;
+                pushableObj = GameObject.Find(name);
+                if(pushableObj.GetComponent<canMove>().move == true)
+                {
+                pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
+                pushableObj.transform.SetParent(this.transform);
+                player.curSpeed = player.pushSpeed;
+                pushing = true;
+                }
+               
+
+            }
+            else if(hit.collider.tag == "Rotate" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
+            {
+                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+                pushableObj.transform.SetParent(null);
+                player.curSpeed = player.walkSpeed;
+                pushing = false;
+                pushableObj = null;
+               
+            } 
+            
         }
         
     }
