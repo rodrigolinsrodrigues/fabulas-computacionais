@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         Movement();
         Gravity();
         Run();
-        Jump();
+      //  Jump();
     }
 
     void Movement() // movimentação baseada no input e direção da camera
