@@ -15,10 +15,10 @@ public class StopScale : MonoBehaviour
     {
         if(Emissor == true)
         {
-            if(other.GetComponent<Collider>().tag == "Mirror")
+        if(other.GetComponent<Collider>().tag == "Mirror")
         {
             Debug.Log(other.GetComponent<Collider>().tag);
-            emit.scaleFactor = 0;
+            emit.scaleFactor = 0f;
         }
 
         if(other.GetComponent<Collider>().tag != "Mirror")
@@ -33,17 +33,18 @@ public class StopScale : MonoBehaviour
         if(other.GetComponent<Collider>().tag == "Mirror")
         {
             Debug.Log(other.GetComponent<Collider>().tag);
-            LP.scaleFactor = 0;
+            LP.scaleFactor = 0f;
         }
 
         if(other.GetComponent<Collider>().tag != "Mirror")
         {
-            
             for(int i = 0; i < OtherLights.Length; i++)
             {
                 OtherLights[i].SetActive(false);
             }
+            LP.scaleFactor = 0.1f;
             this.gameObject.SetActive(false);
+           
         }
         }
 

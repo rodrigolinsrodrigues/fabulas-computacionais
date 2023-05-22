@@ -8,7 +8,7 @@ public class EmitLight : MonoBehaviour
     public GameObject Luz, hand;
     public Transform LuzActualPos;
     public float scaleFactor = 0.1f; // Fator de escala
-    public float maxScaleY = 5f; // Limite máximo de escala em Y
+    public float maxScaleZ = 5f; // Limite máximo de escala em Y
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,7 @@ public class EmitLight : MonoBehaviour
             if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered)
             {
             Luz.SetActive(true);
+            scaleFactor = 0.1f;
             }
         }
 
@@ -34,13 +35,13 @@ public class EmitLight : MonoBehaviour
             Vector3 currentScale = Luz.transform.localScale;
 
             // Calcule a escala desejada na direção Y
-            float newScaleY = currentScale.y + scaleFactor;
+            float newScaleZ = currentScale.z + scaleFactor;
 
             // Verifique se a nova escala excede o limite máximo em Y
-            if (newScaleY <= maxScaleY)
+            if (newScaleZ <= maxScaleZ)
             {
                 // Aplique a nova escala apenas na direção Y
-                Vector3 newScale = new Vector3(currentScale.x, newScaleY, currentScale.z);
+                Vector3 newScale = new Vector3(currentScale.x, currentScale.y, newScaleZ);
                 Luz.transform.localScale = newScale;
                 
             }
@@ -49,7 +50,7 @@ public class EmitLight : MonoBehaviour
 
         if(Luz.active == false)
         {   
-            Vector3 newScale = new Vector3(0.3f, 0.1f, 0.3f);
+            Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);
             Luz.transform.localScale = newScale;
             Luz.transform.position = LuzActualPos.position;
         }
