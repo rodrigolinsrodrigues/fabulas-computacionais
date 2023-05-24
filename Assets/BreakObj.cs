@@ -24,14 +24,15 @@ public class BreakObj : MonoBehaviour
         {
             string name = hit.collider.name;
             BreakableObj = GameObject.Find(name);
-            pedacos.SetActive(true);
-            BreakableObj.SetActive(false);
+            Quebrar();
+           // pedacos.SetActive(true);
+           // BreakableObj.SetActive(false);
         }
        
         }
     }
 
-  /*  public void Quebrar()
+    public void Quebrar()
     {
         GameObject Pedacos = Instantiate(pedacos,transform.position, transform.rotation);
       
@@ -47,5 +48,5 @@ public class BreakObj : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         
-    } */
+    }
 }

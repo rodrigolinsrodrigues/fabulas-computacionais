@@ -66,7 +66,7 @@ public class Push : MonoBehaviour
                 pushableObj = GameObject.Find(name);
                 if(pushableObj.GetComponent<canMove>().move == true)
                 {
-                pushableObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | ~RigidbodyConstraints.FreezePositionY | ~RigidbodyConstraints.FreezePositionZ;
+                //pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(this.transform);
                 player.curSpeed = player.pushSpeed;
                 pushing = true;
@@ -76,7 +76,7 @@ public class Push : MonoBehaviour
             }
             else if(hit.collider.tag == "Rotate" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
             {
-                pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+               // pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(null);
                 player.curSpeed = player.walkSpeed;
                 pushing = false;
