@@ -26,7 +26,7 @@ public class LightPass : MonoBehaviour
     }
      void Update()
     {
-        if(ThisLight.active)
+        if(ThisLight.activeSelf)
         {
             // Obtenha a escala atual do objeto
             Vector3 currentScale = ThisLight.transform.localScale;
@@ -45,7 +45,7 @@ public class LightPass : MonoBehaviour
 
         }
 
-         if(ThisLight.active == false)
+         if(ThisLight.activeSelf == false)
         {
             ThisLight.transform.localScale = ThisLightScale.localScale;
             ThisLight.transform.position = ThisLightPos.position;

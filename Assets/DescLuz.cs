@@ -15,7 +15,7 @@ public class DescLuz : MonoBehaviour
     {
         if(Cristal == false)
         {
-            if(Luz.active){text.GetComponent<TextMeshPro>().text = Des;}
+            if(Luz.activeSelf){text.GetComponent<TextMeshPro>().text = Des;}
         }
        
     }

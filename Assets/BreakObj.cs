@@ -34,11 +34,11 @@ public class BreakObj : MonoBehaviour
 
     public void Quebrar()
     {
-        GameObject Pedacos = Instantiate(pedacos,transform.position, transform.rotation);
+        GameObject Pedacos = Instantiate(pedacos, BreakableObj.transform.position,  BreakableObj.transform.rotation);
       
         foreach(Rigidbody rb in Pedacos.GetComponentsInChildren<Rigidbody>())
         {
-            Vector3 force = (rb.transform.position - transform.position).normalized * breakForce;
+            Vector3 force = (rb.transform.position -  BreakableObj.transform.position).normalized * breakForce;
         }
 
        BreakableObj.SetActive(false);

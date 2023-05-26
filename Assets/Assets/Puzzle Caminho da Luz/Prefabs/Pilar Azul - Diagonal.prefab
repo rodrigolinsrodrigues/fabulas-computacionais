@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisLight: {fileID: 4709181348648152256}
-  ThisLightPos: {fileID: 5337205160812820090}
-  ThisLightScale: {fileID: 5337205160812820090}
+  ThisLight: {fileID: 4709181347369995581}
+  ThisLightPos: {fileID: 5337205159784224647}
+  ThisLightScale: {fileID: 5337205159784224647}
   maxScaleY: 1
   scaleFactor: 0.1
   ScaleY: 0
@@ -79,10 +79,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934f9d2ed588c3d45bbd12cd0cf4e430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Luz: {fileID: 4709181348648152256}
+  Luz: {fileID: 4709181347369995581}
   text: {fileID: 0}
   Des: 
   Cristal: 0
+  material: {fileID: 0}
 --- !u!1 &2028363078
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,9 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisLight: {fileID: 4709181347369995581}
-  ThisLightPos: {fileID: 5337205159784224647}
-  ThisLightScale: {fileID: 5337205159784224647}
+  ThisLight: {fileID: 4709181348648152256}
+  ThisLightPos: {fileID: 5337205160812820090}
+  ThisLightScale: {fileID: 5337205160812820090}
   maxScaleY: 1
   scaleFactor: 0.1
   ScaleY: 0
@@ -162,10 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934f9d2ed588c3d45bbd12cd0cf4e430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Luz: {fileID: 4709181347369995581}
+  Luz: {fileID: 4709181348648152256}
   text: {fileID: 0}
   Des: 
   Cristal: 0
+  material: {fileID: 0}
 --- !u!1001 &5592123481536614801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,27 +181,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.125
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.0049999994
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08132601
+      value: 0.081
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.30588514
+      value: -0.544
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.11896202
+      value: -0.065
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -268,11 +270,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4709181348648152256}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 1, z: 1.0000007}
-  m_Center: {x: 0, y: 0, z: 21}
+  m_Size: {x: 0.844867, y: 1, z: 1.0000019}
+  m_Center: {x: -0.055214375, y: -0.000000023084148, z: 21}
 --- !u!114 &1059558176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.125
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.y
@@ -321,15 +323,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.08132601
+      value: 0.081
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0999839
+      value: 0.469
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.0012583286
+      value: -0.038
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -398,11 +400,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4709181347369995581}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 21}
+  m_Size: {x: 1.0534668, y: 1, z: 0.999999}
+  m_Center: {x: -0.016468646, y: -0.000000024201311, z: 21}
 --- !u!114 &1926542050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c4f471d0e628fa348bcd20792bba2b70, type: 3}
       propertyPath: m_Name
-      value: Pilar_azul_diagonal
+      value: Pilar Azul - Diagonal
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c4f471d0e628fa348bcd20792bba2b70, type: 3}
       propertyPath: m_TagString

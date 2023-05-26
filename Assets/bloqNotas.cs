@@ -13,11 +13,11 @@ public class bloqNotas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Concluido.active)
+        if(Concluido.activeSelf)
         {
             completo = true;
         }
-        if(Concluido.active == false)
+        if(Concluido.activeSelf == false)
         {
             completo = false;
         }

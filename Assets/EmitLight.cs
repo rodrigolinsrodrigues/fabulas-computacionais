@@ -5,10 +5,12 @@ using UnityEngine;
 public class EmitLight : MonoBehaviour
 {
      private Comandos comandos;
-    public GameObject Luz, hand;
+    public GameObject Luz, hand, Player;
+    public GameObject[] Cams;
     public Transform LuzActualPos;
     public float scaleFactor = 0.1f; // Fator de escala
     public float maxScaleZ = 5f; // Limite máximo de escala em Y
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,12 +26,15 @@ public class EmitLight : MonoBehaviour
         {
             if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered)
             {
+            Player.GetComponent<PlayerController>().enabled = false;
+            Cams[0].SetActive(false);
+            Cams[1].SetActive(true);
             Luz.SetActive(true);
-            scaleFactor = 0.1f;
+            scaleFactor = 0.008f;
             }
         }
 
-        if(Luz.active)
+        if(Luz.activeSelf)
         {
             // Obtenha a escala atual do objeto
             Vector3 currentScale = Luz.transform.localScale;
@@ -48,7 +53,7 @@ public class EmitLight : MonoBehaviour
 
         }
 
-        if(Luz.active == false)
+        if(Luz.activeSelf == false)
         {   
             Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);
             Luz.transform.localScale = newScale;

@@ -31,7 +31,7 @@ public class Lente : MonoBehaviour
                 }
             }
         }
-        if(aura.active)
+        if(aura.activeSelf)
         {
             Vector3 currentScale = aura.transform.localScale;
             // Calcule a escala desejada na direção Y e X
