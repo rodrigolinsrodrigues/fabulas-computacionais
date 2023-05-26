@@ -41,7 +41,7 @@ public class BreakObj : MonoBehaviour
             Vector3 force = (rb.transform.position - transform.position).normalized * breakForce;
         }
 
-        gameObject.SetActive(false);
+       BreakableObj.SetActive(false);
     }
 
     IEnumerator Delay()

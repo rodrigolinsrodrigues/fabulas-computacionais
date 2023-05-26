@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 1098297785}
   - component: {fileID: 1098297787}
   - component: {fileID: 1098297786}
+  - component: {fileID: 1986173986753166336}
+  - component: {fileID: 4021187712656314521}
+  - component: {fileID: 6829247802913369040}
   m_Layer: 0
   m_Name: Cristal
   m_TagString: Untagged
@@ -83,6 +86,49 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1986173986753166336
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098297784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4526672, y: 1.6138916, z: 1.6688843}
+  m_Center: {x: 5.6895523, y: -0.0039384365, z: -0.009611845}
+--- !u!114 &4021187712656314521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098297784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934f9d2ed588c3d45bbd12cd0cf4e430, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Luz: {fileID: 0}
+  text: {fileID: 0}
+  Des: Luz   <color=yellow>ilumina o cristal </color>
+  Cristal: 1
+  material: {fileID: 0}
+--- !u!114 &6829247802913369040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098297784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e0782e7b22f834786b746678ffc722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Canvas: {fileID: 0}
 --- !u!1 &408098492934413143
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,19 +478,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 1
---- !u!65 &1144280158
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5722171385504123009}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.4526672, y: 1.6138916, z: 1.6688843}
-  m_Center: {x: 5.6895523, y: -0.0039384365, z: -0.009611845}
 --- !u!65 &1144280159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -458,32 +491,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.941093, y: 2.1529055, z: 2.1529055}
   m_Center: {x: 1.9705465, y: 7.0798978e-15, z: 0.0032577515}
---- !u!114 &1144280160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5722171385504123009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 934f9d2ed588c3d45bbd12cd0cf4e430, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Luz: {fileID: 0}
-  text: {fileID: 0}
-  Des: Luz ilumina o cristal
-  Cristal: 1
---- !u!114 &1144280166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5722171385504123009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e0782e7b22f834786b746678ffc722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Canvas: {fileID: 0}

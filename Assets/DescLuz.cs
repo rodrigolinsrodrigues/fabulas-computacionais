@@ -9,6 +9,7 @@ public class DescLuz : MonoBehaviour
     public  GameObject text;
     public string Des;
     public bool Cristal;
+    public Material material;
     // Update is called once per frame
     void Update()
     {
@@ -27,6 +28,7 @@ public class DescLuz : MonoBehaviour
         if(other.GetComponent<Collider>().tag == "Light")
         {
             text.GetComponent<TextMeshPro>().text = Des;
+            material.EnableKeyword("_EMISSION");
         }
         }
        
