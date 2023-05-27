@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SonsPorInstrumento : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class SonsPorInstrumento : MonoBehaviour
     public AudioClip[] SonsHandpanAgudo, SonsHandpanMed, SonsHandpanGrave; // Arrays com todas as faixas de audio do Handpan
     public GameObject[] Agudo, Agudox2,Agudox3,Agudox4; 
     public GameObject[] Medio, Mediox2, Mediox3, Mediox4;
-     public GameObject[] Grave, Gravex2,Gravex3,Gravex4;
+    public GameObject[] Grave, Gravex2,Gravex3,Gravex4;
+    public Sprite[] Agudo1,Medio1,Grave1;
     // Update is called once per frame
     void Update()
     {
@@ -42,6 +44,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Agudo.Length; i++)
       {
       Agudo[i].GetComponent<AudioSource>().clip = Agudos[0];
+      Agudo[i].GetComponent<Image>().sprite = Agudo1[0];
       }
 
       //Agudox2 = GameObject.FindGameObjectsWithTag("Agudo x2");
@@ -65,6 +68,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Medio.Length; i++)
       {
       Medio[i].GetComponent<AudioSource>().clip = Medios[0];
+      Medio[i].GetComponent<Image>().sprite = Medio1[0];
       }
 
       //Mediox2 = GameObject.FindGameObjectsWithTag("Medio x2");
@@ -88,6 +92,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Grave.Length; i++)
       {
       Grave[i].GetComponent<AudioSource>().clip = Graves[0];
+      Grave[i].GetComponent<Image>().sprite = Grave1[0];
       }
       //Gravex2 = GameObject.FindGameObjectsWithTag("Grave x2");
       for(int i = 0; i < Gravex2.Length; i++)
@@ -114,6 +119,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Agudo.Length; i++)
       {
       Agudo[i].GetComponent<AudioSource>().clip = Agudos[0];
+      Agudo[i].GetComponent<Image>().sprite = Agudo1[1];
       }
 
       //Agudox2 = GameObject.FindGameObjectsWithTag("Agudo x2");
@@ -137,6 +143,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Medio.Length; i++)
       {
       Medio[i].GetComponent<AudioSource>().clip = Medios[0];
+      Medio[i].GetComponent<Image>().sprite = Medio1[1];
       }
 
       //Mediox2 = GameObject.FindGameObjectsWithTag("Medio x2");
@@ -160,6 +167,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Grave.Length; i++)
       {
       Grave[i].GetComponent<AudioSource>().clip = Graves[0];
+      Grave[i].GetComponent<Image>().sprite = Grave1[1];
       }
       //Gravex2 = GameObject.FindGameObjectsWithTag("Grave x2");
       for(int i = 0; i < Gravex2.Length; i++)
