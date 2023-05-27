@@ -7,6 +7,7 @@ public class RotateObj : MonoBehaviour
     private Comandos comandos;
     public GameObject rotateObj, hand;
     public float checkDistance;
+    bool pressed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +21,9 @@ public class RotateObj : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, checkDistance))
         {
-        if (hit.collider.tag == "Rotate" && comandos.Actions.Interact.triggered)
+        if (hit.collider.tag == "Rotate" && pressed == false && comandos.Actions.Interact.ReadValue<float>() == 1)
             {
-
+                pressed = true;
                 string name = hit.collider.name;
                 rotateObj = GameObject.Find(name);
                 Vector3 currentRotation = rotateObj.transform.rotation.eulerAngles;
@@ -51,7 +52,10 @@ public class RotateObj : MonoBehaviour
                     rotateObj.transform.rotation = newRotation;
                 } 
             }
-           
+        if(comandos.Actions.Interact.ReadValue<float>() == 0)
+        {
+            pressed = false;
+        }
         }
     }
 }

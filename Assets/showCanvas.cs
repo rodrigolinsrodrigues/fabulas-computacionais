@@ -6,23 +6,28 @@ public class showCanvas : MonoBehaviour
 {
     public GameObject Canvas, Player;
     public GameObject[] pilares, Cams;
-    bool bloq;
+    bool bloq, concluido;
+
    
    void Update()
    {
-        if(bloq == true)
-        {
-            for(int i = 0; i < pilares.Length; i++)
-            {
-            pilares[i].GetComponent<canMove>().move = false;
-            }
-        }
+    
+        // if(bloq == true)
+        // {
+        //     for(int i = 0; i < pilares.Length; i++)
+        //     {
+        //     pilares[i].GetComponent<canMove>().move = false;
+        //     }
+        // }
    }
    void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Light"))
         {
+           
             StartCoroutine(Delay1());
+            
+           
         }
 
        
@@ -38,7 +43,7 @@ public class showCanvas : MonoBehaviour
         Cams[1].SetActive(false);
         Cams[2].SetActive(true);
         yield return new WaitForSeconds(1f);
-        bloq = true;
+       // bloq = true;
         Player.GetComponent<PlayerController>().enabled = true;
         yield return new WaitForSeconds(4f);
         Canvas.SetActive(false);
