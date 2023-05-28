@@ -80,7 +80,7 @@ public class Play : MonoBehaviour
             string name = other.gameObject.name;
             noteObj = GameObject.Find(name);
             noteObj.GetComponent<AudioSource>().Play();
-            Debug.Log(noteObj.GetComponent<AudioSource>().clip.name);
+           // Debug.Log(noteObj.GetComponent<AudioSource>().clip.name);
         } 
         
         if(other.gameObject.tag == "Ponto5") // Ao colidir com esse ponto o reprodutor para de tocar

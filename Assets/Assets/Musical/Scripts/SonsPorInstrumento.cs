@@ -44,7 +44,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Agudo.Length; i++)
       {
       Agudo[i].GetComponent<AudioSource>().clip = Agudos[0];
-      Agudo[i].GetComponent<Image>().sprite = Agudo1[0];
+      //Agudo[i].GetComponent<Image>().sprite = Agudo1[0];
       }
 
       //Agudox2 = GameObject.FindGameObjectsWithTag("Agudo x2");
@@ -68,7 +68,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Medio.Length; i++)
       {
       Medio[i].GetComponent<AudioSource>().clip = Medios[0];
-      Medio[i].GetComponent<Image>().sprite = Medio1[0];
+      //Medio[i].GetComponent<Image>().sprite = Medio1[0];
       }
 
       //Mediox2 = GameObject.FindGameObjectsWithTag("Medio x2");
@@ -92,7 +92,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Grave.Length; i++)
       {
       Grave[i].GetComponent<AudioSource>().clip = Graves[0];
-      Grave[i].GetComponent<Image>().sprite = Grave1[0];
+      //Grave[i].GetComponent<Image>().sprite = Grave1[0];
       }
       //Gravex2 = GameObject.FindGameObjectsWithTag("Grave x2");
       for(int i = 0; i < Gravex2.Length; i++)
@@ -119,7 +119,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Agudo.Length; i++)
       {
       Agudo[i].GetComponent<AudioSource>().clip = Agudos[0];
-      Agudo[i].GetComponent<Image>().sprite = Agudo1[1];
+      //Agudo[i].GetComponent<Image>().sprite = Agudo1[1];
       }
 
       //Agudox2 = GameObject.FindGameObjectsWithTag("Agudo x2");
@@ -143,7 +143,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Medio.Length; i++)
       {
       Medio[i].GetComponent<AudioSource>().clip = Medios[0];
-      Medio[i].GetComponent<Image>().sprite = Medio1[1];
+      //Medio[i].GetComponent<Image>().sprite = Medio1[1];
       }
 
       //Mediox2 = GameObject.FindGameObjectsWithTag("Medio x2");
@@ -167,7 +167,7 @@ public class SonsPorInstrumento : MonoBehaviour
       for(int i = 0; i < Grave.Length; i++)
       {
       Grave[i].GetComponent<AudioSource>().clip = Graves[0];
-      Grave[i].GetComponent<Image>().sprite = Grave1[1];
+      //Grave[i].GetComponent<Image>().sprite = Grave1[1];
       }
       //Gravex2 = GameObject.FindGameObjectsWithTag("Grave x2");
       for(int i = 0; i < Gravex2.Length; i++)
