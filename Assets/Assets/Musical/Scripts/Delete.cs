@@ -10,6 +10,7 @@ public class Delete : MonoBehaviour
     public GameObject Coluna;
     public bool podeApagar = false;
     public HabilitarBotao HB;
+    public AdicionarSom AS;
    /* void Update()
     {
         if(this.gameObject.GetComponent<AudioSource>().clip != null)
@@ -37,6 +38,6 @@ public class Delete : MonoBehaviour
         {
            Coluna.gameObject.transform.GetChild(i).GetComponent<Button>().interactable = true;
         }
-       
+       AS.pressionado = true;
     }
 }

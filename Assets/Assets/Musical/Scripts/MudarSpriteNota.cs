@@ -18,11 +18,35 @@ public class MudarSpriteNota : MonoBehaviour
     {
       if(this.gameObject.GetComponent<AudioSource>().clip != null)
       {
-         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x1"))
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Violao_agudo_x1"))
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[0];
         }
-        if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x2"))
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Handpan_agudo_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[1];
+        }
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Violao_medio_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[0];
+        }
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Handpan_medio_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[1];
+        }
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Violao_grave_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[0];
+        }
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Handpan_grave_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[1];
+        }
+
+
+
+
+       /* if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x2"))
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[1];
         }
@@ -33,7 +57,7 @@ public class MudarSpriteNota : MonoBehaviour
         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x4"))
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[3];
-        }
+        } */
       }
         
     }

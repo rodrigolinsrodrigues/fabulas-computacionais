@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class AdicionarSom : MonoBehaviour
 {
-   bool pressionado = false;
+   public bool pressionado = false;
     public HabilitarBotao HB;
     public GameObject fundo;
    public void PressionadoTrue()
    {
-       pressionado = true;
        if(pressionado == true)
        {
         fundo.SetActive(true);
@@ -22,7 +21,7 @@ public class AdicionarSom : MonoBehaviour
    {
         fundo.SetActive(false);
         HB.Desabilitar();
-         pressionado = false;
+        pressionado = false;
         
         
    }
