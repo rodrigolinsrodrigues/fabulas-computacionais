@@ -27,6 +27,8 @@ public class Play : MonoBehaviour
     public  checarPartitura CP;
      public int x,y;
     public GameObject[] Repet;
+
+    public Sprite spriteOriginal, spriteNovo, x2,x3,x4;
     void Start()
     {
         if(botaoPlay) // Ao iniciar o codigo procura pelo botão Play e o pre seleciona para que o player possa navegar entre os botões
@@ -50,7 +52,8 @@ public class Play : MonoBehaviour
         CorOriginal.normalColor = original;
 
         lista[0].transform.GetChild(1).gameObject.SetActive(false);
-        lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+       // lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista[0].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(0); // remove primeiro item da lista
         }
 
@@ -59,12 +62,15 @@ public class Play : MonoBehaviour
         var CorOriginal = GetComponent<Button>().colors;
         CorOriginal.normalColor = original;
 
+        qtdRepete = 0;
         lista[0].transform.GetChild(1).gameObject.SetActive(false);
-        lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+        //lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista[0].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(0); // remove primeiro item da lista
 
         lista[1].transform.GetChild(1).gameObject.SetActive(false);
-        lista[1].gameObject.GetComponent<Button>().colors = CorOriginal;
+       // lista[1].gameObject.GetComponent<Button>().colors = CorOriginal;
+        lista[1].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(1); // remove primeiro item da lista
         
         }
@@ -128,6 +134,7 @@ public class Play : MonoBehaviour
         var CorSelecionada = GetComponent<Button>().colors;
         CorSelecionada.normalColor = Color.red;
 
+       
 
     if(lista.Count == 2)
     {
@@ -139,20 +146,61 @@ public class Play : MonoBehaviour
            
             repeticao = pontos_[x]; // Ultimo
             pontoRepet = pontos_[y]; // Primeiro
-            lista[0].transform.GetChild(1).gameObject.SetActive(true);
-            lista[1].transform.GetChild(1).gameObject.SetActive(true);
-            lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
-            lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
+           // lista[0].transform.GetChild(1).gameObject.SetActive(true);
+           // lista[1].transform.GetChild(1).gameObject.SetActive(true);
+           if(qtdRepete == 0)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = spriteNovo;
+            lista[1].gameObject.GetComponent<Image>().sprite = spriteNovo;
+           }
+            if(qtdRepete == 1)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x2;
+            lista[1].gameObject.GetComponent<Image>().sprite = x2;
+           }
+            if(qtdRepete == 2)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x3;
+            lista[1].gameObject.GetComponent<Image>().sprite = x3;
+           }
+            if(qtdRepete == 3)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x4;
+            lista[1].gameObject.GetComponent<Image>().sprite = x4;
+           }
+
+           // lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
+           // lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
             
         }
         else
         {
             repeticao = pontos_[y];
             pontoRepet = pontos_[x];
-            lista[0].transform.GetChild(1).gameObject.SetActive(true);
-            lista[1].transform.GetChild(1).gameObject.SetActive(true);
-            lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
-            lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
+           // lista[0].transform.GetChild(1).gameObject.SetActive(true);
+          //  lista[1].transform.GetChild(1).gameObject.SetActive(true);
+            if(qtdRepete == 0)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = spriteNovo;
+            lista[1].gameObject.GetComponent<Image>().sprite = spriteNovo;
+           }
+            if(qtdRepete == 1)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x2;
+            lista[1].gameObject.GetComponent<Image>().sprite = x2;
+           }
+            if(qtdRepete == 2)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x3;
+            lista[1].gameObject.GetComponent<Image>().sprite = x3;
+           }
+            if(qtdRepete == 3)
+           {
+            lista[0].gameObject.GetComponent<Image>().sprite = x4;
+            lista[1].gameObject.GetComponent<Image>().sprite = x4;
+           }
+           // lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
+           // lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
            
 
         }
