@@ -16,7 +16,7 @@ public class trocarBotao : MonoBehaviour
 
     public void TrocarBotaoDel()
     {
-        GetComponent<Button>().enabled = false;
-         EventSystem.current.SetSelectedGameObject(BotaoPlay);
+        GetComponent<Button>().interactable = false;
+        EventSystem.current.SetSelectedGameObject(BotaoPlay);
     }
 }
