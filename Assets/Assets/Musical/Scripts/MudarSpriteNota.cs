@@ -42,22 +42,21 @@ public class MudarSpriteNota : MonoBehaviour
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[1];
         }
-
-
-
-
-       /* if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x2"))
-        {
-           this.gameObject.GetComponent<Image>().sprite = Sons[1];
-        }
-        if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x3"))
+         // Flauta
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Flauta_agudo_x1"))
         {
            this.gameObject.GetComponent<Image>().sprite = Sons[2];
         }
-        if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("x4"))
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Flauta_medio_x1"))
         {
-           this.gameObject.GetComponent<Image>().sprite = Sons[3];
-        } */
+           this.gameObject.GetComponent<Image>().sprite = Sons[2];
+        }
+         if(this.gameObject.GetComponent<AudioSource>().clip.name.Contains("Flauta_grave_x1"))
+        {
+           this.gameObject.GetComponent<Image>().sprite = Sons[2];
+        }
+
+
       }
         
     }

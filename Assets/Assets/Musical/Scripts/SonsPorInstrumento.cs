@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class SonsPorInstrumento : MonoBehaviour
 {
   //Script que serve como banco de dados para todos os registros de audio do mini game musical, possuindo todas as faixas existentes e podendo ser incrementado para novas faixas, seguindo o mesmo padrão
-    public bool ViolaoPart1,HandpanPart1,ViolaoPart2,HandpanPart2; // Bools para seleção de instrumento em cada partitura
+    public bool ViolaoPart1,HandpanPart1,ViolaoPart2,HandpanPart2, FlautaPart1,FlautaPart2; // Bools para seleção de instrumento em cada partitura
     public AudioClip[] SonsViolaoAgudo, SonsViolaoMed, SonsViolaoGrave; // Arrays com todas as faixas de audio do violão
     public AudioClip[] SonsHandpanAgudo, SonsHandpanMed, SonsHandpanGrave; // Arrays com todas as faixas de audio do Handpan
+     public AudioClip[] SonsFlautaAgudo, SonsFlautaMed, SonsFlautaGrave; // Arrays com todas as faixas de audio do Handpan
     public GameObject[] Agudo, Agudox2,Agudox3,Agudox4; 
     public GameObject[] Medio, Mediox2, Mediox3, Mediox4;
     public GameObject[] Grave, Gravex2,Gravex3,Gravex4;
@@ -25,6 +26,11 @@ public class SonsPorInstrumento : MonoBehaviour
       {
         InstrumentosPart1(SonsHandpanAgudo, SonsHandpanMed, SonsHandpanGrave);
       }
+      if(FlautaPart1 == true)
+      {
+        InstrumentosPart1(SonsFlautaAgudo, SonsFlautaMed, SonsFlautaGrave);
+      }
+
 
       //Partitura 2
       if(ViolaoPart2 == true)
@@ -36,6 +42,11 @@ public class SonsPorInstrumento : MonoBehaviour
       {
         InstrumentosPart2(SonsHandpanAgudo, SonsHandpanMed, SonsHandpanGrave);
       } 
+
+      if(FlautaPart2 == true)
+      {
+        InstrumentosPart2(SonsFlautaAgudo, SonsFlautaMed, SonsFlautaGrave);
+      }
     }
 
     void InstrumentosPart1(AudioClip[]Agudos, AudioClip[]Medios, AudioClip[]Graves)
@@ -191,23 +202,44 @@ public class SonsPorInstrumento : MonoBehaviour
     //Partitura 1
      public void violaoPart1()
     { 
-        HandpanPart1 = false;
         ViolaoPart1 = true;
+        FlautaPart1 = false;
+        HandpanPart1 = false;
+       
     }
     public void handpanPart1()
     {
-        ViolaoPart1 = false;
         HandpanPart1 = true;
+        ViolaoPart1 = false;
+        FlautaPart1 = false;
+    }
+    public void flautaPart1()
+    {
+        FlautaPart1 = true;
+        HandpanPart1 = false;
+        ViolaoPart1 = false;
+        
     }
     // Partitura 2
      public void violaoPart2()
     { 
-        HandpanPart2 = false;
         ViolaoPart2 = true;
+        HandpanPart2 = false;
+        FlautaPart2 = false;
+       
     }
     public void handpanPart2()
     {
-        ViolaoPart2 = false;
         HandpanPart2 = true;
+        ViolaoPart2 = false;
+        FlautaPart2 = false;
+       
+    }
+     public void flautaPart2()
+    {
+        FlautaPart2 = true;
+        HandpanPart2 = false;
+        ViolaoPart2 = false;
+        
     }
 }
