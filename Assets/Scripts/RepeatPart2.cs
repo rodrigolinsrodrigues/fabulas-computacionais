@@ -10,8 +10,8 @@ public class RepeatPart2 : MonoBehaviour
     // Start is called before the first frame update
     public Transform Ponto0,Ponto1,Ponto2,Ponto3,Ponto4,Ponto5Pt1,Ponto5Pt2;
     public GameObject[] ContadorRepeticao;
-
-    public GameObject  ponteiro, repeticao, pontoRepet, deletar;
+    public GameObject fundoContador;
+    public GameObject  ponteiro, repeticao, pontoRepet, deletar, fundoDel;
     public int qtdRepete = 0;
     public bool delete;
     //teste de loop
@@ -25,35 +25,28 @@ public class RepeatPart2 : MonoBehaviour
      public GameObject[] Repet;
 
      public Sprite spriteOriginal, spriteNovo, x2,x3,x4;
+
+     public Play play;
+     public checarPartitura CP;
     // Update is called once per frame
     void Update()
     {
          //loop
         if (lista.Count > 2) // se tiver mais que dois botoes
         {
-        var CorOriginal = GetComponent<Button>().colors;
-        CorOriginal.normalColor = original;
-
         lista[0].transform.GetChild(1).gameObject.SetActive(false);
-        lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
         lista[0].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(0); // remove primeiro item da lista
         }
 
         if(delete == true)
         {
-
-        var CorOriginal = GetComponent<Button>().colors;
-        CorOriginal.normalColor = original;
-
         qtdRepete = 0;
         lista[0].transform.GetChild(1).gameObject.SetActive(false);
-       // lista[0].gameObject.GetComponent<Button>().colors = CorOriginal;
         lista[0].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(0); // remove primeiro item da lista
 
         lista[1].transform.GetChild(1).gameObject.SetActive(false);
-        //lista[1].gameObject.GetComponent<Button>().colors = CorOriginal;
         lista[1].gameObject.GetComponent<Image>().sprite = spriteOriginal;
         lista.RemoveAt(1); // remove primeiro item da lista
 
@@ -79,15 +72,24 @@ public class RepeatPart2 : MonoBehaviour
         // X e Y se tratam dos pontos de loop
         x = int.Parse(lista[0].gameObject.name);
         y = int.Parse(lista[1].gameObject.name);
-        
-        var CorSelecionada = GetComponent<Button>().colors;
-        CorSelecionada.normalColor = Color.red;
-
-
+    
     if(lista.Count == 2)
     {
-       deletar.GetComponent<Image>().enabled = true;
-       deletar.GetComponent<Button>().enabled = true;
+        if(play.tocar == false || CP.conluido.activeSelf)
+        {
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = true;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = true;
+            }
+            fundoContador.SetActive(true);
+
+        }
+        
+        deletar.GetComponent<Button>().interactable = true;
+        deletar.GetComponent<Image>().enabled = true;
+        fundoDel.SetActive(true);
+
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {
            
@@ -103,27 +105,49 @@ public class RepeatPart2 : MonoBehaviour
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x2;
             lista[1].gameObject.GetComponent<Image>().sprite = x2;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
+
            }
             if(qtdRepete == 2)
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x3;
             lista[1].gameObject.GetComponent<Image>().sprite = x3;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
+
            }
             if(qtdRepete == 3)
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x4;
             lista[1].gameObject.GetComponent<Image>().sprite = x4;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
+
            }
 
-           // lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
-           // lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
             
         }
         else
         {
             repeticao = pontos_[y];
             pontoRepet = pontos_[x];
-             if(qtdRepete == 0)
+            if(qtdRepete == 0)
            {
             lista[0].gameObject.GetComponent<Image>().sprite = spriteNovo;
             lista[1].gameObject.GetComponent<Image>().sprite = spriteNovo;
@@ -132,28 +156,42 @@ public class RepeatPart2 : MonoBehaviour
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x2;
             lista[1].gameObject.GetComponent<Image>().sprite = x2;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
+
            }
             if(qtdRepete == 2)
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x3;
             lista[1].gameObject.GetComponent<Image>().sprite = x3;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
+
            }
             if(qtdRepete == 3)
            {
             lista[0].gameObject.GetComponent<Image>().sprite = x4;
             lista[1].gameObject.GetComponent<Image>().sprite = x4;
+
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
+            ContadorRepeticao[i].GetComponent<Button>().interactable = false;
+            ContadorRepeticao[i].GetComponent<Image>().enabled = false;
+            }
+            fundoContador.SetActive(false);
            }
 
-           // lista[0].gameObject.GetComponent<Button>().colors = CorSelecionada;
-           // lista[1].gameObject.GetComponent<Button>().colors = CorSelecionada;
-           
-
         }
-        for(int i = 0; i <ContadorRepeticao.Length; i++)
-        {
-            ContadorRepeticao[i].GetComponent<Button>().interactable = true;
-        }
-        
         for(int x = 0; x < Repet.Length; x++)
         {
             Repet[x].GetComponent<Button>().interactable = false;

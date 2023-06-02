@@ -131,12 +131,17 @@ public class Play : MonoBehaviour
 
     if(lista.Count == 2)
     {
-        for(int i = 0; i < ContadorRepeticao.Length; i++)
+        if(tocar == false || CP.conluido.activeSelf)
         {
+            for(int i = 0; i < ContadorRepeticao.Length; i++)
+            {
             ContadorRepeticao[i].GetComponent<Button>().interactable = true;
             ContadorRepeticao[i].GetComponent<Image>().enabled = true;
+            }
+            fundoContador.SetActive(true);
+
         }
-        fundoContador.SetActive(true);
+        
         deletar.GetComponent<Button>().interactable = true;
         deletar.GetComponent<Image>().enabled = true;
         fundoDel.SetActive(true);

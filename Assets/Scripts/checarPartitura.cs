@@ -44,29 +44,16 @@ public class checarPartitura : MonoBehaviour
         {
         Partitura1(); 
         if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}
-        if((part1 != true || part1repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}
+        //if((part1 != true || part1repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}
         }
         
         if(ApenasPart1 == false)
         {
         Partitura1(); Partitura2();
         if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        if(check == true){if((part1 != true || part1repet != true) || (part2 != true || part2repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}}
+        //if(check == true){if((part1 != true || part1repet != true) || (part2 != true || part2repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}}
         }
         }
-    /*   if(ApenasPart1 == true)
-        {
-        Partitura1(); 
-        if(check == true){if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        }
-        
-        if(ApenasPart1 == false)
-        {
-        Partitura1(); Partitura2();
-        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        } 
-       
-        */
        
     }
     void Partitura1()

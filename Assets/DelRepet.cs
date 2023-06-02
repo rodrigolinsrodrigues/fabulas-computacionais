@@ -20,6 +20,7 @@ public class DelRepet : MonoBehaviour
         {
             play.Repet[x].GetComponent<Button>().interactable = true;
         }
+    play.fundoContador.SetActive(false);
     play.deletar.GetComponent<Button>().interactable = false;
     play.deletar.GetComponent<Image>().enabled = false;
     play.fundoDel.SetActive(false);
@@ -34,15 +35,15 @@ public class DelRepet : MonoBehaviour
         {
             play2.ContadorRepeticao[i].GetComponent<Button>().interactable = false;
             play2.ContadorRepeticao[i].GetComponent<Image>().enabled = false;
-            //fechar = false;
         }
         for(int x = 0; x < play2.Repet.Length; x++)
         {
             play2.Repet[x].GetComponent<Button>().interactable = true;
         }
+        play2.fundoContador.SetActive(false);
         play2.deletar.GetComponent<Button>().interactable = false;
         play2.deletar.GetComponent<Image>().enabled = false;
-        
+        play2.fundoDel.SetActive(false);
         StartCoroutine("Delay2");
    }
 
