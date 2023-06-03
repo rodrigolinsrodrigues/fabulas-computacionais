@@ -135,6 +135,107 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2914670049856761316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6442094653564240143}
+  - component: {fileID: 1443691584553143088}
+  - component: {fileID: 3485130109114073059}
+  - component: {fileID: 6465142965918189066}
+  m_Layer: 5
+  m_Name: Concluido
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &6442094653564240143
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914670049856761316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5700501395305446190}
+  m_Father: {fileID: 225929810377412482}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!223 &1443691584553143088
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914670049856761316}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
+--- !u!114 &3485130109114073059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914670049856761316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!114 &6465142965918189066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2914670049856761316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &3192457876473750432
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +844,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471134390779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1105,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471142445085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1406,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471147534414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,6 +1647,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191471149267237
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2513,6 +2618,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471183383488
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,6 +3501,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471216054785
 GameObject:
   m_ObjectHideFlags: 0
@@ -4854,6 +4961,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471270811397
 GameObject:
   m_ObjectHideFlags: 0
@@ -5366,6 +5474,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191471272543855
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5897,6 +6006,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471308536932
 GameObject:
   m_ObjectHideFlags: 0
@@ -6277,6 +6387,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471336193073
 GameObject:
   m_ObjectHideFlags: 0
@@ -6675,7 +6786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playSpeed: 300
   tocar: 0
-  Partitura1: 0
+  Partitura1: 1
   Partitura2: 1
   delete: 0
   fechar: 0
@@ -7391,6 +7502,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471383287416
 GameObject:
   m_ObjectHideFlags: 0
@@ -8350,6 +8462,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471394976154
 GameObject:
   m_ObjectHideFlags: 0
@@ -8610,6 +8723,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471396597982
 GameObject:
   m_ObjectHideFlags: 0
@@ -9087,6 +9201,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471437557322
 GameObject:
   m_ObjectHideFlags: 0
@@ -10200,6 +10315,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471464057260
 GameObject:
   m_ObjectHideFlags: 0
@@ -11224,6 +11340,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471485910269
 GameObject:
   m_ObjectHideFlags: 0
@@ -11754,6 +11871,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471500612472
 GameObject:
   m_ObjectHideFlags: 0
@@ -12014,6 +12132,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471503481763
 GameObject:
   m_ObjectHideFlags: 0
@@ -12350,6 +12469,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471505170114
 GameObject:
   m_ObjectHideFlags: 0
@@ -12920,6 +13040,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471527507329
 GameObject:
   m_ObjectHideFlags: 0
@@ -13363,6 +13484,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471546165610
 GameObject:
   m_ObjectHideFlags: 0
@@ -13663,6 +13785,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471554845825
 GameObject:
   m_ObjectHideFlags: 0
@@ -15780,6 +15903,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471626124701
 GameObject:
   m_ObjectHideFlags: 0
@@ -16420,6 +16544,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471651066990
 GameObject:
   m_ObjectHideFlags: 0
@@ -16680,6 +16805,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471652139457
 GameObject:
   m_ObjectHideFlags: 0
@@ -19257,6 +19383,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471715980426
 GameObject:
   m_ObjectHideFlags: 0
@@ -19366,6 +19493,8 @@ Transform:
   - {fileID: 4592191472079959974}
   - {fileID: 4592191472831292093}
   - {fileID: 1994505102412464152}
+  - {fileID: 225929810377412482}
+  - {fileID: 5592782720291472624}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20300,6 +20429,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471747509936
 GameObject:
   m_ObjectHideFlags: 0
@@ -20560,6 +20690,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471748309417
 GameObject:
   m_ObjectHideFlags: 0
@@ -21632,6 +21763,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471779040913
 GameObject:
   m_ObjectHideFlags: 0
@@ -22200,6 +22332,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471806546039
 GameObject:
   m_ObjectHideFlags: 0
@@ -25286,6 +25419,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471910767167
 GameObject:
   m_ObjectHideFlags: 0
@@ -25894,6 +26028,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471914093334
 GameObject:
   m_ObjectHideFlags: 0
@@ -26403,6 +26538,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471948168645
 GameObject:
   m_ObjectHideFlags: 0
@@ -26663,6 +26799,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471948935776
 GameObject:
   m_ObjectHideFlags: 0
@@ -26866,6 +27003,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191471950725622
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27310,6 +27448,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191471971672110
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27666,6 +27805,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471980590779
 GameObject:
   m_ObjectHideFlags: 0
@@ -27988,6 +28128,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191471993412912
 AudioSource:
   m_ObjectHideFlags: 0
@@ -28344,6 +28485,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191471997392141
 GameObject:
   m_ObjectHideFlags: 0
@@ -29732,6 +29874,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472022377812
 GameObject:
   m_ObjectHideFlags: 0
@@ -31224,6 +31367,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472101059355
 GameObject:
   m_ObjectHideFlags: 0
@@ -31484,6 +31628,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472107521932
 GameObject:
   m_ObjectHideFlags: 0
@@ -31944,6 +32089,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472143239964
 GameObject:
   m_ObjectHideFlags: 0
@@ -32244,6 +32390,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472145943480
 GameObject:
   m_ObjectHideFlags: 0
@@ -32504,6 +32651,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472154587747
 GameObject:
   m_ObjectHideFlags: 0
@@ -32764,6 +32912,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472161264114
 GameObject:
   m_ObjectHideFlags: 0
@@ -33648,6 +33797,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472176823958
 GameObject:
   m_ObjectHideFlags: 0
@@ -34677,6 +34827,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472212184598
 GameObject:
   m_ObjectHideFlags: 0
@@ -34937,6 +35088,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472213306536
 GameObject:
   m_ObjectHideFlags: 0
@@ -36346,6 +36498,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472245650838
 GameObject:
   m_ObjectHideFlags: 0
@@ -37187,6 +37340,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472256701415
 GameObject:
   m_ObjectHideFlags: 0
@@ -37702,6 +37856,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472281707778
 GameObject:
   m_ObjectHideFlags: 0
@@ -39679,6 +39834,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472355319086
 GameObject:
   m_ObjectHideFlags: 0
@@ -40019,6 +40175,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472373737303
 GameObject:
   m_ObjectHideFlags: 0
@@ -40416,6 +40573,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472377857756
 GameObject:
   m_ObjectHideFlags: 0
@@ -40887,6 +41045,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472387503891
 GameObject:
   m_ObjectHideFlags: 0
@@ -42117,6 +42276,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472421898443
 GameObject:
   m_ObjectHideFlags: 0
@@ -42996,6 +43156,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472457766727
 GameObject:
   m_ObjectHideFlags: 0
@@ -43256,6 +43417,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472468304864
 GameObject:
   m_ObjectHideFlags: 0
@@ -43592,6 +43754,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472476447810
 GameObject:
   m_ObjectHideFlags: 0
@@ -43852,6 +44015,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472478014975
 GameObject:
   m_ObjectHideFlags: 0
@@ -44462,6 +44626,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472495255937
 GameObject:
   m_ObjectHideFlags: 0
@@ -45064,6 +45229,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472511622709
 GameObject:
   m_ObjectHideFlags: 0
@@ -45776,6 +45942,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472520255064
 GameObject:
   m_ObjectHideFlags: 0
@@ -46311,6 +46478,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472528661653
 GameObject:
   m_ObjectHideFlags: 0
@@ -47033,6 +47201,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472539096153
 GameObject:
   m_ObjectHideFlags: 0
@@ -48776,6 +48945,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472612999458
 GameObject:
   m_ObjectHideFlags: 0
@@ -50136,6 +50306,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472676966582
 GameObject:
   m_ObjectHideFlags: 0
@@ -50563,6 +50734,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472687117012
 GameObject:
   m_ObjectHideFlags: 0
@@ -51325,6 +51497,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472709367677
 GameObject:
   m_ObjectHideFlags: 0
@@ -52449,6 +52622,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472739772492
 GameObject:
   m_ObjectHideFlags: 0
@@ -52613,6 +52787,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191472739772494
 AudioSource:
   m_ObjectHideFlags: 0
@@ -53976,6 +54151,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472785347745
 GameObject:
   m_ObjectHideFlags: 0
@@ -54740,6 +54916,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472810529439
 GameObject:
   m_ObjectHideFlags: 0
@@ -55000,6 +55177,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472818711201
 GameObject:
   m_ObjectHideFlags: 0
@@ -55260,6 +55438,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472827556108
 GameObject:
   m_ObjectHideFlags: 0
@@ -56329,6 +56508,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191472860959144
 AudioSource:
   m_ObjectHideFlags: 0
@@ -57812,6 +57992,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472949606242
 GameObject:
   m_ObjectHideFlags: 0
@@ -58072,6 +58253,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472951277062
 GameObject:
   m_ObjectHideFlags: 0
@@ -58332,6 +58514,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472952852620
 GameObject:
   m_ObjectHideFlags: 0
@@ -58592,6 +58775,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472963177728
 GameObject:
   m_ObjectHideFlags: 0
@@ -59479,6 +59663,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191472991917463
 GameObject:
   m_ObjectHideFlags: 0
@@ -59815,6 +60000,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473001734759
 GameObject:
   m_ObjectHideFlags: 0
@@ -60315,6 +60501,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473030675562
 GameObject:
   m_ObjectHideFlags: 0
@@ -61149,6 +61336,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473038868323
 GameObject:
   m_ObjectHideFlags: 0
@@ -61489,6 +61677,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473045196477
 GameObject:
   m_ObjectHideFlags: 0
@@ -62496,6 +62685,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473066351759
 GameObject:
   m_ObjectHideFlags: 0
@@ -62756,6 +62946,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473073185417
 GameObject:
   m_ObjectHideFlags: 0
@@ -62920,6 +63111,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!82 &4592191473073185419
 AudioSource:
   m_ObjectHideFlags: 0
@@ -64135,6 +64327,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473114273617
 GameObject:
   m_ObjectHideFlags: 0
@@ -64395,6 +64588,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473124360199
 GameObject:
   m_ObjectHideFlags: 0
@@ -65398,6 +65592,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473173159243
 GameObject:
   m_ObjectHideFlags: 0
@@ -66280,6 +66475,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473205654530
 GameObject:
   m_ObjectHideFlags: 0
@@ -66616,6 +66812,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191472676966576}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473232301967
 GameObject:
   m_ObjectHideFlags: 0
@@ -67224,6 +67421,7 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
 --- !u!1 &4592191473253010290
 GameObject:
   m_ObjectHideFlags: 0
@@ -67560,6 +67758,257 @@ MonoBehaviour:
   SPI: {fileID: 4592191471216054786}
   nomeClipe: 
   LN: {fileID: 0}
+  ColunaFechada: 0
+--- !u!1 &5013150570392205995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5592782720291472624}
+  - component: {fileID: 4890929907733588835}
+  m_Layer: 0
+  m_Name: Bloq Notas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5592782720291472624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013150570392205995}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -334.12744, y: -23.438232, z: -5.2780437}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4592191471724880740}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4890929907733588835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013150570392205995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1736a138a4c0864aad8a8b1a76a0e55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Notas:
+  - {fileID: 4592191471471810964}
+  - {fileID: 4592191471827119952}
+  - {fileID: 4592191473152444925}
+  - {fileID: 4592191472612999458}
+  - {fileID: 4592191471707684386}
+  - {fileID: 4592191472573219618}
+  - {fileID: 4592191472255019908}
+  - {fileID: 4592191471825873376}
+  - {fileID: 4592191471891082127}
+  - {fileID: 4592191473035987708}
+  - {fileID: 4592191472421898443}
+  - {fileID: 4592191471258749981}
+  - {fileID: 4592191473232301967}
+  - {fileID: 4592191471910767167}
+  - {fileID: 4592191471384101288}
+  - {fileID: 4592191472516505357}
+  - {fileID: 4592191472802722805}
+  - {fileID: 4592191472980281382}
+  - {fileID: 4592191471270811397}
+  - {fileID: 4592191472413993596}
+  - {fileID: 4592191472233738303}
+  - {fileID: 4592191472002137777}
+  - {fileID: 4592191472566080253}
+  - {fileID: 4592191472163140973}
+  - {fileID: 4592191471741815333}
+  - {fileID: 4592191472353613649}
+  - {fileID: 4592191471769720724}
+  - {fileID: 4592191472022377812}
+  - {fileID: 4592191471748309417}
+  - {fileID: 4592191473073801930}
+  - {fileID: 4592191472499199209}
+  - {fileID: 4592191471626124701}
+  - {fileID: 4592191471225381575}
+  - {fileID: 4592191472213321544}
+  - {fileID: 4592191471900357258}
+  - {fileID: 4592191472063206298}
+  - {fileID: 4592191472176823958}
+  - {fileID: 4592191472698169770}
+  - {fileID: 4592191471474077533}
+  - {fileID: 4592191472179878588}
+  - {fileID: 4592191472580768439}
+  - {fileID: 4592191471383287416}
+  - {fileID: 4592191472531912962}
+  - {fileID: 7065000361389556513}
+  - {fileID: 4592191472635424934}
+  Concluido: {fileID: 2914670049856761316}
+  completo: 0
+  play: {fileID: 4592191471345130815}
+--- !u!1 &5508210457993878128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5700501395305446190}
+  - component: {fileID: 4627663320808313768}
+  - component: {fileID: 3940110717157035490}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5700501395305446190
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5508210457993878128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.1945, y: 1.1945, z: 1.1945}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2147643101294468483}
+  m_Father: {fileID: 6442094653564240143}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 46, y: 381}
+  m_SizeDelta: {x: 294.67, y: 111.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4627663320808313768
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5508210457993878128}
+  m_CullTransparentMesh: 1
+--- !u!114 &3940110717157035490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5508210457993878128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.6650944, b: 0.6650944, a: 0.68235296}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5872147144815376419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2147643101294468483}
+  - component: {fileID: 4454960659227545316}
+  - component: {fileID: 5734976288642511736}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2147643101294468483
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872147144815376419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5700501395305446190}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0015182, y: 0.0000019073}
+  m_SizeDelta: {x: 294.67, y: 111.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4454960659227545316
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872147144815376419}
+  m_CullTransparentMesh: 1
+--- !u!114 &5734976288642511736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872147144815376419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 27
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 87
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "Muito bem,\_\nvoc\xEA\_acertou!"
 --- !u!1 &6115988731202432856
 GameObject:
   m_ObjectHideFlags: 0
@@ -67958,6 +68407,91 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!1 &7520604430592804245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 225929810377412482}
+  - component: {fileID: 3970528400963635152}
+  m_Layer: 0
+  m_Name: Checar Partitura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &225929810377412482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520604430592804245}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -26.204712, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6442094653564240143}
+  m_Father: {fileID: 4592191471724880740}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3970528400963635152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520604430592804245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8396c574e242f0847a6d2ac1ae288234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NotaPart1:
+  - {fileID: 4592191473152444925}
+  - {fileID: 4592191471707684386}
+  - {fileID: 4592191472255019908}
+  - {fileID: 4592191472421898443}
+  NotaPart2:
+  - {fileID: 0}
+  - {fileID: 4592191472516505357}
+  - {fileID: 4592191471270811397}
+  - {fileID: 4592191472002137777}
+  RepetPart1:
+  - {fileID: 0}
+  - {fileID: 0}
+  RepetPart2:
+  - {fileID: 0}
+  - {fileID: 0}
+  TipoNotaPart1:
+  - Violao_grave_x1
+  - Violao_medio_x1
+  - Violao_agudo_x1
+  - Violao_medio_x1
+  TipoNotaPart2:
+  - Handpan_agudo_x1
+  - Handpan_agudo_x1
+  - Handpan_agudo_x1
+  - Handpan_agudo_x1
+  notap11: 0
+  notap12: 1
+  notap21: 1
+  notap22: 2
+  ContadorP1: {fileID: 0}
+  ContadorP2: {fileID: 0}
+  check: 0
+  part1: 0
+  part1repet: 0
+  part2: 0
+  part2repet: 0
+  ApenasPart1: 1
+  conluido: {fileID: 2914670049856761316}
+  tenteDnv: {fileID: 0}
 --- !u!1 &7675211927451094420
 GameObject:
   m_ObjectHideFlags: 0
@@ -68029,7 +68563,6 @@ MonoBehaviour:
   - {fileID: 4592191472002137777}
   - {fileID: 4592191472566080253}
   - {fileID: 4592191472163140973}
-  Repet: []
   Quantidade: 2
   restam: {fileID: 5912858339678491522}
 --- !u!1 &9082179326052962595

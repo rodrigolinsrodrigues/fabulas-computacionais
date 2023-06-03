@@ -43,6 +43,7 @@ public class Play : MonoBehaviour
             //Bools reposnsaveis pelo controle do reprodutor, deve ser trocada no inspector caso sejam comportados mais que uma partitura, fazendo assim o reprodutor mudar o destino final.
             if(Partitura1 == true){Ponto5Pt1.tag = "Ponto5"; Ponto5Pt2.tag = "Untagged"; Pontos(Ponto5Pt1);}
             if(Partitura2 == true){Ponto5Pt1.tag = "Untagged"; Ponto5Pt2.tag = "Ponto5"; Pontos(Ponto5Pt2);}
+
             
         } 
 
@@ -97,6 +98,10 @@ public class Play : MonoBehaviour
     {
         transform.position = Ponto0.position;
         tocar = true;
+        CP.part1 = false;
+        CP.part1repet = false;
+        CP.part2 = false;
+        CP.part2repet = false;
     }
     public void Pontos(Transform Ponto_) // Controlador de Pontos, os pontos nada mais são que os exatos pontos de intervalo das musicas, cada valor do ponto corresponde a seu numero em segundos.
     {

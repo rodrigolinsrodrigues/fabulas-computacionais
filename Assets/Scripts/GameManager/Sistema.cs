@@ -7,6 +7,7 @@ public class Sistema : MonoBehaviour
 {
     //Codigo simples de manipulação de cena, reload e fechar jogo
     private Comandos comandos;
+    public GameObject[] fases;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,5 +27,35 @@ public class Sistema : MonoBehaviour
             Application.Quit();
         }
        
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            fases[0].gameObject.SetActive(true);
+            fases[1].gameObject.SetActive(false);
+            fases[2].gameObject.SetActive(false);
+            fases[3].gameObject.SetActive(false);
+        }
+         if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            fases[0].gameObject.SetActive(false);
+            fases[1].gameObject.SetActive(true);
+            fases[2].gameObject.SetActive(false);
+            fases[3].gameObject.SetActive(false);
+        }
+         if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            fases[0].gameObject.SetActive(false);
+            fases[1].gameObject.SetActive(false);
+            fases[2].gameObject.SetActive(true);
+            fases[3].gameObject.SetActive(false);
+        }
+         if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            fases[0].gameObject.SetActive(false);
+            fases[1].gameObject.SetActive(false);
+            fases[2].gameObject.SetActive(false);
+            fases[3].gameObject.SetActive(true);
+        }
     }
+
+
 }

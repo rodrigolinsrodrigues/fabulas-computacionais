@@ -18,32 +18,15 @@ public class checarPartitura : MonoBehaviour
     GameObject  botãoClicado1Part1,  botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
     // Start is called before the first frame update
 
-   /* public void ChecarResultado()
-    {
-        if(check == true)
-        {
-        if(ApenasPart1 == true)
-        {
-        Partitura1(); 
-        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}
-        }
-        
-        if(ApenasPart1 == false)
-        {
-        Partitura1(); Partitura2();
-        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        }
-        }
-      
-    } */
     public void Update()
     {
         if(check == true)
         {
+        StartCoroutine("Delay");
         if(ApenasPart1 == true)
         {
         Partitura1(); 
-        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}
+        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine(Delay()); check = false;}
         //if((part1 != true || part1repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}
         }
         
@@ -124,8 +107,9 @@ public class checarPartitura : MonoBehaviour
     }
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
        // conluido.SetActive(false);
+       check = false;
     }
     public void repet1Part1(GameObject botãoClicado)
     {
