@@ -24,6 +24,7 @@ public class ApagarNota : MonoBehaviour
         for(int i = 0; i < 3; i++)
         {
            Coluna.gameObject.transform.GetChild(i).GetComponent<Button>().interactable = true;
+           Coluna.gameObject.transform.GetChild(i).gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<SelecionarNota>().ColunaFechada = false;
         }
        
     }

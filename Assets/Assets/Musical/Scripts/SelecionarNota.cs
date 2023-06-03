@@ -10,6 +10,8 @@ public class SelecionarNota : MonoBehaviour
     public GameObject Coluna;
     public SonsPorInstrumento SPI;
     public string nomeClipe;
+    public limitarNotas LN;
+    public bool ColunaFechada;
 
     void Update()
     {
@@ -24,13 +26,19 @@ public class SelecionarNota : MonoBehaviour
     }
     public void Solo()
     {
+        ColunaFechada = true;
         for(int i = 0; i < 3; i++)
         {
+            Coluna.gameObject.transform.GetChild(i).gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<SelecionarNota>().ColunaFechada = true;
             Coluna.gameObject.transform.GetChild(i).GetComponent<AudioSource>().enabled = false;
             Coluna.gameObject.transform.GetChild(i).GetComponent<Button>().interactable = false;
         }
         SomDaNota.clip = this.GetComponent<AudioSource>().clip;
         SomDaNota.enabled = true;
+        LN.Quantidade = LN.Quantidade - 1f;
+        //LN.Check();
+       
+       Debug.Log(ColunaFechada);
        
     }
     public void Dupla()
