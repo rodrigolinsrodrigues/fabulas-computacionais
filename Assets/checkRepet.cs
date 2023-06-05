@@ -11,18 +11,17 @@ public class checkRepet : MonoBehaviour
         if(CP.RepetPart1[0] == null) // Checa se o espaço correspondende do botão esta disponivel
         {
             CP.RepetPart1[0] = EsseBotao;
-            CP.botãoClicado1Part1 = EsseBotao; // aplica esse botão ao primeiro espaço disponivel
-        }
-        if(CP.RepetPart1[0] != null && CP.RepetPart1[1] != EsseBotao) // Checa se o segundo espaço correspondende do botão esta disponivel
-        {
-           CP.RepetPart1[1] = EsseBotao;
-            CP.botãoClicado2Part1 = EsseBotao; // aplica esse botão ao primeiro espaço disponivel
-
-        }
-
-        if(CP.RepetPart1[0] == EsseBotao) //checa a refencia de acerto do botão
-        {
+            CP.botãoClicado1Part1 =  CP.RepetPart1[0];
             CP.notap11 = 2;
         }
+        else
+        if(CP.RepetPart1[0] != null && CP.RepetPart1[1] != EsseBotao) // Checa se o segundo espaço correspondende do botão esta disponivel
+        {
+            CP.RepetPart1[1] = EsseBotao;
+            CP.botãoClicado2Part1 =  CP.RepetPart1[1]; // aplica esse botão ao primeiro espaço disponivel
+
+        }
+
+       
     }
 }

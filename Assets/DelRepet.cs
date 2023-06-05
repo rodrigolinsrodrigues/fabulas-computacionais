@@ -47,6 +47,8 @@ public class DelRepet : MonoBehaviour
         play2.deletar.GetComponent<Button>().interactable = false;
         play2.deletar.GetComponent<Image>().enabled = false;
         play2.fundoDel.SetActive(false);
+        CP.RepetPart1[0] = null;
+        CP.RepetPart1[1] = null;
         StartCoroutine("Delay2");
    }
 
