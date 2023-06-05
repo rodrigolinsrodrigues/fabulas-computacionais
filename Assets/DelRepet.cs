@@ -7,6 +7,7 @@ public class DelRepet : MonoBehaviour
 {
     public Play play;
     public RepeatPart2 play2;
+    public checarPartitura CP;
     // Start is called before the first frame update
    public void Del()
    {
@@ -24,6 +25,8 @@ public class DelRepet : MonoBehaviour
     play.deletar.GetComponent<Button>().interactable = false;
     play.deletar.GetComponent<Image>().enabled = false;
     play.fundoDel.SetActive(false);
+    CP.RepetPart1[0] = null;
+    CP.RepetPart1[1] = null;
     StartCoroutine("Delay");
     
    }

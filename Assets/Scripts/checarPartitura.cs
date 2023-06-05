@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class checarPartitura : MonoBehaviour
 {
-   
     public GameObject[] NotaPart1, NotaPart2; //Notas corretas para a aprovação no minigame
     public GameObject[] RepetPart1, RepetPart2; // Seletores de repetição de cada partitura
     public string[] TipoNotaPart1, TipoNotaPart2; // Tipos de sons atrbuidos as notas
@@ -15,7 +15,7 @@ public class checarPartitura : MonoBehaviour
    
     public bool check, part1, part1repet, part2,part2repet, ApenasPart1; // Bools de checagem a depender do caso
     public GameObject conluido, tenteDnv; // Pega o gameobjc do canvas 
-    GameObject  botãoClicado1Part1,  botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
+    public GameObject  botãoClicado1Part1,  botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
     // Start is called before the first frame update
 
     public void Update()
@@ -26,18 +26,18 @@ public class checarPartitura : MonoBehaviour
         if(ApenasPart1 == true)
         {
         Partitura1(); 
-        if((part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine(Delay()); check = false;}
-        //if((part1 != true || part1repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}
+        if((part1 == true || part1repet == true)){StartCoroutine("Delay"); conluido.SetActive(true); check = false;}
         }
         
         if(ApenasPart1 == false)
         {
         Partitura1(); Partitura2();
-        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay"); check = false;}}
-        //if(check == true){if((part1 != true || part1repet != true) || (part2 != true || part2repet != true)){conluido.SetActive(false); StartCoroutine("Delay"); check = false;}}
+        if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){StartCoroutine("Delay"); conluido.SetActive(true);  check = false;}}
         }
         }
-       
+
+
+        
     }
     void Partitura1()
     {
@@ -108,9 +108,8 @@ public class checarPartitura : MonoBehaviour
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(1);
-       // conluido.SetActive(false);
-       check = false;
-    }
+        
+    } 
     public void repet1Part1(GameObject botãoClicado)
     {
        RepetPart1[0] = botãoClicado;
@@ -139,12 +138,13 @@ public class checarPartitura : MonoBehaviour
     {
         ContadorP1 = ContadorSelecionado;
         ContP1 = ContadorP1;
-        Debug.Log(ContadorP1.name);
+       
     }
     public void ContadorRepetição2(GameObject ContadorSelecionado)
     {
         ContadorP2 = ContadorSelecionado;
         ContP2 = ContadorP2;
-        Debug.Log(ContadorP2.name);
     }
+
+
 }
