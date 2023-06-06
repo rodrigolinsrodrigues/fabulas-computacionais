@@ -17,6 +17,7 @@ public class deleteObj : MonoBehaviour
 
         foreach (Transform child in transform)
         {
+            child.GetComponent<Collider>().enabled = false;
             Renderer childRenderer = child.GetComponent<Renderer>();
             if (childRenderer != null)
             {
@@ -25,8 +26,6 @@ public class deleteObj : MonoBehaviour
                 corAlvo.a = opacidadeAlvo;
                 childMaterial.color = corAlvo;
             }
-
-            child.GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(2f);
           
         }

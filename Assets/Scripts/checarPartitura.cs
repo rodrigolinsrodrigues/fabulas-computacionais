@@ -34,6 +34,9 @@ public class checarPartitura : MonoBehaviour
         Partitura1(); Partitura2();
         if(check == true){if((part1 == true || part1repet == true) && (part2 == true || part2repet == true)){StartCoroutine("Delay"); conluido.SetActive(true);  check = false;}}
         }
+
+        StartCoroutine("Delay2");
+
         }
 
 
@@ -109,6 +112,11 @@ public class checarPartitura : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         
+    } 
+    IEnumerator Delay2()
+    {
+        yield return new WaitForSeconds(1);
+        check = false;
     } 
     public void repet1Part1(GameObject botãoClicado)
     {

@@ -26,9 +26,13 @@ public class EmitLight : MonoBehaviour
         {
             if (hit.collider.tag == "Emit" && comandos.Actions.Interact.ReadValue<float>() == 1)
             {
-            Player.GetComponent<PlayerController>().enabled = false;
-            Cams[0].SetActive(false);
-            Cams[1].SetActive(true);
+           // Player.GetComponent<PlayerController>().enabled = false;
+           /* if(Cams[0] != null && Cams[1] != null)
+            {
+                Cams[0].SetActive(false);
+                Cams[1].SetActive(true);
+            } */
+           
             Luz.SetActive(true);
             scaleFactor = 0.008f;
             }

@@ -271,6 +271,11 @@ public class Play : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         CP.check = true;
+        yield return new WaitForSeconds(2);
+        CP.part1 = false;
+        CP.part1repet = false;
+        CP.part2 = false;
+        CP.part2repet = false;
     } 
 
    
