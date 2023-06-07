@@ -415,8 +415,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 4107998387950692467}
   hand: {fileID: 0}
+  Player: {fileID: 0}
+  Cams: []
   LuzActualPos: {fileID: 3623526779280290505}
-  scaleFactor: 0.1
+  scaleFactor: 0.008
   maxScaleZ: 1
 --- !u!114 &3874189784684851530
 MonoBehaviour:
@@ -432,8 +434,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 4107998387950692467}
   text: {fileID: 0}
-  Des: "Luz \xE9 emitida"
+  Des: "Luz  <color=yellow> \xE9 emitida </color>"
   Cristal: 0
+  material: {fileID: 0}
 --- !u!54 &4107998386959688752
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     // controles (new input system)
     private Comandos comandos;
     // movimentação
-    private CharacterController controller;
+    public CharacterController controller;
     public Animator animator;
     private Vector2 inputs;
     private Transform cam; // direcao da camera
@@ -63,12 +63,25 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
             controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // move o player
             }
-           else
-           {
+            if(push.pushing == true)
+            {
+                if(push.pushingSide == true)
+                {
+                float moveX = Input.GetAxis("Horizontal");
+                Vector3 moveDirection = new Vector3(moveX, 0f, 0f);
+                moveDirection *= curSpeed;
+                controller.Move(-moveDirection * Time.deltaTime);
+                }
+                else
+                {
                 float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + transform.eulerAngles.y;
                 Vector3 MoveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
-           }
+                }
+               
+            }
+            
+          
         }
         else if(inputs.magnitude == 0f){andando = false; if(andando == false){animator.SetBool("Andar", false);}} //  
     }

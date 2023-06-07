@@ -25,8 +25,6 @@ public class BreakObj : MonoBehaviour
             string name = hit.collider.name;
             BreakableObj = GameObject.Find(name);
             Quebrar();
-           // pedacos.SetActive(true);
-           // BreakableObj.SetActive(false);
         }
        
         }

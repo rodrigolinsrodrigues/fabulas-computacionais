@@ -5,7 +5,7 @@ using UnityEngine;
 public class deleteObj : MonoBehaviour
 {
     public float opacidadeAlvo = 0f;
-    public float tempoDelay = 8f;
+    public float tempoDelay;
     void Start()
     {
         StartCoroutine(DestruirFilhos());
@@ -26,7 +26,7 @@ public class deleteObj : MonoBehaviour
                 corAlvo.a = opacidadeAlvo;
                 childMaterial.color = corAlvo;
             }
-            yield return new WaitForSeconds(2f);
+            //yield return new WaitForSeconds(2f);
           
         }
         Destroy(gameObject);

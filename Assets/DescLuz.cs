@@ -15,11 +15,10 @@ public class DescLuz : MonoBehaviour
     {
         if(Cristal == false)
         {
-            if(Luz.activeSelf){text.GetComponent<TextMeshPro>().text = Des;}
-        }
+            if(Luz.activeSelf){if(text != null){text.GetComponent<TextMeshPro>().text = Des;}}
        
+        }
     }
-
    
     void OnTriggerEnter(Collider other)
     {
@@ -27,7 +26,7 @@ public class DescLuz : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Light")
         {
-            text.GetComponent<TextMeshPro>().text = Des;
+            if(text != null){  text.GetComponent<TextMeshPro>().text = Des;}
             material.EnableKeyword("_EMISSION");
         }
         }

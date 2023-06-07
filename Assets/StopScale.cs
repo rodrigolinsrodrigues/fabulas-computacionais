@@ -17,7 +17,6 @@ public class StopScale : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Mirror")
         {
-            Debug.Log(other.GetComponent<Collider>().tag);
             emit.scaleFactor = 0f;
         }
 
@@ -33,7 +32,7 @@ public class StopScale : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Mirror")
         {
-            Debug.Log(other.GetComponent<Collider>().tag);
+          
             LP.scaleFactor = 0f;
         }
 
