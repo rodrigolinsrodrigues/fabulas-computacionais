@@ -14,7 +14,7 @@ public class showCanvas : MonoBehaviour
         if(other.CompareTag("Light"))
         {
             Canvas.SetActive(true);
-            mural.GetComponent<BoxCollider>().enabled = true;
+           // mural.GetComponent<BoxCollider>().enabled = true;
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
            // StartCoroutine(Delay1());
         }

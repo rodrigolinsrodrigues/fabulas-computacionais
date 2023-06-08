@@ -8,9 +8,13 @@ public class StopScale : MonoBehaviour
     public LightPass LP;
     public bool Emissor, Espelho, Crystal;
     public GameObject[] OtherLights;
+   // public string ligth = "Lights";
     // Start is called before the first frame update
    
-  
+  void Start()
+  {
+   
+  }
     void OnTriggerEnter(Collider other)
     {
         if(Emissor == true)

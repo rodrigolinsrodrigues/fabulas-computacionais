@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Lente : MonoBehaviour
 {
-    public GameObject[] Uteis, Inuteis;
+    public GameObject[] Uteis;
     private Comandos comandos;
     public GameObject hand, aura;
     public float distance, scaleFactor, maxScale;
+    public Material material;
     void Awake()
     {
         comandos = new Comandos();
@@ -24,10 +26,17 @@ public class Lente : MonoBehaviour
             if(hit.collider.tag == "Lens" && comandos.Actions.Interact.triggered)
             {
                 aura.SetActive(true);
-                for(int i = 0; i < Inuteis.Length; i++)
+                for(int i = 0; i < Uteis.Length; i++)
                 {
-                Inuteis[i].SetActive(false);
-                Uteis[i].SetActive(true);
+                    Uteis[i].GetComponent<Renderer>().material = material;
+                    if(Uteis[i].gameObject.name.Contains("Pilar Verde"))
+                    {
+                        Uteis[i].gameObject.tag = "Rotate";
+                    }
+                    if(Uteis[i].gameObject.name.Contains("Pilar Azul - Linear"))
+                    {
+                        Uteis[i].gameObject.tag = "Pushable";
+                    }
                 }
             }
         }

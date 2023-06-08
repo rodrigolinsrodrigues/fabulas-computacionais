@@ -21,7 +21,7 @@ public class RotateObj : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, checkDistance))
         {
-        if (hit.collider.tag == "Rotate" && pressed == false && comandos.Actions.Interact.ReadValue<float>() == 1)
+        if (hit.collider.tag == "Rotate" && pressed == false && comandos.Actions.Interact.triggered)
             {
                 pressed = true;
                 string name = hit.collider.name;
