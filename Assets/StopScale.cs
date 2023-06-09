@@ -28,7 +28,11 @@ public class StopScale : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-      
+
+        if(other.GetComponent<Collider>().tag == null)
+        {
+            StartCoroutine(Delay());
+        }
         }
 
 
@@ -40,26 +44,17 @@ public class StopScale : MonoBehaviour
             LP.scaleFactor = 0f;
         }
 
-        if(other.GetComponent<Collider>().tag != "Mirror")
+        if(other.GetComponent<Collider>().tag != "Mirror" || other.GetComponent<Collider>().tag == null)
         {
-            for(int i = 0; i < OtherLights.Length; i++)
+            StartCoroutine(Delay2());
+           /* for(int i = 0; i < OtherLights.Length; i++)
             {
                 OtherLights[i].SetActive(false);
             }
             LP.scaleFactor = 0.1f;
-            this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false); */
            
         }
-
-        if(other.GetComponent<Collider>().tag == null)
-        {
-             for(int i = 0; i < OtherLights.Length; i++)
-            {
-                OtherLights[i].SetActive(false);
-            }
-            LP.scaleFactor = 0.1f;
-            this.gameObject.SetActive(false);
-        } 
         }
 
         if(Crystal == true)
@@ -72,5 +67,21 @@ public class StopScale : MonoBehaviour
        
     }
 
+     private  IEnumerator  Delay()
+    {
+        yield return new WaitForSeconds(4f);
+        this.gameObject.SetActive(false);
+    }
 
+     private  IEnumerator  Delay2()
+    {
+        yield return new WaitForSeconds(4f);
+        this.gameObject.SetActive(false);
+      /*  for(int i = 0; i < OtherLights.Length; i++)
+        {
+            OtherLights[i].gameObject.SetActive(false);
+        } */
+        LP.scaleFactor = 0.1f;
+       
+    }
 }

@@ -43,6 +43,11 @@ public class LightPass : MonoBehaviour
                 
             }
 
+            
+            if(ThisLight.transform.localScale.z >= maxScaleY)
+            {
+                StartCoroutine(Delay());
+            }
         }
 
          if(ThisLight.activeSelf == false)
@@ -50,7 +55,14 @@ public class LightPass : MonoBehaviour
             ThisLight.transform.localScale = ThisLightScale.localScale;
             ThisLight.transform.position = ThisLightPos.position;
         }
-     }
+    }
+
+     private  IEnumerator  Delay()
+    {
+        yield return new WaitForSeconds(4f);
+        ThisLight.SetActive(false);
+    }
+
 }
 
 

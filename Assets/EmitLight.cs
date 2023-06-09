@@ -9,7 +9,7 @@ public class EmitLight : MonoBehaviour
     public GameObject[] Cams;
     public Transform LuzActualPos;
     public float scaleFactor = 0.1f; // Fator de escala
-    public float maxScaleZ = 5f; // Limite máximo de escala em Y
+    public float maxScaleZ; // Limite máximo de escala em Y
     
 
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class EmitLight : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, 2f))
         {
-            if (hit.collider.tag == "Emit" && comandos.Actions.Interact.ReadValue<float>() == 1)
+            if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered)
             {
            // Player.GetComponent<PlayerController>().enabled = false;
            /* if(Cams[0] != null && Cams[1] != null)
@@ -55,6 +55,11 @@ public class EmitLight : MonoBehaviour
                 
             }
 
+            if(Luz.transform.localScale.z >= 0.9f)
+            {
+                StartCoroutine(Delay());
+            }
+
         }
 
         if(Luz.activeSelf == false)
@@ -64,5 +69,10 @@ public class EmitLight : MonoBehaviour
             Luz.transform.position = LuzActualPos.position;
         }
     }
-   
+    
+    private  IEnumerator  Delay()
+    {
+        yield return new WaitForSeconds(4f);
+        Luz.SetActive(false);
+    }
 }
