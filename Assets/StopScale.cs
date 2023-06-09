@@ -28,11 +28,7 @@ public class StopScale : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-
-        if(other.GetComponent<Collider>().tag == null)
-        {
-            StartCoroutine(Delay());
-        }
+        
         }
 
 
@@ -40,21 +36,21 @@ public class StopScale : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Mirror")
         {
-          
-            LP.scaleFactor = 0f;
+            this.LP.scaleFactor = 0f;
         }
 
-        if(other.GetComponent<Collider>().tag != "Mirror" || other.GetComponent<Collider>().tag == null)
+        if(other.GetComponent<Collider>().tag != "Mirror")
         {
-            StartCoroutine(Delay2());
-           /* for(int i = 0; i < OtherLights.Length; i++)
+            Debug.Log((this.gameObject.name) + (other.gameObject.name));
+           // LP.scaleFactor = 0f;
+            for(int i = 0; i < OtherLights.Length; i++)
             {
-                OtherLights[i].SetActive(false);
-            }
-            LP.scaleFactor = 0.1f;
-            this.gameObject.SetActive(false); */
-           
+            OtherLights[i].gameObject.SetActive(false);
+            } 
+            this.gameObject.SetActive(false);
+            
         }
+       
         }
 
         if(Crystal == true)
@@ -62,6 +58,17 @@ public class StopScale : MonoBehaviour
         if(other.GetComponent<Collider>().tag == "Cristal")
         {
             LP.scaleFactor = 0;
+        }
+        if(other.GetComponent<Collider>().tag != "Cristal")
+        {
+            Debug.Log((this.gameObject.name) + (other.gameObject.name));
+           // LP.scaleFactor = 0f;
+            for(int i = 0; i < OtherLights.Length; i++)
+            {
+            OtherLights[i].gameObject.SetActive(false);
+            } 
+            this.gameObject.SetActive(false);
+            
         }
         }
        
@@ -73,15 +80,12 @@ public class StopScale : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-     private  IEnumerator  Delay2()
+    public void  DeleteAll()
     {
-        yield return new WaitForSeconds(4f);
-        this.gameObject.SetActive(false);
-      /*  for(int i = 0; i < OtherLights.Length; i++)
+        for(int i = 0; i < OtherLights.Length; i++)
         {
             OtherLights[i].gameObject.SetActive(false);
-        } */
-        LP.scaleFactor = 0.1f;
-       
+        } 
+        
     }
 }

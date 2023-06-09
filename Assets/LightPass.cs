@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class LightPass : MonoBehaviour
 {
+    public StopScale SS;
     public GameObject ThisLight;
     public Transform ThisLightPos, ThisLightScale;
     public float maxScaleY,scaleFactor;
     public bool ScaleY, ScaleX;
-    
+    public float limteReferencia;
     void Start()
     {
         ThisLightScale.localScale = ThisLight.transform.localScale;
@@ -32,7 +33,7 @@ public class LightPass : MonoBehaviour
             Vector3 currentScale = ThisLight.transform.localScale;
 
             // Calcule a escala desejada na direção Y
-            float newScaleZ = currentScale.z + scaleFactor;
+            float newScaleZ = currentScale.z + 0.006f;
 
             // Verifique se a nova escala excede o limite máximo em Y
             if (newScaleZ <= maxScaleY)
@@ -43,24 +44,27 @@ public class LightPass : MonoBehaviour
                 
             }
 
-            
-            if(ThisLight.transform.localScale.z >= maxScaleY)
-            {
+           if(ThisLight.transform.localScale.z >= limteReferencia)
+           {
                 StartCoroutine(Delay());
-            }
+           }
         }
 
          if(ThisLight.activeSelf == false)
         {
-            ThisLight.transform.localScale = ThisLightScale.localScale;
+            Vector3 currentScale = ThisLight.transform.localScale;
+            Vector3 newScale = new Vector3(currentScale.x,currentScale.y, 0.01f);
+            ThisLight.transform.localScale = newScale;
             ThisLight.transform.position = ThisLightPos.position;
+            //SS.DeleteAll();
         }
     }
 
      private  IEnumerator  Delay()
     {
         yield return new WaitForSeconds(4f);
-        ThisLight.SetActive(false);
+        SS.DeleteAll();
+       ThisLight.SetActive(false);
     }
 
 }

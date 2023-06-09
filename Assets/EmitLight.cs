@@ -6,11 +6,12 @@ public class EmitLight : MonoBehaviour
 {
      private Comandos comandos;
     public GameObject Luz, hand, Player;
-    public GameObject[] Cams;
+    public GameObject[] Cams, Pilares;
     public Transform LuzActualPos;
     public float scaleFactor = 0.1f; // Fator de escala
     public float maxScaleZ; // Limite máximo de escala em Y
-    
+    public Lente lente;
+    bool lightOff;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,9 @@ public class EmitLight : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, 2f))
+        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, 4f))
         {
-            if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered)
+            if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered && lightOff == true)
             {
            // Player.GetComponent<PlayerController>().enabled = false;
            /* if(Cams[0] != null && Cams[1] != null)
@@ -32,14 +33,17 @@ public class EmitLight : MonoBehaviour
                 Cams[0].SetActive(false);
                 Cams[1].SetActive(true);
             } */
-           
+
             Luz.SetActive(true);
             scaleFactor = 0.008f;
             }
+           
         }
 
         if(Luz.activeSelf)
         {
+            lightOff = false;
+            //this.gameObject.tag = "Untagged";
             // Obtenha a escala atual do objeto
             Vector3 currentScale = Luz.transform.localScale;
 
@@ -59,14 +63,36 @@ public class EmitLight : MonoBehaviour
             {
                 StartCoroutine(Delay());
             }
-
+            for(int i = 0; i < Pilares.Length; i++)
+            {
+                Pilares[i].tag = "Untagged";
+            }
+           
         }
 
         if(Luz.activeSelf == false)
         {   
+            lightOff = true;
+           // this.gameObject.tag = "Emit";
             Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);
             Luz.transform.localScale = newScale;
             Luz.transform.position = LuzActualPos.position;
+           
+           if(lente.ativo == true)
+           {
+             for(int i = 0; i < Pilares.Length; i++)
+                {
+                if(Pilares[i].gameObject.name.Contains("Pilar Verde"))
+                {
+                    Pilares[i].gameObject.tag = "Rotate";
+                }
+                if(Pilares[i].gameObject.name.Contains("Pilar Azul - Linear"))
+                {
+                    Pilares[i].gameObject.tag = "Pushable";
+                }
+                }
+           }
+           
         }
     }
     

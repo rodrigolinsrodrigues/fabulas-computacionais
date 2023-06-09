@@ -10,6 +10,7 @@ public class Lente : MonoBehaviour
     public GameObject hand, aura;
     public float distance, scaleFactor, maxScale;
     public Material material;
+    public bool ativo = false;
     void Awake()
     {
         comandos = new Comandos();
@@ -25,6 +26,7 @@ public class Lente : MonoBehaviour
         {
             if(hit.collider.tag == "Lens" && comandos.Actions.Interact.triggered)
             {
+                ativo = true;
                 aura.SetActive(true);
                 for(int i = 0; i < Uteis.Length; i++)
                 {

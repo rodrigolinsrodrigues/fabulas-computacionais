@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 222532787}
   ThisLight: {fileID: 8130218430621312338}
   ThisLightPos: {fileID: 8907986174400020456}
   ThisLightScale: {fileID: 8907986174400020456}
@@ -67,6 +68,7 @@ MonoBehaviour:
   scaleFactor: 0.008
   ScaleY: 0
   ScaleX: 0
+  limteReferencia: 0.9
 --- !u!114 &1626130622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 1621970070}
   ThisLight: {fileID: 8130218430448721149}
   ThisLightPos: {fileID: 8907986174573446727}
   ThisLightScale: {fileID: 8907986174573446727}
@@ -151,6 +154,7 @@ MonoBehaviour:
   scaleFactor: 0.008
   ScaleY: 0
   ScaleX: 0
+  limteReferencia: 0.9
 --- !u!114 &2053406911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +457,7 @@ MonoBehaviour:
   emit: {fileID: 0}
   LP: {fileID: 2053406912}
   Emissor: 0
-  Espelho: 0
+  Espelho: 1
   Crystal: 1
   OtherLights: []
 --- !u!4 &8907986174573446727 stripped
@@ -696,7 +700,7 @@ MonoBehaviour:
   emit: {fileID: 0}
   LP: {fileID: 1626130623}
   Emissor: 0
-  Espelho: 0
+  Espelho: 1
   Crystal: 1
   OtherLights: []
 --- !u!4 &8907986174400020456 stripped
