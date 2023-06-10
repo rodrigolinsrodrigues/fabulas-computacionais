@@ -1,41 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class showCanvas : MonoBehaviour
 {
-    public GameObject Canvas, mural, Redoma;
+    public GameObject Canvas, Redoma, Player;
     public GameObject[] pilares, Cams;
     bool bloq, concluido;
-
+    
    
    void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Light"))
         {
             Canvas.SetActive(true);
-           // mural.GetComponent<BoxCollider>().enabled = true;
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
-           // StartCoroutine(Delay1());
+           StartCoroutine(Delay1());
         }
 
        
     }
 
-   /* IEnumerator Delay1()
+    IEnumerator Delay1()
     {
-       // yield return new WaitForSeconds(5f);
-      //  Cams[0].SetActive(false);
-      //  Cams[1].SetActive(true);
-      //  yield return new WaitForSeconds(4f);
-       
-      //  Cams[1].SetActive(false);
-      //  Cams[2].SetActive(true);
-       // yield return new WaitForSeconds(1f);
-       // bloq = true;
-      //  Player.GetComponent<PlayerController>().enabled = true;
-      //  yield return new WaitForSeconds(4f);
-       // Canvas.SetActive(false);
-    } */
+        yield return new WaitForSeconds(3f);
+        Cams[0].SetActive(false);
+        Cams[1].SetActive(true);
+        Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
+        Cams[2].GetComponent<CinemachineFreeLook>().Priority = 1;
+        yield return new WaitForSeconds(3f);
+        Cams[1].SetActive(false);
+       // Cams[2].SetActive(true);
+        Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+        Cams[2].GetComponent<CinemachineFreeLook>().Priority = 10;
+        yield return new WaitForSeconds(1f);
+        Player.GetComponent<PlayerController>().enabled = true;
+        Canvas.SetActive(false);
+    } 
 
 }

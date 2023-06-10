@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class Lente : MonoBehaviour
 {
@@ -28,9 +29,11 @@ public class Lente : MonoBehaviour
             {
                 ativo = true;
                 aura.SetActive(true);
-                 StartCoroutine(Delay());
-                Cams[0].SetActive(false);
+                StartCoroutine(Delay());
+               // Cams[0].SetActive(false);
                 Cams[1].SetActive(true);
+                Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
+                Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
                 StartCoroutine(Delay2());
                 
             }
@@ -80,8 +83,10 @@ public class Lente : MonoBehaviour
                     }
                 }
         yield return new WaitForSeconds(2f);
-        Cams[0].SetActive(true);
+       // Cams[0].SetActive(true);
         Cams[1].SetActive(false);
+        Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
+        Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         yield return new WaitForSeconds(2f);
         Destroy(GetComponent<Lente>());
     }

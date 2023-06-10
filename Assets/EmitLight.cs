@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cinemachine;
 public class EmitLight : MonoBehaviour
 {
      private Comandos comandos;
@@ -27,12 +27,14 @@ public class EmitLight : MonoBehaviour
         {
             if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered && lightOff == true)
             {
-           // Player.GetComponent<PlayerController>().enabled = false;
-           /* if(Cams[0] != null && Cams[1] != null)
+            Player.GetComponent<PlayerController>().enabled = false;
+           if(Cams[0] != null && Cams[1] != null)
             {
-                Cams[0].SetActive(false);
+              //  Cams[0].SetActive(false);
                 Cams[1].SetActive(true);
-            } */
+                Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
+                Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
+            }
 
             Luz.SetActive(true);
             scaleFactor = 0.005f;
@@ -77,7 +79,16 @@ public class EmitLight : MonoBehaviour
             Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);
             Luz.transform.localScale = newScale;
             Luz.transform.position = LuzActualPos.position;
-           
+
+            Player.GetComponent<PlayerController>().enabled = true;
+            if(Cams[0] != null && Cams[1] != null)
+            {
+              //  Cams[0].SetActive(true);
+                Cams[1].SetActive(false);
+                Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
+                Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+            }
+
            if(lente.ativo == true)
            {
              for(int i = 0; i < Pilares.Length; i++)
