@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Lente : MonoBehaviour
 {
-    public GameObject[] Uteis;
+    public GameObject[] Uteis, Cams;
     private Comandos comandos;
     public GameObject hand, aura;
     public float distance, scaleFactor, maxScale;
@@ -28,20 +28,20 @@ public class Lente : MonoBehaviour
             {
                 ativo = true;
                 aura.SetActive(true);
-                for(int i = 0; i < Uteis.Length; i++)
-                {
-                    Uteis[i].GetComponent<Renderer>().material = material;
-                    if(Uteis[i].gameObject.name.Contains("Pilar Verde"))
-                    {
-                        Uteis[i].gameObject.tag = "Rotate";
-                    }
-                    if(Uteis[i].gameObject.name.Contains("Pilar Azul - Linear"))
-                    {
-                        Uteis[i].gameObject.tag = "Pushable";
-                    }
-                }
+                 StartCoroutine(Delay());
+                Cams[0].SetActive(false);
+                Cams[1].SetActive(true);
+                StartCoroutine(Delay2());
+                
             }
         }
+       
+        
+        
+    }
+    
+    IEnumerator Delay()
+    {
         if(aura.activeSelf)
         {
             Vector3 currentScale = aura.transform.localScale;
@@ -58,17 +58,32 @@ public class Lente : MonoBehaviour
                 
             }
            
-            StartCoroutine(Delay());
+           
         }
-        
-        
-    }
-    
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(5f);
-        Destroy(GetComponent<Lente>());
+        yield return new WaitForSeconds(2f);
         Destroy(aura);
 
     }
+     IEnumerator Delay2()
+    {
+        yield return new WaitForSeconds(2f);
+        for(int i = 0; i < Uteis.Length; i++)
+                {
+                    Uteis[i].GetComponent<Renderer>().material = material;
+                    if(Uteis[i].gameObject.name.Contains("Pilar Verde"))
+                    {
+                        Uteis[i].gameObject.tag = "Rotate";
+                    }
+                    if(Uteis[i].gameObject.name.Contains("Pilar Azul - Linear"))
+                    {
+                        Uteis[i].gameObject.tag = "Pushable";
+                    }
+                }
+        yield return new WaitForSeconds(2f);
+        Cams[0].SetActive(true);
+        Cams[1].SetActive(false);
+        yield return new WaitForSeconds(2f);
+        Destroy(GetComponent<Lente>());
+    }
+   
 }

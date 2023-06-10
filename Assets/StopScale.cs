@@ -17,21 +17,6 @@ public class StopScale : MonoBehaviour
   }
     void OnTriggerEnter(Collider other)
     {
-        if(Emissor == true)
-        {
-        if(other.GetComponent<Collider>().tag == "Mirror")
-        {
-            emit.scaleFactor = 0f;
-        }
-
-        if(other.GetComponent<Collider>().tag != "Mirror")
-        {
-            this.gameObject.SetActive(false);
-        }
-        
-        }
-
-
         if(Espelho == true)
         {
         if(other.GetComponent<Collider>().tag == "Mirror")
@@ -47,11 +32,30 @@ public class StopScale : MonoBehaviour
             {
             OtherLights[i].gameObject.SetActive(false);
             } 
+            LP.scaleFactor = 0;
             this.gameObject.SetActive(false);
             
+        } 
         }
+
+
+        if(Emissor == true)
+        {
+        if(other.GetComponent<Collider>().tag == "Mirror")
+        {
+            emit.scaleFactor = 0f;
+        }
+
+        if(other.GetComponent<Collider>().tag != "Mirror")
+        {
+            Debug.Log((this.gameObject.name) + (other.gameObject.name));
+            this.gameObject.SetActive(false);
+        }
+        
+        }
+
+
        
-        }
 
         if(Crystal == true)
         {
@@ -67,6 +71,7 @@ public class StopScale : MonoBehaviour
             {
             OtherLights[i].gameObject.SetActive(false);
             } 
+            LP.scaleFactor = 0;
             this.gameObject.SetActive(false);
             
         }

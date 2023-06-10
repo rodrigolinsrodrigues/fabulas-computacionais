@@ -20,7 +20,6 @@ public class LightPass : MonoBehaviour
     {
         if(other.GetComponent<Collider>().tag == "Light")
         {
-            Debug.Log("Pegou");
             ThisLight.SetActive(true);
             
         }
@@ -33,7 +32,7 @@ public class LightPass : MonoBehaviour
             Vector3 currentScale = ThisLight.transform.localScale;
 
             // Calcule a escala desejada na direção Y
-            float newScaleZ = currentScale.z + 0.006f;
+            float newScaleZ = currentScale.z + scaleFactor;
 
             // Verifique se a nova escala excede o limite máximo em Y
             if (newScaleZ <= maxScaleY)
@@ -56,6 +55,7 @@ public class LightPass : MonoBehaviour
             Vector3 newScale = new Vector3(currentScale.x,currentScale.y, 0.01f);
             ThisLight.transform.localScale = newScale;
             ThisLight.transform.position = ThisLightPos.position;
+            scaleFactor = 0.006f;
             //SS.DeleteAll();
         }
     }
@@ -64,7 +64,7 @@ public class LightPass : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
         SS.DeleteAll();
-       ThisLight.SetActive(false);
+        ThisLight.SetActive(false);
     }
 
 }

@@ -8,7 +8,7 @@ public class EmitLight : MonoBehaviour
     public GameObject Luz, hand, Player;
     public GameObject[] Cams, Pilares;
     public Transform LuzActualPos;
-    public float scaleFactor = 0.1f; // Fator de escala
+    public float scaleFactor; // Fator de escala
     public float maxScaleZ; // Limite máximo de escala em Y
     public Lente lente;
     bool lightOff;
@@ -35,7 +35,7 @@ public class EmitLight : MonoBehaviour
             } */
 
             Luz.SetActive(true);
-            scaleFactor = 0.008f;
+            scaleFactor = 0.005f;
             }
            
         }
