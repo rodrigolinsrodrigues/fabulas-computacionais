@@ -269,9 +269,9 @@ public class Play : MonoBehaviour
 
    IEnumerator Delay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         CP.check = true;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         CP.part1 = false;
         CP.part1repet = false;
         CP.part2 = false;

@@ -19,6 +19,7 @@ public class ApagarNota : MonoBehaviour
 
     public void Apagar()
     {
+        this.gameObject.GetComponent<botaoClicado>().buttonClicked = false;
         this.gameObject.GetComponent<AudioSource>().clip = null;
         this.gameObject.GetComponent<Image>().sprite = original;
         for(int i = 0; i < 3; i++)

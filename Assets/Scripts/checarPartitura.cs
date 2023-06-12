@@ -8,8 +8,8 @@ public class checarPartitura : MonoBehaviour
     public GameObject[] NotaPart1, NotaPart2; //Notas corretas para a aprovação no minigame
     public GameObject[] RepetPart1, RepetPart2; // Seletores de repetição de cada partitura
     public string[] TipoNotaPart1, TipoNotaPart2; // Tipos de sons atrbuidos as notas
-
-    public int notap11,notap12,notap21,notap22; // Serve para controlar o intervalo de repetições em ambas as partituras
+    public int notap11,notap12,notap21,notap22;// Serve para controlar o intervalo de repetições em ambas as partituras
+    public int notap13,notap14,notap23,notap24;
     public GameObject ContadorP1, ContadorP2; // Identifica o contador de repetição selecionado  em cada partitura
     GameObject  ContP1, ContP2; // Serve para fazer a checagem do identificador no script
    
@@ -47,7 +47,7 @@ public class checarPartitura : MonoBehaviour
         //Repetição
         if(RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
         {
-        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] && NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
+        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] && NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12] &&  NotaPart1[notap13].GetComponent<botaoClicado>().buttonClicked == false &&  NotaPart1[notap14].GetComponent<botaoClicado>().buttonClicked == false) && 
         (RepetPart1[0] == botãoClicado1Part1 && RepetPart1[1] == botãoClicado2Part1 && ContP1 == ContadorP1))
         {
             part1repet = true;
@@ -80,7 +80,7 @@ public class checarPartitura : MonoBehaviour
     {
         if(RepetPart2[0] != null && RepetPart2[1] != null && ContP2 != null)
         {
-        if((NotaPart2[notap21].GetComponent<AudioSource>().clip.name == TipoNotaPart2[notap21] && NotaPart2[notap22].GetComponent<AudioSource>().clip.name == TipoNotaPart2[notap22]) && 
+        if((NotaPart2[notap21].GetComponent<AudioSource>().clip.name == TipoNotaPart2[notap21] && NotaPart2[notap22].GetComponent<AudioSource>().clip.name == TipoNotaPart2[notap22] && NotaPart2[notap23].GetComponent<botaoClicado>().buttonClicked == false &&  NotaPart2[notap24].GetComponent<botaoClicado>().buttonClicked == false) && 
         (RepetPart2[0] == botãoClicado1Part2 && RepetPart2[1] == botãoClicado2Part2 && ContP2 == ContadorP2))
         {
             part2repet = true;
