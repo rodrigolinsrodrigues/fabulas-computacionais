@@ -75,7 +75,7 @@ public class RepeatPart2 : MonoBehaviour
     
     if(lista.Count == 2)
     {
-        if(play.tocar == false || CP.conluido.activeSelf)
+      /*  if(play.tocar == false || CP.conluido.activeSelf)
         {
             for(int i = 0; i < ContadorRepeticao.Length; i++)
             {
@@ -88,7 +88,7 @@ public class RepeatPart2 : MonoBehaviour
         
         deletar.GetComponent<Button>().interactable = true;
         deletar.GetComponent<Image>().enabled = true;
-        fundoDel.SetActive(true);
+        fundoDel.SetActive(true); */
 
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {

@@ -135,7 +135,7 @@ public class Play : MonoBehaviour
 
     if(lista.Count == 2)
     {
-        if(tocar == false)
+      /*  if(tocar == false)
         {
             for(int i = 0; i < ContadorRepeticao.Length; i++)
             {
@@ -148,7 +148,7 @@ public class Play : MonoBehaviour
             deletar.GetComponent<Image>().enabled = true;
             fundoDel.SetActive(true);
 
-        }
+        } */
        
         if (x > y) // vai separar os botoes entre ultimo e primeiro
         {
