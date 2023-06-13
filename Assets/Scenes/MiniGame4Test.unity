@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1152071475}
   ThisLightPos: {fileID: 1152071476}
   ThisLightScale: {fileID: 1152071476}
@@ -277,6 +278,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &31655054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,6 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 663580165}
   ThisLightPos: {fileID: 663580166}
   ThisLightScale: {fileID: 663580166}
@@ -701,6 +704,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &89629932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1277290141}
   ThisLightPos: {fileID: 1277290142}
   ThisLightScale: {fileID: 1277290142}
@@ -1046,6 +1051,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &149878435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1296,6 +1302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 384217100}
   ThisLightPos: {fileID: 384217105}
   ThisLightScale: {fileID: 384217105}
@@ -1303,6 +1310,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &169042239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2698,6 +2706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1314520513}
   ThisLightPos: {fileID: 1314520518}
   ThisLightScale: {fileID: 1314520518}
@@ -2705,6 +2714,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &311015699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,6 +2974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1049345166}
   ThisLightPos: {fileID: 1049345167}
   ThisLightScale: {fileID: 1049345167}
@@ -2971,6 +2982,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &313854115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3477,6 +3489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 750014946}
   ThisLightPos: {fileID: 750014951}
   ThisLightScale: {fileID: 750014951}
@@ -3484,6 +3497,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &372839922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3613,6 +3627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 866347050}
   ThisLightPos: {fileID: 866347055}
   ThisLightScale: {fileID: 866347055}
@@ -3620,6 +3635,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &379761603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4006,7 +4022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6327331
+      value: 0.63273317
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4014,11 +4030,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.6310966
+      value: 0.63109654
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.31689468
+      value: -0.31689465
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -4030,7 +4046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.28643197
+      value: 0.28643194
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -4433,19 +4449,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.63273305
+      value: 0.63273317
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.31771645
+      value: 0.31771648
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.63109666
+      value: 0.63109654
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.31689474
+      value: -0.31689468
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4869,6 +4885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1813034649}
   ThisLightPos: {fileID: 1813034650}
   ThisLightScale: {fileID: 1813034650}
@@ -4876,6 +4893,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &512376281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5503,6 +5521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 2002665715}
   ThisLightPos: {fileID: 2002665720}
   ThisLightScale: {fileID: 2002665720}
@@ -5510,6 +5529,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &584182647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5867,6 +5887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1619688912}
   ThisLightPos: {fileID: 1619688913}
   ThisLightScale: {fileID: 1619688913}
@@ -5874,6 +5895,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &631184909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7386,6 +7408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 513641281}
   ThisLightPos: {fileID: 513641282}
   ThisLightScale: {fileID: 513641282}
@@ -7393,6 +7416,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &816471647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7583,6 +7607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 322955637}
   ThisLightPos: {fileID: 322955638}
   ThisLightScale: {fileID: 322955638}
@@ -7590,6 +7615,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &819810323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7776,6 +7802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 693552802}
   ThisLightPos: {fileID: 693552803}
   ThisLightScale: {fileID: 693552803}
@@ -7783,6 +7810,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &822897036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7938,6 +7966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 1034802525}
+  Redoma: {fileID: 0}
   Player: {fileID: 0}
   pilares: []
   Cams: []
@@ -8629,6 +8658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 721284793}
   ThisLightPos: {fileID: 721284794}
   ThisLightScale: {fileID: 721284794}
@@ -8636,6 +8666,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &936434680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9021,6 +9052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1662244654}
   ThisLightPos: {fileID: 1662244659}
   ThisLightScale: {fileID: 1662244659}
@@ -9028,6 +9060,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &964439448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9130,6 +9163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 166679859}
   ThisLightPos: {fileID: 166679860}
   ThisLightScale: {fileID: 166679860}
@@ -9137,6 +9171,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &988829609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9245,6 +9280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 814109621}
   ThisLightPos: {fileID: 814109626}
   ThisLightScale: {fileID: 814109626}
@@ -9252,6 +9288,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1007835973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10564,6 +10601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1040364228}
   ThisLightPos: {fileID: 1040364233}
   ThisLightScale: {fileID: 1040364233}
@@ -10571,6 +10609,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1182913247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10920,6 +10959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 541095630}
   ThisLightPos: {fileID: 541095631}
   ThisLightScale: {fileID: 541095631}
@@ -10927,6 +10967,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1231610919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11861,6 +11902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1269946595}
   ThisLightPos: {fileID: 1269946596}
   ThisLightScale: {fileID: 1269946596}
@@ -11868,6 +11910,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1347427625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11970,6 +12013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1238376601}
   ThisLightPos: {fileID: 1238376606}
   ThisLightScale: {fileID: 1238376606}
@@ -11977,6 +12021,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1380828385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12473,6 +12518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1048889549}
   ThisLightPos: {fileID: 1048889554}
   ThisLightScale: {fileID: 1048889554}
@@ -12480,6 +12526,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1417387650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12999,6 +13046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 2120670942}
   ThisLightPos: {fileID: 2120670943}
   ThisLightScale: {fileID: 2120670943}
@@ -13006,6 +13054,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1463076090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13452,6 +13501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 566262536}
   ThisLightPos: {fileID: 566262537}
   ThisLightScale: {fileID: 566262537}
@@ -13459,6 +13509,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1552357071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13693,6 +13744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 291323806}
   ThisLightPos: {fileID: 291323811}
   ThisLightScale: {fileID: 291323811}
@@ -13700,6 +13752,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1604185500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13829,6 +13882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 856617086}
   ThisLightPos: {fileID: 856617091}
   ThisLightScale: {fileID: 856617091}
@@ -13836,6 +13890,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1613232584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14161,6 +14216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 2112305435}
   ThisLightPos: {fileID: 2112305436}
   ThisLightScale: {fileID: 2112305436}
@@ -14168,6 +14224,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1658670508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14674,9 +14731,11 @@ MonoBehaviour:
   hand: {fileID: 527437632}
   Player: {fileID: 0}
   Cams: []
+  Pilares: []
   LuzActualPos: {fileID: 8459473820721479982}
   scaleFactor: 0.1
   maxScaleZ: 5
+  lente: {fileID: 0}
 --- !u!114 &1664106677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15428,6 +15487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1924872872}
   ThisLightPos: {fileID: 1924872873}
   ThisLightScale: {fileID: 1924872873}
@@ -15435,6 +15495,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1869593541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15501,6 +15562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1910765980}
   ThisLightPos: {fileID: 1910765985}
   ThisLightScale: {fileID: 1910765985}
@@ -15508,6 +15570,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1885123538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15733,6 +15796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1102325416}
   ThisLightPos: {fileID: 1102325417}
   ThisLightScale: {fileID: 1102325417}
@@ -15740,6 +15804,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1898974717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16121,6 +16186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 196084898}
   ThisLightPos: {fileID: 196084899}
   ThisLightScale: {fileID: 196084899}
@@ -16128,6 +16194,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1955613336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16292,6 +16359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 793334423}
   ThisLightPos: {fileID: 793334424}
   ThisLightScale: {fileID: 793334424}
@@ -16299,6 +16367,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1962360670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16489,6 +16558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1055423238}
   ThisLightPos: {fileID: 1055423239}
   ThisLightScale: {fileID: 1055423239}
@@ -16496,6 +16566,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &1965751317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16958,17 +17029,14 @@ MonoBehaviour:
   - {fileID: 1579120786}
   - {fileID: 1892625829}
   - {fileID: 2093295632}
-  Inuteis:
-  - {fileID: 816471645}
-  - {fileID: 2139197667}
-  - {fileID: 822897034}
-  - {fileID: 2137284705}
-  - {fileID: 512376279}
+  Cams: []
   hand: {fileID: 527437632}
   aura: {fileID: 0}
   distance: 2
   scaleFactor: 0
   maxScale: 0
+  material: {fileID: 0}
+  ativo: 0
 --- !u!114 &2055357048 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3055071730025340635, guid: 9888a130e00240342a1171a37d90b92a, type: 3}
@@ -17113,6 +17181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1192994288}
   ThisLightPos: {fileID: 1192994289}
   ThisLightScale: {fileID: 1192994289}
@@ -17120,6 +17189,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &2060972043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17471,6 +17541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 723188179}
   ThisLightPos: {fileID: 723188184}
   ThisLightScale: {fileID: 723188184}
@@ -17478,6 +17549,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &2116798526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18005,6 +18077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 1841220698}
   ThisLightPos: {fileID: 1841220699}
   ThisLightScale: {fileID: 1841220699}
@@ -18012,6 +18085,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &2137284707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18205,6 +18279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5b40a47362de8449a11e444e43d08c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SS: {fileID: 0}
   ThisLight: {fileID: 411860363}
   ThisLightPos: {fileID: 411860364}
   ThisLightScale: {fileID: 411860364}
@@ -18212,6 +18287,7 @@ MonoBehaviour:
   scaleFactor: 0.1
   ScaleY: 1
   ScaleX: 0
+  limteReferencia: 0
 --- !u!114 &2139197669
 MonoBehaviour:
   m_ObjectHideFlags: 0

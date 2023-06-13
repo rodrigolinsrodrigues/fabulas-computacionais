@@ -11,8 +11,7 @@ public class checarPartitura : MonoBehaviour
     public int notap11,notap12,notap21,notap22;// Serve para controlar o intervalo de repetições em ambas as partituras
     public GameObject[] BloqPart1, Bloqpart2;
     public GameObject ContadorP1, ContadorP2; // Identifica o contador de repetição selecionado  em cada partitura
-    GameObject  ContP1, ContP2; // Serve para fazer a checagem do identificador no script
-   
+    public GameObject  ContP1, ContP2; // Serve para fazer a checagem do identificador no script
     public bool check, part1, part1repet, part2,part2repet, ApenasPart1, Fase4; // Bools de checagem a depender do caso
     public GameObject conluido, tenteDnv; // Pega o gameobjc do canvas 
     public GameObject  botãoClicado1Part1,  botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
@@ -31,7 +30,7 @@ public class checarPartitura : MonoBehaviour
         {
         Partitura1(); 
         Partitura2();
-        if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){ conluido.SetActive(true); StartCoroutine("Delay2");}
+        if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay2");}
         else{check = false;}
         }
 
@@ -39,19 +38,15 @@ public class checarPartitura : MonoBehaviour
         {
         Partitura1(); 
         Partitura2();
-        if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){ conluido.SetActive(true); StartCoroutine("Delay2");}
+        if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay2");}
         else{check = false;}
         }
         if(check == true)
         {
             StartCoroutine("Delay2");
-        }
-       
-        
-
-
-        
+        }   
     }
+
     void Partitura1()
     {
         //Repetição
