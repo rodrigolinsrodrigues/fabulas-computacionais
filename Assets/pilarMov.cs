@@ -23,9 +23,9 @@ public void MudouPos()
 IEnumerator Delay()
 {
 yield return new WaitForSeconds(delay);
-this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-
+this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 yield return new WaitForSeconds(0.5f);
-this.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX;
+this.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+
 }
 }

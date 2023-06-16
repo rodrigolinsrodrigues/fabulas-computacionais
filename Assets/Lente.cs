@@ -12,6 +12,7 @@ public class Lente : MonoBehaviour
     public float distance, scaleFactor, maxScale;
     public Material material;
     public bool ativo = false;
+    public string[] tags;
     void Awake()
     {
         comandos = new Comandos();
@@ -34,7 +35,7 @@ public class Lente : MonoBehaviour
                 Cams[1].SetActive(true);
                 Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
                 Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
-                StartCoroutine(Delay2());
+                StartCoroutine("Delay2", 6f);
                 
             }
         }
@@ -77,9 +78,13 @@ public class Lente : MonoBehaviour
                     {
                         Uteis[i].gameObject.tag = "Rotate";
                     }
-                    if(Uteis[i].gameObject.name.Contains("Pilar Azul - Linear"))
+                    if(Uteis[i].gameObject.name == "Pilar Azul - Linear")
                     {
-                        Uteis[i].gameObject.tag = "Pushable";
+                        Uteis[i].GetComponent<BoxCollider>().enabled = true;
+                        if(Uteis[i].gameObject.tag != "Launch")
+                        {
+                            Uteis[i].gameObject.tag = "Launch";
+                        }
                     }
                 }
         yield return new WaitForSeconds(2f);
