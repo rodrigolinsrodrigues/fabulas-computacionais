@@ -10,7 +10,8 @@ public class Launch : MonoBehaviour
      // Lançar objetos
      public GameObject launchObj, hand;
     public float launchDistance;
-    public float launchForce;
+    public float launchForce, delay;
+    public bool Empurrou;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +25,24 @@ public class Launch : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, launchDistance))
         {
-        if (hit.collider.tag == "Launch" && comandos.Actions.Push.triggered)
+        if (hit.collider.tag == "Launch" && Empurrou == false && comandos.Actions.Push.ReadValue<float>() == 1)
             {
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
                 launchObj = GameObject.Find(name);
                 launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
+                launchObj.GetComponent<pilarMov>().MudouPos();
+                Empurrou = true;
+                StartCoroutine("Delay");
             }
            
         }
+    }
+
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(delay);
+        Empurrou = false;
     }
 }

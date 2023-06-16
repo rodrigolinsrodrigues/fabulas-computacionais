@@ -101,6 +101,7 @@ public class Play : MonoBehaviour
     {
         transform.position = Ponto0.position;
         tocar = true;
+        CP.check = false;
         CP.part1 = false;
         CP.part1repet = false;
         CP.part2 = false;

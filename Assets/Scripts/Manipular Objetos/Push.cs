@@ -10,7 +10,7 @@ public class Push : MonoBehaviour
     public PlayerController player;
       // Empurrar Objetos
     public bool pushing, canRotate, pushingSide;
-    public GameObject pushableObj, hand;
+    public GameObject pushableObj, hand, Hand;
     public float pushDistance;
    
     // Start is called before the first frame update
@@ -45,24 +45,26 @@ public class Push : MonoBehaviour
                 pushableObj = GameObject.Find(name);
                // pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(this.transform);
+               // player.GetComponent<BoxCollider>().enabled = true;
                 player.curSpeed = player.pushSpeed;
                 pushing = true;
-                if(pushing == true && pushableObj.GetComponent<canMove>().move == true)
-                {
-                    pushingSide = true;
-                }
+               // if(pushing == true && pushableObj.GetComponent<canMove>().move == true)
+               // {
+               //     pushingSide = true;
+               // }
 
             }
             else if(hit.collider.tag == "Pushable" && pushing == true && comandos.Actions.Push.ReadValue<float>() == 0)
             {
                // pushableObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
                 pushableObj.transform.SetParent(null);
+               // player.GetComponent<BoxCollider>().enabled = false;
                 player.curSpeed = player.walkSpeed;
                 pushing = false;
-                if(pushing == false && pushableObj.GetComponent<canMove>().move == true)
-                {
-                    pushingSide = false;
-                }
+                //if(pushing == false && pushableObj.GetComponent<canMove>().move == true)
+               // {
+               //     pushingSide = false;
+               // }
                 pushableObj = null;
                
             } 

@@ -10,6 +10,7 @@ public class checarPartitura : MonoBehaviour
     public string[] TipoNotaPart1, TipoNotaPart2; // Tipos de sons atrbuidos as notas
     public int notap11,notap12,notap21,notap22;// Serve para controlar o intervalo de repetições em ambas as partituras
     public GameObject[] BloqPart1, Bloqpart2;
+    public GameObject[] BloqRepeatPart1, BloqRepeatPart2;
     public GameObject ContadorP1, ContadorP2; // Identifica o contador de repetição selecionado  em cada partitura
     public GameObject  ContP1, ContP2; // Serve para fazer a checagem do identificador no script
     public bool check, part1, part1repet, part2,part2repet, ApenasPart1, Fase4; // Bools de checagem a depender do caso
@@ -19,16 +20,34 @@ public class checarPartitura : MonoBehaviour
 
     public void Update()
     {
+        if(check == true)
+        {
+            StartCoroutine("Delay");
+        }   
         if(ApenasPart1 == true)
         {
-        Partitura1();
+        if(RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
+        {
+            Partitura1Repet();
+        }
+        else
+        {
+            Partitura1();
+        }
         if(check == true && (part1 == true || part1repet == true)){conluido.SetActive(true); StartCoroutine("Delay2");}
         else{check = false;}
         }
-        
+
         if(ApenasPart1 == false)
         {
-        Partitura1(); 
+        if(RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
+        {
+            Partitura1Repet();
+        }
+        else
+        {
+            Partitura1();
+        }
         Partitura2();
         if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay2");}
         else{check = false;}
@@ -36,60 +55,68 @@ public class checarPartitura : MonoBehaviour
 
         if(Fase4 == true & ApenasPart1 == false)
         {
-        Partitura1(); 
+        if(RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
+        {
+            Partitura1Repet();
+        }
+        else
+        {
+            Partitura1();
+        }
         Partitura2();
         if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true); StartCoroutine("Delay2");}
         else{check = false;}
         }
-        if(check == true)
-        {
-            StartCoroutine("Delay2");
-        }   
+        
     }
 
-    void Partitura1()
+    void Partitura1Repet()
     {
         //Repetição
         if(RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
         {
-        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == null || NotaPart1[notap12].GetComponent<AudioSource>().clip.name == null) ||
+        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == null || 
+        NotaPart1[notap12].GetComponent<AudioSource>().clip.name == null) ||
         (RepetPart1[0] == null || RepetPart1[1] == null))
         {
+            
             part1repet = false;
-            for(int i = 0; i < BloqPart1.Length; i ++)
-            {
-                if(BloqPart1[i] != null)
-                BloqPart1[i].GetComponent<Button>().interactable = true;
-            }
+                
+            
         } 
-        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] && NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
+        if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] &&
+         NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
         (RepetPart1[0] == botãoClicado1Part1 && RepetPart1[1] == botãoClicado2Part1 && ContP1 == ContadorP1))
         {
+            
             part1repet = true;
-            for(int i = 0; i < BloqPart1.Length; i ++)
-            {
-                if(BloqPart1[i] != null)
-                BloqPart1[i].GetComponent<Button>().interactable = false;
-            }
+            
         }
         }
-
-        if(NotaPart1[0].GetComponent<AudioSource>().clip != null && NotaPart1[1].GetComponent<AudioSource>().clip != null &&  NotaPart1[2].GetComponent<AudioSource>().clip != null &&  NotaPart1[3].GetComponent<AudioSource>().clip != null)
+        
+       
+    }
+    void Partitura1()
+    {
+        if(NotaPart1[0].GetComponent<AudioSource>().clip.name != null && NotaPart1[1].GetComponent<AudioSource>().clip.name != null &&  NotaPart1[2].GetComponent<AudioSource>().clip.name != null &&  NotaPart1[3].GetComponent<AudioSource>().clip.name != null)
         {
-        //Normal
-        if(NotaPart1[0].GetComponent<AudioSource>().clip.name == TipoNotaPart1[0] && NotaPart1[1].GetComponent<AudioSource>().clip.name == TipoNotaPart1[1]
-        && NotaPart1[2].GetComponent<AudioSource>().clip.name == TipoNotaPart1[2] && NotaPart1[3].GetComponent<AudioSource>().clip.name == TipoNotaPart1[3])
-        {
-            part1 = true;
-        } 
-
         if(NotaPart1[0].GetComponent<AudioSource>().clip.name != TipoNotaPart1[0] || NotaPart1[1].GetComponent<AudioSource>().clip.name != TipoNotaPart1[1]
         || NotaPart1[2].GetComponent<AudioSource>().clip.name != TipoNotaPart1[2] || NotaPart1[3].GetComponent<AudioSource>().clip.name != TipoNotaPart1[3])
         {
             part1 = false;
         } 
+        //Normal
+        if(NotaPart1[0].GetComponent<AudioSource>().clip.name == TipoNotaPart1[0] && NotaPart1[1].GetComponent<AudioSource>().clip.name == TipoNotaPart1[1]
+        && NotaPart1[2].GetComponent<AudioSource>().clip.name == TipoNotaPart1[2] && NotaPart1[3].GetComponent<AudioSource>().clip.name == TipoNotaPart1[3])
+        {
+           
+            part1 = true;
+            
+        } 
         }
-    }
+
+        
+    } 
 
     void Partitura2()
     {
@@ -184,7 +211,8 @@ public class checarPartitura : MonoBehaviour
     
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
+        check = false;
     } 
     IEnumerator Delay2()
     {
