@@ -22,7 +22,7 @@ public class botaoClicado : MonoBehaviour
         // Verifique se o botão não foi clicado
         if (!buttonClicked)
         {
-            Debug.Log("O botão não foi clicado.");
+           
             // Execute o código desejado aqui
         }
     }
@@ -31,6 +31,6 @@ public class botaoClicado : MonoBehaviour
     {
         // Defina a variável buttonClicked como true quando o botão for clicado
         buttonClicked = true;
-        Debug.Log("O botão foi clicado.");
+       
     }
 }

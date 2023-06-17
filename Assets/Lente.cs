@@ -93,7 +93,7 @@ public class Lente : MonoBehaviour
         Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
         Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         yield return new WaitForSeconds(2f);
-        Destroy(GetComponent<Lente>());
+       // Destroy(GetComponent<Lente>());
     }
    
 }

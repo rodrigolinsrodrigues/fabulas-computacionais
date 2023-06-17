@@ -89,20 +89,20 @@ public class EmitLight : MonoBehaviour
                 Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
             }
 
-           if(lente.ativo == true)
-           {
-             for(int i = 0; i < Pilares.Length; i++)
-                {
-                if(Pilares[i].gameObject.name.Contains("Pilar Verde"))
-                {
-                    Pilares[i].gameObject.tag = "Rotate";
-                }
-                if(Pilares[i].gameObject.name.Contains("Pilar Azul - Linear"))
-                {
-                    Pilares[i].gameObject.tag = "Pushable";
-                }
-                }
-           }
+        //    if(lente.ativo == true)
+        //    {
+        //      for(int i = 0; i < Pilares.Length; i++)
+        //         {
+        //         if(Pilares[i].gameObject.name.Contains("Pilar Verde"))
+        //         {
+        //             Pilares[i].gameObject.tag = "Rotate";
+        //         }
+        //         if(Pilares[i].gameObject.name.Contains("Pilar Azul - Linear"))
+        //         {
+        //             Pilares[i].gameObject.tag = "Launch";
+        //         }
+        //         }
+        //    }
            
         }
     }
