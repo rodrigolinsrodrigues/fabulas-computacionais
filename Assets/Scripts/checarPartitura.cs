@@ -44,7 +44,7 @@ public class checarPartitura : MonoBehaviour
             {
                 Partitura1();
             }
-            if(check == true && (part1 == true || part1repet == true)){conluido.SetActive(true); acabou = true; StartCoroutine("Delay2");}
+            if(check == true && (part1 == true || part1repet == true)){conluido.SetActive(true);  StartCoroutine("Delay2");}
             else{check = false;}
         }
 
@@ -69,7 +69,7 @@ public class checarPartitura : MonoBehaviour
             {
                 Partitura2();
             }
-            if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true);  acabou = true; StartCoroutine("Delay2");}
+            if(check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true)){conluido.SetActive(true);  StartCoroutine("Delay2");}
             else{check = false;}
         }
 
@@ -101,21 +101,6 @@ public class checarPartitura : MonoBehaviour
                 part1repet = true;  
             }
         }
-        else
-        {
-            if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap11] 
-            || NotaPart1[notap12].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap12]))
-            {
-                part1repet = false;
-            } 
-            else if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] &&
-            NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
-            (RepetPart1[0] == botãoClicado1Part1 && RepetPart1[1] == botãoClicado2Part1 && ContP1 == ContadorP1))
-            {
-                part1repet = true;  
-            }
-        }
-
 
         if(Fase3 == true)
         {
@@ -127,20 +112,6 @@ public class checarPartitura : MonoBehaviour
             BloqPart1[3].GetComponent<botaoClicado>().buttonClicked == true ||
             BloqPart1[4].GetComponent<botaoClicado>().buttonClicked == true ||
             BloqPart1[5].GetComponent<botaoClicado>().buttonClicked == true))
-            {
-                part1repet = false;
-            } 
-            else if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] &&
-            NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
-            (RepetPart1[0] == botãoClicado1Part1 && RepetPart1[1] == botãoClicado2Part1 && ContP1 == ContadorP1))
-            {
-                part1repet = true;  
-            }
-        }
-        else
-        {
-            if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap11] 
-            || NotaPart1[notap12].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap12]))
             {
                 part1repet = false;
             } 
@@ -173,20 +144,7 @@ public class checarPartitura : MonoBehaviour
                 part1repet = true;  
             }
         }
-        else
-        {
-            if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap11] 
-            || NotaPart1[notap12].GetComponent<AudioSource>().clip.name != TipoNotaPart1[notap12]))
-            {
-                part1repet = false;
-            } 
-            else if((NotaPart1[notap11].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap11] &&
-            NotaPart1[notap12].GetComponent<AudioSource>().clip.name == TipoNotaPart1[notap12]) && 
-            (RepetPart1[0] == botãoClicado1Part1 && RepetPart1[1] == botãoClicado2Part1 && ContP1 == ContadorP1))
-            {
-                part1repet = true;  
-            }
-        }
+       
 
 
         
@@ -301,7 +259,7 @@ public class checarPartitura : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         check = false;
-        acabou = false;
+       
     } 
     IEnumerator Delay2()
     {
