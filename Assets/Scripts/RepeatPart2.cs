@@ -12,7 +12,7 @@ public class RepeatPart2 : MonoBehaviour
     public GameObject[] ContadorRepeticao;
     public GameObject fundoContador;
     public GameObject  ponteiro, repeticao, pontoRepet, deletar, fundoDel;
-    public int qtdRepete = 0;
+    public int qtdRepete = 0, quantidadeSelecionada;
     public bool delete;
     //teste de loop
     public List<GameObject> lista = new List<GameObject>(); // lista de botoes clicados
@@ -202,7 +202,7 @@ public class RepeatPart2 : MonoBehaviour
     }
 
     // Voids atribuidos aos botões que adicionam repetições
-    public void X2(){qtdRepete = 1;}
-    public void X3(){qtdRepete = 2;}
-    public void X4(){qtdRepete = 3;}
+    public void X2(){qtdRepete = 1; quantidadeSelecionada = qtdRepete;}
+    public void X3(){qtdRepete = 2; quantidadeSelecionada = qtdRepete;}
+    public void X4(){qtdRepete = 3; quantidadeSelecionada = qtdRepete;}
 }

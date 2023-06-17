@@ -15,7 +15,7 @@ public class Play : MonoBehaviour
     public GameObject[] ContadorRepeticao; // atribuição do botão de Play e do gameObjct contador que guarda a quantiade de repetições
     public GameObject fundoContador;
     public GameObject  ponteiro, repeticao, pontoRepet;
-    public int qtdRepete = 0;
+    public int qtdRepete = 0, quantidadeSelecionada;
 
     //teste de loop
     public List<GameObject> lista = new List<GameObject>(); // lista de botoes clicados
@@ -264,9 +264,9 @@ public class Play : MonoBehaviour
     }
 
     // Voids atribuidos aos botões que adicionam repetições
-    public void X2(){qtdRepete = 1;}
-    public void X3(){qtdRepete = 2;}
-    public void X4(){qtdRepete = 3;}
+    public void X2(){qtdRepete = 1; quantidadeSelecionada = qtdRepete;}
+    public void X3(){qtdRepete = 2; quantidadeSelecionada = qtdRepete;}
+    public void X4(){qtdRepete = 3; quantidadeSelecionada = qtdRepete;}
 
    IEnumerator Delay()
     {
