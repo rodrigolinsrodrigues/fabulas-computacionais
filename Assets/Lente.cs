@@ -78,9 +78,8 @@ public class Lente : MonoBehaviour
                     {
                         Uteis[i].gameObject.tag = "Rotate";
                     }
-                    if(Uteis[i].gameObject.name == "Pilar Azul - Linear")
+                    if(Uteis[i].gameObject.name.Contains("Pilar Azul"))
                     {
-                        Uteis[i].GetComponent<BoxCollider>().enabled = true;
                         if(Uteis[i].gameObject.tag != "Launch")
                         {
                             Uteis[i].gameObject.tag = "Launch";

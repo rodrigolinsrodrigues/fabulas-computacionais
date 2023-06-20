@@ -1941,6 +1941,7 @@ GameObject:
   - component: {fileID: 6011912795808839259}
   - component: {fileID: 1857152757189860490}
   - component: {fileID: 3629511133486869175}
+  - component: {fileID: 8967781562324409798}
   m_Layer: 0
   m_Name: Cube.032
   m_TagString: Untagged
@@ -2013,6 +2014,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8967781562324409798
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211237149825272384}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 22.34, y: 8.5, z: 1.96}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6294977322236711382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2022,7 +2036,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6635931082321513324}
-  - component: {fileID: 6294977322236711383}
   - component: {fileID: 1482155500989658388}
   - component: {fileID: 8114614268839078597}
   m_Layer: 0
@@ -2062,19 +2075,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!65 &6294977322236711383
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6294977322236711382}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 21.303946, y: 22.804169, z: 5.10672}
-  m_Center: {x: -0.98302746, y: 10.902084, z: 0.26000977}
 --- !u!114 &1482155500989658388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2089,7 +2089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cam:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8096676752246062374}
 --- !u!65 &8114614268839078597
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}

@@ -132,7 +132,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -427,7 +427,7 @@ BoxCollider:
   m_GameObject: {fileID: 2481542873396991746}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 4.118822, y: 4.5, z: 4.5}
   m_Center: {x: 2.059411, y: -0.00000012098013, z: -0.0000111443005}
@@ -522,11 +522,11 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &5139932249855707235
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,7 +758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.15
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -909,8 +909,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5689849, y: 1.5, z: 2.2517405}
-  m_Center: {x: -0.006035715, y: 0, z: 20.374104}
+  m_Size: {x: 0.64857924, y: 0.8472526, z: 2.251741}
+  m_Center: {x: 0.059613246, y: 0.24991572, z: 20.3741}
 --- !u!114 &3874189784213828796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,7 +928,13 @@ MonoBehaviour:
   Emissor: 1
   Espelho: 0
   Crystal: 0
-  OtherLights: []
+  OtherLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &6180140101307758970 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6919683763462532184, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}

@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626130619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: 0.117, z: -0}
+  m_LocalPosition: {x: 5.58, y: 0.367, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,8 +46,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1972202, y: 0.5544607, z: 1.1104507}
-  m_Center: {x: 0.18871796, y: 0.2227725, z: 0.01272583}
+  m_Size: {x: 1.1972202, y: 0.52560586, z: 1.1104507}
+  m_Center: {x: 0.18871796, y: 0.20834509, z: 0.01272583}
 --- !u!114 &1626130623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,11 +64,11 @@ MonoBehaviour:
   ThisLight: {fileID: 8130218430621312338}
   ThisLightPos: {fileID: 8907986174400020456}
   ThisLightScale: {fileID: 8907986174400020456}
-  maxScaleY: 1
-  scaleFactor: 0.008
+  maxScaleY: 0.5
+  scaleFactor: 0.006
   ScaleY: 0
   ScaleX: 0
-  limteReferencia: 0.9
+  limteReferencia: 0.49
 --- !u!114 &1626130622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,11 +150,11 @@ MonoBehaviour:
   ThisLight: {fileID: 8130218430448721149}
   ThisLightPos: {fileID: 8907986174573446727}
   ThisLightScale: {fileID: 8907986174573446727}
-  maxScaleY: 1
-  scaleFactor: 0.008
+  maxScaleY: 0.5
+  scaleFactor: 0.006
   ScaleY: 0
   ScaleX: 0
-  limteReferencia: 0.9
+  limteReferencia: 0.49
 --- !u!114 &2053406911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,11 +397,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5000001
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.z
@@ -409,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.158
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -417,7 +417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -485,8 +485,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5757127, y: 0.54083234, z: 0.9999987}
-  m_Center: {x: 0.18032768, y: 0.032344684, z: 20.999998}
+  m_Size: {x: 0.75663173, y: 1.010664, z: 0.99999905}
+  m_Center: {x: 0.12675574, y: 0.18, z: 20.999996}
 --- !u!114 &222532787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,8 +503,14 @@ MonoBehaviour:
   LP: {fileID: 2053406912}
   Emissor: 0
   Espelho: 1
-  Crystal: 1
-  OtherLights: []
+  Crystal: 0
+  OtherLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8130218430621312338}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &8907986174573446727 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
@@ -655,11 +661,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5000001
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalScale.z
@@ -667,7 +673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.026
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -743,8 +749,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 21}
+  m_Size: {x: 0.91843605, y: 1.2339745, z: 0.99999905}
+  m_Center: {x: 0.13438225, y: 0.55, z: 21}
 --- !u!114 &1621970070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,8 +767,14 @@ MonoBehaviour:
   LP: {fileID: 1626130623}
   Emissor: 0
   Espelho: 1
-  Crystal: 1
-  OtherLights: []
+  Crystal: 0
+  OtherLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8130218430448721149}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &8907986174400020456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 85a7768e6885ee74d8ba7b413647fddb, type: 3}

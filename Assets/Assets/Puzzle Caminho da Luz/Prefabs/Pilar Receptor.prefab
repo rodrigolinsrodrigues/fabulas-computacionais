@@ -115,7 +115,7 @@ MonoBehaviour:
   text: {fileID: 0}
   Des: Luz   <color=yellow>ilumina o cristal </color>
   Cristal: 1
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: 717faf9e1c87c5e42b699f22fe606f07, type: 2}
 --- !u!114 &6829247802913369040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,12 +123,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098297784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23e0782e7b22f834786b746678ffc722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Canvas: {fileID: 0}
+  Canvas: {fileID: 9128125331650762375}
+  Redoma: {fileID: 0}
+  Player: {fileID: 0}
+  pilares: []
+  Cams:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &408098492934413143
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +480,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
