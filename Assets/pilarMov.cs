@@ -5,7 +5,7 @@ using UnityEngine;
 public class pilarMov : MonoBehaviour
 {
    public float localInicial, localAtual;
-    public float delay;
+   public float delay;
 
 void Start()
 {
