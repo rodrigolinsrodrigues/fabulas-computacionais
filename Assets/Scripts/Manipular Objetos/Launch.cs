@@ -31,10 +31,7 @@ public class Launch : MonoBehaviour
                 string name = hit.collider.name;
                 launchObj = GameObject.Find(name);
                 launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
-                if(launchObj.GetComponent<temLimitador>().Limitador == true)
-                {
-                    launchObj.GetComponent<pilarMov>().MudouPos();
-                }
+                launchObj.GetComponent<pilarMov>().MudouPos();
                 Empurrou = true;
                 StartCoroutine("Delay");
             }

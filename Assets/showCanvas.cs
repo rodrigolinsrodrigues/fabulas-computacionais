@@ -15,6 +15,10 @@ public class showCanvas : MonoBehaviour
         if(other.CompareTag("Light"))
         {
             Canvas.SetActive(true);
+            for(int i = 0; i < pilares.Length; i++)
+            {
+                pilares[i].gameObject.tag = "Untagged";
+            } 
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
            StartCoroutine(Delay1());
         }

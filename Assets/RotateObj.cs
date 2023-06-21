@@ -33,8 +33,8 @@ public class RotateObj : MonoBehaviour
                // rotateObj.GetComponent<Animator>().SetBool("0", true);
                // StartCoroutine(delay("0"));
                 //rotateObj.GetComponent<Animator>().SetBool("270", false);
-               Quaternion newRotation = Quaternion.Euler(currentRotation.x, 90f, currentRotation.z);
-               rotateObj.transform.rotation = newRotation;
+                    Quaternion newRotation = Quaternion.Euler(currentRotation.x, 90f, currentRotation.z);
+                    rotateObj.transform.rotation = newRotation;
                 }
                 else 
                 if(rotateObj.transform.rotation.eulerAngles.y == 90f)

@@ -55,7 +55,7 @@ public class LightPass : MonoBehaviour
             Vector3 newScale = new Vector3(currentScale.x,currentScale.y, 0.01f);
             ThisLight.transform.localScale = newScale;
             ThisLight.transform.position = ThisLightPos.position;
-            scaleFactor = 0.006f;
+            scaleFactor = 0.004f;
             //SS.DeleteAll();
         }
     }
