@@ -20,7 +20,7 @@ public class Sistema : MonoBehaviour
     {
         if(comandos.System.Restart.ReadValue<float>()== 1)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+           reload();
         }
         if(comandos.System.Close.ReadValue<float>() == 1)
         {
@@ -57,5 +57,9 @@ public class Sistema : MonoBehaviour
         }
     }
 
+    public void reload()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
