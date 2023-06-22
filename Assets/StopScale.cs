@@ -13,7 +13,7 @@ public class StopScale : MonoBehaviour
    
   void Start()
   {
-   
+
   }
     void OnTriggerEnter(Collider other)
     {
@@ -30,7 +30,7 @@ public class StopScale : MonoBehaviour
            // LP.scaleFactor = 0f;
             for(int i = 0; i < OtherLights.Length; i++)
             {
-            OtherLights[i].gameObject.SetActive(false);
+                OtherLights[i].gameObject.SetActive(false);
             } 
             LP.scaleFactor = 0;
             this.gameObject.SetActive(false);

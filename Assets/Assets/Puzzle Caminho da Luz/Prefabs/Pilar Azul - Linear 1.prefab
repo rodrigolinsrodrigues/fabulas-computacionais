@@ -315,7 +315,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.1953344, y: 2.4797301, z: 1.5769413}
+  m_Size: {x: 4, y: 1.5, z: 1.5}
   m_Center: {x: -0.037089348, y: -0.07361865, z: 0.02521336}
 --- !u!1 &9203368752449864130
 GameObject:
@@ -511,7 +511,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.1453009, y: 1.0207276, z: 2.885874}
+  m_Size: {x: 3, y: 1.5, z: 2}
   m_Center: {x: 2.6405249, y: -0.026383638, z: -0.001486659}
 --- !u!114 &1675749720359006901
 MonoBehaviour:
@@ -538,9 +538,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40a12fc13e8eb1449443a3c0faf9a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localInicial: 0
+  localInicialX: 0
+  localInicialZ: 0
   localAtual: 0
   delay: 1.5
+  ifX: 0
+  ifZ: 0
 --- !u!1001 &5931896325122445473
 PrefabInstance:
   m_ObjectHideFlags: 0
