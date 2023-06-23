@@ -2794,10 +2794,6 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5235615842197844882, guid: 6c89bd54c3bdf954c983e787e6f44aec, type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 5235615842197844883, guid: 6c89bd54c3bdf954c983e787e6f44aec, type: 3}
       propertyPath: hand
       value: 
@@ -3977,7 +3973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5235615842197844882, guid: 6c89bd54c3bdf954c983e787e6f44aec, type: 3}
       propertyPath: m_Constraints
-      value: 126
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 5235615842197844883, guid: 6c89bd54c3bdf954c983e787e6f44aec, type: 3}
       propertyPath: hand
@@ -6667,7 +6663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.72249866
+      value: 0.7224987
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6679,7 +6675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.27461314
+      value: -0.27461317
       objectReference: {fileID: 0}
     - target: {fileID: 3491981160213480247, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_FollowOffset.y
@@ -6779,15 +6775,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.37257358
+      value: 0.3725736
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.4980965
+      value: 0.49809653
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.25011164
+      value: -0.2501116
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -9878,6 +9874,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 48546704, guid: 5e549dbbf4dc82745b0ff99520286a93, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 48546704, guid: 5e549dbbf4dc82745b0ff99520286a93, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 48546704, guid: 5e549dbbf4dc82745b0ff99520286a93, type: 3}
+      propertyPath: m_Constraints
+      value: 124
+      objectReference: {fileID: 0}
     - target: {fileID: 512012600, guid: 5e549dbbf4dc82745b0ff99520286a93, type: 3}
       propertyPath: OtherLights.Array.size
       value: 7
@@ -14200,8 +14208,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 1, z: 3.419991}
-  m_Center: {x: -0.244929, y: -9, z: 13}
+  m_Size: {x: 4, y: 0.31851134, z: 2.7990894}
+  m_Center: {x: -0.24492899, y: -8.938184, z: 1.3104508}
 --- !u!65 &7993704245823428482
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14213,8 +14221,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 1, z: 3.4199917}
-  m_Center: {x: 0.1354802, y: 7, z: 13}
+  m_Size: {x: 4, y: 0.23499651, z: 3.0816178}
+  m_Center: {x: 0.1354802, y: 7.1526065, z: 1.1691872}
 --- !u!54 &7993704245823428485
 Rigidbody:
   m_ObjectHideFlags: 0

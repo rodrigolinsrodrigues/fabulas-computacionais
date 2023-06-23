@@ -501,7 +501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: df412cc1776c9a843a4b8ad44edfbe5e, type: 3}
       propertyPath: m_Name
-      value: Pilar Verde - Original
+      value: Pilar Verde - Original(Old)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: df412cc1776c9a843a4b8ad44edfbe5e, type: 3}
       propertyPath: m_IsActive
@@ -548,7 +548,7 @@ BoxCollider:
   m_GameObject: {fileID: 7961019145541258053}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2.5629213, y: 2.5629256, z: 7.7583447}
   m_Center: {x: 0.0011957014, y: -0.0000027424344, z: 3.8791714}
@@ -572,6 +572,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &3917322594016166421
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7961019145541258053}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.9
+  m_Height: 10.16
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 4.1}
 --- !u!1001 &7114088078028850724
 PrefabInstance:
   m_ObjectHideFlags: 0
