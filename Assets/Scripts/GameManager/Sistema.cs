@@ -8,11 +8,14 @@ public class Sistema : MonoBehaviour
     //Codigo simples de manipulação de cena, reload e fechar jogo
     private Comandos comandos;
     public GameObject[] fases;
+    public bool Luz, Musical;
+    public string NomeCena;
     // Start is called before the first frame update
     void Start()
     {
         comandos = new Comandos();
         comandos.Enable(); 
+        NomeCena = SceneManager.GetActiveScene().name;
     }
 
     // Update is called once per frame
@@ -26,7 +29,47 @@ public class Sistema : MonoBehaviour
         {
             Application.Quit();
         }
-       
+
+        if(Luz == true)
+        {
+            CenasLuz();
+        }
+
+        if(Musical == true)
+        {
+            CenasMusical();
+        }
+
+
+    }
+
+    public void reload()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void CenasLuz()
+    {
+        if(NomeCena != "CaminhoDaLuz_Fase1" && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene("CaminhoDaLuz_Fase1");
+        }
+         if(NomeCena != "CaminhoDaLuz_Fase2" && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SceneManager.LoadScene("CaminhoDaLuz_Fase2");
+        }
+         if(NomeCena != "CaminhoDaLuz_Fase3" && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SceneManager.LoadScene("CaminhoDaLuz_Fase3");
+        }
+         if(NomeCena != "CaminhoDaLuz_Fase4" && Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SceneManager.LoadScene("CaminhoDaLuz_Fase4");
+        }
+    }
+
+    void CenasMusical()
+    {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             fases[0].gameObject.SetActive(true);
@@ -56,10 +99,4 @@ public class Sistema : MonoBehaviour
             fases[3].gameObject.SetActive(true);
         }
     }
-
-    public void reload()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
 }
