@@ -65,10 +65,10 @@ public class EmitLight : MonoBehaviour
             {
                 StartCoroutine(Delay());
             }
-            for(int i = 0; i < Pilares.Length; i++)
-            {
-                Pilares[i].tag = "Untagged";
-            }
+          //  for(int i = 0; i < Pilares.Length; i++)
+          //  {
+          //      Pilares[i].tag = "Untagged";
+          //  }
            
         }
 
