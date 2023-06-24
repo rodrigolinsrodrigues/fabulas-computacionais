@@ -8,6 +8,7 @@ public class EmitLight : MonoBehaviour
     public GameObject Luz, hand, Player;
     public GameObject[] Cams, Pilares;
     public Transform LuzActualPos;
+    public float distance;
     public float scaleFactor; // Fator de escala
     public float maxScaleZ; // Limite máximo de escala em Y
     public Lente lente;
@@ -19,11 +20,12 @@ public class EmitLight : MonoBehaviour
         comandos = new Comandos();
         comandos.Actions.Enable(); 
         LuzActualPos.position = Luz.transform.position;
+        hand = GameObject.FindWithTag("Guia");
     }
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, 4f))
+        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, distance))
         {
             if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered && lightOff == true)
             {

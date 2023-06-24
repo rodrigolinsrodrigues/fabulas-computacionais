@@ -8,7 +8,7 @@ public class Lente : MonoBehaviour
 {
     public GameObject[] Uteis, Cams;
     private Comandos comandos;
-    public GameObject hand, aura;
+    public GameObject hand, aura, player;
     public float distance, scaleFactor, maxScale;
     public Material material;
     public bool ativo = false;
@@ -17,6 +17,7 @@ public class Lente : MonoBehaviour
     {
         comandos = new Comandos();
         comandos.Actions.Enable(); 
+        player = GameObject.FindWithTag("Player");
     }
     
     private void Update()
@@ -28,6 +29,7 @@ public class Lente : MonoBehaviour
         {
             if(hit.collider.tag == "Lens" && comandos.Actions.Interact.triggered)
             {
+                player.GetComponent<PlayerController>().enabled = false;
                 ativo = true;
                 aura.SetActive(true);
                 StartCoroutine(Delay());
@@ -91,8 +93,9 @@ public class Lente : MonoBehaviour
         Cams[1].SetActive(false);
         Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
         Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+        player.GetComponent<PlayerController>().enabled = true;
         yield return new WaitForSeconds(2f);
-       // Destroy(GetComponent<Lente>());
+        Destroy(GetComponent<Lente>());
     }
    
 }

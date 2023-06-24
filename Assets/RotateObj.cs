@@ -85,9 +85,17 @@ public class RotateObj : MonoBehaviour
 
     void rotacionar(Vector3 currentRotation)
     {
-        float speed = 3f;
-        Quaternion  targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y , currentRotation.z + 90f);
-        rotateObj.transform.rotation = Quaternion.Slerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
+        float speed = 38f;
+        if(rotateObj.gameObject.name.Contains("Pilar_Verde_Linear"))
+        {
+            Quaternion  targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y + 90f , currentRotation.z);
+            rotateObj.transform.rotation = Quaternion.Slerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
+        }
+        else
+        {
+            Quaternion  targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y , currentRotation.z + 90f);
+            rotateObj.transform.rotation = Quaternion.Slerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
+        }
 
     }
 
@@ -95,7 +103,7 @@ public class RotateObj : MonoBehaviour
 
     IEnumerator delay()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         rotacionando = false;
     }
 }
