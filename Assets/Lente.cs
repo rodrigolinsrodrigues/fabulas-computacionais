@@ -82,10 +82,12 @@ public class Lente : MonoBehaviour
                     }
                     if(Uteis[i].gameObject.name.Contains("Pilar Azul"))
                     {
-                        if(Uteis[i].gameObject.tag != "Launch")
-                        {
-                            Uteis[i].gameObject.tag = "Launch";
-                        }
+                        Uteis[i].gameObject.tag = "Launch";
+                        
+                    }
+                     if(Uteis[i].gameObject.name.Contains("Pilar Vermelho"))
+                    {
+                        Uteis[i].gameObject.tag = "Launch";
                     }
                 }
         yield return new WaitForSeconds(2f);
