@@ -95,6 +95,7 @@ public class Lente : MonoBehaviour
         Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         player.GetComponent<PlayerController>().enabled = true;
         yield return new WaitForSeconds(2f);
+        this.gameObject.tag = "Untagged";
         Destroy(GetComponent<Lente>());
     }
    

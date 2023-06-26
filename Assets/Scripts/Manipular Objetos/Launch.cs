@@ -8,7 +8,7 @@ public class Launch : MonoBehaviour
      private Comandos comandos;
 
      // Lançar objetos
-     public GameObject launchObj, hand;
+    public GameObject launchObj, hand;
     public float launchDistance;
     public float launchForce, delay;
     public bool Empurrou;
