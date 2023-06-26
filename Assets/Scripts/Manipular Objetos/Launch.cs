@@ -25,14 +25,14 @@ public class Launch : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, launchDistance))
         {
-        if (hit.collider.tag == "Launch" && Empurrou == false && comandos.Actions.Push.ReadValue<float>() == 1)
+        if (hit.collider.tag == "Launch" && Empurrou == false && comandos.Actions.Interact.triggered)
             {
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
                 launchObj = GameObject.Find(name);
                 launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
-                launchObj.GetComponent<pilarMov>().MudouPos();
                 Empurrou = true;
+                launchObj.GetComponent<pilarMov>().MudouPos();
                 StartCoroutine("Delay");
             }
            

@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b03e59514ababc43ab88fdfebf24865, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b03e59514ababc43ab88fdfebf24865, type: 3}
       propertyPath: m_LocalPosition.z
@@ -181,9 +181,11 @@ MonoBehaviour:
   localInicialX: 0
   localInicialZ: 0
   localAtual: 0
-  delay: 1
+  delay: 1.5
   ifX: 0
   ifZ: 1
+  Player: {fileID: 0}
+  OriginalConstraints: 0
 --- !u!114 &4811355894966552905
 MonoBehaviour:
   m_ObjectHideFlags: 0
