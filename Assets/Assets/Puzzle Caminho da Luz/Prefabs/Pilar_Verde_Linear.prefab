@@ -28,9 +28,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1055279446857031850}
-  - {fileID: 1055279446752261745}
-  - {fileID: 3895219749833154282}
   - {fileID: 2354617548328931563}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -61,13 +58,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055279446752261746}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 1.5499992, y: 11.160005, z: 0.13000011}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: -0.49999994, y: -0.5000001, z: -0.4999999, w: 0.50000006}
+  m_LocalPosition: {x: -0.81041044, y: 0.06797049, z: 11.160005}
+  m_LocalScale: {x: 2, y: 1.0456914, z: 1.0456913}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 661926261465918158}
-  m_Father: {fileID: 661926261609799852}
+  m_Father: {fileID: 2354617548328931563}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1055279446752261709
@@ -118,8 +115,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 172388859304097353}
   text: {fileID: 0}
+  text2: {fileID: 0}
+  text3: {fileID: 0}
   Des: "Luz \xE9<color=red>  refletida </color>"
   Cristal: 0
+  PodeMudar: 0
   material: {fileID: 0}
 --- !u!1 &1055279446857031851
 GameObject:
@@ -147,13 +147,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055279446857031851}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.67000103, y: 11.160005, z: 0.13000011}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: -0.49999994, y: -0.5000001, z: -0.4999999, w: 0.50000006}
+  m_LocalPosition: {x: 0.3503071, y: 0.06797099, z: 11.160005}
+  m_LocalScale: {x: 2, y: 1.0456914, z: 1.0456913}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 661926261576068339}
-  m_Father: {fileID: 661926261609799852}
+  m_Father: {fileID: 2354617548328931563}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1055279446857031847
@@ -204,8 +204,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 172388859414179956}
   text: {fileID: 0}
+  text2: {fileID: 0}
+  text3: {fileID: 0}
   Des: "Luz \xE9<color=red>  refletida </color>"
   Cristal: 0
+  PodeMudar: 0
   material: {fileID: 0}
 --- !u!1 &3182894631847927889
 GameObject:
@@ -234,13 +237,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3182894631847927889}
-  m_LocalRotation: {x: -0.00000013767877, y: 0.7071068, z: 0.70710677, w: 0.00000013767878}
+  m_LocalRotation: {x: -0.00000013799995, y: 0.7087564, z: 0.7054533, w: 0.00000013799996}
   m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1.9126104, y: 1.9126104, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1055279446857031850}
+  - {fileID: 1055279446752261745}
+  - {fileID: 3895219749833154282}
   m_Father: {fileID: 661926261609799852}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8151422975730383804
 MeshFilter:
@@ -347,12 +353,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8535280712317339479}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.0022923741, y: 0, z: -0.036}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -2.131628e-14, y: 0.000000059604638, z: -1, w: 0.00000019470718}
+  m_LocalPosition: {x: -0.0011986879, y: -0.018822078, z: 0}
+  m_LocalScale: {x: 0.5228456, y: 0.52284557, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 661926261609799852}
+  m_Father: {fileID: 2354617548328931563}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2586493844472331463
