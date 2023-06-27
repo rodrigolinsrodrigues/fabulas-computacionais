@@ -7,6 +7,7 @@ public class DescLuz : MonoBehaviour
 {
     public GameObject Luz;
     public  GameObject text;
+    public  GameObject text2;
     public string Des;
     public bool Cristal;
     public Material material;
@@ -26,7 +27,8 @@ public class DescLuz : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Light")
         {
-            if(text != null){  text.GetComponent<TextMeshPro>().text = Des;}
+            if(text.GetComponent<TextMeshPro>().text == ""){text.GetComponent<TextMeshPro>().text = Des;}
+            else if(text.GetComponent<TextMeshPro>().text != ""){text2.GetComponent<TextMeshPro>().text = Des;}
             material.EnableKeyword("_EMISSION");
         }
         }
