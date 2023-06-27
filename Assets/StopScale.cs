@@ -61,7 +61,7 @@ public class StopScale : MonoBehaviour
         {
         if(other.GetComponent<Collider>().tag == "Cristal")
         {
-            LP.scaleFactor = 0;
+            LP.scaleFactor = 0f;
         }
         if(other.GetComponent<Collider>().tag != "Cristal")
         {
