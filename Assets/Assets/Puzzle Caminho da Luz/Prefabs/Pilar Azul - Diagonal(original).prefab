@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3048507880831247588}
   - component: {fileID: 3954996978708130566}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Colisao
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,9 +309,11 @@ MonoBehaviour:
   localInicialX: 0
   localInicialZ: 0
   localAtual: 0
-  delay: 1
+  delay: 1.5
   ifX: 0
   ifZ: 0
+  Player: {fileID: 0}
+  OriginalConstraints: 0
 --- !u!114 &4325944101505260860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,8 +410,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 8688972624239310123}
   text: {fileID: 0}
+  text2: {fileID: 0}
+  text3: {fileID: 0}
   Des: Luz gira a <color=green>direita</color>
   Cristal: 0
+  PodeMudar: 0
   material: {fileID: 0}
 --- !u!1 &8382332784257919471
 GameObject:
@@ -494,8 +499,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Luz: {fileID: 8688972624081685217}
   text: {fileID: 0}
+  text2: {fileID: 0}
+  text3: {fileID: 0}
   Des: Luz gira a <color=blue>esquerda</color>
   Cristal: 0
+  PodeMudar: 0
   material: {fileID: 0}
 --- !u!1001 &8382332782826141616
 PrefabInstance:
@@ -622,7 +630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emit: {fileID: 0}
-  LP: {fileID: 8382332783749277171}
+  LP: {fileID: 8382332784257919469}
   Emissor: 0
   Espelho: 1
   Crystal: 0
@@ -752,7 +760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emit: {fileID: 0}
-  LP: {fileID: 8382332784257919469}
+  LP: {fileID: 8382332783749277171}
   Emissor: 0
   Espelho: 1
   Crystal: 0

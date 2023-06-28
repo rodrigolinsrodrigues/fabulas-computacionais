@@ -6,7 +6,7 @@ public class StopScale : MonoBehaviour
 {
     public EmitLight emit;
     public LightPass LP;
-    public bool Emissor, Espelho, Crystal;
+    public bool Emissor, Espelho, Crystal, Ambos;
     public GameObject[] OtherLights;
    // public string ligth = "Lights";
     // Start is called before the first frame update
@@ -77,6 +77,24 @@ public class StopScale : MonoBehaviour
         }
         }
        
+        if(Ambos == true)
+        {
+            if(other.GetComponent<Collider>().tag == "Cristal" || other.GetComponent<Collider>().tag == "Mirror" )
+            {
+                LP.scaleFactor = 0f;
+            }
+            else if(other.GetComponent<Collider>().tag != "Cristal" || other.GetComponent<Collider>().tag != "Mirror")
+            {
+            Debug.Log((this.gameObject.name) + (other.gameObject.name));
+           // LP.scaleFactor = 0f;
+            for(int i = 0; i < OtherLights.Length; i++)
+            {
+            OtherLights[i].gameObject.SetActive(false);
+            } 
+            LP.scaleFactor = 0;
+            this.gameObject.SetActive(false);
+            }
+        }
     }
 
      private  IEnumerator  Delay()

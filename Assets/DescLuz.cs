@@ -31,7 +31,7 @@ public class DescLuz : MonoBehaviour
             {
                 if(text.GetComponent<TextMeshPro>().text == ""){text.GetComponent<TextMeshPro>().text = Des;}
                 else if(text.GetComponent<TextMeshPro>().text != ""){text2.GetComponent<TextMeshPro>().text = Des;}
-                else if(text2.GetComponent<TextMeshPro>().text != ""){text3.GetComponent<TextMeshPro>().text = Des;}
+                else if(text.GetComponent<TextMeshPro>().text != "" && text2.GetComponent<TextMeshPro>().text != ""){text3.GetComponent<TextMeshPro>().text = Des;}
                 material.EnableKeyword("_EMISSION");
             }
         }
