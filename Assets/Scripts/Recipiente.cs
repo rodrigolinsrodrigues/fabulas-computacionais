@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Recipiente : MonoBehaviour
 {
-     private Comandos comandos; // acessar controles do Player
+    private Comandos comandos; // acessar controles do Player
   // public GameObject[] Recursos;
    public bool PodePegar, PodeSoltar; //Verificação
    public GameObject ObjRecurso, area; // Nome dado a objetos
