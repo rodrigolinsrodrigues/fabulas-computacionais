@@ -36,44 +36,6 @@ public class RotateObj : MonoBehaviour
                 currentRotation = rotateObj.transform.rotation.eulerAngles;
                 rotacionando = true;
                 StartCoroutine("delay");
-                
-               // if(rotateObj.transform.rotation.eulerAngles.y == 0f)
-               // {  
-               // rotateObj.GetComponent<Animator>().SetBool("0", true);
-               // StartCoroutine(delay("0"));
-                //rotateObj.GetComponent<Animator>().SetBool("270", false);
-                //
-                  //  float speed = 10f;
-                  //  Quaternion targetRotation = Quaternion.Euler(currentRotation.x, 90f, currentRotation.z);
-                  //  rotateObj.transform.rotation = Quaternion.Lerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
-               // }
-              //  else 
-               // if(rotateObj.transform.rotation.eulerAngles.y == 90f)
-             //   {
-                   // rotateObj.GetComponent<Animator>().SetBool("90", true);
-                  //  StartCoroutine(delay("90"));
-                    //rotateObj.GetComponent<Animator>().SetBool("90", false);
-             //       Quaternion newRotation = Quaternion.Euler(currentRotation.x, 180f , currentRotation.z);
-             //       rotateObj.transform.rotation = newRotation;
-             //   }
-             //   else 
-             //   if(rotateObj.transform.rotation.eulerAngles.y == 180f)
-             //   {
-                   // rotateObj.GetComponent<Animator>().SetBool("180", true);
-                   // StartCoroutine(delay("180"));
-                   // rotateObj.GetComponent<Animator>().SetBool("180", false);
-              //      Quaternion newRotation = Quaternion.Euler(currentRotation.x, 270f , currentRotation.z);
-             //       rotateObj.transform.rotation = newRotation;
-              //  }
-              //  else 
-              //  if(rotateObj.transform.rotation.eulerAngles.y == 270f)
-              //  {
-                   // rotateObj.GetComponent<Animator>().SetBool("270", true);
-                   // StartCoroutine(delay("270"));
-                   // rotateObj.GetComponent<Animator>().SetBool("270", false);
-              //      Quaternion newRotation = Quaternion.Euler(currentRotation.x, 0f, currentRotation.z);
-              //     rotateObj.transform.rotation = newRotation;
-              //  } 
             }
         if(comandos.Actions.Interact.ReadValue<float>() == 0)
         {

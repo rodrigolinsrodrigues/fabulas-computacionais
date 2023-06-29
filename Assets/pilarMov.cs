@@ -12,8 +12,6 @@ public class pilarMov : MonoBehaviour
 
 void Start()
 {
-    // localInicialX = this.transform.position.x;
-    // localInicialZ = this.transform.position.z;
     OriginalConstraints = this.GetComponent<Rigidbody>().constraints;
     Player = GameObject.FindWithTag("Player");
     
@@ -25,23 +23,6 @@ public void MudouPos()
     {
         StartCoroutine("Delay");
     }
-    // //localAtual = this.transform.position.x;
-    // if(ifX == true)
-    // {
-    //     if(this.transform.position.x != localInicialX)
-    //     {
-    //         StartCoroutine("Delay");
-    //         localInicialX = this.transform.position.x;
-    //     }
-    // }
-    //  if(ifZ == true)
-    // {
-    //     if(this.transform.position.z != localInicialZ)
-    //     {
-    //         StartCoroutine("Delay2");
-    //         localInicialZ = this.transform.position.z;
-    //     }
-    // }
     
 }
 IEnumerator Delay()
