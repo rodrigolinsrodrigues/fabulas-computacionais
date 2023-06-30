@@ -413,19 +413,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.07785424
+      value: 0.0778543
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.034440365
+      value: 0.034440387
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9111944
+      value: 0.91119444
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.40308487
+      value: -0.40308484
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
@@ -469,7 +469,7 @@ BoxCollider:
   m_GameObject: {fileID: 3743380297258346406}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
   m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
@@ -851,7 +851,7 @@ BoxCollider:
   m_GameObject: {fileID: 2096575088490685147}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
   m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
@@ -1068,7 +1068,7 @@ BoxCollider:
   m_GameObject: {fileID: 8824195363949767764}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
   m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
@@ -6823,6 +6823,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mesa 1_
       objectReference: {fileID: 0}
+    - target: {fileID: 3266357229171980582, guid: d74e313a206095542b2543be3be58bf2, type: 3}
+      propertyPath: Contagem
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266357229171980582, guid: d74e313a206095542b2543be3be58bf2, type: 3}
+      propertyPath: LocalEspecifico
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3266357229171980583, guid: d74e313a206095542b2543be3be58bf2, type: 3}
       propertyPath: m_Size.x
       value: 1.5
@@ -7521,6 +7529,8 @@ MonoBehaviour:
   Espaco: {fileID: 0}
   local: {fileID: 419098150}
   LE: {fileID: 0}
+  Contagem: 2
+  LocalEspecifico: 1
 --- !u!65 &7605905162764244189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8659,6 +8669,8 @@ MonoBehaviour:
   Espaco: {fileID: 0}
   local: {fileID: 1646955430}
   LE: {fileID: 0}
+  Contagem: 2
+  LocalEspecifico: 1
 --- !u!65 &8790734265567073964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9058,6 +9070,8 @@ MonoBehaviour:
   Espaco: {fileID: 0}
   local: {fileID: 1041294782}
   LE: {fileID: 0}
+  Contagem: 2
+  LocalEspecifico: 1
 --- !u!65 &9188658998017059000
 BoxCollider:
   m_ObjectHideFlags: 0
