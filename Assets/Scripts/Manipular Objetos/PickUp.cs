@@ -25,7 +25,6 @@ public class PickUp : MonoBehaviour
        if(other.GetComponent<Collider>().tag == "Pickable" && holding == false && comandos.Actions.PickUp.ReadValue<float>() == 1)
        {
             holding = true;
-            podeSoltar = true;
             animator.SetBool("Pegar", true);
             animator.SetBool("Soltar", false);
             string name = other.GetComponent<Collider>().name;
@@ -34,12 +33,9 @@ public class PickUp : MonoBehaviour
             carryObj.transform.position = hand.position;
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             if(carryObj.GetComponent<AjustarObj>().rotacionar == true) {carryObj.transform.rotation = hand.rotation;}
-               // carryObj.GetComponent<ChecarColisao>().comecar = true; 
-                //carryObj.GetComponent<Rigidbody>().mass = 10;
-               // carryObj.GetComponent<Rigidbody>().isKinematic = true;
-               
-               // carryObj.GetComponent<Rigidbody>().useGravity = false;
-               
+            carryObj.GetComponent<ChecarColisao>().comecar = true; 
+            //carryObj.GetComponent<Rigidbody>().mass = 10;
+            // carryObj.GetComponent<Rigidbody>().isKinematic = true;     
        }
 
         //Se a tag do obj for a correta e o player soltar o botão de pegar
@@ -47,19 +43,14 @@ public class PickUp : MonoBehaviour
         {   
             animator.SetBool("Soltar", true);
             animator.SetBool("Pegar", false);
-            carryObj.transform.SetParent(null);
+            carryObj.GetComponent<ChecarColisao>().comecar = false; 
             carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionY;
+            carryObj.transform.SetParent(null);
             carryObj = null;
             holding = false;
             podeSoltar = false;
-
-            // carryObj.GetComponent<ChecarColisao>().comecar = false; 
-           
            // carryObj.GetComponent<Rigidbody>().isKinematic = false;
-            //carryObj.GetComponent<Rigidbody>().useGravity = true;
-           
-            
-                
+            //carryObj.GetComponent<Rigidbody>().useGravity = true;    
         }
     }
 
