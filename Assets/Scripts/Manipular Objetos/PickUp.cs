@@ -47,11 +47,18 @@ public class PickUp : MonoBehaviour
             carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionY;
             carryObj.transform.SetParent(null);
             carryObj = null;
-            holding = false;
             podeSoltar = false;
+            StartCoroutine("Delay");
            // carryObj.GetComponent<Rigidbody>().isKinematic = false;
             //carryObj.GetComponent<Rigidbody>().useGravity = true;    
         }
     }
 
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1f);
+        holding = false;
+
+
+    }
 }

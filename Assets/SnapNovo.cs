@@ -27,6 +27,7 @@ public class SnapNovo : MonoBehaviour
                 if(LocalEspecifico == true)
                 {
                     other.transform.position = local.position;
+                    other.transform.rotation = local.rotation;
                     other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                     LE.GetComponent<LeituraEspacos>().Check();
                 }

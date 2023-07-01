@@ -27,7 +27,10 @@ public class ChecarColisao : MonoBehaviour
     void OnCollisionExit(Collision other)
     {
         Player.GetComponent<PickUp>().podeSoltar = true;
+        
     }
+
+  
 }
 
 
