@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour
         cam = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         // habilita controles
         comandos = new Comandos();
-        comandos.Enable(); 
-        Cursor.visible = false; 
+        comandos.Enable();
+        Cursor.visible = false;
 
         animator = GetComponent<Animator>();
     }
@@ -44,46 +44,50 @@ public class PlayerController : MonoBehaviour
         Movement();
         Gravity();
         Run();
-      //  Jump();
+        //  Jump();
     }
 
     void Movement() // movimentação baseada no input e direção da camera
     {
         inputs = comandos.Movement.Move.ReadValue<Vector2>();
-        
-        if (inputs.magnitude >= 0.1f) // se ta movendo pra qualquer direcao == apertou botão
-        {   
+
+        if (inputs.magnitude > 0) // se ta movendo pra qualquer direcao == apertou botão
+        {
             andando = true;
             animator.SetBool("Andar", true);
-            if(push.pushing == false)
+            if (push.pushing == false)
             {
-            float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + cam.eulerAngles.y;  // direcao que player vai rotacionar + onde a camera tiver olhando 
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURNSMOOTHTIME); // calcula o angulo e tempo pra virar smooth
-            transform.rotation = Quaternion.Euler(0f, angle, 0f); // rotaciona player
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
-            controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // move o player
+                float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + cam.eulerAngles.y;  // direcao que player vai rotacionar + onde a camera tiver olhando 
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, TURNSMOOTHTIME); // calcula o angulo e tempo pra virar smooth
+                transform.rotation = Quaternion.Euler(0f, angle, 0f); // rotaciona player
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // vira pra direcao
+                controller.Move(moveDir.normalized * curSpeed * Time.deltaTime); // move o player
             }
-            if(push.pushing == true)
+            if (push.pushing == true)
             {
-                if(push.pushingSide == true)
+                if (push.pushingSide == true)
                 {
-                float moveX = Input.GetAxis("Horizontal");
-                Vector3 moveDirection = new Vector3(moveX, 0f, 0f);
-                moveDirection *= curSpeed;
-                controller.Move(-moveDirection * Time.deltaTime);
+                    float moveX = Input.GetAxis("Horizontal");
+                    Vector3 moveDirection = new Vector3(moveX, 0f, 0f);
+                    moveDirection *= curSpeed;
+                    controller.Move(-moveDirection * Time.deltaTime);
                 }
                 else
                 {
-                float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + transform.eulerAngles.y;
-                Vector3 MoveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
+                    float targetAngle = Mathf.Atan2(inputs.x, inputs.y) * Mathf.Rad2Deg + transform.eulerAngles.y;
+                    Vector3 MoveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                    controller.Move(MoveDirection.normalized * curSpeed * Time.deltaTime);
                 }
-               
             }
-            
-          
         }
-        else if(inputs.magnitude == 0f){andando = false; if(andando == false){animator.SetBool("Andar", false);}} //  
+        else
+        {
+            andando = false;
+            if (andando == false)
+            {
+                animator.SetBool("Andar", false);
+            }
+        }
     }
 
     void Gravity() // adiciona gravidade
@@ -93,39 +97,61 @@ public class PlayerController : MonoBehaviour
         _velocity.y += gravidade * Time.deltaTime; // direcao da gravidade
         controller.Move(_velocity * Time.deltaTime); // aplica gravidade
 
-        if (isGrounded && _velocity.y < 0){  _velocity.y = -2f; }
-           
-           
+        if (isGrounded && _velocity.y < 0) { _velocity.y = -2f; }
+
+
     }
 
     void Jump()
     {
-        if(pickUp.holding == false)
+        if (pickUp.holding == false)
         {
-        if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
-        {_velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);} 
+            if (isGrounded && push.pushing == false && comandos.Movement.Jump.triggered) // se ta no chao
+            {
+                _velocity.y = Mathf.Sqrt(jumpHeigh * -2f * gravidade);
+            }
 
-        if(isGrounded == false){animator.SetBool("Pular", true);} 
-        else{animator.SetBool("Pular", false);}
+            if (isGrounded == false)
+            {
+                animator.SetBool("Pular", true);
+            }
+            else
+            {
+                animator.SetBool("Pular", false);
+            }
         }
     }
 
     void Run() // for surv
     {
-        
-        if (isGrounded && comandos.Movement.Run.ReadValue<float>() == 1)
+        if (isGrounded && comandos.Movement.Run.ReadValue<float>() == 1 && inputs.magnitude != 0f)
         {
-        curSpeed = runSpeed;
-        if(andando == true)
-        {animator.SetBool("Correr", true);}
+            curSpeed = runSpeed;
+            if (inputs != Vector2.zero)
+            {
+                animator.SetBool("Correr", true);
+            }
         }
-        else if(comandos.Movement.Run.ReadValue<float>() == 0)
-        {andando = false;
-        if(andando == false){curSpeed = walkSpeed; animator.SetBool("Correr", false) ;}
-        } // 
+        else if (comandos.Movement.Run.ReadValue<float>() == 0)
+        {
+            curSpeed = walkSpeed;
+            animator.SetBool("Correr", false);
+        }
+        else if (inputs.magnitude == 0f)
+        {
+            curSpeed = walkSpeed;
+            andando = false;
+            if (andando == false)
+            {
+                animator.SetBool("Correr", false);
+                animator.SetBool("Andar", false);
+            }
+        }
 
-        if(push.pushing == true)
+        if (push.pushing == true)
+        {
             curSpeed = pushSpeed;
+        }
     }
 }
 
