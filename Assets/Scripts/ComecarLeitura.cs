@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class ComecarLeitura : MonoBehaviour
 {
-     private Comandos comandos; 
+    private Comandos comandos;
     public LerMesa LM;
 
-   void Start()
+    void Start()
     {
         comandos = new Comandos();
-        comandos.Actions.Enable(); 
+        comandos.Actions.Enable();
     }
-   void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        if(comandos.Actions.Interact.ReadValue<float>() == 1)
-        LM.iniciar();
-        LM.comecar = true;
-        
+        if (Input.GetButtonDown("X") && !LM.comecar)
+        {
+            LM.iniciar();
+        }   
     }
 }

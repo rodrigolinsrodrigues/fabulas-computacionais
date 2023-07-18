@@ -32,7 +32,7 @@ public class PickUp : MonoBehaviour
             carryObj.transform.SetParent(hand);
             carryObj.transform.position = hand.position;
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-            if (carryObj.GetComponent<AjustarObj>().rotacionar == true) { carryObj.transform.rotation = hand.rotation; }
+            //if (carryObj.GetComponent<AjustarObj>().rotacionar == true) { carryObj.transform.rotation = hand.rotation; }
             carryObj.GetComponent<ChecarColisao>().comecar = true;
             //carryObj.GetComponent<Rigidbody>().mass = 10;
             // carryObj.GetComponent<Rigidbody>().isKinematic = true;     

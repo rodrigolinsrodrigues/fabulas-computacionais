@@ -153,5 +153,13 @@ public class PlayerController : MonoBehaviour
             curSpeed = pushSpeed;
         }
     }
+
+    public void ResetAnimation()
+    {
+        animator.SetBool("Correr", false);
+        animator.SetBool("Andar", false);
+        animator.SetBool("Cortar", false);
+        animator.SetBool("Fritar", false);
+    }
 }
 
