@@ -7,17 +7,22 @@ public class LerMesa : MonoBehaviour
     public Snap[] foodTables, actionTables;
     public GameObject[] finalFood;
     public GameObject errorFood;
-    public GameObject[] finalFoods;
+    public GameObject[] finalPlates;
     public Transform[] finalFoodPosition;
     public Transform[] playerPositions;
+    public Transform prepareTablePos, finalTablePos;
     public GameObject[] cams;
     public bool comecar, parar;
     public GameObject player, hand;
     public ListaDeRecursos foodBank; // Acessa o banco de modelos de insumos
-    public LeituraResultado LeituraFinal;
     private bool missed = false;
     public GameObject startButton;
+    public Vector3 playerRotation;
 
+    private void Start()
+    {
+        playerRotation = player.transform.eulerAngles;
+    }
     public void iniciar()
     {
         comecar = true;
@@ -25,6 +30,7 @@ public class LerMesa : MonoBehaviour
         if (comecar == true && parar == false)
         {
             StartCoroutine("TempoDeEspera");
+            //player.GetComponent<PlayerController>().ResetAnimation();
             player.GetComponent<PlayerController>().enabled = false;
             hand.GetComponent<PickAndDrop>().enabled = false;
             cams[0].SetActive(false);
@@ -35,6 +41,7 @@ public class LerMesa : MonoBehaviour
     }
     public IEnumerator TempoDeEspera()
     {
+        player.transform.eulerAngles = playerRotation;
         for (int i = 0; i < foodTables.Length; i++)
         {
             if (!foodTables[i].isOccupied || !actionTables[i].isOccupied)
@@ -71,13 +78,20 @@ public class LerMesa : MonoBehaviour
                 player.GetComponent<PlayerController>().ResetAnimation();
 
                 yield return new WaitForSeconds(0.5f);
-                if (i + 1 == foodTables.Length)
-                {
-                    CheckFinal();
-                }
+              
+
             }
         }
-
+        if (!missed)
+        {
+            //faz animação de preparo e posiciona o player para assistir
+            player.transform.position = prepareTablePos.position;
+            yield return new WaitForSeconds(2f);
+            //posiciona o player para ver o resultado final
+            player.transform.position = finalTablePos.position;
+            yield return new WaitForSeconds(0.2f);
+            CheckFinal();
+        }
     }
 
     //muda o estado da comida (visual)
@@ -93,35 +107,39 @@ public class LerMesa : MonoBehaviour
         {
             if (!foodTables[i].isCorrect || !actionTables[i].isCorrect)
             {
+                missed = true;
                 // spawnar prato errado
-                if (foodTables[i].obj.GetComponent<Item>().recipeID == -1)
+                if (foodTables[i].recipeID == -1)
                 {
                     for (int j = 0; j < finalFoodPosition.Length; j++)
                     {
-                        finalFoods[foodTables[i].obj.GetComponent<Item>().recipeID] = Instantiate(errorFood, finalFoodPosition[j]);
+                        finalPlates[foodTables[i].recipeID] = Instantiate(errorFood, finalFoodPosition[j]);
                     }
                 }
-                if (finalFoods[foodTables[i].obj.GetComponent<Item>().recipeID] == null)
+                else if (finalPlates[foodTables[i].recipeID] == null)
                 {
-                    finalFoods[foodTables[i].obj.GetComponent<Item>().recipeID] =
-                    Instantiate(errorFood, finalFoodPosition[foodTables[i].obj.GetComponent<Item>().recipeID]);
+                    finalPlates[foodTables[i].recipeID] =
+                    Instantiate(errorFood, finalFoodPosition[foodTables[i].recipeID]);
                 }
-                missed = true;
                 //Debug.Log("ERROU!");
             }
-            //spawnar prato certo e chama funções de vitória
-            for (int j = 0; j < finalFood.Length; j++)
-            {
-                if (finalFoods[foodTables[j].obj.GetComponent<Item>().recipeID] == null)
-                {
-                    finalFoods[foodTables[i].obj.GetComponent<Item>().recipeID] =
-                    Instantiate(finalFood[foodTables[i].obj.GetComponent<Item>().recipeID],
-                    finalFoodPosition[foodTables[i].obj.GetComponent<Item>().recipeID]);
-                    //Debug.Log("ACERTOU!");
-                }
-            }
 
-            EndOfRead();
+            //spawnar prato certo e chama funções de vitória
+            if (i + 1 == foodTables.Length)
+            {
+                for (int j = 0; j < foodTables.Length; j++)
+                {
+                    int recipeID = foodTables[j].recipeID;
+                    if (finalPlates[recipeID] == null)
+                    {
+                        finalPlates[recipeID] =
+                        Instantiate(finalFood[recipeID],
+                        finalFoodPosition[recipeID]);
+                        //Debug.Log("ACERTOU!");
+                    }
+                }
+                EndOfRead();
+            }
         }
     }
 
@@ -148,12 +166,12 @@ public class LerMesa : MonoBehaviour
 
     void ResetFinalFood()
     {
-        for (int i = 0; i < finalFoods.Length; i++)
+        for (int i = 0; i < finalPlates.Length; i++)
         {
-            if (finalFoods[i] != null)
+            if (finalPlates[i] != null)
             {
-                Destroy(finalFoods[i]);
-                finalFoods[i] = null;
+                Destroy(finalPlates[i]);
+                finalPlates[i] = null;
             }
         }
     }

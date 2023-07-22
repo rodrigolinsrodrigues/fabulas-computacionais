@@ -9,12 +9,14 @@ public class PickAndDrop : MonoBehaviour
     public GameObject heldObject, targetObject;
     public Snap snapTarget;
     public bool isHoldingObject, canCatch, canDrop, touchingSnap;
-
+    public LerMesa lerMesa;
     public PlayerController playerLink;
+    float timeToInteract = 0;
 
     private void Awake()
     {
         playerLink = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        lerMesa = GameObject.FindObjectOfType<LerMesa>();
         comandos = new Comandos();
         comandos.Enable();
         Cursor.visible = false;
@@ -22,9 +24,14 @@ public class PickAndDrop : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("X"))
+        if (Input.GetButtonDown("X") && timeToInteract <= 0)
         {
             CatchRelease();
+            timeToInteract = 0.5f;
+        }
+        if (timeToInteract > 0)
+        {
+            timeToInteract -= Time.deltaTime;
         }
     }
 
@@ -110,12 +117,29 @@ public class PickAndDrop : MonoBehaviour
     {
         if (heldObject != null)
         {
-            if (other.GetComponent<Item>() && other.gameObject != heldObject)
+            if (other.GetComponent<Item>() && other.gameObject != heldObject || other.CompareTag("wall"))
             {
                 canDrop = false;
             }
         }
-        if (other.GetComponent<Snap>())
+
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (!isHoldingObject && other.CompareTag("Pickable"))
+        {
+            targetObject = other.gameObject;
+            canCatch = true;
+        }
+        if (other.CompareTag("StartButton"))
+        {
+            if (Input.GetButtonDown("X") && !lerMesa.comecar && !isHoldingObject)
+            {
+                lerMesa.iniciar();
+            }
+        }
+
+        if (other.GetComponent<Snap>() && snapTarget == null)
         {
             snapTarget = other.GetComponent<Snap>();
             touchingSnap = true;
@@ -125,14 +149,6 @@ public class PickAndDrop : MonoBehaviour
             }
         }
     }
-    private void OnTriggerStay(Collider other)
-    {
-        if (!isHoldingObject && other.CompareTag("Pickable"))
-        {
-            targetObject = other.gameObject;
-            canCatch = true;
-        }
-    }
     private void OnTriggerExit(Collider other)
     {
         targetObject = null;
@@ -140,7 +156,7 @@ public class PickAndDrop : MonoBehaviour
         {
             canDrop = true;
         }
-        if (other.GetComponent<Snap>())
+        if (other.GetComponent<Snap>() && snapTarget != null)
         {
             if (snapTarget.obj != null)
             {
@@ -148,6 +164,10 @@ public class PickAndDrop : MonoBehaviour
             }
             touchingSnap = false;
             snapTarget = null;
+        }
+        if (other.gameObject.CompareTag("wall"))
+        {
+            canDrop = true;
         }
     }
 }

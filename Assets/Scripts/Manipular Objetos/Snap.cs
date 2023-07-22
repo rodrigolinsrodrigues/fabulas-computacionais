@@ -8,6 +8,7 @@ public class Snap : MonoBehaviour
     public bool isAction, isOccupied, isCorrect;
     public PickAndDrop pickup;
     public string correctType, currentType;
+    public int recipeID; 
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class Snap : MonoBehaviour
             obj = item.gameObject;
             isOccupied = true;
             currentType = item.type;
+            item.GetComponent<Outline>().enabled = true;
             Verify();
             FreezeObj(obj);
         }
@@ -30,6 +32,7 @@ public class Snap : MonoBehaviour
         if (obj != null)
         {
             clone = obj;
+            clone.GetComponent<Outline>().enabled = false;
             obj = null;
             isOccupied = false;
             currentType = "";
