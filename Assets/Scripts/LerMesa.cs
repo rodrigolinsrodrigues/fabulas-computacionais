@@ -48,7 +48,6 @@ public class LerMesa : MonoBehaviour
             {
                 yield return new WaitForSeconds(1);
                 missed = true;
-                EndOfRead();
                 break;
             }
             else
@@ -78,7 +77,7 @@ public class LerMesa : MonoBehaviour
                 player.GetComponent<PlayerController>().ResetAnimation();
 
                 yield return new WaitForSeconds(0.5f);
-              
+
 
             }
         }
@@ -92,6 +91,10 @@ public class LerMesa : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             CheckFinal();
         }
+        else
+        {
+            EndOfRead();
+        }
     }
 
     //muda o estado da comida (visual)
@@ -103,6 +106,7 @@ public class LerMesa : MonoBehaviour
     //Verifica se o jogador acertou tudo
     public void CheckFinal()
     {
+
         for (int i = 0; i < foodTables.Length; i++)
         {
             if (!foodTables[i].isCorrect || !actionTables[i].isCorrect)
@@ -130,12 +134,16 @@ public class LerMesa : MonoBehaviour
                 for (int j = 0; j < foodTables.Length; j++)
                 {
                     int recipeID = foodTables[j].recipeID;
-                    if (finalPlates[recipeID] == null)
+                    Debug.Log(recipeID);
+                    if (recipeID != -1)
                     {
-                        finalPlates[recipeID] =
-                        Instantiate(finalFood[recipeID],
-                        finalFoodPosition[recipeID]);
-                        //Debug.Log("ACERTOU!");
+                        if (finalPlates[recipeID] == null)
+                        {
+                            finalPlates[recipeID] =
+                            Instantiate(finalFood[recipeID],
+                            finalFoodPosition[recipeID]);
+                            Debug.Log("ACERTOU!");
+                        }
                     }
                 }
                 EndOfRead();
