@@ -1,29 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Cinemachine;
 
 public class showCanvas : MonoBehaviour
 {
-    public GameObject Canvas, Redoma, Player;
+    public GameObject Canvas, Redoma, Player, winCanvas;
     public GameObject[] pilares, Cams;
     bool bloq, concluido;
-    
-   
-   void OnTriggerEnter(Collider other)
+
+
+    void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Light"))
+        if (other.CompareTag("Light"))
         {
             Canvas.SetActive(true);
-            for(int i = 0; i < pilares.Length; i++)
+            for (int i = 0; i < pilares.Length; i++)
             {
                 pilares[i].gameObject.tag = "Untagged";
-            } 
+            }
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
-           StartCoroutine(Delay1());
+
+            //Codigo para definir no GameManager que a fase foi concluida
+            GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
+
+            StartCoroutine(Delay1());
         }
 
-       
+
     }
 
     IEnumerator Delay1()
@@ -35,12 +40,15 @@ public class showCanvas : MonoBehaviour
         Cams[2].GetComponent<CinemachineFreeLook>().Priority = 1;
         yield return new WaitForSeconds(3f);
         Cams[1].SetActive(false);
-       // Cams[2].SetActive(true);
+        // Cams[2].SetActive(true);
         Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         Cams[2].GetComponent<CinemachineFreeLook>().Priority = 10;
         yield return new WaitForSeconds(1f);
+        winCanvas.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        winCanvas.SetActive(false);
         Player.GetComponent<PlayerController>().enabled = true;
         Canvas.SetActive(false);
-    } 
+    }
 
 }

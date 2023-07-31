@@ -5,15 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class LoadNewArea : MonoBehaviour
 {
-    public Transform spawnPoint;
+    public Transform spawnPoint, playerTransform;
     public bool canTeleport = false;
     public string currentDoor;
 
+    void Awake()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+    }
+    void Start()
+    {
+        spawnPoint = GameObject.Find(GameManager.Instance.spawnPoint).transform;
+        StartCoroutine("test");
+    }
     public void LoadArea(string areaName)
     {
-        GameManager.Instance.SetCurrentScene(areaName);
-        SceneManager.LoadScene(areaName);
+        if (canTeleport)
+        {
+            canTeleport = false;
+            GetComponent<BoxCollider>().enabled = false;
+            GameManager.Instance.SetCurrentScene(areaName);
+            SceneManager.LoadScene(areaName);
+        }
     }
+
     private void Update()
     {
         if (canTeleport)
@@ -21,6 +37,7 @@ public class LoadNewArea : MonoBehaviour
             if (Input.GetButtonDown("X"))
             {
                 LoadArea(currentDoor);
+                canTeleport = false;
             }
         }
     }
@@ -40,5 +57,11 @@ public class LoadNewArea : MonoBehaviour
             currentDoor = "";
             canTeleport = false;
         }
+    }
+    IEnumerator test()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        playerTransform.position = spawnPoint.position;
+        playerTransform.rotation = spawnPoint.transform.rotation;
     }
 }

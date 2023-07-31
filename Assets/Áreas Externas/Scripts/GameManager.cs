@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,55 +22,60 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField]
     private string currentScene, previousScene;
+    [SerializeField]
     private int starsAchieved;
-    public GameObject loadPanel, player;
-    public Transform spawnPoint;
+    public string spawnPoint;
+    public GameObject loadPanel;
+    public List<string> levelFinisheds = new List<string>();
     public void StartGame()
     {
-        SetCurrentScene("Area1");
-        SetCurrentStars(0);
+        previousScene = "Area1";
+        currentScene = "Area1";
+        spawnPoint = "spawnPoint Area1";
+        starsAchieved = 0;
     }
 
     public string GetPreviousScene()
     {
         return previousScene;
     }
+
     public void SetCurrentScene(string name)
     {
-        StartCoroutine("LoadRoutine");
-        if (currentScene != "")
-        {
-            previousScene = currentScene;
-        }
+        previousScene = "" + currentScene;
         currentScene = name;
+        spawnPoint = "spawnPoint " + previousScene;
+        StartCoroutine("LoadRoutine");
+    }
+
+    public void UpdateProgress(string levelName)
+    {
+        if (CurrentProgress(levelName) == false)
+        {
+            addStars();
+            levelFinisheds.Add(levelName);
+        }
+    }
+    public bool CurrentProgress(string levelName)
+    {
+        return levelFinisheds.Contains(levelName);
     }
 
     public int GetCurrentStars()
     {
         return starsAchieved;
     }
-    public void SetCurrentStars(int value)
+    public void addStars()
     {
-        starsAchieved = value;
+        starsAchieved++;
     }
     IEnumerator LoadRoutine()
     {
         loadPanel.SetActive(true);
         Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(1.5f);
-        if (GameObject.FindGameObjectWithTag("Player") != null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-            if (GetPreviousScene() != "")
-            {
-                spawnPoint = GameObject.Find("spawnPoint " + GetPreviousScene()).transform;
-            }
-            player.transform.position = spawnPoint.position;
-            player.transform.rotation = spawnPoint.transform.rotation;
-        }
+        yield return new WaitForSecondsRealtime(1);
         Time.timeScale = 1;
+        yield return new WaitForSecondsRealtime(1);
         loadPanel.SetActive(false);
-
-
     }
 }

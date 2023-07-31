@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class LerMesa : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class LerMesa : MonoBehaviour
     public GameObject player, hand;
     public ListaDeRecursos foodBank; // Acessa o banco de modelos de insumos
     private bool missed = false;
-    public GameObject startButton;
+    public GameObject startButton, winPanel, jewelObj;
     public Vector3 playerRotation;
 
     private void Start()
@@ -158,18 +160,17 @@ public class LerMesa : MonoBehaviour
             ResetAllFood();
             missed = false;
             hand.GetComponent<PickAndDrop>().enabled = true;
+            ResumeGameplay();
         }
         else
         {
             startButton.SetActive(false);
+            //Codigo para definir no GameManager que a fase foi concluida
+            GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
+            StartCoroutine("Endgame");
         }
 
-        comecar = false;
-        parar = true;
-        player.GetComponent<PlayerController>().enabled = true;
-        player.GetComponent<PlayerController>().ResetAnimation();
-        cams[0].SetActive(true);
-        cams[1].SetActive(false);
+
     }
 
     void ResetFinalFood()
@@ -183,6 +184,16 @@ public class LerMesa : MonoBehaviour
             }
         }
     }
+
+    public void ResumeGameplay()
+    {
+        comecar = false;
+        parar = true;
+        player.GetComponent<PlayerController>().enabled = true;
+        player.GetComponent<PlayerController>().ResetAnimation();
+        cams[0].SetActive(true);
+        cams[1].SetActive(false);
+    }
     //reinicia todos os insumos pro estado inicial
     public void ResetAllFood()
     {
@@ -193,5 +204,20 @@ public class LerMesa : MonoBehaviour
                 ChangeState(foodTables[i].obj.GetComponent<Item>(), 0);
             }
         }
+    }
+
+    IEnumerator Endgame()
+    {
+        cams[2].SetActive(true);
+        cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 11;
+        jewelObj.GetComponent<Animator>().SetBool("abrir", true);
+        yield return new WaitForSeconds(4);
+        cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+        cams[2].SetActive(false);
+        yield return new WaitForSeconds(2);
+        winPanel.SetActive(true);
+        yield return new WaitForSeconds(4);
+        winPanel.SetActive(false);
+        ResumeGameplay();
     }
 }

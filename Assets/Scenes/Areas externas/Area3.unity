@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Conjuntos Fase 3
+  isAreaDoor: 0
 --- !u!54 &293529142
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -469,15 +470,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19128774
+      value: -0.19128776
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.1083053
+      value: -0.10830531
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.8489151
+      value: 0.84891516
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -621,11 +622,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19644533
+      value: -0.19644538
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.098642066
+      value: -0.098642096
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -699,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Area2
+  isAreaDoor: 1
 --- !u!54 &771833870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -943,6 +945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Musical 3
+  isAreaDoor: 0
 --- !u!54 &903595321
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1103,6 +1106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Receitas Fase 3
+  isAreaDoor: 0
 --- !u!54 &1003994873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1581,6 +1585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Espelhos Fase 3
+  isAreaDoor: 0
 --- !u!54 &1423340633
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1709,11 +1714,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.1964453
+      value: -0.19644538
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.098642066
+      value: -0.0986421
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -30702,8 +30707,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 72.83132, y: 37.79799, z: 15.58042}
-  m_Center: {x: -2.204235, y: 0.000029563904, z: 9.651988e-14}
+  m_Size: {x: 72.83132, y: 69.32006, z: 15.58042}
+  m_Center: {x: -2.204235, y: -15.761005, z: 5.681268e-15}
 --- !u!33 &7915440678664599290
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -31972,6 +31977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
+  playerTransform: {fileID: 0}
   canTeleport: 0
   currentDoor: 
 --- !u!33 &8229555806213181313
@@ -34274,7 +34280,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 1.9999998, z: 0}
+  m_Size: {x: 4, y: 7.97, z: 0}
   m_Center: {x: 0, y: -0.000001758337, z: -1.4210855e-13}
 --- !u!1 &8929090280918539530
 GameObject:

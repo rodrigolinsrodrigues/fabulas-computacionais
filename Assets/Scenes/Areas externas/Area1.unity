@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Conjuntos Fase 1
+  isAreaDoor: 0
 --- !u!54 &293529142
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -566,7 +567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.108305305
+      value: -0.10830529
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -574,7 +575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.48064768
+      value: -0.48064765
       objectReference: {fileID: 0}
     - target: {fileID: 3491981160213480247, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_FollowOffset.y
@@ -792,6 +793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Area2
+  isAreaDoor: 1
 --- !u!54 &771833870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1015,6 +1017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Musical 1
+  isAreaDoor: 0
 --- !u!54 &903595321
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1144,6 +1147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Receitas Fase 1
+  isAreaDoor: 0
 --- !u!54 &1003994873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1561,6 +1565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: Espelhos Fase 1
+  isAreaDoor: 0
 --- !u!54 &1423340633
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15118,7 +15123,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d3987604a93d77341a0e9331af2119eb, type: 2}
+  - {fileID: 2100000, guid: 10fd0794d2d5f2848808b1b9b40705fa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16072,6 +16077,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
+  playerTransform: {fileID: 0}
+  canTeleport: 0
+  currentDoor: 
 --- !u!1 &8231559162018724971
 GameObject:
   m_ObjectHideFlags: 0
