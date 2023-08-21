@@ -27,7 +27,7 @@ public class EmitLight : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, distance))
         {
-            if (hit.collider.tag == "Emit" && comandos.Actions.Interact.triggered && lightOff == true)
+            if (hit.collider.tag == "Emit" && Input.GetButtonDown("X") && lightOff == true)
             {
             Player.GetComponent<PlayerController>().enabled = false;
            if(Cams[0] != null && Cams[1] != null)

@@ -208,6 +208,7 @@ public class LerMesa : MonoBehaviour
 
     IEnumerator Endgame()
     {
+        GameManager.Instance.canPause = false;
         cams[2].SetActive(true);
         cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 11;
         jewelObj.GetComponent<Animator>().SetBool("abrir", true);
@@ -219,5 +220,6 @@ public class LerMesa : MonoBehaviour
         yield return new WaitForSeconds(4);
         winPanel.SetActive(false);
         ResumeGameplay();
+        GameManager.Instance.canPause = true;
     }
 }

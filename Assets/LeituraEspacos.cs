@@ -62,6 +62,30 @@ public class LeituraEspacos : MonoBehaviour
             }
         }
 
+        // if (Fase3 == true)
+        // {
+
+        //     if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[3].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[3].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[4].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[4].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[5].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[5].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[6].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[6].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[7].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[7].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[8].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[8].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[9].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[9].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[10].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[10].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[11].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[11].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[12].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[12].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo &&
+        //     Espacos[14].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[14].GetComponent<SnapNovo>().Tipo)
+        //     {
+        //         Concluido = true;
+        //     }
+
+        // }
+
         if (Fase3 == true)
         {
 
@@ -78,36 +102,7 @@ public class LeituraEspacos : MonoBehaviour
             Espacos[10].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[10].GetComponent<SnapNovo>().Tipo &&
             Espacos[11].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[11].GetComponent<SnapNovo>().Tipo &&
             Espacos[12].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[12].GetComponent<SnapNovo>().Tipo &&
-            Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo &&
-            Espacos[14].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[14].GetComponent<SnapNovo>().Tipo)
-            {
-                Concluido = true;
-            }
-
-        }
-
-        if (Fase4 == true)
-        {
-
-            if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-            Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
-            Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
-            Espacos[3].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[3].GetComponent<SnapNovo>().Tipo &&
-            Espacos[4].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[4].GetComponent<SnapNovo>().Tipo &&
-            Espacos[5].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[5].GetComponent<SnapNovo>().Tipo &&
-            Espacos[6].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[6].GetComponent<SnapNovo>().Tipo &&
-            Espacos[7].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[7].GetComponent<SnapNovo>().Tipo &&
-            Espacos[8].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[8].GetComponent<SnapNovo>().Tipo &&
-            Espacos[9].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[9].GetComponent<SnapNovo>().Tipo &&
-            Espacos[10].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[10].GetComponent<SnapNovo>().Tipo &&
-            Espacos[11].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[11].GetComponent<SnapNovo>().Tipo &&
-            Espacos[12].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[12].GetComponent<SnapNovo>().Tipo &&
-            Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo &&
-            Espacos[14].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[14].GetComponent<SnapNovo>().Tipo &&
-            Espacos[15].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[15].GetComponent<SnapNovo>().Tipo &&
-            Espacos[16].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[16].GetComponent<SnapNovo>().Tipo &&
-            Espacos[17].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[17].GetComponent<SnapNovo>().Tipo &&
-            Espacos[18].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[18].GetComponent<SnapNovo>().Tipo)
+            Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo)
             {
                 Concluido = true;
             }
@@ -138,6 +133,7 @@ public class LeituraEspacos : MonoBehaviour
 
     IEnumerator Delay()
     {
+        GameManager.Instance.canPause = false;
         yield return new WaitForSeconds(3f);
         Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
         Cams[1].SetActive(false);
@@ -146,6 +142,6 @@ public class LeituraEspacos : MonoBehaviour
         yield return new WaitForSeconds(4f);
         Player.GetComponent<PlayerController>().enabled = true;
         PopUp.SetActive(false);
-
+        GameManager.Instance.canPause = true;
     }
 }

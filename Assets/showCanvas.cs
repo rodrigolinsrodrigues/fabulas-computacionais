@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class showCanvas : MonoBehaviour
 {
-    public GameObject Canvas, Redoma, Player, winCanvas;
+    public GameObject Redoma, Player, winCanvas;
     public GameObject[] pilares, Cams;
     bool bloq, concluido;
 
@@ -15,7 +15,6 @@ public class showCanvas : MonoBehaviour
     {
         if (other.CompareTag("Light"))
         {
-            Canvas.SetActive(true);
             for (int i = 0; i < pilares.Length; i++)
             {
                 pilares[i].gameObject.tag = "Untagged";
@@ -33,6 +32,7 @@ public class showCanvas : MonoBehaviour
 
     IEnumerator Delay1()
     {
+        GameManager.Instance.canPause = false;
         yield return new WaitForSeconds(3f);
         Cams[0].SetActive(false);
         Cams[1].SetActive(true);
@@ -48,7 +48,7 @@ public class showCanvas : MonoBehaviour
         yield return new WaitForSeconds(3f);
         winCanvas.SetActive(false);
         Player.GetComponent<PlayerController>().enabled = true;
-        Canvas.SetActive(false);
+        GameManager.Instance.canPause = true;
     }
 
 }

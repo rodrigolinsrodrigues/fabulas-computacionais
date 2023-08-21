@@ -7,28 +7,28 @@ public class RotateObj : MonoBehaviour
     private Comandos comandos;
     public GameObject rotateObj, hand;
     public float checkDistance;
-   public  bool pressed = false, rotacionando = false, rot = false;
+    public bool pressed = false, rotacionando = false, rot = false;
     Vector3 currentRotation = new Vector3();
     // Start is called before the first frame update
     void Start()
     {
         comandos = new Comandos();
-        comandos.Actions.Enable(); 
+        comandos.Actions.Enable();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
-        if(rotacionando)
+        if (rotacionando)
         {
             rotacionar(currentRotation);
         }
-                
+
 
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, checkDistance))
         {
-        if (hit.collider.tag == "Rotate" && pressed == false && rotacionando == false && comandos.Actions.Interact.triggered)
+            if (hit.collider.tag == "Rotate" && pressed == false && rotacionando == false && Input.GetButtonDown("X"))
             {
                 pressed = true;
                 string name = hit.collider.name;
@@ -37,10 +37,10 @@ public class RotateObj : MonoBehaviour
                 rotacionando = true;
                 StartCoroutine("delay");
             }
-        if(comandos.Actions.Interact.ReadValue<float>() == 0)
-        {
-            pressed = false;
-        }
+            if (Input.GetButtonUp("X"))
+            {
+                pressed = false;
+            }
 
         }
     }
@@ -48,14 +48,14 @@ public class RotateObj : MonoBehaviour
     void rotacionar(Vector3 currentRotation)
     {
         float speed = 38f;
-        if(rotateObj.gameObject.name.Contains("Pilar_Verde_Linear"))
+        if (rotateObj.gameObject.name.Contains("Pilar_Verde_Linear"))
         {
-            Quaternion  targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y + 90f , currentRotation.z);
+            Quaternion targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y + 90f, currentRotation.z);
             rotateObj.transform.rotation = Quaternion.Slerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
         }
         else
         {
-            Quaternion  targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y , currentRotation.z + 90f);
+            Quaternion targetRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, currentRotation.z + 90f);
             rotateObj.transform.rotation = Quaternion.Slerp(rotateObj.transform.rotation, targetRotation, Time.deltaTime * speed);
         }
 

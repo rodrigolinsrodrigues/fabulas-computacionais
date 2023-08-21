@@ -5,9 +5,9 @@ using UnityEngine;
 public class Launch : MonoBehaviour
 {
     //Codigo de lançar objetos, atribuido ao Player
-     private Comandos comandos;
+    private Comandos comandos;
 
-     // Lançar objetos
+    // Lançar objetos
     public GameObject launchObj, hand;
     public float launchDistance;
     public float launchForce, delay;
@@ -16,16 +16,16 @@ public class Launch : MonoBehaviour
     void Start()
     {
         comandos = new Comandos();
-        comandos.Actions.Enable(); 
+        comandos.Actions.Enable();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, launchDistance))
         {
-        if (hit.collider.tag == "Launch" && Empurrou == false && comandos.Actions.Interact.triggered)
+            if (hit.collider.tag == "Launch" && Empurrou == false && Input.GetButtonDown("X"))
             {
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
@@ -35,7 +35,7 @@ public class Launch : MonoBehaviour
                 launchObj.GetComponent<pilarMov>().MudouPos();
                 StartCoroutine("Delay");
             }
-           
+
         }
     }
 

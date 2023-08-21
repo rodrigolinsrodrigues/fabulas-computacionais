@@ -6,7 +6,7 @@ public class MostrarBotoes : MonoBehaviour
 {
     public float Distance;
     public GameObject Guia;
-    public GameObject Y, RB;
+
     // Update is called once per frame
     void Start()
     {
@@ -18,25 +18,17 @@ public class MostrarBotoes : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(Guia.transform.position, Guia.transform.forward, out hit, Distance))
         {
-            if (hit.collider.tag == "Launch" || hit.collider.tag == "Rotate" ||  hit.collider.tag == "Emit" ||  hit.collider.tag == "Lens")
+            if (hit.collider.tag == "Launch" || hit.collider.tag == "Rotate" ||  hit.collider.tag == "Emit" ||  hit.collider.tag == "Lens" || hit.collider.tag == "door")
             {
-               Y.SetActive(true);
-              
+               GameManager.Instance.ShowControlPopup(0);
+            }
+            else if(hit.collider.tag == "Break")
+            {
+                GameManager.Instance.ShowControlPopup(5);
             }
             else
             {
-                Y.SetActive(false);
-            }
-            
-            
-            if(hit.collider.tag == "Break")
-            {
-                RB.SetActive(true);
-               
-            }
-            else
-            {
-                RB.SetActive(false);
+                GameManager.Instance.HideAllControlPopup();
             }
         }
     }

@@ -45,7 +45,8 @@ public class Snap : MonoBehaviour
     {
         obj.transform.SetParent(this.transform);
         obj.transform.position = objPosition.transform.position;
-        //obj.transform.localRotation = new Quaternion(-0.05f, -0.7f, -0.7f, 0.05f);
+        //obj.transform.rotation = new Quaternion(-0.05f, -0.7f, -0.7f, 0.05f);
+        obj.transform.rotation = objPosition.transform.rotation;
         obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         obj.GetComponent<Rigidbody>().useGravity = false;

@@ -25,10 +25,18 @@ public class StartMusicalGame : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.ShowControlPopup(0);
             if (Input.GetButtonDown("X"))
             {
                 Open();
             }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.HideAllControlPopup();
         }
     }
 }

@@ -6,6 +6,7 @@ public class DoorIdentifier : MonoBehaviour
 {
     public string levelName;
     public bool isAreaDoor;
+    public GameObject noticeBoard, winBoard;
     private void Start()
     {
         if (isAreaDoor)
@@ -14,11 +15,11 @@ public class DoorIdentifier : MonoBehaviour
             {
                 case "Area2":
 
-                    gameObject.SetActive(GameManager.Instance.GetCurrentStars() >= 2);
-
+                    noticeBoard.SetActive(GameManager.Instance.GetCurrentStars() < 2);
+                    gameObject.GetComponent<BoxCollider>().enabled = GameManager.Instance.GetCurrentStars() >= 2;
                     break;
                 case "Area3":
-
+                    noticeBoard.SetActive(GameManager.Instance.GetCurrentStars() < 2);
                     gameObject.SetActive(GameManager.Instance.GetCurrentStars() >= 5);
 
                     break;
@@ -28,7 +29,8 @@ public class DoorIdentifier : MonoBehaviour
         {
             if (GameManager.Instance.CurrentProgress(levelName))
             {
-                gameObject.SetActive(false);
+                winBoard.SetActive(true);
+                gameObject.GetComponent<BoxCollider>().enabled = false;
             }
         }
     }

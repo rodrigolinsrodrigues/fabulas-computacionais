@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8331534760382689292, guid: f176dc35cd6c645428f472bf8c0dd344, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f176dc35cd6c645428f472bf8c0dd344, type: 3}
 --- !u!4 &7790169 stripped
@@ -475,11 +479,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19128808
+      value: -0.19128805
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.10830548
+      value: -0.10830545
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -487,7 +491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.48064753
+      value: -0.48064756
       objectReference: {fileID: 0}
     - target: {fileID: 3491981160213480247, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_FollowOffset.y
@@ -706,6 +710,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Area2
   isAreaDoor: 0
+  noticeBoard: {fileID: 0}
+  winBoard: {fileID: 0}
 --- !u!54 &771833870
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -742,7 +748,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 771833868}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1320,6 +1326,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Area2
   isAreaDoor: 0
+  noticeBoard: {fileID: 0}
+  winBoard: {fileID: 0}
 --- !u!54 &1302133468
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1356,7 +1364,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302133466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -21671,7 +21679,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &4720778783023021023
 RectTransform:
@@ -68286,7 +68294,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1 &4720778784446493222
 GameObject:
@@ -78387,6 +78395,8 @@ MonoBehaviour:
   "bot\xE3oClicado1Part2": {fileID: 0}
   "bot\xE3oClicado2Part2": {fileID: 0}
   gameHolder: {fileID: 4720778783664378211}
+  playerObj: {fileID: 2784528989620055201}
+  gamePlayer: {fileID: 2099413810}
 --- !u!1 &5275122403177649514
 GameObject:
   m_ObjectHideFlags: 0

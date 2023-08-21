@@ -16,7 +16,11 @@ public class PickAndDrop : MonoBehaviour
     private void Awake()
     {
         playerLink = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
-        lerMesa = GameObject.FindObjectOfType<LerMesa>();
+        if (GameObject.FindObjectOfType<LerMesa>())
+        {
+            lerMesa = GameObject.FindObjectOfType<LerMesa>();
+        }
+
         comandos = new Comandos();
         comandos.Enable();
         Cursor.visible = false;
@@ -130,9 +134,11 @@ public class PickAndDrop : MonoBehaviour
         {
             targetObject = other.gameObject;
             canCatch = true;
+            GameManager.Instance.ShowControlPopup(1);
         }
         if (other.CompareTag("StartButton"))
         {
+            GameManager.Instance.ShowControlPopup(0);
             if (Input.GetButtonDown("X") && !lerMesa.comecar && !isHoldingObject)
             {
                 lerMesa.iniciar();
@@ -169,6 +175,7 @@ public class PickAndDrop : MonoBehaviour
         {
             canDrop = true;
         }
+        GameManager.Instance.HideAllControlPopup();
     }
 }
 

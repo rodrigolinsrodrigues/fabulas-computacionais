@@ -19,37 +19,37 @@ public class SnapNovo : MonoBehaviour
     // Update is called once per frame
     void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Pickable"))
+        if (other.CompareTag("Pickable"))
         {
-            if(other.transform.parent == null && Espaco.gameObject.transform.childCount < Contagem)
+            if (other.transform.parent == null && Espaco.gameObject.transform.childCount < Contagem)
             {
                 other.transform.SetParent(Espaco.gameObject.transform);
-                if(LocalEspecifico == true)
+                if (LocalEspecifico == true)
                 {
                     other.transform.position = local.position;
                     other.transform.rotation = local.rotation;
-                    other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                    //other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                     LE.GetComponent<LeituraEspacos>().Check();
                 }
                 else
                 {
                     LE.GetComponent<LeituraEspacos>().Check();
                 }
-               
+                //other.GetComponent<Outline>().enabled = true;
             }
-            
+
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Pickable"))
+        if (other.CompareTag("Pickable"))
         {
-            if(other.transform.parent != Espaco.gameObject.transform)
+            if (other.transform.parent != Espaco.gameObject.transform)
             {
                 LE.GetComponent<LeituraEspacos>().Check();
+                //other.GetComponent<Outline>().enabled = false;
             }
-           
         }
     }
 }

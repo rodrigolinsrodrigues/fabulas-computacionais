@@ -26,6 +26,7 @@ public class LoadNewArea : MonoBehaviour
             canTeleport = false;
             GetComponent<BoxCollider>().enabled = false;
             GameManager.Instance.SetCurrentScene(areaName);
+            GameManager.Instance.HideAllControlPopup();
             SceneManager.LoadScene(areaName);
         }
     }
@@ -46,6 +47,7 @@ public class LoadNewArea : MonoBehaviour
     {
         if (other.CompareTag("door"))
         {
+            GameManager.Instance.ShowControlPopup(0);
             currentDoor = other.GetComponent<DoorIdentifier>().levelName;
             canTeleport = true;
         }
@@ -54,6 +56,7 @@ public class LoadNewArea : MonoBehaviour
     {
         if (other.CompareTag("door"))
         {
+            GameManager.Instance.HideAllControlPopup();
             currentDoor = "";
             canTeleport = false;
         }
