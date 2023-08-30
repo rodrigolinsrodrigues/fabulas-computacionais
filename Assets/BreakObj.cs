@@ -20,11 +20,13 @@ public class BreakObj : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, viewDistance))
         {
+            Debug.DrawLine(hand.transform.position, hit.point, Color.blue);
             if (hit.collider.tag == "Break" && Input.GetButtonDown("A"))
             {
                 string name = hit.collider.name;
                 BreakableObj = GameObject.Find(name);
                 Quebrar();
+                GameManager.Instance.HideAllControlPopup();
             }
 
         }

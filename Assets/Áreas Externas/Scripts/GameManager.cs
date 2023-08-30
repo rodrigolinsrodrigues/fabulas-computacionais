@@ -38,8 +38,15 @@ public class GameManager : MonoBehaviour
     public GameObject[] controlPopups;
     public GameObject resumePauseBTN;
     public bool canPause = true;
+    public Image loadBG;
+    public Sprite[] bgPool;
 
     //-------------------------------------------------------- End Variables -----------------------------------------------------------------------------------
+
+    void Start()
+    {
+        canPause = false;
+    }
 
     void Update()
     {
@@ -55,11 +62,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetButtonDown("Y"))
         {
-            if (GameObject.Find("MissionPanel") != null)
-            {
-                Image painel = GameObject.Find("MissionPanel").GetComponent<Image>();
-                painel.enabled = !painel.enabled;
-            }
+            OpenMission();
         }
     }
 
@@ -70,6 +73,7 @@ public class GameManager : MonoBehaviour
         currentScene = "Area1";
         spawnPoint = "spawnPoint Area1";
         starsAchieved = 0;
+        canPause = true;
         levelFinisheds.Clear();
         ResetStars();
         UpdateJewelsPanel();
@@ -145,6 +149,8 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadRoutine()
     {
         GameManager.Instance.canPause = false;
+        int randonIndex = Random.Range(0, bgPool.Length);
+        loadBG.sprite = bgPool[randonIndex];
         loadPanel.SetActive(true);
         Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(1);
@@ -152,6 +158,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1);
         loadPanel.SetActive(false);
         GameManager.Instance.canPause = true;
+        OpenMission();
     }
     //--------------------------------------------------- End Management voids -----------------------------------------------------------------------------
     //------------------------------------------------------- Pause voids----------------------------------------------------------------------------
@@ -183,6 +190,14 @@ public class GameManager : MonoBehaviour
     public void BackToHome()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+    public void OpenMission()
+    {
+        if (GameObject.Find("CanvasMission") != null)
+        {
+            GameObject painel = GameObject.Find("CanvasMission");
+            painel.transform.GetChild(0).gameObject.SetActive(!painel.transform.GetChild(0).gameObject.activeSelf);
+        }
     }
 
     //----------------------------------------------------- End Pause voids ----------------------------------------------------------------------------

@@ -132,15 +132,20 @@ public class PickAndDrop : MonoBehaviour
     {
         if (!isHoldingObject && other.CompareTag("Pickable"))
         {
+            if (!lerMesa.comecar && lerMesa.startButton.activeSelf)
+            {
+                GameManager.Instance.ShowControlPopup(1);
+            }
+            
+
             targetObject = other.gameObject;
             canCatch = true;
-            GameManager.Instance.ShowControlPopup(1);
         }
         if (other.CompareTag("StartButton"))
         {
-            GameManager.Instance.ShowControlPopup(0);
             if (Input.GetButtonDown("X") && !lerMesa.comecar && !isHoldingObject)
             {
+                GameManager.Instance.HideAllControlPopup();
                 lerMesa.iniciar();
             }
         }
@@ -175,7 +180,10 @@ public class PickAndDrop : MonoBehaviour
         {
             canDrop = true;
         }
-        GameManager.Instance.HideAllControlPopup();
+        if (other.CompareTag("Pickable"))
+        {
+            GameManager.Instance.HideAllControlPopup();
+        }
     }
 }
 

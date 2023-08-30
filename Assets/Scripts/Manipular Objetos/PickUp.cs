@@ -14,6 +14,7 @@ public class PickUp : MonoBehaviour
     Animator animator;
     public PlayerController player;
     float timeToInteract = 0;
+    public LeituraEspacos leituraEspacos;
     void Start()
     {
         //Acessos necessarios para inputs
@@ -21,6 +22,7 @@ public class PickUp : MonoBehaviour
         comandos.Actions.Enable();
         animator = GetComponent<Animator>();
         player = FindObjectOfType<PlayerController>();
+        leituraEspacos = FindObjectOfType<LeituraEspacos>();
     }
     void Update()
     {
@@ -48,6 +50,10 @@ public class PickUp : MonoBehaviour
         {
             if (other.CompareTag("Pickable"))
             {
+                if (!leituraEspacos.Concluido)
+                {
+                    GameManager.Instance.ShowControlPopup(1);
+                }
                 targetObj = other.gameObject;
             }
         }
@@ -59,6 +65,7 @@ public class PickUp : MonoBehaviour
         {
             if (other.CompareTag("Pickable"))
             {
+                GameManager.Instance.HideAllControlPopup();
                 targetObj = null;
             }
         }
@@ -76,6 +83,7 @@ public class PickUp : MonoBehaviour
     {
         if (!holding)
         {
+            GameManager.Instance.HideAllControlPopup();
             holding = true;
             podeSoltar = true;
             player.animator.SetBool("Pegar", true);

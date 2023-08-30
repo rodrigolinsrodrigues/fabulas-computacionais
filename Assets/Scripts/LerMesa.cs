@@ -31,6 +31,7 @@ public class LerMesa : MonoBehaviour
         parar = false;
         if (comecar == true && parar == false)
         {
+            GameManager.Instance.canPause = false;
             StartCoroutine("TempoDeEspera");
             //player.GetComponent<PlayerController>().ResetAnimation();
             player.GetComponent<PlayerController>().enabled = false;
@@ -136,7 +137,7 @@ public class LerMesa : MonoBehaviour
                 for (int j = 0; j < foodTables.Length; j++)
                 {
                     int recipeID = foodTables[j].recipeID;
-                    Debug.Log(recipeID);
+                    //Debug.Log(recipeID);
                     if (recipeID != -1)
                     {
                         if (finalPlates[recipeID] == null)
@@ -144,7 +145,7 @@ public class LerMesa : MonoBehaviour
                             finalPlates[recipeID] =
                             Instantiate(finalFood[recipeID],
                             finalFoodPosition[recipeID]);
-                            Debug.Log("ACERTOU!");
+                            //Debug.Log("ACERTOU!");
                         }
                     }
                 }
@@ -169,8 +170,6 @@ public class LerMesa : MonoBehaviour
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
             StartCoroutine("Endgame");
         }
-
-
     }
 
     void ResetFinalFood()
@@ -193,6 +192,7 @@ public class LerMesa : MonoBehaviour
         player.GetComponent<PlayerController>().ResetAnimation();
         cams[0].SetActive(true);
         cams[1].SetActive(false);
+        GameManager.Instance.canPause = true;
     }
     //reinicia todos os insumos pro estado inicial
     public void ResetAllFood()
@@ -208,7 +208,6 @@ public class LerMesa : MonoBehaviour
 
     IEnumerator Endgame()
     {
-        GameManager.Instance.canPause = false;
         cams[2].SetActive(true);
         cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 11;
         jewelObj.GetComponent<Animator>().SetBool("abrir", true);
@@ -220,6 +219,5 @@ public class LerMesa : MonoBehaviour
         yield return new WaitForSeconds(4);
         winPanel.SetActive(false);
         ResumeGameplay();
-        GameManager.Instance.canPause = true;
     }
 }

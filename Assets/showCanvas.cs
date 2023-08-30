@@ -20,7 +20,7 @@ public class showCanvas : MonoBehaviour
                 pilares[i].gameObject.tag = "Untagged";
             }
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
-
+            GameManager.Instance.HideAllControlPopup();
             //Codigo para definir no GameManager que a fase foi concluida
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
 

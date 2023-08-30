@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class checarPartitura : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class checarPartitura : MonoBehaviour
     public GameObject botãoClicado1Part1, botãoClicado2Part1, botãoClicado1Part2, botãoClicado2Part2; // identifica os botões clicados vinculados as repetições de cada partitura
 
     public GameObject gameHolder, playerObj, gamePlayer;
-    
+
     public void Update()
     {
         if (check == true)
@@ -48,9 +49,11 @@ public class checarPartitura : MonoBehaviour
             }
             if (check == true && (part1 == true || part1repet == true) && conluido.activeSelf == false)
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 conluido.SetActive(true);
                 StartCoroutine("Delay2");
                 //Codigo para computar vitória
+                GameManager.Instance.HideAllControlPopup();
                 GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
                 StartCoroutine("EndGame");
             }
@@ -83,9 +86,11 @@ public class checarPartitura : MonoBehaviour
             }
             if (check == true && (part1 == true || part1repet == true) && (part2 == true || part2repet == true) && conluido.activeSelf == false)
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 conluido.SetActive(true);
                 StartCoroutine("Delay2");
                 //Codigo para computar vitória
+                GameManager.Instance.HideAllControlPopup();
                 GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
                 StartCoroutine("EndGame");
             }
@@ -94,9 +99,6 @@ public class checarPartitura : MonoBehaviour
                 check = false;
             }
         }
-
-
-
     }
 
     void Partitura1Repet()
@@ -279,7 +281,8 @@ public class checarPartitura : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        GameManager.Instance.canPause = false;
+        EventSystem.current.SetSelectedGameObject(null);
+
         yield return new WaitForSeconds(2);
         playerObj.SetActive(true);
         gameHolder.SetActive(false);

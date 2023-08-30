@@ -47,7 +47,6 @@ public class LoadNewArea : MonoBehaviour
     {
         if (other.CompareTag("door"))
         {
-            GameManager.Instance.ShowControlPopup(0);
             currentDoor = other.GetComponent<DoorIdentifier>().levelName;
             canTeleport = true;
         }
@@ -56,7 +55,6 @@ public class LoadNewArea : MonoBehaviour
     {
         if (other.CompareTag("door"))
         {
-            GameManager.Instance.HideAllControlPopup();
             currentDoor = "";
             canTeleport = false;
         }

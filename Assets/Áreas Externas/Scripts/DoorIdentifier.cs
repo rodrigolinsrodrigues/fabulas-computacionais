@@ -19,8 +19,8 @@ public class DoorIdentifier : MonoBehaviour
                     gameObject.GetComponent<BoxCollider>().enabled = GameManager.Instance.GetCurrentStars() >= 2;
                     break;
                 case "Area3":
-                    noticeBoard.SetActive(GameManager.Instance.GetCurrentStars() < 2);
-                    gameObject.SetActive(GameManager.Instance.GetCurrentStars() >= 5);
+                    noticeBoard.SetActive(GameManager.Instance.GetCurrentStars() < 5);
+                    gameObject.GetComponent<BoxCollider>().enabled = GameManager.Instance.GetCurrentStars() >= 5;
 
                     break;
             }

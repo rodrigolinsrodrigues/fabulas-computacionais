@@ -118,10 +118,7 @@ public class LeituraEspacos : MonoBehaviour
             Cams[1].SetActive(true);
             Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
             Redoma.GetComponent<Animator>().SetBool("abrir", true);
-            for (int i = 0; i < Objetos.Length; i++)
-            {
-                Objetos[i].tag = "Untagged";
-            }
+            GameObject.Find("Hand").GetComponent<PickUp>().enabled = false;
 
             //Codigo para definir no GameManager que a fase foi concluida
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
