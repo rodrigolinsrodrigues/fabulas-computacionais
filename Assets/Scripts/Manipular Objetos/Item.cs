@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -8,7 +9,8 @@ public class Item : MonoBehaviour
     public string type;
     public MeshFilter meshFilter;
 
-    private void Start() {
+    private void Start()
+    {
         meshFilter = GetComponent<MeshFilter>();
     }
 }

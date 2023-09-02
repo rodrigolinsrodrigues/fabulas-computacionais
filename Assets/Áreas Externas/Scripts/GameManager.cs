@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int recipesStars, groupsStars, mirrorsStars, musicalStars;
     public TextMeshProUGUI recipesStarsTxt, groupsStarsTxt, mirrorsStarsTxt, musicalStarsTxt;
     public GameObject[] controlPopups;
-    public GameObject resumePauseBTN;
+    public GameObject resumePauseBTN, controlsPanel;
     public bool canPause = true;
     public Image loadBG;
     public Sprite[] bgPool;
@@ -58,6 +58,10 @@ public class GameManager : MonoBehaviour
         {
             TogglePaused();
             TogglePanel(pausePanel);
+            if (pausePanel.activeSelf && controlsPanel.activeSelf)
+            {
+                controlsPanel.SetActive(false);
+            }
             UpdateSelectedButton(resumePauseBTN);
         }
         if (Input.GetButtonDown("Y"))
@@ -165,7 +169,6 @@ public class GameManager : MonoBehaviour
     public void TogglePanel(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
-
     }
     public void UpdateSelectedButton(GameObject targetButton)
     {

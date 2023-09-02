@@ -22,5 +22,4 @@ public class FecharEspaco : MonoBehaviour
             Destroy(this.GetComponent<FecharEspaco>());
         }
     }
-
 }

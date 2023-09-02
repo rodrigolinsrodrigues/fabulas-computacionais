@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickUp : MonoBehaviour
 {
@@ -48,17 +49,31 @@ public class PickUp : MonoBehaviour
         }
         else
         {
-            if (other.CompareTag("Pickable"))
+            if (SceneManager.GetActiveScene().name == "Conjuntos Fase 2")
             {
-                if (!leituraEspacos.Concluido)
+                if (other.CompareTag("Pickable") && !leituraEspacos.NPC.activeSelf)
                 {
-                    GameManager.Instance.ShowControlPopup(1);
+                    if (!leituraEspacos.Concluido)
+                    {
+                        GameManager.Instance.ShowControlPopup(1);
+                    }
+                    targetObj = other.gameObject;
                 }
-                targetObj = other.gameObject;
+            }
+            else
+            {
+                if (other.CompareTag("Pickable"))
+                {
+                    if (!leituraEspacos.Concluido)
+                    {
+                        GameManager.Instance.ShowControlPopup(1);
+                    }
+                    targetObj = other.gameObject;
+                }
             }
         }
-
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (!holding)
@@ -76,7 +91,6 @@ public class PickUp : MonoBehaviour
                 podeSoltar = true;
             }
         }
-
     }
 
     public void CatchDrop(GameObject other)

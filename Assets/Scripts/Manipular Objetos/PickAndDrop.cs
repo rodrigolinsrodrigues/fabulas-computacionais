@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+//using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickAndDrop : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class PickAndDrop : MonoBehaviour
     public LerMesa lerMesa;
     public PlayerController playerLink;
     float timeToInteract = 0;
+    public Image itemName;
+    public Sprite[] itemSprites;
 
     private void Awake()
     {
@@ -73,6 +77,7 @@ public class PickAndDrop : MonoBehaviour
                     playerLink.animator.SetBool("Pegar", false);
                     playerLink.animator.SetBool("Soltar", true);
                     canDrop = false;
+                    itemName.gameObject.SetActive(false);
                 }
             }
         }
@@ -88,6 +93,7 @@ public class PickAndDrop : MonoBehaviour
             playerLink.animator.SetBool("Pegar", false);
             playerLink.animator.SetBool("Soltar", true);
             canDrop = false;
+            itemName.gameObject.SetActive(false);
         }
 
     }
@@ -114,6 +120,63 @@ public class PickAndDrop : MonoBehaviour
             canDrop = true;
             playerLink.animator.SetBool("Pegar", true);
             playerLink.animator.SetBool("Soltar", false);
+            SetNamePopup(heldObject.GetComponent<Item>().type);
+            itemName.gameObject.SetActive(true);
+        }
+    }
+
+    public void SetNamePopup(string type)
+    {
+        switch (type)
+        {
+            case "fry":
+                itemName.sprite = itemSprites[0];
+                break;
+            case "cut":
+                itemName.sprite = itemSprites[1];
+                break;
+            case "boxBread":
+                itemName.sprite = itemSprites[2];
+                break;
+            case "egg":
+                itemName.sprite = itemSprites[3];
+                break;
+            case "cheese":
+                itemName.sprite = itemSprites[4];
+                break;
+            case "pineapple":
+                itemName.sprite = itemSprites[5];
+                break;
+            case "orange":
+                itemName.sprite = itemSprites[6];
+                break;
+            case "mango":
+                itemName.sprite = itemSprites[7];
+                break;
+            case "mint":
+                itemName.sprite = itemSprites[8];
+                break;
+            case "passionFruit":
+                itemName.sprite = itemSprites[9];
+                break;
+            case "meat":
+                itemName.sprite = itemSprites[10];
+                break;
+            case "bacon":
+                itemName.sprite = itemSprites[11];
+                break;
+            case "ham":
+                itemName.sprite = itemSprites[12];
+                break;
+            case "pepper":
+                itemName.sprite = itemSprites[13];
+                break;
+            case "sesameBread":
+                itemName.sprite = itemSprites[14];
+                break;
+            case "traditionalBread":
+                itemName.sprite = itemSprites[15];
+                break;
         }
     }
 
@@ -136,7 +199,7 @@ public class PickAndDrop : MonoBehaviour
             {
                 GameManager.Instance.ShowControlPopup(1);
             }
-            
+
 
             targetObject = other.gameObject;
             canCatch = true;

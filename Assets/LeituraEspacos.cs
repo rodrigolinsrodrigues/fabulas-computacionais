@@ -41,24 +41,25 @@ public class LeituraEspacos : MonoBehaviour
         {
             if (Espacos[0].transform.childCount >= 6 && Espacos[1].transform.childCount >= 4)
             {
-                NPC.SetActive(true);
-                if (NPC.GetComponent<FecharEspaco>().OK == true)
+                if (Espacos[0].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[0].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[0].transform.GetChild(3).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[0].transform.GetChild(4).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[0].transform.GetChild(5).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[1].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
+                Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
+                Espacos[1].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
+                Espacos[1].transform.GetChild(3).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo)
                 {
-                    if (Espacos[0].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[0].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[0].transform.GetChild(3).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[0].transform.GetChild(4).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[0].transform.GetChild(5).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[1].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[1].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
-                    Espacos[1].transform.GetChild(3).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo)
+                    GameObject.Find("Hand").GetComponent<PickUp>().enabled = false;
+                    NPC.SetActive(true);
+
+                    if (NPC.GetComponent<FecharEspaco>().OK == true)
                     {
                         Concluido = true;
                     }
                 }
-
             }
         }
 
@@ -130,6 +131,7 @@ public class LeituraEspacos : MonoBehaviour
 
     IEnumerator Delay()
     {
+        GameManager.Instance.HideAllControlPopup();
         GameManager.Instance.canPause = false;
         yield return new WaitForSeconds(3f);
         Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
