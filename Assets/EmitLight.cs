@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 public class EmitLight : MonoBehaviour
 {
-     private Comandos comandos;
+    private Comandos comandos;
     public GameObject Luz, hand, Player;
     public GameObject[] Cams, Pilares;
     public Transform LuzActualPos;
@@ -13,14 +13,17 @@ public class EmitLight : MonoBehaviour
     public float maxScaleZ; // Limite máximo de escala em Y
     public Lente lente;
     bool lightOff;
+    public LevelDataManager dataManager;
 
     // Start is called before the first frame update
     void Start()
     {
         comandos = new Comandos();
-        comandos.Actions.Enable(); 
+        comandos.Actions.Enable();
         LuzActualPos.position = Luz.transform.position;
         hand = GameObject.FindWithTag("Guia");
+
+        dataManager = FindObjectOfType<LevelDataManager>();
     }
     void Update()
     {
@@ -29,22 +32,23 @@ public class EmitLight : MonoBehaviour
         {
             if (hit.collider.tag == "Emit" && Input.GetButtonDown("X") && lightOff == true)
             {
-            Player.GetComponent<PlayerController>().enabled = false;
-           if(Cams[0] != null && Cams[1] != null)
-            {
-              //  Cams[0].SetActive(false);
-                Cams[1].SetActive(true);
-                Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
-                Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
+                dataManager.GetAttempt();
+                Player.GetComponent<PlayerController>().enabled = false;
+                if (Cams[0] != null && Cams[1] != null)
+                {
+                    //  Cams[0].SetActive(false);
+                    Cams[1].SetActive(true);
+                    Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
+                    Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
+                }
+
+                Luz.SetActive(true);
+                scaleFactor = 0.005f;
             }
 
-            Luz.SetActive(true);
-            scaleFactor = 0.005f;
-            }
-           
         }
 
-        if(Luz.activeSelf)
+        if (Luz.activeSelf)
         {
             lightOff = false;
             //this.gameObject.tag = "Untagged";
@@ -60,40 +64,40 @@ public class EmitLight : MonoBehaviour
                 // Aplique a nova escala apenas na direção Y
                 Vector3 newScale = new Vector3(currentScale.x, currentScale.y, newScaleZ);
                 Luz.transform.localScale = newScale;
-                
+
             }
 
-            if(Luz.transform.localScale.z >= 0.9f)
+            if (Luz.transform.localScale.z >= 0.9f)
             {
                 StartCoroutine(Delay());
             }
-          //  for(int i = 0; i < Pilares.Length; i++)
-          //  {
-          //      Pilares[i].tag = "Untagged";
-          //  }
-           
+            //  for(int i = 0; i < Pilares.Length; i++)
+            //  {
+            //      Pilares[i].tag = "Untagged";
+            //  }
+
         }
 
-        if(Luz.activeSelf == false)
-        {   
+        if (Luz.activeSelf == false)
+        {
             lightOff = true;
-           // this.gameObject.tag = "Emit";
+            // this.gameObject.tag = "Emit";
             Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);
             Luz.transform.localScale = newScale;
             Luz.transform.position = LuzActualPos.position;
 
             Player.GetComponent<PlayerController>().enabled = true;
-            if(Cams[0] != null && Cams[1] != null)
+            if (Cams[0] != null && Cams[1] != null)
             {
-              //  Cams[0].SetActive(true);
+                //  Cams[0].SetActive(true);
                 Cams[1].SetActive(false);
                 Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
                 Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
             }
         }
     }
-    
-    private  IEnumerator  Delay()
+
+    private IEnumerator Delay()
     {
         yield return new WaitForSeconds(4f);
         Luz.SetActive(false);

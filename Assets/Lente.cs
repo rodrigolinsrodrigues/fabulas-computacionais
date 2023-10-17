@@ -29,11 +29,13 @@ public class Lente : MonoBehaviour
         {
             if (hit.collider.tag == "Lens" && Input.GetButtonDown("X"))
             {
+                this.gameObject.tag = "Untagged";
+                GameManager.Instance.HideAllControlPopup();
                 player.GetComponent<PlayerController>().enabled = false;
                 ativo = true;
                 aura.SetActive(true);
                 StartCoroutine(Delay());
-                // Cams[0].SetActive(false);
+                Cams[0].SetActive(false);
                 Cams[1].SetActive(true);
                 Cams[0].GetComponent<CinemachineFreeLook>().Priority = 1;
                 Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 10;
@@ -91,14 +93,14 @@ public class Lente : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(2f);
-        // Cams[0].SetActive(true);
+        Cams[0].SetActive(true);
         Cams[1].SetActive(false);
         Cams[0].GetComponent<CinemachineFreeLook>().Priority = 10;
         Cams[1].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         player.GetComponent<PlayerController>().enabled = true;
         yield return new WaitForSeconds(2f);
-        this.gameObject.tag = "Untagged";
-        Destroy(GetComponent<Lente>());
+
+        //GetComponent<Lente>().enabled = false;
     }
 
 }

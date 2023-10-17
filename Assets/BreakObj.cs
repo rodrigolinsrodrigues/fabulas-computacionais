@@ -4,49 +4,60 @@ using UnityEngine;
 
 public class BreakObj : MonoBehaviour
 {
-    private Comandos comandos;
     // Lançar objetos
-    public GameObject pedacos, hand, BreakableObj;
-    public float viewDistance, breakForce;
-    // Start is called before the first frame update
+    public GameObject pedacos, hand;
+    public float breakForce;
+    public PlayerController playerController;
+    public bool canBreak;
+
     void Start()
     {
-        comandos = new Comandos();
-        comandos.Actions.Enable();
+        playerController = FindObjectOfType<PlayerController>();
     }
-    // Update is called once per frame
+
     void Update()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(hand.transform.position, hand.transform.forward, out hit, viewDistance))
+        if (canBreak && Input.GetButtonDown("A"))
         {
-            Debug.DrawLine(hand.transform.position, hit.point, Color.blue);
-            if (hit.collider.tag == "Break" && Input.GetButtonDown("A"))
-            {
-                string name = hit.collider.name;
-                BreakableObj = GameObject.Find(name);
-                Quebrar();
-                GameManager.Instance.HideAllControlPopup();
-            }
-
+            playerController.animator.SetTrigger("Atacar");
+            GameManager.Instance.HideAllControlPopup();
+            StartCoroutine("Delay");
         }
     }
 
     public void Quebrar()
     {
-        GameObject Pedacos = Instantiate(pedacos, BreakableObj.transform.position, BreakableObj.transform.rotation);
+        GameObject Pedacos = Instantiate(pedacos, new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
 
         foreach (Rigidbody rb in Pedacos.GetComponentsInChildren<Rigidbody>())
         {
-            Vector3 force = (rb.transform.position - BreakableObj.transform.position).normalized * breakForce;
+            rb.AddForce(transform.up * breakForce/2);
+            rb.AddForce(hand.transform.forward * breakForce);
         }
 
-        BreakableObj.SetActive(false);
+        gameObject.SetActive(false);
+        GameManager.Instance.HideAllControlPopup();
     }
 
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(0.5f);
+        Quebrar();
+    }
 
+    void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<LoadNewArea>() != null)
+        {
+            canBreak = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<LoadNewArea>() != null)
+        {
+            canBreak = false;
+        }
     }
 }

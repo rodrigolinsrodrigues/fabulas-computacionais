@@ -9,8 +9,12 @@ public class showCanvas : MonoBehaviour
     public GameObject Redoma, Player, winCanvas;
     public GameObject[] pilares, Cams;
     bool bloq, concluido;
+    public LevelDataManager dataManager;
 
-
+    void Start()
+    {
+        dataManager = FindObjectOfType<LevelDataManager>();
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Light"))
@@ -23,7 +27,7 @@ public class showCanvas : MonoBehaviour
             GameManager.Instance.HideAllControlPopup();
             //Codigo para definir no GameManager que a fase foi concluida
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
-
+            dataManager.WinLevel();
             StartCoroutine(Delay1());
         }
 
