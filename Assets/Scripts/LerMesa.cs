@@ -20,10 +20,13 @@ public class LerMesa : MonoBehaviour
     private bool missed = false;
     public GameObject startButton, winPanel, jewelObj;
     public Vector3 playerRotation;
-
+    public Animator cookingObjAnimator;
+    public GameObject smoke;
+    public LevelDataManager dataManager;
     private void Start()
     {
         playerRotation = player.transform.eulerAngles;
+        dataManager = FindObjectOfType<LevelDataManager>();
     }
     public void iniciar()
     {
@@ -44,6 +47,7 @@ public class LerMesa : MonoBehaviour
     }
     public IEnumerator TempoDeEspera()
     {
+        dataManager.GetAttempt();
         player.transform.eulerAngles = playerRotation;
         for (int i = 0; i < foodTables.Length; i++)
         {
@@ -65,12 +69,20 @@ public class LerMesa : MonoBehaviour
                     case "cut":
                         player.GetComponent<PlayerController>().animator.SetBool("Fritar", false);
                         player.GetComponent<PlayerController>().animator.SetBool("Cortar", true);
+                        yield return new WaitForSeconds(0.5f);
+                        GameObject smokeClone = Instantiate(smoke, foodTables[i].objPosition.transform.position, Quaternion.identity);
+                        Destroy(smokeClone, 1);
+                        yield return new WaitForSeconds(0.5f);
                         ChangeState(foodTables[i].obj.GetComponent<Item>(), 1);
                         break;
                     //Fritar
                     case "fry":
                         player.GetComponent<PlayerController>().animator.SetBool("Fritar", true);
                         player.GetComponent<PlayerController>().animator.SetBool("Cortar", false);
+                        yield return new WaitForSeconds(0.5f);
+                        GameObject smokeClone2 = Instantiate(smoke, foodTables[i].objPosition.transform.position, Quaternion.identity);
+                        Destroy(smokeClone2, 1);
+                        yield return new WaitForSeconds(0.5f);
                         ChangeState(foodTables[i].obj.GetComponent<Item>(), 2);
                         break;
                 }
@@ -88,9 +100,11 @@ public class LerMesa : MonoBehaviour
         {
             //faz animação de preparo e posiciona o player para assistir
             player.transform.position = prepareTablePos.position;
-            yield return new WaitForSeconds(2f);
+            cookingObjAnimator.SetBool("cooking", true);
+            yield return new WaitForSeconds(2.2f);
             //posiciona o player para ver o resultado final
             player.transform.position = finalTablePos.position;
+            cookingObjAnimator.SetBool("cooking", false);
             yield return new WaitForSeconds(0.2f);
             CheckFinal();
         }
@@ -114,13 +128,25 @@ public class LerMesa : MonoBehaviour
         {
             if (!foodTables[i].isCorrect || !actionTables[i].isCorrect)
             {
+                if (!foodTables[i].isCorrect)
+                {
+                    foodTables[i].obj.GetComponent<Outline>().OutlineColor = Color.red;
+                }
+                if (!actionTables[i].isCorrect)
+                {
+                    actionTables[i].obj.GetComponent<Outline>().OutlineColor = Color.red;
+                }
                 missed = true;
                 // spawnar prato errado
                 if (foodTables[i].recipeID == -1)
                 {
+
                     for (int j = 0; j < finalFoodPosition.Length; j++)
                     {
-                        finalPlates[foodTables[i].recipeID] = Instantiate(errorFood, finalFoodPosition[j]);
+                        if (finalPlates[j] == null)
+                        {
+                            finalPlates[j] = Instantiate(errorFood, finalFoodPosition[j]);
+                        }
                     }
                 }
                 else if (finalPlates[foodTables[i].recipeID] == null)
@@ -202,6 +228,8 @@ public class LerMesa : MonoBehaviour
             if (foodTables[i].obj != null)
             {
                 ChangeState(foodTables[i].obj.GetComponent<Item>(), 0);
+                GameObject smokeClone2 = Instantiate(smoke, foodTables[i].objPosition.transform.position, Quaternion.identity);
+                Destroy(smokeClone2, 1);
             }
         }
     }
@@ -219,5 +247,6 @@ public class LerMesa : MonoBehaviour
         yield return new WaitForSeconds(4);
         winPanel.SetActive(false);
         ResumeGameplay();
+        dataManager.WinLevel();
     }
 }

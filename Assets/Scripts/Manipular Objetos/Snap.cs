@@ -22,6 +22,7 @@ public class Snap : MonoBehaviour
             isOccupied = true;
             currentType = item.type;
             item.GetComponent<Outline>().enabled = true;
+            item.GetComponent<Outline>().OutlineColor = Color.yellow;
             Verify();
             FreezeObj(obj);
         }

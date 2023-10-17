@@ -8,6 +8,7 @@ public class LoadNewArea : MonoBehaviour
     public Transform spawnPoint, playerTransform;
     public bool canTeleport = false;
     public string currentDoor;
+    public LevelDataManager levelData;
 
     void Awake()
     {
@@ -16,6 +17,11 @@ public class LoadNewArea : MonoBehaviour
     }
     void Start()
     {
+        if (FindObjectOfType<LevelDataManager>())
+        {
+            levelData = FindObjectOfType<LevelDataManager>();
+        }
+
         spawnPoint = GameObject.Find(GameManager.Instance.spawnPoint).transform;
         StartCoroutine("test");
     }
@@ -39,6 +45,10 @@ public class LoadNewArea : MonoBehaviour
             {
                 LoadArea(currentDoor);
                 canTeleport = false;
+                if (levelData != null)
+                {
+                    levelData.SaveCurrentLevelData();
+                }
             }
         }
     }
