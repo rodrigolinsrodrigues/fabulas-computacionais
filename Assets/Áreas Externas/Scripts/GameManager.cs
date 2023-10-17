@@ -37,9 +37,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI recipesStarsTxt, groupsStarsTxt, mirrorsStarsTxt, musicalStarsTxt;
     public GameObject[] controlPopups;
     public GameObject resumePauseBTN, controlsPanel;
-    public bool canPause = true;
+    public bool canPause, started = false;
     public Image loadBG;
     public Sprite[] bgPool;
+    public int area1Count, area2Count, area3Count;
 
     //-------------------------------------------------------- End Variables -----------------------------------------------------------------------------------
 
@@ -54,6 +55,20 @@ public class GameManager : MonoBehaviour
         {
             RestartScene();
         }
+
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            SceneManager.LoadScene("Area1");
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            SceneManager.LoadScene("Area2");
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            SceneManager.LoadScene("Area3");
+        }
+
         if (Input.GetButtonDown("Start") && canPause)
         {
             TogglePaused();
@@ -73,12 +88,14 @@ public class GameManager : MonoBehaviour
     //------------------------------------------------------- Management voids -----------------------------------------------------------------------------
     public void StartGame()
     {
+        started = true;
         previousScene = "Area1";
         currentScene = "Area1";
         spawnPoint = "spawnPoint Area1";
         starsAchieved = 0;
         canPause = true;
         levelFinisheds.Clear();
+        DataManager.Instance.ResetAllData();
         ResetStars();
         UpdateJewelsPanel();
     }
@@ -118,6 +135,19 @@ public class GameManager : MonoBehaviour
             else if (levelName.Contains("Conjuntos"))
             {
                 groupsStars++;
+            }
+
+            if (levelName.Contains("1"))
+            {
+                area1Count++;
+            }
+            else if (levelName.Contains("2"))
+            {
+                area2Count++;
+            }
+            else if (levelName.Contains("3"))
+            {
+                area3Count++;
             }
         }
         UpdateJewelsPanel();
