@@ -7,6 +7,7 @@ public class DoorIdentifier : MonoBehaviour
     public string levelName;
     public bool isAreaDoor;
     public GameObject noticeBoard, winBoard;
+
     private void Start()
     {
         if (isAreaDoor)
