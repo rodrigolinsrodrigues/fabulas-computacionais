@@ -37,7 +37,6 @@ public class SnapNovo : MonoBehaviour
                 }
                 //other.GetComponent<Outline>().enabled = true;
             }
-
         }
     }
 

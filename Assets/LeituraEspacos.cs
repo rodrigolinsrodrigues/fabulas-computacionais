@@ -15,11 +15,15 @@ public class LeituraEspacos : MonoBehaviour
     public bool Concluido = false; // Bool que determina o acerto;
     public bool Fase1, Fase2, Fase3, Fase4; //Bools que separam a verficação por cada uma das fases
     public GameObject NPC; //Controla / libera um Npc na fase caso seja necessario; 
-                           // public GameObject[] Animados; // Objetos animados na cena, a animação será ativada nesse script caso seja necessario
+    // public GameObject[] Animados; // Objetos animados na cena, a animação será ativada nesse script caso seja necessario
+
+    public LevelDataManager dataManager;
 
     void Start()
     {
         Player = GameObject.FindWithTag("Player");
+
+        dataManager = FindObjectOfType<LevelDataManager>();
     }
     public void Check()
     {
@@ -27,6 +31,7 @@ public class LeituraEspacos : MonoBehaviour
         {
             if (Espacos[0].transform.childCount >= 2 && Espacos[1].transform.childCount >= 2 && Espacos[2].transform.childCount >= 2 && Espacos[3].transform.childCount >= 2)
             {
+                dataManager.GetAttempt();
                 if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
                 Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
@@ -41,6 +46,7 @@ public class LeituraEspacos : MonoBehaviour
         {
             if (Espacos[0].transform.childCount >= 6 && Espacos[1].transform.childCount >= 4)
             {
+                dataManager.GetAttempt();
                 if (Espacos[0].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[0].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
@@ -89,7 +95,7 @@ public class LeituraEspacos : MonoBehaviour
 
         if (Fase3 == true)
         {
-
+            dataManager.GetAttempt();
             if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
             Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
             Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
@@ -107,9 +113,6 @@ public class LeituraEspacos : MonoBehaviour
             {
                 Concluido = true;
             }
-
-
-
         }
 
         if (Concluido == true)
@@ -123,7 +126,7 @@ public class LeituraEspacos : MonoBehaviour
 
             //Codigo para definir no GameManager que a fase foi concluida
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
-
+            dataManager.WinLevel();
             StartCoroutine("Delay");
         }
     }
