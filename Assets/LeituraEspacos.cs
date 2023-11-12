@@ -95,23 +95,39 @@ public class LeituraEspacos : MonoBehaviour
 
         if (Fase3 == true)
         {
-            dataManager.GetAttempt();
-            if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
-            Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
-            Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
-            Espacos[3].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[3].GetComponent<SnapNovo>().Tipo &&
-            Espacos[4].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[4].GetComponent<SnapNovo>().Tipo &&
-            Espacos[5].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[5].GetComponent<SnapNovo>().Tipo &&
-            Espacos[6].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[6].GetComponent<SnapNovo>().Tipo &&
-            Espacos[7].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[7].GetComponent<SnapNovo>().Tipo &&
-            Espacos[8].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[8].GetComponent<SnapNovo>().Tipo &&
-            Espacos[9].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[9].GetComponent<SnapNovo>().Tipo &&
-            Espacos[10].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[10].GetComponent<SnapNovo>().Tipo &&
-            Espacos[11].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[11].GetComponent<SnapNovo>().Tipo &&
-            Espacos[12].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[12].GetComponent<SnapNovo>().Tipo &&
-            Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo)
+            if (Espacos[0].transform.childCount > 1 &&
+            Espacos[1].transform.childCount > 1 &&
+            Espacos[2].transform.childCount > 1 &&
+            Espacos[3].transform.childCount > 1 &&
+            Espacos[4].transform.childCount > 1 &&
+            Espacos[5].transform.childCount > 1 &&
+            Espacos[6].transform.childCount > 1 &&
+            Espacos[7].transform.childCount > 1 &&
+            Espacos[8].transform.childCount > 1 &&
+            Espacos[9].transform.childCount > 1 &&
+            Espacos[10].transform.childCount > 1 &&
+            Espacos[11].transform.childCount > 1 &&
+            Espacos[12].transform.childCount > 1 &&
+            Espacos[13].transform.childCount > 1)
             {
-                Concluido = true;
+                dataManager.GetAttempt();
+                if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
+                Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
+                Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
+                Espacos[3].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[3].GetComponent<SnapNovo>().Tipo &&
+                Espacos[4].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[4].GetComponent<SnapNovo>().Tipo &&
+                Espacos[5].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[5].GetComponent<SnapNovo>().Tipo &&
+                Espacos[6].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[6].GetComponent<SnapNovo>().Tipo &&
+                Espacos[7].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[7].GetComponent<SnapNovo>().Tipo &&
+                Espacos[8].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[8].GetComponent<SnapNovo>().Tipo &&
+                Espacos[9].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[9].GetComponent<SnapNovo>().Tipo &&
+                Espacos[10].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[10].GetComponent<SnapNovo>().Tipo &&
+                Espacos[11].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[11].GetComponent<SnapNovo>().Tipo &&
+                Espacos[12].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[12].GetComponent<SnapNovo>().Tipo &&
+                Espacos[13].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[13].GetComponent<SnapNovo>().Tipo)
+                {
+                    Concluido = true;
+                }
             }
         }
 

@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject homePanel, aboutPanel;
+    public GameObject homePanel, aboutPanel, signupPanel;
     public GameObject backAboutBTN, playMenuBTN;
-    public void StartGame()
+
+    public void OpenSignup()
     {
-        GameManager.Instance.StartGame();
-        SceneManager.LoadScene("Area1");
+        signupPanel.SetActive(!signupPanel.activeSelf);
     }
 
     public void About()

@@ -86,7 +86,6 @@ public class PickAndDrop : MonoBehaviour
             heldObject.transform.SetParent(null);
             heldObject.GetComponent<Rigidbody>().isKinematic = false;
             heldObject.GetComponent<Rigidbody>().useGravity = true;
-            Vector3 direction = playerLink.transform.forward;
             heldObject.transform.position = heldObject.transform.position + heldObject.transform.up * 1;
             heldObject = null;
             isHoldingObject = false;

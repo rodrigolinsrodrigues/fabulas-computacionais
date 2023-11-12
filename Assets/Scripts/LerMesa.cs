@@ -216,8 +216,6 @@ public class LerMesa : MonoBehaviour
         parar = true;
         player.GetComponent<PlayerController>().enabled = true;
         player.GetComponent<PlayerController>().ResetAnimation();
-        cams[0].SetActive(true);
-        cams[1].SetActive(false);
         GameManager.Instance.canPause = true;
     }
     //reinicia todos os insumos pro estado inicial
@@ -242,6 +240,8 @@ public class LerMesa : MonoBehaviour
         yield return new WaitForSeconds(4);
         cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 1;
         cams[2].SetActive(false);
+        cams[0].SetActive(true);
+        cams[1].SetActive(false);
         yield return new WaitForSeconds(2);
         winPanel.SetActive(true);
         yield return new WaitForSeconds(4);

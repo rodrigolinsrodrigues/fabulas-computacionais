@@ -44,10 +44,10 @@ public class Snap : MonoBehaviour
 
     public void FreezeObj(GameObject obj)
     {
-        obj.transform.SetParent(this.transform);
+        obj.transform.SetParent(transform);
         obj.transform.position = objPosition.transform.position;
         //obj.transform.rotation = new Quaternion(-0.05f, -0.7f, -0.7f, 0.05f);
-        obj.transform.rotation = objPosition.transform.rotation;
+        //obj.transform.rotation = objPosition.transform.rotation;
         obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         obj.GetComponent<Rigidbody>().useGravity = false;

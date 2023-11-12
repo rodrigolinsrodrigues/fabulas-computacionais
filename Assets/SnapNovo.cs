@@ -46,7 +46,7 @@ public class SnapNovo : MonoBehaviour
         {
             if (other.transform.parent != Espaco.gameObject.transform)
             {
-                LE.GetComponent<LeituraEspacos>().Check();
+                //LE.GetComponent<LeituraEspacos>().Check();
                 //other.GetComponent<Outline>().enabled = false;
             }
         }

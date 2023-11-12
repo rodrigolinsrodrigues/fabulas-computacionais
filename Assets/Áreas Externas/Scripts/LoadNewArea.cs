@@ -47,7 +47,7 @@ public class LoadNewArea : MonoBehaviour
                 canTeleport = false;
                 if (levelData != null)
                 {
-                    levelData.SaveCurrentLevelData();
+                    DataManager.Instance.SaveDataLocal();
                 }
             }
         }

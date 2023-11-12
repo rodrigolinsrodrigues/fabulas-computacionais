@@ -34,13 +34,14 @@ public class GameManager : MonoBehaviour
     public List<string> levelFinisheds = new List<string>();
     public GameObject pausePanel;
     public int recipesStars, groupsStars, mirrorsStars, musicalStars;
-    public TextMeshProUGUI recipesStarsTxt, groupsStarsTxt, mirrorsStarsTxt, musicalStarsTxt;
+    public TextMeshProUGUI recipesStarsTxt, groupsStarsTxt, mirrorsStarsTxt, musicalStarsTxt, playerNameTxt, timeCounterTxt;
     public GameObject[] controlPopups;
     public GameObject resumePauseBTN, controlsPanel;
     public bool canPause, started = false;
     public Image loadBG;
     public Sprite[] bgPool;
     public int area1Count, area2Count, area3Count;
+    public float timeCounter;
 
     //-------------------------------------------------------- End Variables -----------------------------------------------------------------------------------
 
@@ -51,25 +52,38 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad0))
+        if (started)
+        {
+            timeCounter += Time.deltaTime;
+
+            int hours = Mathf.FloorToInt(timeCounter / 3600);
+            int minutes = Mathf.FloorToInt(timeCounter % 3600 / 60);
+            int seconds = Mathf.FloorToInt(timeCounter % 60);
+
+            timeCounterTxt.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+        }
+
+
+
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             RestartScene();
         }
 
-        if (Input.GetKeyDown(KeyCode.Keypad1))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             SceneManager.LoadScene("Area1");
         }
-        if (Input.GetKeyDown(KeyCode.Keypad2))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             SceneManager.LoadScene("Area2");
         }
-        if (Input.GetKeyDown(KeyCode.Keypad3))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             SceneManager.LoadScene("Area3");
         }
 
-        if (Input.GetButtonDown("Start") && canPause)
+        if (Input.GetButtonDown("Start") && canPause && started)
         {
             TogglePaused();
             TogglePanel(pausePanel);
@@ -222,6 +236,7 @@ public class GameManager : MonoBehaviour
     }
     public void BackToHome()
     {
+        started = false;
         SceneManager.LoadScene("MainMenu");
     }
     public void OpenMission()

@@ -37,19 +37,14 @@ public class LevelDataManager : MonoBehaviour
 
     public void WinLevel()
     {
+        currentLevelData.hasWin = true;
         currentLevelData.winTime = currentLevelData.currentTime;
         currentLevelData.sucessPercent = Mathf.RoundToInt(100 / currentLevelData.attempCounter);
-        currentLevelData.hasWin = true;
     }
 
     public void GetAttempt()
     {
         currentLevelData.attempCounter ++;
-    }
-
-    //salva os dados da fase atual na lista das fases do DataManager
-    public void SaveCurrentLevelData()
-    {
-        DataManager.Instance.AddNewLevelData(currentLevelData);
+        DataManager.Instance.SaveDataLocal();
     }
 }
