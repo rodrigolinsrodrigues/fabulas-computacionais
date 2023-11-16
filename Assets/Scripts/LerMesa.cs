@@ -187,7 +187,7 @@ public class LerMesa : MonoBehaviour
             ResetAllFood();
             missed = false;
             hand.GetComponent<PickAndDrop>().enabled = true;
-            ResumeGameplay();
+            StartCoroutine("ResumeGameplayCO");
         }
         else
         {
@@ -210,14 +210,19 @@ public class LerMesa : MonoBehaviour
         }
     }
 
-    public void ResumeGameplay()
+    IEnumerator ResumeGameplayCO()
     {
+        cams[2].SetActive(false);
+        cams[0].SetActive(true);
+        cams[1].SetActive(false);
+        yield return new WaitForSeconds(2);
         comecar = false;
         parar = true;
         player.GetComponent<PlayerController>().enabled = true;
         player.GetComponent<PlayerController>().ResetAnimation();
         GameManager.Instance.canPause = true;
     }
+
     //reinicia todos os insumos pro estado inicial
     public void ResetAllFood()
     {
@@ -239,14 +244,11 @@ public class LerMesa : MonoBehaviour
         jewelObj.GetComponent<Animator>().SetBool("abrir", true);
         yield return new WaitForSeconds(4);
         cams[2].GetComponent<CinemachineVirtualCamera>().Priority = 1;
-        cams[2].SetActive(false);
-        cams[0].SetActive(true);
-        cams[1].SetActive(false);
         yield return new WaitForSeconds(2);
         winPanel.SetActive(true);
         yield return new WaitForSeconds(4);
         winPanel.SetActive(false);
-        ResumeGameplay();
+        StartCoroutine("ResumeGameplayCO");
         dataManager.WinLevel();
     }
 }

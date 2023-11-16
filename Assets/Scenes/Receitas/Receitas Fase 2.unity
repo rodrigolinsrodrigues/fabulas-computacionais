@@ -3318,11 +3318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19644566
+      value: -0.1964457
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09864222
+      value: -0.09864225
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -3330,7 +3330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.43776324
+      value: -0.4377632
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -7285,11 +7285,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19644563
+      value: -0.19644575
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09864222
+      value: -0.09864228
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -10492,6 +10492,7 @@ GameObject:
   - component: {fileID: 2011406926266851910}
   - component: {fileID: 2483365117614934173}
   - component: {fileID: 9156970241444594090}
+  - component: {fileID: 9156970241444594091}
   m_Layer: 0
   m_Name: Cylinder.796
   m_TagString: Untagged
@@ -24695,6 +24696,7 @@ GameObject:
   - component: {fileID: 6462542894204759830}
   - component: {fileID: 144777972930174836}
   - component: {fileID: 5868033614982640467}
+  - component: {fileID: 6462542894204759831}
   m_Layer: 0
   m_Name: Cylinder.798
   m_TagString: Untagged
@@ -25277,6 +25279,19 @@ Transform:
   m_Father: {fileID: 543450653385097395}
   m_RootOrder: 170
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6462542894204759831
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290605361932258329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!4 &6464502784351668866
 Transform:
   m_ObjectHideFlags: 0
@@ -27316,6 +27331,7 @@ GameObject:
   - component: {fileID: 3849616048527865791}
   - component: {fileID: 8144244847776548130}
   - component: {fileID: 5663895951619546229}
+  - component: {fileID: 8144244847776548131}
   m_Layer: 0
   m_Name: Cylinder.797
   m_TagString: Untagged
@@ -28927,6 +28943,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7369160430418534228}
   m_Mesh: {fileID: 1063939157234236843, guid: a48e99e14d3ec244f8b97b77d19d5a54, type: 3}
+--- !u!65 &8144244847776548131
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7369160430418534228}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!1 &8150687593160470702
 GameObject:
   m_ObjectHideFlags: 0
@@ -31565,6 +31594,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9156970241444594091
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494068284516463973}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!1 &9178238328139991067
 GameObject:
   m_ObjectHideFlags: 0

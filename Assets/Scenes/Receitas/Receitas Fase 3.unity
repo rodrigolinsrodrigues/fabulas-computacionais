@@ -4003,11 +4003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19644566
+      value: -0.1964457
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09864222
+      value: -0.09864225
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
@@ -4015,7 +4015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.43776324
+      value: -0.4377632
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -8828,11 +8828,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.19644563
+      value: -0.19644575
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09864222
+      value: -0.09864228
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
@@ -15890,6 +15890,7 @@ GameObject:
   - component: {fileID: 1437923593387255044}
   - component: {fileID: 1409706942644261572}
   - component: {fileID: 3467288477990588578}
+  - component: {fileID: 3467288477990588579}
   m_Layer: 0
   m_Name: Cylinder.633
   m_TagString: Untagged
@@ -20727,6 +20728,7 @@ GameObject:
   - component: {fileID: 6573253197262641566}
   - component: {fileID: 803887424916070512}
   - component: {fileID: 3106256040071041649}
+  - component: {fileID: 6573253197262641567}
   m_Layer: 0
   m_Name: Cylinder.634
   m_TagString: Untagged
@@ -21587,6 +21589,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3467288477990588579
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477738249817720618}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!33 &3469287836816026509
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -29841,6 +29856,19 @@ Transform:
   m_Father: {fileID: 543450652853045178}
   m_RootOrder: 180
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6573253197262641567
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3239425418206859063}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!1 &6575074426221627215
 GameObject:
   m_ObjectHideFlags: 0
@@ -33404,6 +33432,7 @@ GameObject:
   - component: {fileID: 4301509682045587353}
   - component: {fileID: 2516514489878364573}
   - component: {fileID: 485496075942856906}
+  - component: {fileID: 7869644157707035113}
   m_Layer: 0
   m_Name: Cylinder.632
   m_TagString: Untagged
@@ -33411,6 +33440,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &7869644157707035113
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7869644157707035112}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.925192, y: 1.9251919, z: 2.3386695}
+  m_Center: {x: -0.000090777874, y: 0.000020533798, z: 1.1693343}
 --- !u!4 &7875856087525873947
 Transform:
   m_ObjectHideFlags: 0
