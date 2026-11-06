@@ -167,7 +167,20 @@ a `solution_final` do mesmo jogador (ou até a configuração vencedora mais com
   O jogo nunca grava imagem, mas os blendshapes continuam sendo dados biométricos derivados.
 - A inferência roda no thread principal, no ritmo de `affectSampleRateHz`. Em PCs fracos, reduza para 1–2 Hz.
 
-## 5. Registrar novos eventos
+## 5. Documento de funcionalidades (.docx)
+
+`Learning_Analytics_Fabulas_Computacionais.docx` (nesta pasta) descreve todas as funcionalidades de
+learning analytics e traz exemplos de análises de pesquisa para cada uma. **Ele deve ser atualizado
+sempre que uma nova funcionalidade de coleta for implementada.**
+
+O documento é gerado pelo script `Documentacao~/gerar_documento.js` (a pasta termina em `~` para o
+Unity ignorá-la). Para atualizar:
+
+1. Edite o conteúdo em `Documentacao~/gerar_documento.js` (seções, exemplos de análise, apêndices).
+2. Gere o arquivo: `cd Assets/LearningAnalytics/Documentacao~ && npm install && node gerar_documento.js`.
+3. Abra no Word e atualize o sumário (clique com o botão direito no sumário → Atualizar campo → Atualizar o índice inteiro).
+
+## 6. Registrar novos eventos
 
 ```csharp
 TelemetryManager.Log("note_selected", ("column", 3), ("note", "Do"), ("instrument", "Violao"));
