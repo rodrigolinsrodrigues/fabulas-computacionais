@@ -16,7 +16,7 @@ public class FecharEspaco : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             OK = true;
-            LE.GetComponent<LeituraEspacos>().Check();
+            //LE.GetComponent<LeituraEspacos>().Check();
             Animados[0].GetComponent<Animator>().SetBool("Fechar", true);
             Animados[1].GetComponent<Animator>().SetBool("Fechar", true);
             Destroy(this.GetComponent<FecharEspaco>());

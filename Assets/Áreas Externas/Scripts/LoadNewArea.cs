@@ -30,6 +30,7 @@ public class LoadNewArea : MonoBehaviour
         if (canTeleport)
         {
             canTeleport = false;
+            TelemetryManager.Log("door_enter", ("door", areaName));
             GetComponent<BoxCollider>().enabled = false;
             GameManager.Instance.SetCurrentScene(areaName);
             GameManager.Instance.HideAllControlPopup();
@@ -59,12 +60,14 @@ public class LoadNewArea : MonoBehaviour
         {
             currentDoor = other.GetComponent<DoorIdentifier>().levelName;
             canTeleport = true;
+            TelemetryManager.Log("door_approach", ("door", currentDoor));
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("door"))
         {
+            if (canTeleport) TelemetryManager.Log("door_leave", ("door", currentDoor));
             currentDoor = "";
             canTeleport = false;
         }

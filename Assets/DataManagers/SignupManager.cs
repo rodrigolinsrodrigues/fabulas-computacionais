@@ -49,6 +49,15 @@ public class SignupManager : MonoBehaviour
         }
     }
 
+    /// <summary>Pode ser ligado a um Toggle "Autorizo o uso da câmera" no painel de cadastro.</summary>
+    public void SetCameraConsent(bool value)
+    {
+        if (AffectManager.Instance != null)
+        {
+            AffectManager.Instance.SetConsent(value);
+        }
+    }
+
     public void SavePersonalDataAndStart()
     {
         DataManager.Instance.playerName = playerName;
@@ -59,6 +68,12 @@ public class SignupManager : MonoBehaviour
 
         if (age != 0 && playerName != "" && playerName.Length >= 3 && schoolGrade != "")
         {
+            // Learning analytics: inicia a sessão (e a câmera, se habilitada) antes da Area1.
+            if (TelemetryManager.Instance != null)
+            {
+                TelemetryManager.Instance.StartSession(playerName, age, gender, schoolGrade);
+            }
+
             SceneManager.LoadScene("Area1");
             GameManager.Instance.StartGame();
         }

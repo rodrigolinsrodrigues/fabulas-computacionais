@@ -91,9 +91,14 @@ public class Play : MonoBehaviour
             string name = other.gameObject.name;
             RefPonto = GameObject.Find(name);
             tocar = false;
+            transform.position = Ponto0.position;
             if (tocar == false)
             {
-                StartCoroutine("Delay");
+                CP.Check();
+                CP.part1 = false;
+                CP.part1repet = false;
+                CP.part2 = false;
+                CP.part2repet = false;
             }
         }
 
@@ -275,14 +280,11 @@ public class Play : MonoBehaviour
 
     IEnumerator Delay()
     {
-        yield return new WaitForSeconds(1f);
         CP.check = true;
+        yield return new WaitForSeconds(1f);
         yield return new WaitForSeconds(0.1f);
         CP.check = false;
-        CP.part1 = false;
-        CP.part1repet = false;
-        CP.part2 = false;
-        CP.part2repet = false;
+
     }
 
 

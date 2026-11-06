@@ -27,6 +27,7 @@ public class DelRepet : MonoBehaviour
     play.fundoDel.SetActive(false);
     CP.RepetPart1[0] = null;
     CP.RepetPart1[1] = null;
+    play.quantidadeSelecionada = 0;
     StartCoroutine("Delay");
     
    }
@@ -47,6 +48,7 @@ public class DelRepet : MonoBehaviour
         play2.deletar.GetComponent<Button>().interactable = false;
         play2.deletar.GetComponent<Image>().enabled = false;
         play2.fundoDel.SetActive(false);
+        play2.quantidadeSelecionada = 0;
         CP.RepetPart1[0] = null;
         CP.RepetPart1[1] = null;
         StartCoroutine("Delay2");

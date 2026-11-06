@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        Login();
+        //Login();
     }
 
     public void Login()

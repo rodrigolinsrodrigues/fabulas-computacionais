@@ -751,11 +751,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00023391425
+      value: -0.00023388349
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00011745651
+      value: 0.00011744106
       objectReference: {fileID: 0}
     - target: {fileID: 6200743985775931903, guid: 48e436338ed418a45b13d4fd0c478f2b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1784,15 +1784,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.4926988
+      value: 0.49269882
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00022775795
+      value: -0.00022772132
       objectReference: {fileID: 0}
     - target: {fileID: 3491981159623542126, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00012895434
+      value: 0.0001289336
       objectReference: {fileID: 0}
     - target: {fileID: 3491981160213480247, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_FollowOffset.y
@@ -1908,11 +1908,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00023391425
+      value: -0.0002338835
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161067041953, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000117456504
+      value: 0.00011744107
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413650, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -1932,11 +1932,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00023937863
+      value: -0.00023933413
       objectReference: {fileID: 0}
     - target: {fileID: 3491981161354413651, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000105893865
+      value: 0.000105874184
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52895d22760ed8445bfce747167adfe6, type: 3}
@@ -4698,7 +4698,7 @@ GameObject:
   - component: {fileID: 1635437565}
   - component: {fileID: 1635437564}
   - component: {fileID: 1635437567}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Limitador  (1)
   m_TagString: Launch
   m_Icon: {fileID: 0}
@@ -4732,7 +4732,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.3000007, y: 0.5000001, z: 8.024458}
-  m_Center: {x: -3.7641277e-14, y: -10.150002, z: 10.487789}
+  m_Center: {x: -3.7641277e-14, y: -10.150002, z: 20}
 --- !u!23 &1635437565
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4795,7 +4795,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.3000007, y: 0.5000001, z: 8.056651}
-  m_Center: {x: 1.8820638e-14, y: 7.000001, z: 10.471708}
+  m_Center: {x: 1.8820638e-14, y: 7.000001, z: 20}
 --- !u!1 &1638019070 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1927340638905622281, guid: 35f0e399a5e2e9e48a7ac4a5902b89b6, type: 3}
@@ -6396,6 +6396,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 98fb6f33fd79a854bbcb0afb2dc1696a, type: 2}
+    - target: {fileID: 2069085732281675762, guid: 971e423336d445145aeb5457943cbc3c, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3529837625867892583, guid: 971e423336d445145aeb5457943cbc3c, type: 3}
       propertyPath: ifX
       value: 1

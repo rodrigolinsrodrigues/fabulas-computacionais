@@ -42,7 +42,7 @@ public class LeituraEspacos : MonoBehaviour
             }
         }
 
-        if (Fase2 == true)
+        else if (Fase2 == true)
         {
             if (Espacos[0].transform.childCount >= 6 && Espacos[1].transform.childCount >= 4)
             {
@@ -60,11 +60,7 @@ public class LeituraEspacos : MonoBehaviour
                 {
                     GameObject.Find("Hand").GetComponent<PickUp>().enabled = false;
                     NPC.SetActive(true);
-
-                    if (NPC.GetComponent<FecharEspaco>().OK == true)
-                    {
-                        Concluido = true;
-                    }
+                    Concluido = true;
                 }
             }
         }
@@ -93,7 +89,7 @@ public class LeituraEspacos : MonoBehaviour
 
         // }
 
-        if (Fase3 == true)
+        else if (Fase3 == true)
         {
             if (Espacos[0].transform.childCount > 1 &&
             Espacos[1].transform.childCount > 1 &&

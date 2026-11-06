@@ -92,9 +92,11 @@ public class GameManager : MonoBehaviour
                 controlsPanel.SetActive(false);
             }
             UpdateSelectedButton(resumePauseBTN);
+            TelemetryManager.Log(pausePanel.activeSelf ? "pause_open" : "pause_close");
         }
         if (Input.GetButtonDown("Y"))
         {
+            TelemetryManager.Log("mission_panel_toggle");
             OpenMission();
         }
     }
@@ -133,6 +135,10 @@ public class GameManager : MonoBehaviour
         {
             addStars();
             levelFinisheds.Add(levelName);
+            TelemetryManager.Log("jewel_earned",
+                ("level", levelName),
+                ("total_jewels", starsAchieved),
+                ("game_time_s", timeCounter));
 
             if (levelName.Contains("Musical"))
             {
@@ -232,11 +238,13 @@ public class GameManager : MonoBehaviour
     }
     public void RestartScene()
     {
+        TelemetryManager.Log("scene_restart");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void BackToHome()
     {
         started = false;
+        if (TelemetryManager.Instance != null) TelemetryManager.Instance.EndSession("back_to_menu");
         SceneManager.LoadScene("MainMenu");
     }
     public void OpenMission()

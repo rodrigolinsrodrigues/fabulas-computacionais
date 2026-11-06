@@ -33,92 +33,89 @@ public class checarPartitura : MonoBehaviour
 
     public void Update()
     {
-        if (check == true)
-        {
-            if ((part1 == false && part1repet == false) || (part2 == false && part2repet == false))
-            {
-                play.qtdRepete = play.quantidadeSelecionada;
-                if (play2 != null)
-                {
-                    play2.qtdRepete = play2.quantidadeSelecionada;
-                }
-            }
-            StartCoroutine("Delay");
 
-            if (ApenasPart1 == true)
+    }
+
+    public void Check()
+    {
+        if ((part1 == false && part1repet == false) || (part2 == false && part2repet == false))
+        {
+            play.qtdRepete = play.quantidadeSelecionada;
+            if (play2 != null)
             {
-                if (RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
-                {
-                    Partitura1Repet();
-                }
-                else
-                {
-                    Partitura1();
-                }
-                if (check == true)
-                {
-                    StartCoroutine("Delay2");
-                    if (part1 == true || part1repet == true)
-                    {
-                        EventSystem.current.SetSelectedGameObject(null);
-                        conluido.SetActive(true);
-                        //Codigo para computar vitória
-                        GameManager.Instance.HideAllControlPopup();
-                        GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
-                        dataManager.WinLevel();
-                        redomeAnimator.SetBool("abrir", true);
-                        StartCoroutine("EndGame");
-                    }
-                    else
-                    {
-                        check = false;
-                    }
-                }
+                play2.qtdRepete = play2.quantidadeSelecionada;
+            }
+        }
+        //StartCoroutine("Delay");
+
+        if (ApenasPart1 == true)
+        {
+            if (RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
+            {
+                Partitura1Repet();
             }
             else
             {
+                Partitura1();
+            }
 
-                if (RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
-                {
-                    Partitura1Repet();
-                }
-                else
-                {
-                    Partitura1();
-                }
-
-
-                if (RepetPart2[0] != null && RepetPart2[1] != null && ContP2 != null)
-                {
-                    Partitura2Repet();
-                }
-                else
-                {
-                    Partitura2();
-                }
-                if (check == true)
-                {
-                    StartCoroutine("Delay2");
-                    if ((part1 == true || part1repet == true) && (part2 == true || part2repet == true))
-                    {
-                        EventSystem.current.SetSelectedGameObject(null);
-                        conluido.SetActive(true);
-                        //Codigo para computar vitória
-                        GameManager.Instance.HideAllControlPopup();
-                        GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
-                        dataManager.WinLevel();
-                        redomeAnimator.SetBool("abrir", true);
-                        StartCoroutine("EndGame");
-                    }
-                    else
-                    {
-                        check = false;
-                    }
-                }
+            //StartCoroutine("Delay2");
+            if (part1 == true || part1repet == true)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                conluido.SetActive(true);
+                //Codigo para computar vitória
+                GameManager.Instance.HideAllControlPopup();
+                GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
+                dataManager.WinLevel();
+                redomeAnimator.SetBool("abrir", true);
+                StartCoroutine("EndGame");
+            }
+            else
+            {
+                check = false;
             }
         }
+        else
+        {
+
+            if (RepetPart1[0] != null && RepetPart1[1] != null && ContP1 != null)
+            {
+                Partitura1Repet();
+            }
+            else
+            {
+                Partitura1();
+            }
 
 
+            if (RepetPart2[0] != null && RepetPart2[1] != null && ContP2 != null)
+            {
+                Partitura2Repet();
+            }
+            else
+            {
+                Partitura2();
+            }
+
+            //StartCoroutine("Delay2");
+            if ((part1 == true || part1repet == true) && (part2 == true || part2repet == true))
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                conluido.SetActive(true);
+                //Codigo para computar vitória
+                GameManager.Instance.HideAllControlPopup();
+                GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
+                dataManager.WinLevel();
+                redomeAnimator.SetBool("abrir", true);
+                StartCoroutine("EndGame");
+            }
+            else
+            {
+                check = false;
+            }
+
+        }
     }
 
     void Partitura1Repet()

@@ -8,6 +8,12 @@ public class LevelDataManager : MonoBehaviour
     void Start()
     {
         LoadCurrentLevelData();
+        TelemetryManager.Log("puzzle_start",
+            ("level_type", currentLevelData.levelType),
+            ("area", currentLevelData.currentArea),
+            ("previous_attempts", currentLevelData.attempCounter),
+            ("previous_time_s", currentLevelData.currentTime),
+            ("already_won", currentLevelData.hasWin));
     }
 
     void Update()
@@ -40,11 +46,21 @@ public class LevelDataManager : MonoBehaviour
         currentLevelData.hasWin = true;
         currentLevelData.winTime = currentLevelData.currentTime;
         currentLevelData.sucessPercent = Mathf.RoundToInt(100 / currentLevelData.attempCounter);
+        TelemetryManager.Log("puzzle_complete",
+            ("level_type", currentLevelData.levelType),
+            ("area", currentLevelData.currentArea),
+            ("attempts", currentLevelData.attempCounter),
+            ("time_s", currentLevelData.winTime));
     }
 
     public void GetAttempt()
     {
         currentLevelData.attempCounter ++;
+        TelemetryManager.Log("puzzle_attempt",
+            ("level_type", currentLevelData.levelType),
+            ("area", currentLevelData.currentArea),
+            ("attempt", currentLevelData.attempCounter),
+            ("time_s", currentLevelData.currentTime));
         DataManager.Instance.SaveDataLocal();
     }
 }
