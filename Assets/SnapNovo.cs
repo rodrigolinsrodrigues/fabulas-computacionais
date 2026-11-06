@@ -24,6 +24,13 @@ public class SnapNovo : MonoBehaviour
             if (other.transform.parent == null && Espaco.gameObject.transform.childCount < Contagem)
             {
                 other.transform.SetParent(Espaco.gameObject.transform);
+                var tipoObj = other.GetComponent<Tipo>();
+                TelemetryManager.Log("object_place",
+                    ("object", other.name),
+                    ("type", tipoObj != null ? tipoObj.tipo : ""),
+                    ("space", Espaco.name),
+                    ("space_type", Tipo),
+                    ("correct", tipoObj != null && tipoObj.tipo == Tipo));
                 if (LocalEspecifico == true)
                 {
                     other.transform.position = local.position;

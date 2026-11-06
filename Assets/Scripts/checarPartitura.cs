@@ -60,6 +60,7 @@ public class checarPartitura : MonoBehaviour
             }
 
             //StartCoroutine("Delay2");
+            LogSolution(part1 == true || part1repet == true);
             if (part1 == true || part1repet == true)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -99,6 +100,7 @@ public class checarPartitura : MonoBehaviour
             }
 
             //StartCoroutine("Delay2");
+            LogSolution((part1 == true || part1repet == true) && (part2 == true || part2repet == true));
             if ((part1 == true || part1repet == true) && (part2 == true || part2repet == true))
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -294,6 +296,55 @@ public class checarPartitura : MonoBehaviour
             }
         }
 
+    }
+
+    // Learning analytics: estado da partitura no momento da verificação.
+    void LogSolution(bool success)
+    {
+        var slots = new List<string>();
+        var expected = new List<string>();
+        AddPart(NotaPart1, TipoNotaPart1, slots, expected);
+        bool hasPart2 = !ApenasPart1 && NotaPart2 != null;
+        if (hasPart2) AddPart(NotaPart2, TipoNotaPart2, slots, expected);
+
+        SolutionTracker.LogAttempt("Musical", slots.ToArray(), expected.ToArray(), success,
+            ("phase_flags", (Fase2 ? "F2 " : "") + (Fase3 ? "F3 " : "") + (Fase4 ? "F4" : "")),
+            ("part1_notes", part1), ("part1_repeat", part1repet),
+            ("part2_notes", part2), ("part2_repeat", part2repet),
+            ("part1_size", NotaPart1 != null ? NotaPart1.Length : 0),
+            ("p1_repeat_start", SolutionTracker.NameOf(RepetPart1 != null && RepetPart1.Length > 0 ? RepetPart1[0] : null)),
+            ("p1_repeat_end", SolutionTracker.NameOf(RepetPart1 != null && RepetPart1.Length > 1 ? RepetPart1[1] : null)),
+            ("p1_repeat_counter", SolutionTracker.NameOf(ContP1)),
+            ("p1_repeat_expected_slots", new[] { notap11, notap12 }),
+            ("p1_blocked_slots_used", CountClicked(BloqPart1)),
+            ("p2_repeat_start", SolutionTracker.NameOf(RepetPart2 != null && RepetPart2.Length > 0 ? RepetPart2[0] : null)),
+            ("p2_repeat_end", SolutionTracker.NameOf(RepetPart2 != null && RepetPart2.Length > 1 ? RepetPart2[1] : null)),
+            ("p2_repeat_counter", SolutionTracker.NameOf(ContP2)),
+            ("p2_repeat_expected_slots", new[] { notap21, notap22 }),
+            ("p2_blocked_slots_used", CountClicked(Bloqpart2)),
+            ("repeat_times_selected", play != null ? play.quantidadeSelecionada : 0));
+    }
+
+    static void AddPart(GameObject[] notes, string[] types, List<string> slots, List<string> expected)
+    {
+        if (notes == null) return;
+        for (int i = 0; i < notes.Length; i++)
+        {
+            slots.Add(SolutionTracker.ClipName(notes[i]));
+            expected.Add(types != null && i < types.Length ? types[i] : "");
+        }
+    }
+
+    static int CountClicked(GameObject[] buttons)
+    {
+        int n = 0;
+        if (buttons == null) return 0;
+        foreach (var b in buttons)
+        {
+            var bc = b != null ? b.GetComponent<botaoClicado>() : null;
+            if (bc != null && bc.buttonClicked) n++;
+        }
+        return n;
     }
 
     IEnumerator EndGame()

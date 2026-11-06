@@ -30,6 +30,7 @@ public class Lente : MonoBehaviour
             if (hit.collider.tag == "Lens" && Input.GetButtonDown("X"))
             {
                 this.gameObject.tag = "Untagged";
+                TelemetryManager.Log("lens_used", ("lens", this.gameObject.name));
                 GameManager.Instance.HideAllControlPopup();
                 player.GetComponent<PlayerController>().enabled = false;
                 ativo = true;

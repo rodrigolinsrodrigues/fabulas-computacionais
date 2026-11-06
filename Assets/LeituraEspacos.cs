@@ -27,11 +27,13 @@ public class LeituraEspacos : MonoBehaviour
     }
     public void Check()
     {
+        bool tentou = false; // learning analytics: houve tentativa completa nesta verificação?
         if (Fase1 == true)
         {
             if (Espacos[0].transform.childCount >= 2 && Espacos[1].transform.childCount >= 2 && Espacos[2].transform.childCount >= 2 && Espacos[3].transform.childCount >= 2)
             {
                 dataManager.GetAttempt();
+                tentou = true;
                 if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
                 Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
@@ -47,6 +49,7 @@ public class LeituraEspacos : MonoBehaviour
             if (Espacos[0].transform.childCount >= 6 && Espacos[1].transform.childCount >= 4)
             {
                 dataManager.GetAttempt();
+                tentou = true;
                 if (Espacos[0].transform.GetChild(0).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[0].transform.GetChild(2).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
@@ -107,6 +110,7 @@ public class LeituraEspacos : MonoBehaviour
             Espacos[13].transform.childCount > 1)
             {
                 dataManager.GetAttempt();
+                tentou = true;
                 if (Espacos[0].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[0].GetComponent<SnapNovo>().Tipo &&
                 Espacos[1].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[1].GetComponent<SnapNovo>().Tipo &&
                 Espacos[2].transform.GetChild(1).GetComponent<Tipo>().tipo == Espacos[2].GetComponent<SnapNovo>().Tipo &&
@@ -127,6 +131,11 @@ public class LeituraEspacos : MonoBehaviour
             }
         }
 
+        if (tentou)
+        {
+            LogSolution();
+        }
+
         if (Concluido == true)
         {
             Player.GetComponent<PlayerController>().enabled = false;
@@ -143,6 +152,51 @@ public class LeituraEspacos : MonoBehaviour
         }
     }
 
+
+    // Learning analytics: o que está em cada espaço no momento em que todos foram preenchidos.
+    void LogSolution()
+    {
+        var slots = new string[Espacos.Length];
+        var expected = new string[Espacos.Length];
+        var objects = new List<string>();
+        var confusions = new List<string>();
+        int misplaced = 0;
+
+        for (int i = 0; i < Espacos.Length; i++)
+        {
+            var space = Espacos[i];
+            var snap = space != null ? space.GetComponent<SnapNovo>() : null;
+            string want = snap != null ? snap.Tipo : "";
+            var types = new List<string>();
+            if (space != null)
+            {
+                foreach (Transform child in space.transform)
+                {
+                    var t = child.GetComponent<Tipo>();
+                    if (t == null) continue;
+                    types.Add(t.tipo);
+                    objects.Add(child.name + ":" + t.tipo + "@" + space.name);
+                    if (t.tipo != want)
+                    {
+                        misplaced++;
+                        confusions.Add(want + "->" + t.tipo);
+                    }
+                }
+            }
+            types.Sort(System.StringComparer.Ordinal);
+            slots[i] = string.Join("|", types);
+            var wantList = new string[types.Count];
+            for (int k = 0; k < wantList.Length; k++) wantList[k] = want;
+            expected[i] = string.Join("|", wantList);
+        }
+
+        SolutionTracker.LogAttempt("Conjuntos", slots, expected, Concluido,
+            ("phase_flags", (Fase1 ? "F1 " : "") + (Fase2 ? "F2 " : "") + (Fase3 ? "F3 " : "") + (Fase4 ? "F4" : "")),
+            ("spaces", System.Array.ConvertAll(Espacos, e => e != null ? e.name : "")),
+            ("objects", objects),
+            ("misplaced_objects", misplaced),
+            ("confusions", confusions));
+    }
 
     IEnumerator Delay()
     {

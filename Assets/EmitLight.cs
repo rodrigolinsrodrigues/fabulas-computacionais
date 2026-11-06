@@ -33,6 +33,7 @@ public class EmitLight : MonoBehaviour
             if (hit.collider.tag == "Emit" && Input.GetButtonDown("X") && lightOff == true)
             {
                 dataManager.GetAttempt();
+                MirrorsTracker.BeginAttempt();
                 Player.GetComponent<PlayerController>().enabled = false;
                 if (Cams[0] != null && Cams[1] != null)
                 {
@@ -47,6 +48,8 @@ public class EmitLight : MonoBehaviour
             }
 
         }
+
+        MirrorsTracker.Tick();
 
         if (Luz.activeSelf)
         {
@@ -80,6 +83,7 @@ public class EmitLight : MonoBehaviour
 
         if (Luz.activeSelf == false)
         {
+            if (MirrorsTracker.Running) MirrorsTracker.EndAttempt();
             lightOff = true;
             // this.gameObject.tag = "Emit";
             Vector3 newScale = new Vector3(0.5f, 0.5f, 0.01f);

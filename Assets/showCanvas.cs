@@ -27,6 +27,11 @@ public class showCanvas : MonoBehaviour
             GameManager.Instance.HideAllControlPopup();
             //Codigo para definir no GameManager que a fase foi concluida
             GameManager.Instance.UpdateProgress(SceneManager.GetActiveScene().name);
+            if (!concluido)
+            {
+                concluido = true;
+                MirrorsTracker.LogFinal(); // learning analytics: configuração vencedora
+            }
             dataManager.WinLevel();
             StartCoroutine(Delay1());
         }

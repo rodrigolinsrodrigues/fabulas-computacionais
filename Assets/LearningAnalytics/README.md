@@ -99,6 +99,11 @@ então dá para alinhar eventos e expressões.
 | `affect_capture_start` / `_stop` / `_paused` / `_resumed` | estado da câmera | câmera, resolução, motivo |
 | `affect_unavailable` | falha (sem plugin, sem câmera, sem modelo…) | motivo |
 | `affect_summary` | a cada N s | proporção de rosto presente, médias dos índices |
+| `solution_snapshot` | cada teste de solução (todos os puzzles) | estado da solução; veja a seção "Estado da solução" |
+| `object_pick` / `object_drop` / `object_place` | Conjuntos: pegar, soltar, encaixar | objeto, tipo, espaço, se o encaixe está correto |
+| `pillar_rotate` / `pillar_push` / `lens_used` | Espelhos: girar, empurrar, usar a lente | pilar, rotação/posição antes, direção |
+| `beam_blocked` / `beam_result` / `solution_final` | Espelhos: feixe bloqueado, fim do disparo, vitória | onde bateu, trechos acesos, configuração vencedora |
+| `recipe_place` / `recipe_remove` | Receitas: colocar/retirar da mesa | mesa, item, item esperado, se está correto |
 
 ### Colunas de `affect_<sessão>.csv`
 
@@ -119,6 +124,37 @@ os índices derivados e `bs_*` (52 blendshapes, de 0 a 1; vazio quando não há 
 | `gaze_away` | eyeLook* | olhar fora do centro |
 
 `face_present = 0` por muito tempo, ou `|head_yaw|` alto, indica que o aluno não está olhando para a tela.
+
+### Estado da solução (`solution_snapshot`)
+
+Cada vez que o jogador **testa** a solução, o jogo registra o que ele montou (`slots`), o gabarito
+(`expected`) e a comparação com a tentativa anterior na mesma fase. Gerado por `SolutionTracker.cs`.
+
+| Campo | Significado |
+|---|---|
+| `puzzle`, `attempt` | puzzle e número da tentativa nesta fase |
+| `slots` | o que está em cada posição (`""` = vazia) |
+| `expected` | resposta esperada em cada posição (ausente no Espelhos) |
+| `correct_positions`, `distance` | posições certas e posições que faltam acertar |
+| `first_error` | índice da primeira posição errada (`-1` = nenhuma) |
+| `changed_positions`, `n_changed` | posições alteradas desde a tentativa anterior (`null`/`-1` na 1ª) |
+| `success` | veredito do próprio jogo |
+
+O que é uma "posição" em cada puzzle:
+
+| Puzzle | Momento | `slots[i]` | Campos extras |
+|---|---|---|---|
+| **Musical** | fim da reprodução (`checarPartitura.Check`) | nota na posição *i* (partitura 1, depois 2) | `part1_notes`/`part1_repeat`/`part2_*` (veredito por partitura), início/fim/contador da repetição escolhidos, posições esperadas da repetição, `blocked_slots_used`, `repeat_times_selected` |
+| **Conjuntos** | todos os espaços preenchidos (`LeituraEspacos.Check`) | tipos dos objetos no espaço *i*, ordenados e separados por `\|` | `spaces`, `objects` (`objeto:tipo@espaço`), `misplaced_objects`, `confusions` (`esperado->colocado`) |
+| **Receitas** | ao cozinhar (`LerMesa.TempoDeEspera`) | `insumo+ação` do passo *i* | `step_errors`: `ok`, `empty_step`, `empty_food`, `empty_action`, `wrong_food`, `wrong_action`, `order` (insumo de outro passo) |
+| **Espelhos** | ao disparar a luz (`EmitLight`) | `r=x,y,z;p=x,z` do pilar *i* (rotação arredondada a 15°) | `pillars` (nomes); depois vem `beam_result` com `segments_lit` (alcance do feixe) e `blocked`; na vitória, `solution_final` com a configuração vencedora |
+
+No **Musical** com repetição, o gabarito `expected` é o configurado na cena (`TipoNotaPart*`);
+o veredito oficial está em `part*_repeat`. No **Espelhos**, calcule a distância de cada tentativa até
+a `solution_final` do mesmo jogador (ou até a configuração vencedora mais comum) na análise.
+
+**Teste sem jogar:** menu **Fabulas → Learning Analytics → Teste rápido da telemetria** (ou
+`-executeMethod TelemetrySmokeTest.Run`). Ele grava duas tentativas simuladas, confere o JSON e apaga os arquivos de teste.
 
 ## 4. Limitações e cuidados
 

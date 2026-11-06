@@ -103,6 +103,11 @@ public class PickUp : MonoBehaviour
             player.animator.SetBool("Pegar", true);
             player.animator.SetBool("Soltar", false);
             carryObj = other;
+            var tipoObj = other.GetComponent<Tipo>();
+            TelemetryManager.Log("object_pick",
+                ("object", other.name),
+                ("type", tipoObj != null ? tipoObj.tipo : ""),
+                ("from", other.transform.parent != null ? other.transform.parent.name : ""));
             carryObj.transform.SetParent(hand);
             carryObj.transform.position = hand.position;
             carryObj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -115,6 +120,7 @@ public class PickUp : MonoBehaviour
                 player.animator.SetBool("Pegar", false);
                 carryObj.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePositionY;
                 carryObj.transform.position = hand.position + hand.forward * 2;
+                TelemetryManager.Log("object_drop", ("object", carryObj.name));
                 carryObj.transform.SetParent(null);
                 carryObj = null;
                 podeSoltar = false;

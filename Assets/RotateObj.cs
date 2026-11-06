@@ -34,6 +34,7 @@ public class RotateObj : MonoBehaviour
                 string name = hit.collider.name;
                 rotateObj = GameObject.Find(name);
                 currentRotation = rotateObj.transform.rotation.eulerAngles;
+                TelemetryManager.Log("pillar_rotate", ("pillar", rotateObj.name), ("rotation_before", currentRotation));
                 rotacionando = true;
                 StartCoroutine("delay");
             }

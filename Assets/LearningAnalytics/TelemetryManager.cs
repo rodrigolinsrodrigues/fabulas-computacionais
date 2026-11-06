@@ -227,6 +227,27 @@ public class TelemetryManager : MonoBehaviour
                 }
                 sb.Append('}');
                 break;
+            case IDictionary<string, object> objDict:
+                sb.Append('{');
+                bool firstObj = true;
+                foreach (var kv in objDict)
+                {
+                    AppendPair(sb, kv.Key, kv.Value, firstObj);
+                    firstObj = false;
+                }
+                sb.Append('}');
+                break;
+            case System.Collections.IEnumerable list:
+                sb.Append('[');
+                bool firstItem = true;
+                foreach (var item in list)
+                {
+                    if (!firstItem) sb.Append(',');
+                    AppendValue(sb, item);
+                    firstItem = false;
+                }
+                sb.Append(']');
+                break;
             default: sb.Append('"').Append(Escape(value.ToString())).Append('"'); break;
         }
     }

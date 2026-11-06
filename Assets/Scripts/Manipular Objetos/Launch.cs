@@ -30,6 +30,7 @@ public class Launch : MonoBehaviour
                 // Adicione uma forca a direcao em que o personagem esta olhando
                 string name = hit.collider.name;
                 launchObj = GameObject.Find(name);
+                TelemetryManager.Log("pillar_push", ("pillar", name), ("position_before", launchObj.transform.position), ("direction", transform.forward));
                 launchObj.GetComponent<Rigidbody>().AddForce(transform.forward * launchForce, ForceMode.Impulse);
                 Empurrou = true;
                 launchObj.GetComponent<pilarMov>().MudouPos();

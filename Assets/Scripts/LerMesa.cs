@@ -48,6 +48,7 @@ public class LerMesa : MonoBehaviour
     public IEnumerator TempoDeEspera()
     {
         dataManager.GetAttempt();
+        LogSolution();
         player.transform.eulerAngles = playerRotation;
         for (int i = 0; i < foodTables.Length; i++)
         {
@@ -112,6 +113,54 @@ public class LerMesa : MonoBehaviour
         {
             EndOfRead();
         }
+    }
+
+    // Learning analytics: receita montada (insumo + ação em cada passo) no momento de cozinhar.
+    void LogSolution()
+    {
+        int n = foodTables.Length;
+        var slots = new string[n];
+        var expected = new string[n];
+        var stepErrors = new string[n];
+        bool success = true;
+
+        for (int i = 0; i < n; i++)
+        {
+            Snap food = foodTables[i];
+            Snap action = i < actionTables.Length ? actionTables[i] : null;
+            string f = food != null && food.isOccupied ? food.currentType : "";
+            string a = action != null && action.isOccupied ? action.currentType : "";
+            slots[i] = f + "+" + a;
+            expected[i] = (food != null ? food.correctType : "") + "+" + (action != null ? action.correctType : "");
+
+            string err;
+            if (f == "" && a == "") err = "empty_step";
+            else if (f == "") err = "empty_food";
+            else if (a == "") err = "empty_action";
+            else
+            {
+                bool foodOk = food.isCorrect, actionOk = action.isCorrect;
+                if (foodOk && actionOk) err = "ok";
+                else if (!foodOk && BelongsToOtherStep(f, i)) err = actionOk ? "order" : "order+wrong_action";
+                else if (!foodOk && !actionOk) err = "wrong_food+wrong_action";
+                else if (!foodOk) err = "wrong_food";
+                else err = "wrong_action";
+            }
+            stepErrors[i] = err;
+            if (err != "ok") success = false;
+        }
+
+        SolutionTracker.LogAttempt("Receitas", slots, expected, success,
+            ("step_errors", stepErrors));
+    }
+
+    bool BelongsToOtherStep(string foodType, int step)
+    {
+        for (int j = 0; j < foodTables.Length; j++)
+        {
+            if (j != step && foodTables[j] != null && foodTables[j].correctType == foodType) return true;
+        }
+        return false;
     }
 
     //muda o estado da comida (visual)

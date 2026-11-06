@@ -27,6 +27,7 @@ public class StopScale : MonoBehaviour
         if(other.GetComponent<Collider>().tag != "Mirror")
         {
             Debug.Log((this.gameObject.name) + (other.gameObject.name));
+            MirrorsTracker.BeamBlocked(this.gameObject.name, other.gameObject.name);
            // LP.scaleFactor = 0f;
             for(int i = 0; i < OtherLights.Length; i++)
             {
@@ -49,6 +50,7 @@ public class StopScale : MonoBehaviour
         if(other.GetComponent<Collider>().tag != "Mirror")
         {
             Debug.Log((this.gameObject.name) + (other.gameObject.name));
+            MirrorsTracker.BeamBlocked(this.gameObject.name, other.gameObject.name);
             this.gameObject.SetActive(false);
         }
         
@@ -66,6 +68,7 @@ public class StopScale : MonoBehaviour
         if(other.GetComponent<Collider>().tag != "Cristal")
         {
             Debug.Log((this.gameObject.name) + (other.gameObject.name));
+            MirrorsTracker.BeamBlocked(this.gameObject.name, other.gameObject.name);
            // LP.scaleFactor = 0f;
             for(int i = 0; i < OtherLights.Length; i++)
             {
@@ -86,6 +89,7 @@ public class StopScale : MonoBehaviour
             else if(other.GetComponent<Collider>().tag != "Cristal" || other.GetComponent<Collider>().tag != "Mirror")
             {
             Debug.Log((this.gameObject.name) + (other.gameObject.name));
+            MirrorsTracker.BeamBlocked(this.gameObject.name, other.gameObject.name);
            // LP.scaleFactor = 0f;
             for(int i = 0; i < OtherLights.Length; i++)
             {

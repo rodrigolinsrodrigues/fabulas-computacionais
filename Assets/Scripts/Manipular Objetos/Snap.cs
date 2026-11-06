@@ -21,6 +21,9 @@ public class Snap : MonoBehaviour
             obj = item.gameObject;
             isOccupied = true;
             currentType = item.type;
+            TelemetryManager.Log("recipe_place",
+                ("table", name), ("is_action", isAction), ("item", item.type),
+                ("expected", correctType), ("correct", item.type == correctType));
             item.GetComponent<Outline>().enabled = true;
             item.GetComponent<Outline>().OutlineColor = Color.yellow;
             Verify();
@@ -33,6 +36,7 @@ public class Snap : MonoBehaviour
         if (obj != null)
         {
             clone = obj;
+            TelemetryManager.Log("recipe_remove", ("table", name), ("is_action", isAction), ("item", currentType));
             clone.GetComponent<Outline>().enabled = false;
             obj = null;
             isOccupied = false;
