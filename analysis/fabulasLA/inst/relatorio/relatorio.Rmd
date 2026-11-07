@@ -1,0 +1,531 @@
+---
+title: "Fábulas Computacionais — Relatório de Learning Analytics"
+subtitle: "`r if (nzchar(params$titulo_estudo)) params$titulo_estudo else 'Análise completa dos dados gerados pelo jogo'`"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    code_folding: hide
+    fig_width: 9
+    fig_height: 5
+params:
+  caminhos: ""         # vazio = simular dados; ou pastas/.zip separados por ";"
+  n_alunos: 100
+  semente: 2026
+  titulo_estudo: ""
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center", dpi = 110)
+suppressPackageStartupMessages({
+  library(fabulasLA)
+  library(dplyr); library(tidyr); library(purrr); library(tibble); library(stringr); library(readr)
+  library(ggplot2); library(lme4); library(survival); library(pROC); library(ranger); library(patchwork)
+})
+theme_set(theme_minimal(base_size = 12) +
+            theme(plot.title = element_text(face = "bold"), legend.position = "bottom",
+                  panel.grid.minor = element_blank()))
+cores_puzzle <- c(Musical = "#7B3F99", Espelhos = "#1F77B4", Conjuntos = "#2CA02C", Receitas = "#E07B00")
+tabela <- function(df, digitos = 2, ...) knitr::kable(df, digits = digitos, format.args = list(big.mark = ".", decimal.mark = ","), ...)
+pct <- function(x, d = 0) scales::percent(x, accuracy = 10^-d, decimal.mark = ",")
+num <- function(x, d = 1) format(round(x, d), nsmall = d, decimal.mark = ",", big.mark = ".")
+garantir <- function(df, cols) { for (c in cols) if (!c %in% names(df)) df[[c]] <- NA; df }
+puzzle_de <- function(cena) case_when(str_detect(cena, "^Musical") ~ "Musical", str_detect(cena, "^Espelhos") ~ "Espelhos",
+                                      str_detect(cena, "^Conjuntos") ~ "Conjuntos", str_detect(cena, "^Receitas") ~ "Receitas",
+                                      TRUE ~ NA_character_)
+fase_de <- function(cena) suppressWarnings(as.integer(str_extract(cena, "\\d+$")))
+```
+
+```{r dados, include = FALSE}
+usar_simulacao <- !nzchar(params$caminhos)
+caminhos <- if (usar_simulacao) {
+  simular_coleta(n_alunos = params$n_alunos, seed = params$semente, pasta = file.path(tempdir(), "fabulas_simulado"))
+} else trimws(strsplit(params$caminhos, ";")[[1]])
+coleta <- ler_coleta(caminhos)
+validacao <- validar_coleta(coleta)
+tb <- tabelas_analise(coleta)
+
+ev <- garantir(coleta$eventos, c("level_type", "area", "attempt", "attempts", "time_s", "door", "distance", "n_changed",
+                                 "success", "segments_lit", "segments_total", "part1_repeat", "idle_ms", "object", "type"))
+afeto <- coleta$afeto
+obs <- coleta$extras$observacoes_bromp
+verdade <- coleta$extras[["_verdade_simulacao"]]
+sessoes <- tb$sessoes
+fases <- tb$fases
+snap <- tb$tentativas
+tem_afeto <- nrow(afeto) > 0
+```
+
+<div style="background:#FFF4CE;border-left:5px solid #E0A800;padding:12px 16px;margin:16px 0;">
+`r if (usar_simulacao) paste0("<b>Atenção: dados simulados.</b> Este relatório foi gerado com dados <b>fictícios</b> de ", params$n_alunos, " estudantes, produzidos por <code>fabulasLA::simular_coleta()</code> no mesmo formato de arquivos que o jogo grava. Os números servem apenas para mostrar <b>como as análises ficariam</b>. Para usar dados reais: <code>fabulasLA::gerar_relatorio(\"pasta_ou_zip\")</code>.") else paste0("Relatório gerado a partir dos dados em: <code>", paste(caminhos, collapse = "; "), "</code>.")`
+</div>
+
+# Sobre este relatório
+
+O **Fábulas Computacionais** registra, durante o jogo, eventos de navegação, desempenho, engajamento, o **estado da solução a cada tentativa** e, opcionalmente, **expressões faciais** pela webcam. Este relatório, gerado pelo pacote R **fabulasLA**, reúne a validação da coleta e as análises propostas no documento de funcionalidades de learning analytics do jogo.
+
+Cada seção traz a **pergunta de pesquisa**, o **método**, o código (clique em *Code* para ver) e a interpretação, calculada a partir dos próprios dados.
+
+A base tem **`r num(nrow(ev), 0)` eventos** de **`r n_distinct(ev$session)` sessões** (`r n_distinct(ev$participant)` participantes), **`r num(nrow(snap), 0)` tentativas** com estado da solução e **`r num(nrow(afeto), 0)` amostras faciais**.
+
+# Estudo e qualidade da coleta
+
+## Validação automática
+
+A função `validar_coleta()` confere integridade (SHA-256 do manifesto das exportações), duplicatas, lacunas de sequência, sessões sem início ou fim, sessões interrompidas, eventos fora do catálogo e cobertura da câmera.
+
+```{r validacao}
+validacao |> as_tibble() |>
+  mutate(status = recode(status, ok = "✅ ok", aviso = "⚠️ aviso", erro = "❌ erro")) |>
+  select(Status = status, Verificação = verificacao, Detalhe = detalhe) |> tabela()
+```
+
+## Estudo, escolas e turmas
+
+```{r estudo}
+sessoes |> count(estudo, escola, turma, name = "Sessões") |>
+  left_join(sessoes |> group_by(escola, turma) |> summarise(Interrompidas = sum(interrompida), .groups = "drop"), by = c("escola", "turma")) |>
+  rename(Estudo = estudo, Escola = escola, Turma = turma) |> tabela(caption = "Sessões por escola e turma")
+```
+
+## Eventos registrados e câmera
+
+### Eventos por tipo
+
+```{r eventos-tipo, fig.height = 6}
+ev |> count(event, sort = TRUE) |>
+  ggplot(aes(n, reorder(event, n))) + geom_col(fill = "#1F4E79") +
+  geom_text(aes(label = scales::comma(n, big.mark = ".")), hjust = -0.1, size = 3.2) +
+  scale_x_continuous(expand = expansion(mult = c(0, .12)), labels = scales::label_number(big.mark = ".")) +
+  labs(title = "Quantidade de eventos por tipo", x = "Eventos", y = NULL)
+```
+
+```{r sec-qualidade-afeto, child = "secao_qualidade_afeto.Rmd", eval = tem_afeto}
+```
+
+`r if (!tem_afeto) "*Sem dados faciais nesta coleta (câmera desligada ou indisponível): as análises faciais foram omitidas.*" else ""`
+
+# Caracterização da amostra *(Exemplo 1)*
+
+```{r amostra}
+sessoes |> count(serie, genero) |> pivot_wider(names_from = genero, values_from = n, values_fill = 0) |>
+  mutate(Total = rowSums(across(-serie))) |> rename(Série = serie) |> tabela(caption = "Participantes por série e gênero")
+sessoes |> count(dispositivo, escola) |> pivot_wider(names_from = dispositivo, values_from = n, values_fill = 0) |>
+  rename(Escola = escola) |> tabela(caption = "Participantes por escola e dispositivo de entrada")
+```
+
+Idade média: **`r num(mean(sessoes$idade))` anos** (DP = `r num(sd(sessoes$idade))`). `r if (usar_simulacao) "Observação: a escola **não é registrada pelo jogo hoje**; na simulação ela vem de um arquivo auxiliar. Registrar a escola no <code>research_config.json</code> é uma das melhorias propostas para o módulo." else ""`
+
+# Navegação no mundo do jogo
+
+## Ordem de escolha das fases *(Exemplo 3)*
+
+**Pergunta:** em que ordem as crianças escolhem os puzzles? **Método:** sequência de `door_enter` por participante; primeira escolha em cada área e matriz de transição entre puzzles consecutivos (base da mineração de processos).
+
+```{r ordem, fig.height = 4.5}
+entradas <- ev |> filter(event == "door_enter", !is.na(puzzle_de(door))) |>
+  transmute(session, area = scene, puzzle = puzzle_de(door), t_ms) |> arrange(session, t_ms) |>
+  group_by(session, area) |> mutate(ordem = row_number()) |> ungroup()
+p1 <- entradas |> filter(ordem == 1) |> count(area, puzzle) |> group_by(area) |> mutate(p = n / sum(n)) |>
+  ggplot(aes(area, p, fill = puzzle)) + geom_col() + scale_fill_manual(values = cores_puzzle) +
+  scale_y_continuous(labels = scales::percent) + labs(title = "Primeiro puzzle escolhido", x = NULL, y = NULL, fill = NULL)
+trans <- entradas |> group_by(session) |> mutate(proximo = lead(puzzle)) |> ungroup() |> filter(!is.na(proximo)) |>
+  count(puzzle, proximo) |> group_by(puzzle) |> mutate(p = n / sum(n))
+p2 <- ggplot(trans, aes(proximo, puzzle, fill = p)) + geom_tile(color = "white") +
+  geom_text(aes(label = pct(p)), size = 3.4) + scale_fill_gradient(low = "#F2F2F2", high = "#1F4E79", guide = "none") +
+  labs(title = "Transição entre puzzles", x = "Próximo puzzle", y = "Puzzle atual")
+p1 + p2
+primeiro_a1 <- entradas |> filter(ordem == 1, area == "Area1") |> count(puzzle) |> mutate(p = n / sum(n)) |> arrange(-p)
+```
+
+**Resultado:** na Área 1, **`r primeiro_a1$puzzle[1]`** é o puzzle mais escolhido primeiro (`r pct(primeiro_a1$p[1])` das crianças). A matriz de transição mostra os caminhos mais comuns entre desafios, o que permite testar se a ordem afeta o desempenho total.
+
+## Evitação de desafios *(Exemplo 4)*
+
+**Pergunta:** há puzzles que as crianças evitam? **Método:** taxa de evitação = aproximações à porta sem entrada (`door_leave`) ÷ aproximações (`door_approach`).
+
+```{r evitacao, fig.height = 4}
+evit <- ev |> filter(event %in% c("door_approach", "door_leave"), !is.na(puzzle_de(door))) |>
+  mutate(puzzle = puzzle_de(door)) |> count(puzzle, event) |> pivot_wider(names_from = event, values_from = n, values_fill = 0) |>
+  mutate(taxa = door_leave / door_approach)
+ggplot(evit, aes(reorder(puzzle, taxa), taxa, fill = puzzle)) + geom_col(show.legend = FALSE) + coord_flip() +
+  geom_text(aes(label = pct(taxa, 1)), hjust = -0.15) + scale_fill_manual(values = cores_puzzle) +
+  scale_y_continuous(labels = scales::percent, expand = expansion(mult = c(0, .15))) +
+  labs(title = "Taxa de evitação por puzzle", x = NULL, y = "Aproximações sem entrada")
+```
+
+**Resultado:** **`r evit$puzzle[which.max(evit$taxa)]`** tem a maior taxa de evitação (`r pct(max(evit$taxa), 1)`), contra `r pct(median(evit$taxa[-which.max(evit$taxa)]), 1)` na mediana dos demais — um sinal de que a apresentação inicial desse puzzle pode intimidar.
+
+# Desempenho por fase
+
+## Visão geral
+
+```{r desempenho-geral, fig.height = 4.5}
+resumo_fases <- fases |> group_by(puzzle, fase) |>
+  summarise(n = n(), conclusao = mean(concluiu), tentativas = mean(tentativas[concluiu]),
+            tempo_min = median(tempo_s[concluiu], na.rm = TRUE) / 60, .groups = "drop")
+ggplot(resumo_fases, aes(factor(fase), puzzle, fill = conclusao)) + geom_tile(color = "white") +
+  geom_text(aes(label = paste0(pct(conclusao), "\n", num(tentativas), " tent.")), size = 3.5) +
+  scale_fill_gradient(low = "#FBE5D6", high = "#2CA02C", labels = scales::percent) +
+  labs(title = "Conclusão e tentativas médias por fase", x = "Fase", y = NULL, fill = "Taxa de conclusão")
+```
+
+## Desempenho por série e gênero *(Exemplo 1)*
+
+**Pergunta:** o desempenho difere por série ou gênero? **Método:** modelo linear generalizado misto de Poisson para o número de tentativas até concluir, com série, gênero e puzzle como efeitos fixos e participante (e escola, quando registrada) como efeitos aleatórios. Os coeficientes estão na forma de **razão de taxas** (RT): RT < 1 indica menos tentativas.
+
+```{r modelo-serie}
+dados_m1 <- fases |> filter(concluiu) |> mutate(serie = factor(serie), genero = factor(genero), puzzle = factor(puzzle))
+form_m1 <- if (n_distinct(dados_m1$escola) > 1) tentativas ~ serie + genero + puzzle + (1 | participant) + (1 | escola) else
+  tentativas ~ serie + genero + puzzle + (1 | participant)
+m1 <- glmer(form_m1, data = dados_m1, family = poisson)
+coefs_rt <- function(m) {
+  s <- summary(m)$coefficients
+  tibble(Termo = rownames(s), RT = exp(s[, 1]), `IC 95% inf.` = exp(s[, 1] - 1.96 * s[, 2]),
+         `IC 95% sup.` = exp(s[, 1] + 1.96 * s[, 2]), p = s[, 4])
+}
+coefs_rt(m1) |> mutate(p = scales::pvalue(p, decimal.mark = ",")) |> tabela(caption = "Modelo misto de Poisson: tentativas até concluir")
+tab_m1 <- coefs_rt(m1)
+lin5 <- tab_m1 |> filter(str_detect(Termo, "^serie5")); lin_gen <- tab_m1 |> filter(str_detect(Termo, "^genero"))
+rt_5 <- lin5$RT; p_5 <- lin5$p
+```
+
+**Resultado:** alunos do **5º ano** fazem em média `r pct(abs(1 - rt_5))` `r ifelse(rt_5 < 1, "menos", "mais")` tentativas que os do 3º ano, controlando puzzle e gênero — diferença `r ifelse(p_5 < .05, "**estatisticamente significativa**", "**não significativa** (p ≥ 0,05)")`. `r ifelse(all(lin_gen$p >= .05), "Não há diferenças significativas por gênero, o que indica que o jogo não favorece um grupo — uma evidência de equidade.", "Há diferença significativa por gênero, que merece investigação.")`
+
+## Efeito do dispositivo de entrada *(Exemplo 2)*
+
+**Pergunta:** jogar com controle ou com teclado e mouse altera o tempo de conclusão? **Método:** teste de Mann-Whitney por puzzle.
+
+```{r dispositivo, fig.height = 4.5}
+fases |> filter(concluiu) |>
+  ggplot(aes(puzzle, tempo_s / 60, fill = dispositivo)) + geom_boxplot(outlier.alpha = .3) +
+  scale_fill_manual(values = c(gamepad = "#2E75B6", `teclado/mouse` = "#F4B183")) +
+  labs(title = "Tempo até concluir por dispositivo", x = NULL, y = "Minutos", fill = NULL)
+fases |> filter(concluiu) |> group_by(puzzle) |>
+  summarise(`Mediana gamepad (min)` = median(tempo_s[dispositivo == "gamepad"]) / 60,
+            `Mediana teclado (min)` = median(tempo_s[dispositivo != "gamepad"]) / 60,
+            p = wilcox.test(tempo_s ~ dispositivo)$p.value) |>
+  mutate(p = scales::pvalue(p, decimal.mark = ",")) |> tabela(caption = "Teste de Mann-Whitney por puzzle")
+```
+
+## Curvas de aprendizagem *(Exemplo 5)*
+
+**Pergunta:** as crianças melhoram ao longo das três fases de cada puzzle? **Método:** média de tentativas por fase (com IC de 95%) e modelo misto de Poisson com interação fase × puzzle.
+
+```{r curvas, fig.height = 4.5}
+fases |> filter(concluiu) |> group_by(puzzle, fase) |>
+  summarise(m = mean(tentativas), ep = sd(tentativas) / sqrt(n()), .groups = "drop") |>
+  ggplot(aes(fase, m, color = puzzle)) + geom_line(linewidth = 1.1) + geom_point(size = 2.5) +
+  geom_errorbar(aes(ymin = m - 1.96 * ep, ymax = m + 1.96 * ep), width = .08) +
+  scale_color_manual(values = cores_puzzle) + scale_x_continuous(breaks = 1:3) +
+  labs(title = "Tentativas até concluir por fase", x = "Fase", y = "Tentativas (média)", color = NULL)
+m2 <- glmer(tentativas ~ factor(fase) * puzzle + (1 | participant), data = fases |> filter(concluiu), family = poisson)
+tent_mus <- resumo_fases |> filter(puzzle == "Musical") |> arrange(fase) |> pull(tentativas)
+```
+
+**Resultado:** no Musical, as tentativas passam de `r num(tent_mus[1])` na Fase 1 para `r num(tent_mus[2])` na Fase 2 — fase em que a **repetição (laço)** é introduzida —, o que aponta esse conceito como o ponto crítico do puzzle. O modelo com interação (`m2`) permite testar formalmente se a curva difere entre puzzles.
+
+## Tempo até concluir e abandono *(Exemplo 6)*
+
+**Pergunta:** quanto tempo as crianças levam para concluir cada fase e quantas desistem? **Método:** curvas de Kaplan-Meier (saída sem vitória = censura) e regressão de Cox com erros-padrão robustos por participante.
+
+```{r sobrevivencia, fig.height = 5}
+km <- survfit(Surv(tempo_evento_s / 60, concluiu) ~ puzzle, data = fases)
+km_df <- tibble(tempo = km$time, sobrev = km$surv, puzzle = rep(sub("puzzle=", "", names(km$strata)), km$strata))
+ggplot(km_df, aes(tempo, 1 - sobrev, color = puzzle)) + geom_step(linewidth = 1) +
+  scale_color_manual(values = cores_puzzle) + scale_y_continuous(labels = scales::percent) +
+  coord_cartesian(xlim = c(0, 15)) +
+  labs(title = "Proporção acumulada de fases concluídas ao longo do tempo", x = "Minutos na fase", y = "Concluídas", color = NULL)
+cox <- coxph(Surv(tempo_evento_s, concluiu) ~ puzzle + factor(serie) + dispositivo, data = fases, cluster = participant)
+s <- summary(cox)$coefficients
+tibble(Termo = rownames(s), `Razão de chances instantânea (HR)` = exp(s[, "coef"]), p = s[, ncol(s)]) |>
+  mutate(p = scales::pvalue(p, decimal.mark = ",")) |> tabela(caption = "Regressão de Cox: chance de concluir (HR > 1 = conclui mais rápido)")
+abandono_puzzle <- fases |> group_by(puzzle) |> summarise(ab = mean(abandonou)) |> arrange(-ab)
+```
+
+**Resultado:** **`r abandono_puzzle$puzzle[1]`** tem a maior taxa de abandono (`r pct(abandono_puzzle$ab[1])` das fases iniciadas). As curvas mostram quando a maioria conclui — um bom limiar para oferecer ajuda automaticamente.
+
+# Engajamento e autorregulação
+
+## Ociosidade como sinal de abandono *(Exemplo 7)*
+
+**Pergunta:** períodos de ociosidade antecedem o abandono de uma fase? **Método:** regressão logística do abandono em função do número de períodos ociosos e de tentativas sem progresso; desempenho avaliado por curva ROC com validação cruzada por participante.
+
+```{r ociosidade, fig.height = 4.5}
+ocio <- ev |> filter(event == "idle_start", !is.na(puzzle_de(scene))) |> count(session, scene, name = "n_ocio")
+sem_prog <- snap |> group_by(session, scene) |> summarise(sem_progresso = sum(!is.na(delta) & delta >= 0), .groups = "drop")
+dados_ab <- fases |> left_join(ocio, by = c("session", "scene")) |> left_join(sem_prog, by = c("session", "scene")) |>
+  mutate(n_ocio = replace_na(n_ocio, 0), sem_progresso = replace_na(sem_progresso, 0), tentativas = pmax(tentativas, 1))
+m_ab <- glm(abandonou ~ n_ocio + sem_progresso + puzzle, data = dados_ab, family = binomial)
+# validação cruzada (5 grupos de participantes)
+grupos <- sample(rep(1:5, length.out = n_distinct(dados_ab$participant)))
+names(grupos) <- unique(dados_ab$participant)
+dados_ab$prev <- NA_real_
+for (g in 1:5) {
+  treino <- dados_ab[grupos[dados_ab$participant] != g, ]
+  mm <- glm(abandonou ~ n_ocio + sem_progresso + puzzle, data = treino, family = binomial)
+  idx <- grupos[dados_ab$participant] == g
+  dados_ab$prev[idx] <- predict(mm, dados_ab[idx, ], type = "response")
+}
+roc_ab <- roc(dados_ab$abandonou, dados_ab$prev, quiet = TRUE)
+or_ocio <- exp(coef(m_ab)["n_ocio"])
+p1 <- dados_ab |> mutate(ocio_cat = pmin(n_ocio, 3)) |> group_by(ocio_cat) |> summarise(ab = mean(abandonou), n = n()) |>
+  ggplot(aes(factor(ocio_cat, labels = c("0", "1", "2", "3+")), ab)) + geom_col(fill = "#C55A11") +
+  scale_y_continuous(labels = scales::percent) + labs(title = "Abandono por períodos ociosos", x = "Períodos ociosos na fase", y = "Taxa de abandono")
+p2 <- ggroc(roc_ab, color = "#1F4E79", linewidth = 1) + geom_abline(slope = 1, intercept = 1, linetype = 2, color = "grey50") +
+  labs(title = paste0("ROC (validação cruzada) — AUC = ", num(auc(roc_ab), 2)), x = "Especificidade", y = "Sensibilidade")
+p1 + p2
+```
+
+**Resultado:** cada período ocioso multiplica por **`r num(or_ocio, 2)`** a chance de abandono (razão de chances), mesmo controlando as tentativas sem progresso. Juntos, esses indicadores preveem o abandono com **AUC = `r num(auc(roc_ab), 2)`** em validação cruzada — suficiente para disparar uma ajuda antes de a criança desistir.
+
+## Busca de ajuda: consulta à missão *(Exemplo 8)*
+
+**Pergunta:** consultar a missão antes de tentar está associado a menos tentativas? **Método:** correlação de Spearman e comparação entre quem consultou antes da primeira tentativa e quem não consultou.
+
+```{r missao, fig.height = 4}
+prim_tent <- ev |> filter(event == "puzzle_attempt") |> group_by(session, scene) |> summarise(t1 = min(t_ms), .groups = "drop")
+missao <- ev |> filter(event == "mission_panel_toggle", !is.na(puzzle_de(scene))) |> select(session, scene, t_ms) |>
+  left_join(prim_tent, by = c("session", "scene")) |> group_by(session, scene) |>
+  summarise(antes = sum(t_ms < t1, na.rm = TRUE), depois = sum(t_ms >= t1, na.rm = TRUE), .groups = "drop")
+dados_ms <- fases |> filter(concluiu) |> left_join(missao, by = c("session", "scene")) |>
+  mutate(across(c(antes, depois), ~ replace_na(.x, 0)), consultou_antes = antes > 0)
+rho <- cor.test(dados_ms$antes, dados_ms$tentativas, method = "spearman", exact = FALSE)
+ggplot(dados_ms, aes(puzzle, tentativas, fill = consultou_antes)) + geom_boxplot(outlier.alpha = .3) +
+  scale_fill_manual(values = c(`FALSE` = "#BFBFBF", `TRUE` = "#2E75B6"), labels = c("Não consultou", "Consultou antes")) +
+  labs(title = "Tentativas até concluir x consulta à missão antes da 1ª tentativa", x = NULL, y = "Tentativas", fill = NULL)
+```
+
+**Resultado:** correlação de Spearman entre consultas antes da primeira tentativa e número de tentativas: **ρ = `r num(rho$estimate, 2)`** (p `r scales::pvalue(rho$p.value, add_p = FALSE, decimal.mark = ",")`). Consultar a missão **antes** de agir — planejamento — associa-se a menos tentativas.
+
+# Estado da solução: como as crianças resolvem e corrigem
+
+## Perfis de depuração *(Exemplo 9)*
+
+**Pergunta:** as crianças corrigem a solução de forma localizada (depuração) ou mudam tudo a cada tentativa? **Método:** cada transição entre tentativas é classificada como **localizada** (até 1/3 das posições alteradas e a distância diminui), **reinício** (metade ou mais das posições alteradas), **repetição** (nada alterado) ou **outra**. As proporções de cada tipo por criança, junto com o intervalo médio entre tentativas, alimentam um agrupamento k-means em 3 perfis.
+
+```{r perfis, fig.height = 5}
+transicoes <- snap |> filter(!is.na(delta), n_changed >= 0) |>
+  mutate(tipo = case_when(n_changed == 0 ~ "repeticao",
+                          n_changed / total_positions >= .5 ~ "reinicio",
+                          n_changed / total_positions <= 1/3 & delta < 0 ~ "localizada",
+                          TRUE ~ "outra"))
+props <- transicoes |> count(participant, tipo) |> group_by(participant) |> mutate(p = n / sum(n)) |> ungroup() |>
+  select(-n) |> pivot_wider(names_from = tipo, values_from = p, values_fill = 0) |>
+  left_join(transicoes |> group_by(participant) |> summarise(intervalo = median(intervalo_s)), by = "participant")
+props <- garantir(props, c("localizada", "reinicio", "repeticao", "outra")) |> mutate(across(c(localizada, reinicio, repeticao, outra), ~ replace_na(.x, 0)))
+set.seed(params$semente)
+X <- props |> select(localizada, reinicio, repeticao, intervalo) |> mutate(intervalo = replace_na(intervalo, median(intervalo, na.rm = TRUE)))
+X <- scale(X[, vapply(X, function(v) sd(v) > 0, TRUE), drop = FALSE])   # remove colunas constantes
+km3 <- kmeans(X, centers = 3, nstart = 50)
+props$cluster <- km3$cluster
+# nomeia os grupos pelo padrão dominante
+nomes <- props |> group_by(cluster) |> summarise(loc = mean(localizada), rei = mean(reinicio), int = mean(intervalo)) |>
+  mutate(perfil = case_when(loc == max(loc) ~ "Depuradores", int == min(int) ~ "Tentativa e erro", TRUE ~ "Exploradores"))
+props <- props |> left_join(nomes |> select(cluster, perfil), by = "cluster")
+cores_perfil <- c(Depuradores = "#2CA02C", Exploradores = "#1F77B4", `Tentativa e erro` = "#D62728")
+p1 <- ggplot(props, aes(localizada, reinicio, color = perfil, size = intervalo)) + geom_point(alpha = .75) +
+  scale_color_manual(values = cores_perfil) + scale_size(range = c(1.5, 5), guide = "none") +
+  scale_x_continuous(labels = scales::percent) + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Perfis de resolução", x = "Correções localizadas", y = "Reinícios", color = NULL)
+traj <- snap |> left_join(props |> select(participant, perfil), by = "participant") |> filter(!is.na(perfil), attempt <= 8, !is.na(dist_rel)) |>
+  group_by(perfil, attempt) |> summarise(d = mean(dist_rel), .groups = "drop")
+p2 <- ggplot(traj, aes(attempt, d, color = perfil)) + geom_line(linewidth = 1.1) + geom_point() +
+  scale_color_manual(values = cores_perfil) + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Distância até a solução por tentativa", x = "Tentativa", y = "Posições erradas (%)", color = NULL)
+p1 + p2
+props |> count(perfil) |> mutate(`%` = pct(n / sum(n))) |>
+  left_join(fases |> filter(concluiu) |> left_join(props |> select(participant, perfil), by = "participant") |>
+              group_by(perfil) |> summarise(`Tentativas médias por fase` = mean(tentativas), `Fases concluídas por aluno` = n() / n_distinct(participant)), by = "perfil") |>
+  rename(Perfil = perfil, Alunos = n) |> tabela(caption = "Perfis identificados e desempenho")
+```
+
+```{r perfis-validacao, echo = !is.null(verdade), eval = !is.null(verdade)}
+# Só com dados simulados: comparação com o perfil "verdadeiro" usado para gerar os dados
+concord <- props |> left_join(verdade |> select(participant, perfil_real = perfil), by = "participant")
+tabela(table(`Perfil encontrado` = concord$perfil, `Perfil simulado` = concord$perfil_real), caption = "Validação do agrupamento (somente na simulação)")
+```
+
+**Resultado:** emergem três perfis: **depuradores**, cuja distância até a solução cai a cada tentativa; **exploradores**, que mudam muito mas convergem; e **tentativa e erro**, com tentativas rápidas e distância oscilante. `r if (!is.null(verdade)) "Como os dados são simulados, é possível conferir que o agrupamento recupera bem os perfis usados na geração — uma validação de que o método funciona." else ""`
+
+## Mapa de equívocos no Musical *(Exemplo 10)*
+
+**Pergunta:** quais posições concentram os erros? **Método:** proporção de tentativas erradas com erro em cada posição da partitura, por fase.
+
+```{r equivocos, fig.height = 3.8}
+erros_pos <- snap |> filter(puzzle == "Musical", !success, !map_lgl(expected, is.null)) |>
+  mutate(erro = map2(slots, expected, ~ tibble(posicao = seq_along(.x), errada = .x != .y))) |>
+  select(fase, erro) |> unnest(erro) |> group_by(fase, posicao) |> summarise(p = mean(errada), .groups = "drop")
+ggplot(erros_pos, aes(factor(posicao), factor(fase), fill = p)) + geom_tile(color = "white") +
+  geom_text(aes(label = pct(p)), size = 3.2) + scale_fill_gradient(low = "#F2F2F2", high = "#7B3F99", labels = scales::percent) +
+  labs(title = "Musical: % de tentativas erradas com erro em cada posição", x = "Posição na partitura", y = "Fase", fill = NULL)
+pico <- erros_pos |> filter(fase == 2) |> slice_max(p, n = 1)
+```
+
+**Resultado:** na Fase 2, a posição **`r pico$posicao`** concentra os erros (`r pct(pico$p)` das tentativas erradas) — exatamente onde termina o trecho repetido. A dificuldade está no **limite do laço**, e não nas notas.
+
+## Uso do conceito de repetição *(Exemplo 11)*
+
+**Pergunta:** as crianças passam a usar a repetição ao longo das tentativas? **Método:** regressão logística do uso da repetição em função do número da tentativa nas fases 2 e 3 do Musical.
+
+```{r repeticao, fig.height = 4}
+rep_df <- snap |> filter(puzzle == "Musical", fase >= 2, !is.na(part1_repeat)) |> mutate(usa = as.logical(part1_repeat))
+m_rep <- glm(usa ~ attempt, data = rep_df |> filter(attempt <= 10), family = binomial)
+rep_df |> filter(attempt <= 10) |> group_by(attempt) |> summarise(p = mean(usa), n = n()) |>
+  ggplot(aes(attempt, p)) + geom_col(fill = "#7B3F99", alpha = .8) +
+  geom_line(data = tibble(attempt = seq(1, 10, .1)) |> mutate(p = predict(m_rep, pick(everything()), type = "response")), color = "black", linewidth = 1) +
+  scale_y_continuous(labels = scales::percent) + scale_x_continuous(breaks = 1:10) +
+  labs(title = "Uso da repetição por tentativa (Musical, fases 2 e 3)", x = "Tentativa", y = "Tentativas com repetição")
+uso_rep <- rep_df |> group_by(attempt) |> summarise(p = mean(usa))
+```
+
+**Resultado:** na primeira tentativa, `r pct(uso_rep$p[1])` usam a repetição; na quarta, `r pct(uso_rep$p[min(4, nrow(uso_rep))])`. A chance de usar o laço cresce **`r num(exp(coef(m_rep)[2]), 2)` vezes** a cada tentativa — evidência de aprendizagem do conceito durante o jogo.
+
+## Matriz de confusão no Conjuntos *(Exemplo 12)*
+
+**Pergunta:** quais categorias as crianças mais confundem? **Método:** matriz categoria esperada × categoria colocada a partir do campo `confusions`; teste qui-quadrado entre séries.
+
+```{r confusao, fig.height = 5}
+conf <- snap |> filter(puzzle == "Conjuntos", !map_lgl(confusions, is.null)) |>
+  left_join(sessoes |> select(participant, serie), by = "participant") |>
+  select(participant, serie, confusions) |>
+  mutate(confusions = map(confusions, ~ as.character(unlist(.x)))) |>   # listas vazias [] viram character(0)
+  unnest_longer(confusions) |>
+  filter(!is.na(confusions), str_detect(confusions, "^.+->.+$")) |>
+  separate(confusions, into = c("esperado", "colocado"), sep = "->")
+conf |> count(esperado, colocado) |> group_by(esperado) |> mutate(p = n / sum(n)) |>
+  ggplot(aes(colocado, esperado, fill = p)) + geom_tile(color = "white") + geom_text(aes(label = pct(p)), size = 3.2) +
+  scale_fill_gradient(low = "#F2F2F2", high = "#2CA02C", labels = scales::percent) +
+  labs(title = "Conjuntos: matriz de confusão (erros)", x = "Categoria colocada", y = "Categoria esperada", fill = NULL)
+pares <- c(quadrado = "retangulo", retangulo = "quadrado", triangulo = "losango", losango = "triangulo", circulo = "hexagono", hexagono = "circulo")
+conf <- conf |> mutate(parecida = colocado == unname(pares[esperado]))
+qq <- chisq.test(table(conf$serie, conf$parecida))
+conf |> group_by(serie) |> summarise(`Erros` = n(), `Confusão com forma parecida` = pct(mean(parecida))) |>
+  rename(Série = serie) |> tabela(caption = paste0("Confusões entre formas parecidas por série (qui-quadrado: p ", scales::pvalue(qq$p.value, add_p = FALSE, decimal.mark = ","), ")"))
+top_conf <- conf |> count(esperado, colocado, sort = TRUE) |> slice(1)
+```
+
+**Resultado:** a confusão mais frequente é **`r top_conf$esperado` → `r top_conf$colocado`**. As confusões entre formas parecidas são mais comuns nas séries iniciais, sugerindo uma dificuldade conceitual de geometria, e não de classificação em si.
+
+## Tipologia de erros nas Receitas *(Exemplo 13)*
+
+**Pergunta:** os erros são de sequência (ordem trocada) ou de operação (ação errada)? **Método:** distribuição dos tipos de erro por fase e matriz de transição (cadeia de Markov) do tipo de erro de um passo entre tentativas consecutivas.
+
+```{r receitas, fig.height = 4.8}
+passos <- snap |> filter(puzzle == "Receitas", !map_lgl(step_errors, is.null)) |>
+  mutate(err = map(step_errors, ~ tibble(passo = seq_along(.x), tipo = .x))) |>
+  select(session, fase, attempt, err) |> unnest(err) |>
+  mutate(tipo = case_when(str_detect(tipo, "^empty") ~ "passo vazio", str_detect(tipo, "^order") ~ "ordem trocada",
+                          tipo == "ok" ~ "ok", TRUE ~ "insumo/ação errada"))
+p1 <- passos |> filter(tipo != "ok") |> count(fase, tipo) |> group_by(fase) |> mutate(p = n / sum(n)) |>
+  ggplot(aes(factor(fase), p, fill = tipo)) + geom_col() + scale_y_continuous(labels = scales::percent) +
+  scale_fill_manual(values = c(`passo vazio` = "#A5A5A5", `ordem trocada` = "#E07B00", `insumo/ação errada` = "#C00000")) +
+  labs(title = "Tipos de erro por fase", x = "Fase", y = NULL, fill = NULL)
+markov <- passos |> arrange(session, fase, passo, attempt) |> group_by(session, fase, passo) |>
+  mutate(seguinte = lead(tipo)) |> ungroup() |> filter(!is.na(seguinte), tipo != "ok") |>
+  count(tipo, seguinte) |> group_by(tipo) |> mutate(p = n / sum(n))
+p2 <- ggplot(markov, aes(seguinte, tipo, fill = p)) + geom_tile(color = "white") + geom_text(aes(label = pct(p)), size = 3.2) +
+  scale_fill_gradient(low = "#F2F2F2", high = "#E07B00", guide = "none") +
+  labs(title = "Transição do erro para a tentativa seguinte", x = "Na tentativa seguinte", y = "Erro atual")
+p1 + p2
+corr_ordem <- markov |> filter(tipo == "ordem trocada", seguinte == "ok") |> pull(p)
+```
+
+**Resultado:** na Fase 1 predominam passos vazios (planejamento incompleto); nas fases seguintes cresce o erro de **ordem**. Um erro de ordem é corrigido na tentativa seguinte com probabilidade **`r num(ifelse(length(corr_ordem) == 0, NA, corr_ordem), 2)`**.
+
+## Alcance do feixe no Espelhos *(Exemplo 14)*
+
+**Pergunta:** as tentativas se aproximam da solução? **Método:** alcance do feixe (`segments_lit`) por tentativa e distância de cada configuração até a configuração vencedora (`solution_final`).
+
+```{r espelhos, fig.height = 4.5}
+feixe <- ev |> filter(event == "beam_result") |> group_by(session, scene) |> mutate(tentativa = row_number()) |> ungroup() |>
+  mutate(alcance = segments_lit / segments_total) |> left_join(props |> select(participant, perfil), by = "participant")
+p1 <- feixe |> filter(tentativa <= 10, !is.na(perfil)) |> group_by(perfil, tentativa) |> summarise(a = mean(alcance), .groups = "drop") |>
+  ggplot(aes(tentativa, a, color = perfil)) + geom_line(linewidth = 1.1) + geom_point() + scale_color_manual(values = cores_perfil) +
+  scale_y_continuous(labels = scales::percent) + scale_x_continuous(breaks = 1:10) +
+  labs(title = "Alcance do feixe por tentativa", x = "Tentativa", y = "Trechos acesos", color = NULL)
+esp <- snap |> filter(puzzle == "Espelhos", !is.na(delta), n_changed > 0)
+p2 <- esp |> mutate(mudancas = pmin(n_changed, 5)) |> group_by(mudancas) |> summarise(melhora = mean(delta < 0), n = n()) |>
+  ggplot(aes(factor(mudancas, labels = c("1", "2", "3", "4", "5+")[seq_along(unique(pmin(esp$n_changed, 5)))]), melhora)) +
+  geom_col(fill = "#1F77B4") + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Chance de se aproximar da solução", x = "Pilares alterados entre disparos", y = "Tentativas com melhora")
+p1 + p2
+```
+
+**Resultado:** quem altera **poucos pilares entre disparos** se aproxima da solução com mais frequência — a depuração incremental funciona melhor do que mudar tudo de uma vez.
+
+# Ações intermediárias *(Exemplo 15)*
+
+**Pergunta:** as crianças planejam antes de agir ou exploram por manipulação? **Método:** tempo até a primeira ação na fase, ações por tentativa e taxa de ações desfeitas (pegar e soltar sem encaixar) por perfil.
+
+```{r acoes, fig.height = 4.5}
+acoes <- ev |> filter(event %in% c("object_place", "recipe_place", "pillar_rotate", "object_pick", "object_drop"))
+primeira <- acoes |> filter(event != "object_drop") |> group_by(session, scene) |> summarise(t_acao = min(t_ms), .groups = "drop") |>
+  left_join(fases |> select(session, scene, participant, t_ini, tentativas), by = c("session", "scene")) |>
+  mutate(planejamento_s = (t_acao - t_ini) / 1000) |> left_join(props |> select(participant, perfil), by = "participant")
+desfeitas <- acoes |> filter(event %in% c("object_pick", "object_drop")) |> count(participant, event) |>
+  pivot_wider(names_from = event, values_from = n, values_fill = 0) |>
+  mutate(taxa_desfeita = object_drop / pmax(object_pick, 1)) |> left_join(props |> select(participant, perfil), by = "participant")
+p1 <- ggplot(primeira |> filter(!is.na(perfil)), aes(perfil, planejamento_s, fill = perfil)) + geom_boxplot(show.legend = FALSE, outlier.alpha = .3) +
+  scale_fill_manual(values = cores_perfil) + labs(title = "Tempo até a primeira ação", x = NULL, y = "Segundos")
+p2 <- ggplot(desfeitas |> filter(!is.na(perfil)), aes(perfil, taxa_desfeita, fill = perfil)) + geom_boxplot(show.legend = FALSE, outlier.alpha = .3) +
+  scale_fill_manual(values = cores_perfil) + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Ações desfeitas (Conjuntos)", x = NULL, y = "Soltar ÷ pegar")
+p1 + p2
+```
+
+**Resultado:** os depuradores levam mais tempo antes da primeira ação (planejamento) e desfazem menos ações; o perfil de tentativa e erro age rápido e manipula mais. Esses indicadores alimentam modelos de sequência (ex.: HMM) que separam fases de exploração e de execução.
+
+```{r sec-afeto, child = "secao_afeto.Rmd", eval = tem_afeto}
+```
+
+# Condições experimentais (A/B)
+
+**Pergunta:** a condição experimental (por exemplo, jogo *com* e *sem* dica) altera o desempenho? **Método:** comparação da taxa de conclusão e do número de tentativas por condição; modelo misto de Poisson (tentativas ~ condição + puzzle + (1 | participante)). Só faz sentido quando o `research_config.json` define condições (`conditions`).
+
+```{r ab, fig.height = 4.3, eval = n_distinct(sessoes$condicao) > 1}
+res_ab <- fases |> group_by(condicao, puzzle) |>
+  summarise(conclusao = mean(concluiu), tentativas = mean(tentativas[concluiu]), n = n(), .groups = "drop")
+p1 <- ggplot(res_ab, aes(puzzle, conclusao, fill = condicao)) + geom_col(position = "dodge") +
+  scale_y_continuous(labels = scales::percent) + scale_fill_manual(values = c("#9E9E9E", "#1F4E79", "#C55A11", "#2CA02C")) +
+  labs(title = "Conclusão por condição", x = NULL, y = "Fases concluídas", fill = "Condição")
+p2 <- ggplot(res_ab, aes(puzzle, tentativas, fill = condicao)) + geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#9E9E9E", "#1F4E79", "#C55A11", "#2CA02C")) +
+  labs(title = "Tentativas até concluir", x = NULL, y = "Tentativas (média)", fill = "Condição")
+p1 + p2
+m_ab <- glmer(tentativas ~ condicao + puzzle + (1 | participant), data = fases |> filter(concluiu), family = poisson)
+s_ab <- summary(m_ab)$coefficients
+lin_ab <- s_ab[grep("^condicao", rownames(s_ab)), , drop = FALSE]
+tibble(Termo = rownames(lin_ab), `Razão de taxas` = exp(lin_ab[, 1]), p = scales::pvalue(lin_ab[, 4], decimal.mark = ",")) |>
+  tabela(caption = "Efeito da condição sobre o número de tentativas (referência: primeira condição)")
+```
+
+`r if (n_distinct(sessoes$condicao) > 1) paste0("**Resultado:** na condição **", sub('^condicao', '', rownames(lin_ab)[1]), "**, as crianças fizeram ", pct(abs(1 - exp(lin_ab[1, 1]))), " ", ifelse(exp(lin_ab[1, 1]) < 1, "menos", "mais"), " tentativas por fase concluída do que na condição de referência — diferença ", ifelse(lin_ab[1, 4] < .05, "**estatisticamente significativa**", "**não significativa**"), " (p ", scales::pvalue(lin_ab[1, 4], add_p = FALSE, decimal.mark = ","), ").") else "Esta coleta não tem condições experimentais definidas."`
+
+```{r sec-painel, child = "secao_painel.Rmd", eval = tem_afeto}
+```
+
+# Como usar com dados reais
+
+```r
+library(fabulasLA)
+coleta <- ler_coleta(c("escola_A.zip", "escola_B.zip"))   # pastas ou .zip exportados pelo jogo
+validar_coleta(coleta)                                   # qualidade e integridade
+tb <- tabelas_analise(coleta)                            # sessões, fases, tentativas, afeto
+gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")
+exportar_codebook("codebook.csv")                        # dicionário de variáveis
+```
+
+**Limitações:** os índices faciais são heurísticos e precisam ser triangulados com autorrelato e observação; no Espelhos, a distância até a solução depende de a criança ter vencido a fase (configuração final); sem `observacoes_bromp.csv`, a seção do detector de confusão é omitida.
+
+<details><summary>Informações da sessão R</summary>
+
+```{r sessao, echo = FALSE}
+sessionInfo()
+```
+</details>

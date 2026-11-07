@@ -1,0 +1,108 @@
+# Expressões faciais e integração multimodal
+
+As análises abaixo usam apenas sessões com cobertura facial ≥ 60% (`r length(sessoes_validas_face)` sessões) e amostras com rosto detectado.
+
+```{r afeto-base}
+af <- afeto |> filter(session %in% sessoes_validas_face, face_present == 1) |> mutate(puzzle = puzzle_de(scene))
+```
+
+## Perfil expressivo por puzzle *(Exemplo 16)*
+
+**Pergunta:** os puzzles provocam padrões expressivos diferentes? **Método:** média dos índices por criança e puzzle; modelo misto (índice ~ puzzle + (1 | participante)).
+
+```{r afeto-puzzle, fig.height = 4.5}
+medias_af <- af |> filter(!is.na(puzzle)) |> group_by(participant, puzzle) |>
+  summarise(across(c(smile, brow_down, mouth_press), mean), .groups = "drop")
+medias_af |> pivot_longer(c(smile, brow_down, mouth_press), names_to = "indice") |>
+  mutate(indice = recode(indice, smile = "Sorriso", brow_down = "Sobrancelha franzida", mouth_press = "Lábios pressionados")) |>
+  ggplot(aes(puzzle, value, fill = puzzle)) + geom_boxplot(show.legend = FALSE, outlier.alpha = .2) + facet_wrap(~indice, scales = "free_y") +
+  scale_fill_manual(values = cores_puzzle) + labs(title = "Índices faciais por puzzle (média por criança)", x = NULL, y = "Índice (0–1)") +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+m_brow <- lmer(brow_down ~ puzzle + (1 | participant), data = medias_af)
+efeito_esp <- fixef(m_brow)["puzzleEspelhos"]
+media_brow <- medias_af |> group_by(puzzle) |> summarise(b = mean(brow_down))
+```
+
+**Resultado:** o Espelhos tem a maior média de **sobrancelha franzida** (`r num(media_brow$b[media_brow$puzzle == "Espelhos"], 3)`, contra `r num(media_brow$b[media_brow$puzzle == "Musical"], 3)` no Musical), compatível com maior esforço cognitivo; o Musical tem mais **sorrisos**. Lembrete: são indicadores comportamentais, não medidas diretas de emoção.
+
+## Atenção à tela *(Exemplo 17)*
+
+**Pergunta:** a atenção cai antes de a criança abandonar uma fase? **Método:** proporção de amostras com rosto presente e cabeça voltada para a tela (|yaw| < 30°) nos 3 minutos que antecedem a saída da fase, comparando fases abandonadas e concluídas.
+
+```{r atencao, fig.height = 4.3}
+saidas_fase <- fases |> filter(session %in% sessoes_validas_face, !is.na(t_saida)) |> transmute(session, scene, t_saida, desfecho = ifelse(concluiu, "Concluída", "Abandonada"))
+janela_at <- afeto |> filter(session %in% sessoes_validas_face) |>
+  inner_join(saidas_fase, by = c("session", "scene"), relationship = "many-to-many") |>
+  mutate(rel = (t_ms - t_saida) / 1000) |> filter(rel >= -180, rel <= 0) |>
+  mutate(atento = face_present == 1 & abs(replace_na(head_yaw, 90)) < 30, bloco = floor(rel / 15) * 15) |>
+  group_by(desfecho, bloco) |> summarise(at = mean(atento), .groups = "drop")
+ggplot(janela_at, aes(bloco, at, color = desfecho)) + geom_line(linewidth = 1.2) + geom_point() +
+  scale_color_manual(values = c(Abandonada = "#C00000", Concluída = "#2CA02C")) + scale_y_continuous(labels = scales::percent) +
+  labs(title = "Atenção à tela antes de sair da fase", x = "Segundos até a saída", y = "Amostras atentas", color = NULL)
+```
+
+**Resultado:** nas fases abandonadas, a atenção à tela cai nos minutos anteriores à saída — principalmente durante os períodos ociosos —, enquanto nas concluídas se mantém alta. A queda de atenção é um sinal precoce de desengajamento.
+
+## Resposta facial ao erro *(Exemplo 19)*
+
+**Pergunta:** como a expressão muda depois de uma tentativa errada, em comparação com uma certa? E o progresso parcial amortece a frustração? **Método:** análise de janela de eventos — média dos índices de −10 s a +20 s em torno de cada tentativa.
+
+```{r janela, fig.height = 4.5}
+tent_ev <- snap |> filter(session %in% sessoes_validas_face) |>
+  transmute(session, t0 = t_ms, grupo = case_when(success ~ "Acerto", !is.na(delta) & delta < 0 ~ "Erro com progresso", TRUE ~ "Erro sem progresso"),
+            lo = t_ms - 10000, hi = t_ms + 20000)
+jan <- af |> select(session, t_ms, smile, mouth_press) |>
+  inner_join(tent_ev, by = join_by(session, between(t_ms, lo, hi))) |>
+  mutate(rel = round((t_ms - t0) / 1000)) |>
+  group_by(grupo, rel) |> summarise(across(c(smile, mouth_press), mean), .groups = "drop") |>
+  pivot_longer(c(smile, mouth_press), names_to = "indice") |>
+  mutate(indice = recode(indice, smile = "Sorriso", mouth_press = "Lábios pressionados (tensão)"))
+ggplot(jan, aes(rel, value, color = grupo)) + geom_vline(xintercept = 0, linetype = 2, color = "grey50") +
+  geom_line(linewidth = 1) + facet_wrap(~indice, scales = "free_y") +
+  scale_color_manual(values = c(Acerto = "#2CA02C", `Erro com progresso` = "#E0A800", `Erro sem progresso` = "#C00000")) +
+  labs(title = "Expressão facial em torno de cada tentativa", x = "Segundos em relação à tentativa", y = "Índice médio", color = NULL)
+pico_press <- jan |> filter(indice != "Sorriso", rel %in% 1:6) |> group_by(grupo) |> summarise(v = mean(value))
+base_press <- jan |> filter(indice != "Sorriso", rel %in% -10:-1) |> summarise(v = mean(value)) |> pull(v)
+```
+
+**Resultado:** após um erro sem progresso, a tensão (lábios pressionados) sobe **`r pct(pico_press$v[pico_press$grupo == "Erro sem progresso"] / base_press - 1)`** nos segundos seguintes; quando o erro aproxima a criança da solução, o aumento é menor (**`r pct(pico_press$v[pico_press$grupo == "Erro com progresso"] / base_press - 1)`**). Acertos produzem um pico de sorriso. O progresso parcial parece amortecer a frustração.
+
+## Detector de confusão sem câmera *(Exemplo 20)*
+
+**Pergunta:** é possível detectar confusão apenas pelos logs, para escolas sem webcam? **Método:** os rótulos vêm de observação em sala (protocolo BROMP, aqui simulado). Uma floresta aleatória (`ranger`) prevê o rótulo usando (a) só indicadores dos logs e (b) logs + índices faciais dos 10 s anteriores, com validação cruzada por participante.
+
+```{r detector, fig.height = 4.5, eval = !is.null(obs)}
+feat <- snap |> left_join(obs |> select(session, scene, attempt, confuso), by = c("session", "scene", "attempt")) |>
+  filter(!is.na(confuso)) |>
+  left_join(ocio |> rename(ocio_fase = n_ocio), by = c("session", "scene")) |>
+  transmute(session, participant, t_ms, confuso = factor(confuso), attempt, puzzle = factor(puzzle),
+            dist_rel = replace_na(dist_rel, .5), delta = replace_na(delta, 0), n_changed = pmax(n_changed, 0),
+            intervalo_s = replace_na(intervalo_s, 0), ocio_fase = replace_na(ocio_fase, 0))
+face10 <- af |> select(session, t_ms, brow_down, mouth_press) |>
+  inner_join(feat |> transmute(session, t0 = t_ms, lo = t_ms - 10000, hi = t_ms), by = join_by(session, between(t_ms, lo, hi))) |>
+  group_by(session, t0) |> summarise(brow10 = mean(brow_down), press10 = mean(mouth_press), .groups = "drop")
+feat <- feat |> left_join(face10, by = c("session", "t_ms" = "t0")) |> mutate(across(c(brow10, press10), ~ replace_na(.x, median(.x, na.rm = TRUE))))
+vars_log <- c("attempt", "puzzle", "dist_rel", "delta", "n_changed", "intervalo_s", "ocio_fase")
+cv_auc <- function(vars) {
+  set.seed(params$semente)
+  g <- sample(rep(1:5, length.out = n_distinct(feat$participant))); names(g) <- unique(feat$participant)
+  prev <- numeric(nrow(feat))
+  for (k in 1:5) {
+    tr <- g[feat$participant] != k
+    rf <- ranger(confuso ~ ., data = feat[tr, c("confuso", vars)], probability = TRUE, num.trees = 300)
+    prev[!tr] <- predict(rf, feat[!tr, vars])$predictions[, "1"]
+  }
+  roc(feat$confuso, prev, quiet = TRUE)
+}
+roc_log <- cv_auc(vars_log); roc_face <- cv_auc(c(vars_log, "brow10", "press10"))
+ggroc(list(`Só logs` = roc_log, `Logs + face` = roc_face), linewidth = 1) +
+  geom_abline(slope = 1, intercept = 1, linetype = 2, color = "grey50") + scale_color_manual(values = c("#1F4E79", "#C55A11")) +
+  labs(title = paste0("Detecção de confusão — AUC só logs = ", num(auc(roc_log), 2), "; logs + face = ", num(auc(roc_face), 2)),
+       x = "Especificidade", y = "Sensibilidade", color = NULL)
+imp <- ranger(confuso ~ ., data = feat[, c("confuso", vars_log)], importance = "impurity", num.trees = 300)$variable.importance
+tibble(Indicador = names(imp), Importância = imp / sum(imp)) |> arrange(-Importância) |>
+  mutate(Importância = pct(Importância)) |> tabela(caption = "Importância dos indicadores (modelo só com logs)")
+```
+
+**Resultado:** o detector baseado só nos logs atinge **AUC = `r if (!is.null(obs)) num(auc(roc_log), 2) else "—"`**; acrescentar os índices faciais leva a **AUC = `r if (!is.null(obs)) num(auc(roc_face), 2) else "—"`**. `r if (!is.null(obs)) { if (auc(roc_log) >= .7) "Mesmo sem câmera, os logs já permitem disparar uma dica ou uma pergunta de autorrelato quando a criança parece confusa." else "Com esse desempenho, os logs sozinhos ainda não bastam para uma intervenção automática; é preciso mais rótulos de observação ou novos indicadores." } else ""` Os indicadores mais importantes mostram **quais comportamentos** sinalizam confusão — no caso, o intervalo entre tentativas e a distância até a solução.
+

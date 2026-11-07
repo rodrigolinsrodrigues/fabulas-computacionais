@@ -17,28 +17,52 @@ using MPFaceLandmarker = Mediapipe.Tasks.Vision.FaceLandmarker.FaceLandmarker;
 /// Captura de expressões faciais pela webcam com o MediaPipe FaceLandmarker
 /// (MediaPipe Unity Plugin, homuler, v0.15.0).
 ///
-/// - Processa tudo LOCALMENTE e NUNCA grava imagem ou vídeo: só números
-///   (52 blendshapes, índices derivados e orientação da cabeça).
-/// - Começa quando a sessão de telemetria começa (após o cadastro), se
-///   research_config.json tiver "affectCaptureEnabled": true.
-/// - Grava affect_{sessionId}.csv (uma linha por amostra) e envia um resumo
-///   "affect_summary" para o log de eventos a cada N segundos.
-/// - F9 pausa/retoma a captura (o evento é registrado).
+/// Modos:
+///  - Coleta: começa com a sessão (se research_config tiver "affectCaptureEnabled": true e houver
+///    consentimento); grava affect_{sessionId}.csv e o resumo "affect_summary" no log de eventos.
+///  - Teste (preview): ligado pelo Painel do Pesquisador; mostra a câmera e a detecção do rosto
+///    SEM gravar nada, para conferir posição e iluminação antes de a criança jogar.
 ///
-/// O código do MediaPipe só é compilado quando o símbolo FABULAS_MEDIAPIPE
-/// está definido; o script de editor MediaPipeSetup faz isso sozinho quando o
-/// plugin está instalado. Sem o plugin, o jogo funciona normalmente sem câmera.
+/// Processa tudo LOCALMENTE e NUNCA grava imagem ou vídeo — só números.
+/// F9 pausa/retoma a coleta (o evento é registrado).
+/// O código do MediaPipe só é compilado com o símbolo FABULAS_MEDIAPIPE (ativado pelo
+/// MediaPipeSetup quando o plugin está instalado).
 /// </summary>
 public class AffectManager : MonoBehaviour
 {
+    public enum Mode { Off, Preview, Capture }
+
     public static AffectManager Instance { get; private set; }
 
-    public bool IsCapturing { get; private set; }
+    public Mode CurrentMode { get; private set; } = Mode.Off;
+    public bool IsCapturing => CurrentMode == Mode.Capture;
+    public bool IsPreviewing => CurrentMode == Mode.Preview;
     public bool IsPaused { get; private set; }
     public bool Consent { get; private set; } = true;
 
     /// <summary>Última amostra processada (null antes da primeira).</summary>
     public FaceAffectSample Latest { get; private set; }
+
+    /// <summary>Textura da webcam (para a prévia do Painel do Pesquisador); null se a câmera estiver desligada.</summary>
+    public Texture CameraTexture { get; private set; }
+
+    /// <summary>Tempo de processamento do último quadro (ms).</summary>
+    public float LastProcessMs { get; private set; }
+
+    /// <summary>Último erro da câmera/MediaPipe (vazio se tudo bem).</summary>
+    public string LastError { get; private set; } = "";
+
+    /// <summary>Proporção de amostras com rosto nas últimas ~20 amostras.</summary>
+    public float RecentFaceRate
+    {
+        get
+        {
+            if (_recent.Count == 0) return 0f;
+            int n = 0;
+            foreach (bool b in _recent) if (b) n++;
+            return (float)n / _recent.Count;
+        }
+    }
 
     /// <summary>Disparado no thread principal a cada amostra (útil para gatilhos de autorrelato).</summary>
     public event Action<FaceAffectSample> SampleCaptured;
@@ -54,6 +78,7 @@ public class AffectManager : MonoBehaviour
 
     private StreamWriter _csv;
     private Coroutine _loop;
+    private readonly Queue<bool> _recent = new Queue<bool>();
 
     // Resumo periódico
     private int _sumSamples, _sumFace;
@@ -75,7 +100,7 @@ public class AffectManager : MonoBehaviour
     // ------------------------------------------------------------------ API pública
 
     /// <summary>
-    /// Pode ser ligado a um Toggle de consentimento no cadastro. Se false, a captura
+    /// Pode ser ligado a um Toggle de consentimento no cadastro. Se false, a coleta
     /// não começa (ou é interrompida imediatamente).
     /// </summary>
     public void SetConsent(bool value)
@@ -83,7 +108,7 @@ public class AffectManager : MonoBehaviour
         Consent = value;
         TelemetryManager.Log("affect_consent", ("value", value));
         if (!value) StopCapture("consent_revoked");
-        else if (TelemetryManager.Instance != null && TelemetryManager.Instance.SessionActive) OnSessionStarted();
+        else if (TelemetryManager.Instance != null && TelemetryManager.Instance.SessionActive) OnSessionStarted(true);
     }
 
     public void SetPaused(bool paused)
@@ -93,9 +118,32 @@ public class AffectManager : MonoBehaviour
         TelemetryManager.Log(paused ? "affect_capture_paused" : "affect_capture_resumed");
     }
 
-    // Chamados pelo TelemetryManager
-    internal void OnSessionStarted()
+    /// <summary>Liga a câmera e a detecção sem gravar nada (Painel do Pesquisador).</summary>
+    public bool StartPreview()
     {
+        if (CurrentMode != Mode.Off) return true;
+        if (!PluginAvailable)
+        {
+            LastError = "MediaPipe Unity Plugin não instalado (captura facial indisponível).";
+            return false;
+        }
+        LastError = "";
+        CurrentMode = Mode.Preview;
+        StartLoop();
+        return true;
+    }
+
+    public void StopPreview()
+    {
+        if (CurrentMode != Mode.Preview) return;
+        CurrentMode = Mode.Off;
+        StopLoop();
+    }
+
+    // Chamados pelo TelemetryManager
+    internal void OnSessionStarted(bool cameraConsent)
+    {
+        Consent = cameraConsent;
         if (IsCapturing) return;
         if (!Cfg.affectCaptureEnabled)
         {
@@ -124,23 +172,21 @@ public class AffectManager : MonoBehaviour
 
     private void StartCapture()
     {
-        IsCapturing = true;
+        bool cameraOn = CurrentMode == Mode.Preview;   // aproveita a câmera ligada no teste
+        CurrentMode = Mode.Capture;
         IsPaused = false;
         ResetSummary();
         OpenCsv();
-#if FABULAS_MEDIAPIPE
-        _loop = StartCoroutine(CaptureLoop());
-#endif
+        if (cameraOn) LogCaptureStart();
+        else StartLoop();
     }
 
     private void StopCapture(string reason)
     {
         if (!IsCapturing) return;
-        IsCapturing = false;
-        if (_loop != null) StopCoroutine(_loop);
-        _loop = null;
+        CurrentMode = Mode.Off;
+        StopLoop();
         FlushSummary();
-        ReleaseMediaPipe();
         if (_csv != null)
         {
             _csv.Flush();
@@ -150,25 +196,42 @@ public class AffectManager : MonoBehaviour
         TelemetryManager.Log("affect_capture_stop", ("reason", reason));
     }
 
+    private void StartLoop()
+    {
+#if FABULAS_MEDIAPIPE
+        if (_loop == null) _loop = StartCoroutine(CaptureLoop());
+#endif
+    }
+
+    private void StopLoop()
+    {
+        if (_loop != null) StopCoroutine(_loop);
+        _loop = null;
+        ReleaseMediaPipe();
+        CameraTexture = null;
+        _recent.Clear();
+    }
+
     private void Fail(string reason, string detail)
     {
+        LastError = detail;
         Debug.LogWarning($"[Affect] Captura indisponível ({reason}): {detail}");
         TelemetryManager.Log("affect_unavailable", ("reason", reason), ("detail", detail));
         if (IsCapturing) StopCapture("error:" + reason);
+        else if (IsPreviewing) StopPreview();
     }
 
     private void Update()
     {
         if (!IsCapturing) return;
-
         if (Input.GetKeyDown(KeyCode.F9)) SetPaused(!IsPaused);
-
         if (Time.unscaledTime >= _nextSummaryTime) FlushSummary();
     }
 
     private void OnApplicationQuit()
     {
         StopCapture("app_quit");
+        StopPreview();
 #if FABULAS_MEDIAPIPE
         Mediapipe.Protobuf.ResetLogHandler();
 #endif
@@ -194,29 +257,34 @@ public class AffectManager : MonoBehaviour
     private void Record(FaceAffectSample s)
     {
         Latest = s;
+        _recent.Enqueue(s.facePresent);
+        while (_recent.Count > 20) _recent.Dequeue();
 
-        _sumSamples++;
-        if (s.facePresent)
+        if (IsCapturing)
         {
-            _sumFace++;
-            for (int i = 0; i < _sumDerived.Length; i++) _sumDerived[i] += s.derived[i];
-        }
+            _sumSamples++;
+            if (s.facePresent)
+            {
+                _sumFace++;
+                for (int i = 0; i < _sumDerived.Length; i++) _sumDerived[i] += s.derived[i];
+            }
 
-        if (_csv != null)
-        {
-            var tm = TelemetryManager.Instance;
-            var sb = new StringBuilder(1024);
-            sb.Append(s.utc.ToString("o")).Append(',')
-              .Append(F(s.sessionMs)).Append(',')
-              .Append(tm.SessionId).Append(',')
-              .Append(tm.ParticipantId).Append(',')
-              .Append(Csv(s.scene)).Append(',')
-              .Append(s.facePresent ? '1' : '0').Append(',')
-              .Append(F(s.headYaw)).Append(',').Append(F(s.headPitch)).Append(',').Append(F(s.headRoll));
-            foreach (var v in s.derived) sb.Append(',').Append(F(v));
-            if (Cfg.saveRawBlendshapes)
-                foreach (var v in s.blendshapes) sb.Append(',').Append(F(v));
-            _csv.WriteLine(sb.ToString());
+            if (_csv != null)
+            {
+                var tm = TelemetryManager.Instance;
+                var sb = new StringBuilder(1024);
+                sb.Append(s.utc.ToString("o")).Append(',')
+                  .Append(F(s.sessionMs)).Append(',')
+                  .Append(tm.SessionId).Append(',')
+                  .Append(tm.ParticipantId).Append(',')
+                  .Append(Csv(s.scene)).Append(',')
+                  .Append(s.facePresent ? '1' : '0').Append(',')
+                  .Append(F(s.headYaw)).Append(',').Append(F(s.headPitch)).Append(',').Append(F(s.headRoll));
+                foreach (var v in s.derived) sb.Append(',').Append(F(v));
+                if (Cfg.saveRawBlendshapes)
+                    foreach (var v in s.blendshapes) sb.Append(',').Append(F(v));
+                _csv.WriteLine(sb.ToString());
+            }
         }
 
         SampleCaptured?.Invoke(s);
@@ -248,6 +316,18 @@ public class AffectManager : MonoBehaviour
         ResetSummary();
     }
 
+    private void LogCaptureStart()
+    {
+        TelemetryManager.Log("affect_capture_start",
+            ("camera", _cameraName),
+            ("resolution", CameraTexture != null ? $"{CameraTexture.width}x{CameraTexture.height}" : ""),
+            ("sample_rate_hz", Cfg.affectSampleRateHz),
+            ("model", Path.GetFileName(Cfg.modelFileName)),
+            ("plugin", "homuler/MediaPipeUnityPlugin 0.15.0"));
+    }
+
+    private string _cameraName = "";
+
     private static string F(double v) =>
         double.IsNaN(v) || double.IsInfinity(v) ? "" : v.ToString("0.####", CultureInfo.InvariantCulture);
 
@@ -265,11 +345,11 @@ public class AffectManager : MonoBehaviour
             {
                 fontSize = Mathf.Max(12, Screen.height / 60),
                 alignment = TextAnchor.MiddleCenter,
+                richText = true,
             };
             _indicatorStyle.normal.textColor = Color.white;
         }
         string text = IsPaused ? "Câmera pausada (F9)" : "<color=#ff5555>●</color> Câmera ativa (pesquisa)";
-        _indicatorStyle.richText = true;
         var size = _indicatorStyle.CalcSize(new GUIContent(text));
         var rect = new Rect(Screen.width - size.x - 16, 8, size.x + 8, size.y + 4);
         GUI.Box(rect, text, _indicatorStyle);
@@ -292,16 +372,22 @@ public class AffectManager : MonoBehaviour
         string modelPath = Path.Combine(Application.streamingAssetsPath, Cfg.modelFileName);
         if (!File.Exists(modelPath))
         {
+            _loop = null;
             Fail("model_not_found", $"Modelo não encontrado em {modelPath}. Use o menu Fabulas > Learning Analytics > Configurar MediaPipe.");
             yield break;
         }
 
-        if (!TryCreateLandmarker(File.ReadAllBytes(modelPath))) yield break;
+        if (!TryCreateLandmarker(File.ReadAllBytes(modelPath)))
+        {
+            _loop = null;
+            yield break;
+        }
 
         // 2) Câmera
         var devices = WebCamTexture.devices;
         if (devices.Length == 0)
         {
+            _loop = null;
             Fail("no_camera", "Nenhuma webcam encontrada.");
             yield break;
         }
@@ -311,6 +397,7 @@ public class AffectManager : MonoBehaviour
             foreach (var d in devices)
                 if (d.name == Cfg.cameraDeviceName) deviceName = d.name;
         }
+        _cameraName = deviceName;
 
         _cam = new WebCamTexture(deviceName, Cfg.cameraWidth, Cfg.cameraHeight, Cfg.cameraFps);
         _cam.Play();
@@ -319,24 +406,21 @@ public class AffectManager : MonoBehaviour
         while (_cam.width <= 16 && Time.realtimeSinceStartup < timeout) yield return null;
         if (_cam.width <= 16)
         {
+            _loop = null;
             Fail("camera_start_failed", $"A webcam '{deviceName}' não iniciou (em uso por outro programa?).");
             yield break;
         }
 
+        CameraTexture = _cam;
         AllocateBuffers(_cam.width, _cam.height);
-        TelemetryManager.Log("affect_capture_start",
-            ("camera", deviceName),
-            ("resolution", $"{_cam.width}x{_cam.height}"),
-            ("sample_rate_hz", Cfg.affectSampleRateHz),
-            ("model", Path.GetFileName(modelPath)),
-            ("plugin", "homuler/MediaPipeUnityPlugin 0.15.0"));
+        if (IsCapturing) LogCaptureStart();
 
         // 3) Amostragem
         var wait = new WaitForSecondsRealtime(1f / Mathf.Clamp(Cfg.affectSampleRateHz, 0.2f, 15f));
-        while (IsCapturing)
+        while (CurrentMode != Mode.Off)
         {
             yield return wait;
-            if (!IsCapturing) break;
+            if (CurrentMode == Mode.Off) break;
             if (IsPaused || !_cam.isPlaying) continue;
             if (_cam.width != _frame.width || _cam.height != _frame.height) AllocateBuffers(_cam.width, _cam.height);
             ProcessFrame();
@@ -383,6 +467,7 @@ public class AffectManager : MonoBehaviour
 
     private void ProcessFrame()
     {
+        var sw = System.Diagnostics.Stopwatch.StartNew();
         int w = _frame.width, h = _frame.height;
         _cam.GetPixels32(_src);
 
@@ -442,6 +527,7 @@ public class AffectManager : MonoBehaviour
             sample.ClearFace();
         }
 
+        LastProcessMs = (float)sw.Elapsed.TotalMilliseconds;
         Record(sample);
     }
 

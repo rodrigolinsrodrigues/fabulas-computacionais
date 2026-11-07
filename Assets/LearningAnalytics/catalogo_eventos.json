@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.1",
+  "description": "Catálogo de eventos de learning analytics do Fábulas Computacionais. Fonte única de verdade: usado pelo pacote R fabulasLA (codebook), pelo documento de funcionalidades e por um teste automatizado que garante que o jogo só registra eventos catalogados.",
+  "common_fields": [
+    {"name": "id", "type": "string", "description": "Identificador único do evento (GUID, 32 caracteres hexadecimais). Permite detectar duplicatas."},
+    {"name": "seq", "type": "integer", "description": "Número de sequência do evento na sessão (1, 2, 3...). Lacunas indicam eventos perdidos."},
+    {"name": "t", "type": "datetime", "description": "Data e hora UTC (ISO 8601)."},
+    {"name": "t_ms", "type": "number", "description": "Milissegundos desde o início da sessão (relógio monotônico, o mesmo do arquivo facial)."},
+    {"name": "session", "type": "string", "description": "Identificador da sessão."},
+    {"name": "participant", "type": "string", "description": "Código do participante (pseudônimo gerado ou código de estudo digitado)."},
+    {"name": "scene", "type": "string", "description": "Cena em que o evento ocorreu."},
+    {"name": "event", "type": "string", "description": "Tipo do evento (ver lista de eventos)."},
+    {"name": "data", "type": "object", "description": "Campos específicos do tipo de evento."}
+  ],
+  "events": [
+    {"name": "session_start", "category": "sessao", "when": "Cadastro concluído (e consentimento aceito, se exigido).", "fields": [
+      {"name": "schema", "type": "string", "description": "Versão do esquema de dados."},
+      {"name": "study_id", "type": "string", "description": "Identificador do estudo (research_config)."},
+      {"name": "school_id", "type": "string", "description": "Identificador da escola."},
+      {"name": "class_id", "type": "string", "description": "Identificador da turma."},
+      {"name": "machine_id", "type": "string", "description": "Identificador do computador."},
+      {"name": "condition", "type": "string", "description": "Condição experimental atribuída (A/B), vazia se não houver."},
+      {"name": "id_mode", "type": "string", "description": "Como o participante foi identificado: name (nome no cadastro) ou code (código de estudo)."},
+      {"name": "consent", "type": "boolean", "description": "Consentimento registrado na tela do jogo (ou true quando a tela não é exigida)."},
+      {"name": "camera_consent", "type": "boolean", "description": "Autorização para a captura facial."},
+      {"name": "age", "type": "integer", "description": "Idade informada no cadastro."},
+      {"name": "gender", "type": "string", "description": "Gênero informado (m, f, outro)."},
+      {"name": "school_grade", "type": "string", "description": "Série escolar informada."},
+      {"name": "game_version", "type": "string", "description": "Versão do jogo."},
+      {"name": "unity_version", "type": "string", "description": "Versão do Unity."},
+      {"name": "platform", "type": "string", "description": "Plataforma de execução."},
+      {"name": "os", "type": "string", "description": "Sistema operacional."},
+      {"name": "device_model", "type": "string", "description": "Modelo do computador."},
+      {"name": "screen", "type": "string", "description": "Resolução da tela."},
+      {"name": "joysticks", "type": "string", "description": "Controles conectados (vazio = teclado/mouse)."}
+    ]},
+    {"name": "session_end", "category": "sessao", "when": "Volta ao menu, saída do jogo ou, na abertura seguinte, sessão interrompida detectada.", "fields": [
+      {"name": "reason", "type": "string", "description": "back_to_menu, app_quit, new_session, selftest ou interrupted (o jogo fechou sem encerrar a sessão)."},
+      {"name": "duration_ms", "type": "number", "description": "Duração da sessão."},
+      {"name": "recovered", "type": "boolean", "description": "true quando o encerramento foi reconstruído na abertura seguinte (sessão interrompida)."}
+    ]},
+    {"name": "scene_enter", "category": "navegacao", "when": "Cena carregada.", "fields": [
+      {"name": "scene_name", "type": "string", "description": "Nome da cena."}
+    ]},
+    {"name": "scene_exit", "category": "navegacao", "when": "Cena descarregada.", "fields": [
+      {"name": "scene_name", "type": "string", "description": "Nome da cena."},
+      {"name": "time_in_scene_ms", "type": "number", "description": "Tempo na cena."}
+    ]},
+    {"name": "door_approach", "category": "navegacao", "when": "Personagem se aproxima de uma porta.", "fields": [
+      {"name": "door", "type": "string", "description": "Destino da porta (fase ou área)."}
+    ]},
+    {"name": "door_leave", "category": "navegacao", "when": "Personagem se afasta da porta sem entrar.", "fields": [
+      {"name": "door", "type": "string", "description": "Destino da porta."}
+    ]},
+    {"name": "door_enter", "category": "navegacao", "when": "Personagem entra pela porta.", "fields": [
+      {"name": "door", "type": "string", "description": "Destino da porta."}
+    ]},
+    {"name": "puzzle_start", "category": "desempenho", "when": "Início de uma fase.", "fields": [
+      {"name": "level_type", "type": "string", "description": "Tipo do puzzle (dado do LevelData)."},
+      {"name": "area", "type": "integer", "description": "Área/fase."},
+      {"name": "previous_attempts", "type": "integer", "description": "Tentativas acumuladas anteriormente nesta fase."},
+      {"name": "previous_time_s", "type": "number", "description": "Tempo acumulado anteriormente nesta fase."},
+      {"name": "already_won", "type": "boolean", "description": "Se a fase já tinha sido vencida."}
+    ]},
+    {"name": "puzzle_attempt", "category": "desempenho", "when": "Cada teste de solução.", "fields": [
+      {"name": "level_type", "type": "string", "description": "Tipo do puzzle."},
+      {"name": "area", "type": "integer", "description": "Área/fase."},
+      {"name": "attempt", "type": "integer", "description": "Número da tentativa."},
+      {"name": "time_s", "type": "number", "description": "Tempo acumulado na fase."}
+    ]},
+    {"name": "puzzle_complete", "category": "desempenho", "when": "Vitória na fase.", "fields": [
+      {"name": "level_type", "type": "string", "description": "Tipo do puzzle."},
+      {"name": "area", "type": "integer", "description": "Área/fase."},
+      {"name": "attempts", "type": "integer", "description": "Total de tentativas."},
+      {"name": "time_s", "type": "number", "description": "Tempo até vencer."}
+    ]},
+    {"name": "jewel_earned", "category": "desempenho", "when": "Nova joia conquistada.", "fields": [
+      {"name": "level", "type": "string", "description": "Fase que rendeu a joia."},
+      {"name": "total_jewels", "type": "integer", "description": "Total de joias."},
+      {"name": "game_time_s", "type": "number", "description": "Tempo total de jogo."}
+    ]},
+    {"name": "solution_snapshot", "category": "estado_solucao", "when": "Cada teste de solução (todos os puzzles).", "fields": [
+      {"name": "puzzle", "type": "string", "description": "Musical, Conjuntos, Receitas ou Espelhos."},
+      {"name": "attempt", "type": "integer", "description": "Número da tentativa na fase."},
+      {"name": "slots", "type": "array<string>", "description": "O que está em cada posição (vazio = posição vazia)."},
+      {"name": "expected", "type": "array<string>", "description": "Gabarito de cada posição (ausente no Espelhos)."},
+      {"name": "total_positions", "type": "integer", "description": "Número de posições."},
+      {"name": "filled_positions", "type": "integer", "description": "Posições preenchidas."},
+      {"name": "correct_positions", "type": "integer", "description": "Posições corretas."},
+      {"name": "distance", "type": "integer", "description": "Posições que faltam acertar."},
+      {"name": "first_error", "type": "integer", "description": "Índice da primeira posição errada (-1 = nenhuma)."},
+      {"name": "changed_positions", "type": "array<integer>", "description": "Posições alteradas desde a tentativa anterior (null na primeira)."},
+      {"name": "n_changed", "type": "integer", "description": "Quantidade de posições alteradas (-1 na primeira)."},
+      {"name": "success", "type": "boolean", "description": "Veredito do jogo."},
+      {"name": "(campos do puzzle)", "type": "vários", "description": "Musical: veredito por partitura e repetição; Conjuntos: confusions, misplaced_objects; Receitas: step_errors; Espelhos: pillars."}
+    ]},
+    {"name": "solution_final", "category": "estado_solucao", "when": "Vitória no Espelhos.", "fields": [
+      {"name": "puzzle", "type": "string", "description": "Espelhos."},
+      {"name": "pillars", "type": "array<string>", "description": "Nomes dos pilares."},
+      {"name": "slots", "type": "array<string>", "description": "Configuração vencedora de cada pilar."}
+    ]},
+    {"name": "beam_result", "category": "estado_solucao", "when": "Espelhos: a luz do emissor apaga.", "fields": [
+      {"name": "segments_lit", "type": "integer", "description": "Trechos do feixe que acenderam (alcance)."},
+      {"name": "segments_total", "type": "integer", "description": "Trechos existentes."},
+      {"name": "lit", "type": "array<string>", "description": "Trechos acesos."},
+      {"name": "blocked", "type": "array<string>", "description": "Onde o feixe foi bloqueado."},
+      {"name": "duration_s", "type": "number", "description": "Duração do disparo."},
+      {"name": "success", "type": "boolean", "description": "Se a fase foi vencida."}
+    ]},
+    {"name": "beam_blocked", "category": "estado_solucao", "when": "Espelhos: o feixe bate em algo que não o reflete.", "fields": [
+      {"name": "segment", "type": "string", "description": "Trecho do feixe."},
+      {"name": "hit", "type": "string", "description": "Objeto atingido."}
+    ]},
+    {"name": "object_pick", "category": "acoes", "when": "Conjuntos: pegar objeto.", "fields": [
+      {"name": "object", "type": "string", "description": "Objeto."},
+      {"name": "type", "type": "string", "description": "Tipo/categoria do objeto."},
+      {"name": "from", "type": "string", "description": "Espaço de onde saiu (vazio = chão)."}
+    ]},
+    {"name": "object_drop", "category": "acoes", "when": "Conjuntos: soltar objeto fora de um espaço.", "fields": [
+      {"name": "object", "type": "string", "description": "Objeto."}
+    ]},
+    {"name": "object_place", "category": "acoes", "when": "Conjuntos: encaixar objeto num espaço.", "fields": [
+      {"name": "object", "type": "string", "description": "Objeto."},
+      {"name": "type", "type": "string", "description": "Tipo do objeto."},
+      {"name": "space", "type": "string", "description": "Espaço."},
+      {"name": "space_type", "type": "string", "description": "Tipo esperado pelo espaço."},
+      {"name": "correct", "type": "boolean", "description": "Se o encaixe está correto."}
+    ]},
+    {"name": "pillar_rotate", "category": "acoes", "when": "Espelhos: girar pilar.", "fields": [
+      {"name": "pillar", "type": "string", "description": "Pilar."},
+      {"name": "rotation_before", "type": "array<number>", "description": "Rotação antes (graus x, y, z)."}
+    ]},
+    {"name": "pillar_push", "category": "acoes", "when": "Espelhos: empurrar pilar.", "fields": [
+      {"name": "pillar", "type": "string", "description": "Pilar."},
+      {"name": "position_before", "type": "array<number>", "description": "Posição antes (x, y, z)."},
+      {"name": "direction", "type": "array<number>", "description": "Direção do empurrão."}
+    ]},
+    {"name": "lens_used", "category": "acoes", "when": "Espelhos: usar a lente.", "fields": [
+      {"name": "lens", "type": "string", "description": "Lente."}
+    ]},
+    {"name": "recipe_place", "category": "acoes", "when": "Receitas: colocar item numa mesa.", "fields": [
+      {"name": "table", "type": "string", "description": "Mesa."},
+      {"name": "is_action", "type": "boolean", "description": "Se é mesa de ação."},
+      {"name": "item", "type": "string", "description": "Item colocado."},
+      {"name": "expected", "type": "string", "description": "Item esperado."},
+      {"name": "correct", "type": "boolean", "description": "Se está correto."}
+    ]},
+    {"name": "recipe_remove", "category": "acoes", "when": "Receitas: retirar item da mesa.", "fields": [
+      {"name": "table", "type": "string", "description": "Mesa."},
+      {"name": "is_action", "type": "boolean", "description": "Se é mesa de ação."},
+      {"name": "item", "type": "string", "description": "Item retirado."}
+    ]},
+    {"name": "pause_open", "category": "engajamento", "when": "Menu de pausa aberto.", "fields": []},
+    {"name": "pause_close", "category": "engajamento", "when": "Menu de pausa fechado.", "fields": []},
+    {"name": "mission_panel_toggle", "category": "engajamento", "when": "Consulta ao painel de missão (Y).", "fields": []},
+    {"name": "scene_restart", "category": "engajamento", "when": "Reinício de cena.", "fields": []},
+    {"name": "idle_start", "category": "engajamento", "when": "Sem input por N segundos.", "fields": [
+      {"name": "threshold_s", "type": "number", "description": "Limite configurado."}
+    ]},
+    {"name": "idle_end", "category": "engajamento", "when": "Input retomado após ociosidade.", "fields": [
+      {"name": "idle_ms", "type": "number", "description": "Duração total da ociosidade."}
+    ]},
+    {"name": "app_focus", "category": "engajamento", "when": "Janela do jogo ganha foco.", "fields": []},
+    {"name": "app_blur", "category": "engajamento", "when": "Janela do jogo perde foco.", "fields": []},
+    {"name": "affect_capture_start", "category": "afeto", "when": "Câmera iniciada para coleta.", "fields": [
+      {"name": "camera", "type": "string", "description": "Webcam usada."},
+      {"name": "resolution", "type": "string", "description": "Resolução."},
+      {"name": "sample_rate_hz", "type": "number", "description": "Amostras por segundo."},
+      {"name": "model", "type": "string", "description": "Modelo do MediaPipe."},
+      {"name": "plugin", "type": "string", "description": "Versão do plugin."}
+    ]},
+    {"name": "affect_capture_stop", "category": "afeto", "when": "Câmera encerrada.", "fields": [
+      {"name": "reason", "type": "string", "description": "Motivo."}
+    ]},
+    {"name": "affect_capture_paused", "category": "afeto", "when": "Captura pausada (F9).", "fields": []},
+    {"name": "affect_capture_resumed", "category": "afeto", "when": "Captura retomada (F9).", "fields": []},
+    {"name": "affect_capture_disabled", "category": "afeto", "when": "Captura não iniciada.", "fields": [
+      {"name": "reason", "type": "string", "description": "config ou no_consent."}
+    ]},
+    {"name": "affect_unavailable", "category": "afeto", "when": "Falha na captura (sem plugin, câmera ou modelo).", "fields": [
+      {"name": "reason", "type": "string", "description": "Código do motivo."},
+      {"name": "detail", "type": "string", "description": "Detalhe técnico."}
+    ]},
+    {"name": "affect_consent", "category": "afeto", "when": "Consentimento da câmera alterado durante o jogo.", "fields": [
+      {"name": "value", "type": "boolean", "description": "Novo valor."}
+    ]},
+    {"name": "affect_summary", "category": "afeto", "when": "A cada N segundos de captura.", "fields": [
+      {"name": "samples", "type": "integer", "description": "Amostras no intervalo."},
+      {"name": "face_ratio", "type": "number", "description": "Proporção com rosto detectado."},
+      {"name": "paused", "type": "boolean", "description": "Se a captura estava pausada."},
+      {"name": "means", "type": "object", "description": "Médias dos índices derivados."}
+    ]},
+    {"name": "researcher_panel", "category": "pesquisa", "when": "Painel do pesquisador aberto ou fechado durante uma sessão.", "fields": [
+      {"name": "open", "type": "boolean", "description": "true ao abrir, false ao fechar."}
+    ]},
+    {"name": "data_export", "category": "pesquisa", "when": "Exportação da coleta durante uma sessão.", "fields": [
+      {"name": "file", "type": "string", "description": "Nome do arquivo .zip gerado."},
+      {"name": "files", "type": "integer", "description": "Arquivos incluídos."}
+    ]}
+  ],
+  "affect_columns": [
+    {"name": "utc", "type": "datetime", "description": "Data e hora UTC."},
+    {"name": "t_ms", "type": "number", "description": "Milissegundos desde o início da sessão (mesmo relógio dos eventos)."},
+    {"name": "session", "type": "string", "description": "Sessão."},
+    {"name": "participant", "type": "string", "description": "Participante."},
+    {"name": "scene", "type": "string", "description": "Cena."},
+    {"name": "face_present", "type": "integer", "description": "1 se havia rosto, 0 caso contrário."},
+    {"name": "head_yaw", "type": "number", "description": "Rotação da cabeça para os lados (graus)."},
+    {"name": "head_pitch", "type": "number", "description": "Inclinação da cabeça para cima/baixo (graus)."},
+    {"name": "head_roll", "type": "number", "description": "Inclinação lateral da cabeça (graus)."},
+    {"name": "smile", "type": "number", "description": "Índice de sorriso (0-1)."},
+    {"name": "frown", "type": "number", "description": "Cantos da boca para baixo (0-1)."},
+    {"name": "brow_down", "type": "number", "description": "Sobrancelha franzida (0-1)."},
+    {"name": "brow_inner_up", "type": "number", "description": "Sobrancelha interna erguida (0-1)."},
+    {"name": "brow_outer_up", "type": "number", "description": "Sobrancelha externa erguida (0-1)."},
+    {"name": "eye_wide", "type": "number", "description": "Olhos arregalados (0-1)."},
+    {"name": "eye_squint", "type": "number", "description": "Olhos semicerrados (0-1)."},
+    {"name": "eye_blink", "type": "number", "description": "Olhos fechados (0-1)."},
+    {"name": "jaw_open", "type": "number", "description": "Boca aberta (0-1)."},
+    {"name": "mouth_press", "type": "number", "description": "Lábios pressionados (0-1)."},
+    {"name": "nose_sneer", "type": "number", "description": "Nariz franzido (0-1)."},
+    {"name": "gaze_away", "type": "number", "description": "Olhar fora do centro (0-1)."},
+    {"name": "bs_*", "type": "number", "description": "52 blendshapes brutos do MediaPipe (0-1), quando saveRawBlendshapes = true."}
+  ]
+}

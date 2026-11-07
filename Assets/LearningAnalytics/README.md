@@ -1,190 +1,173 @@
 # Learning Analytics: Fábulas Computacionais
 
-Coleta de dados para pesquisa: **log de eventos do jogo** e **expressões faciais pela webcam**
-(MediaPipe FaceLandmarker). Tudo é processado e gravado **localmente**. Nenhuma imagem ou vídeo é salvo.
+Coleta de dados para pesquisa: **log de eventos do jogo**, **estado da solução a cada tentativa** e
+**expressões faciais pela webcam** (MediaPipe FaceLandmarker). Tudo é processado e gravado **localmente**.
+Nenhuma imagem ou vídeo é salvo.
+
+> **Pesquisador:** comece pelo [Guia do Pesquisador](Guia_do_Pesquisador.docx) (protocolo antes, durante e
+> depois da coleta). O que é coletado e como analisar está em
+> [Learning_Analytics_Fabulas_Computacionais.docx](Learning_Analytics_Fabulas_Computacionais.docx).
 
 ## Arquivos
 
 | Arquivo | Função |
 |---|---|
-| `TelemetryManager.cs` | Sessão, código do participante, log de eventos em JSONL, detecção de ociosidade. Criado automaticamente ao abrir o jogo (não precisa estar em nenhuma cena). |
-| `AffectManager.cs` | Webcam → MediaPipe FaceLandmarker → 52 blendshapes + índices derivados + pose da cabeça → CSV. |
-| `FaceAffectSample.cs` | Estrutura de uma amostra facial e cálculo dos índices derivados. |
-| `ResearchConfig.cs` | Lê `Assets/StreamingAssets/research_config.json`. |
-| `Editor/MediaPipeSetup.cs` | Ativa o símbolo `FABULAS_MEDIAPIPE` quando o plugin está instalado e copia o modelo para StreamingAssets. |
+| `TelemetryManager.cs` | Sessão, código do participante, log de eventos (JSONL) com `id` e `seq`, recuperação de sessões interrompidas, ociosidade. Criado automaticamente ao abrir o jogo. |
+| `SolutionTracker.cs` / `MirrorsTracker.cs` | Estado da solução a cada tentativa nos quatro puzzles. |
+| `AffectManager.cs` / `FaceAffectSample.cs` | Webcam → MediaPipe → 52 blendshapes, índices derivados e pose da cabeça → CSV. Modo de teste (prévia) sem gravar. |
+| `ResearchConfig.cs` | Lê `StreamingAssets/research_config.json` (ou `-researchConfig <arquivo>`). |
+| `ParticipantCodes.cs` | Códigos de participante com dígito verificador (soma ponderada módulo 31). |
+| `ResearchSessionFlow.cs` | Valida o código, mostra a tela de consentimento e só então inicia a sessão. |
+| `ResearcherPanel.cs` | Painel do Pesquisador no jogo (**Ctrl+Shift+R** + PIN). |
+| `DataExporter.cs` | Exporta a coleta num `.zip` anonimizado com `manifest.json` (SHA-256). |
+| `StudyConfigValidator.cs` | Confere a configuração e aponta riscos. |
+| `catalogo_eventos.json` | **Catálogo de eventos** — fonte única para o codebook, o documento e os testes. |
+| `Ferramentas/Editor/StudyPanel.cs` | **Painel do Estudo** no Unity (Fabulas → Learning Analytics → Painel do Estudo). |
+| `Editor/MediaPipeSetup.cs` | Ativa o símbolo `FABULAS_MEDIAPIPE` quando o plugin está instalado e copia o modelo. |
+| `Tests/Editor/` | 35 testes automatizados (Unity Test Framework). |
+| `SelfTest/AnalyticsSelfTest.cs` | Autoteste de ponta a ponta no jogo compilado (só com argumento de linha de comando). |
+| `Documentacao~/` | Geradores dos dois documentos `.docx` (a pasta termina em `~` para o Unity ignorá-la). |
 
-Os ganchos no jogo ficam em `SignupManager`, `LevelDataManager`, `GameManager` e `LoadNewArea`.
+Os ganchos no jogo ficam em `SignupManager`, `LevelDataManager`, `GameManager`, `LoadNewArea` e nos scripts dos puzzles.
+A análise em R fica no pacote [`analysis/fabulasLA`](../../analysis/fabulasLA).
 
 ## 1. Instalar o MediaPipe Unity Plugin
 
-O projeto usa **Unity 2021.3**. A versão mais recente do plugin (v0.16.x) exige Unity 2022.3, então use a **v0.15.0**,
-a última compatível com 2021.3.
+O projeto usa **Unity 2021.3**. A versão mais recente do plugin (v0.16.x) exige Unity 2022.3, então use a **v0.15.0**.
 
 1. Baixe `com.github.homuler.mediapipe-0.15.0.tgz` (~345 MB) em
-   https://github.com/homuler/MediaPipeUnityPlugin/releases/tag/v0.15.0
-2. Coloque o arquivo em `Packages/` (na raiz do projeto, ao lado de `manifest.json`).
-3. No Unity: **Window → Package Manager → + → Add package from tarball…** e selecione o `.tgz`.
-4. Ao terminar de compilar, rode **Fabulas → Learning Analytics → Configurar MediaPipe**. O script:
-   - adiciona o símbolo `FABULAS_MEDIAPIPE` (Player Settings → Scripting Define Symbols);
-   - copia `face_landmarker_v2_with_blendshapes.bytes` para `Assets/StreamingAssets/MediaPipe/`.
+   https://github.com/homuler/MediaPipeUnityPlugin/releases/tag/v0.15.0 e coloque em `Packages/`.
+2. Abra o projeto; ao terminar de compilar, rode **Fabulas → Learning Analytics → Configurar MediaPipe**
+   (ativa `FABULAS_MEDIAPIPE` e copia o modelo para `Assets/StreamingAssets/MediaPipe/`).
 
-   Se o modelo não estiver no pacote, baixe
-   `https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
-   renomeie para `face_landmarker_v2_with_blendshapes.bytes` e coloque nessa pasta.
+O `.tgz` passa do limite do GitHub e já está no `.gitignore`. Sem o plugin, o jogo funciona normalmente, só sem câmera.
+No Windows o plugin roda em CPU e o suporte é experimental: teste nas máquinas da escola.
 
-> **Git:** o `.tgz` passa do limite de 100 MB do GitHub. Adicione `Packages/*.tgz` ao `.gitignore`
-> e distribua o arquivo à equipe por outro meio. Sem o plugin, o jogo compila e roda normalmente,
-> só sem câmera.
+## 2. Configurar a coleta
 
-No Windows, o plugin roda apenas em **CPU** e o suporte é marcado como experimental pelo autor.
-Teste nas máquinas da escola antes da coleta.
-
-## 2. Configurar a coleta (`Assets/StreamingAssets/research_config.json`)
-
-Na build, o arquivo fica em `<Jogo>_Data/StreamingAssets/research_config.json` e pode ser editado em cada máquina.
+Use o **Painel do Estudo** (Unity → Fabulas → Learning Analytics → Painel do Estudo): ele edita o
+`research_config.json`, valida os campos e gera os códigos. Na build, o arquivo fica em
+`<Jogo>_Data/StreamingAssets/research_config.json` e pode ser ajustado em cada máquina.
 
 | Campo | Padrão | Descrição |
 |---|---|---|
+| `studyId` / `schoolId` / `classId` | `""` | Estudo, escola e turma (vão para cada sessão e para o nome da exportação). |
+| `machineId` | `""` | Computador; vazio = nome do computador. |
+| `conditions` / `conditionAssignment` / `condition` | `[]` / `fixed` / `""` | Condições A/B: `fixed` (por máquina), `random` (sorteio por sessão) ou `by_participant` (estável). |
+| `participantIdMode` | `name` | `name`: nome no cadastro (mapa separado). `code`: **código de estudo**, sem nomes no computador. |
+| `requireConsent` / `consentTextFile` | `false` / `consent_text.txt` | Tela de consentimento antes da coleta. |
+| `researcherPin` | `1234` | PIN do Painel do Pesquisador (troque!). Vazio = sem senha. |
+| `exportFolder` / `exportIncludesNameMap` | `""` / `false` | Pasta da exportação e se o mapa de nomes vai junto. |
 | `telemetryEnabled` | `true` | Liga o log de eventos. |
 | `idleThresholdSeconds` | `30` | Segundos sem input para registrar `idle_start`. |
-| `affectCaptureEnabled` | `false` | **Liga a câmera.** Só ative com TCLE/TALE assinados. |
-| `affectSampleRateHz` | `2` | Amostras por segundo (0.2–15). 2–4 é suficiente e leve. |
-| `affectSummaryIntervalSeconds` | `10` | Intervalo do evento `affect_summary` no log de eventos. |
-| `cameraDeviceName` | `""` | Nome da webcam; vazio = a primeira encontrada. |
-| `cameraWidth/Height/Fps` | `640/480/15` | Resolução pedida à webcam. |
-| `saveRawBlendshapes` | `true` | Grava os 52 blendshapes brutos no CSV. |
-| `showCameraIndicator` | `true` | Mostra "● Câmera ativa (pesquisa)" no canto da tela. |
+| `affectCaptureEnabled` | `false` | **Liga a câmera.** Só com TCLE/TALE assinados. |
+| `affectSampleRateHz` / `affectSummaryIntervalSeconds` | `2` / `10` | Amostras faciais por segundo e intervalo do resumo. |
+| `cameraDeviceName` / `cameraWidth/Height/Fps` | `""` / `640/480/15` | Webcam e resolução. |
+| `saveRawBlendshapes` / `showCameraIndicator` | `true` / `true` | 52 blendshapes brutos e aviso de câmera ativa. |
 
-**Consentimento no jogo (opcional):** no painel de cadastro, crie um `Toggle` "Autorizo o uso da câmera"
-e ligue o evento *On Value Changed* a `SignupManager.SetCameraConsent`. Sem o toggle, vale só
-`affectCaptureEnabled`. Durante o jogo, **F9** pausa ou retoma a câmera, e isso fica registrado.
+Linha de comando: `-researchConfig <arquivo>` usa outra configuração e `-analyticsDataFolder <pasta>` grava os dados em outra pasta.
 
-## 3. Dados gerados
+## 3. Ferramentas do pesquisador
 
-Pasta: `Application.persistentDataPath/LearningAnalytics/`
-(no Windows: `%USERPROFILE%\AppData\LocalLow\<Empresa>\<Produto>\LearningAnalytics`;
-no editor, use **Fabulas → Learning Analytics → Abrir pasta de dados coletados**).
+- **Códigos de participante:** o Painel do Estudo gera códigos (ex.: `K7M2X`) e uma página de **etiquetas para imprimir**
+  em `Pesquisa/`. O último caractere é verificador: qualquer erro de um caractere ou troca de vizinhos é recusada no jogo.
+- **Tela de consentimento** (`requireConsent`): texto em `StreamingAssets/consent_text.txt`, com autorização separada para a câmera.
+  Quem não concorda joga normalmente, sem registro.
+- **Painel do Pesquisador** (no jogo, **Ctrl+Shift+R** + PIN): estudo, sessão, eventos gravados, pasta, espaço em disco,
+  **teste da câmera** com prévia e "rosto detectado" (sem gravar) e **Exportar coleta (.zip)**.
+- **Exportação:** `coleta_<estudo>_<escola>_<máquina>_<data>.zip` com eventos, dados faciais e `manifest.json` (SHA-256 de cada arquivo).
+  Por padrão **sem** o mapa de nomes.
+
+## 4. Dados gerados
+
+Pasta: `Application.persistentDataPath/LearningAnalytics/` (Windows:
+`%USERPROFILE%\AppData\LocalLow\DefaultCompany\Fabulas Computacionais\LearningAnalytics`).
 
 | Arquivo | Conteúdo |
 |---|---|
-| `participants_map.csv` | `participant_id;name;age;gender;school_grade;created_utc`. **É o único arquivo com nome.** Guarde separado dos dados de análise. |
 | `events_<sessão>.jsonl` | Um evento JSON por linha. |
 | `affect_<sessão>.csv` | Uma linha por amostra da webcam. |
-
-### Formato de um evento
+| `participants_map.csv` | Só no modo `name`: nome ↔ código. **Único arquivo com nome.** |
+| `Exportacoes/coleta_*.zip` | Exportações feitas pelo Painel do Pesquisador. |
 
 ```json
-{"t":"2026-11-05T14:03:22.4810000Z","t_ms":81234.5,"session":"20261105T140201Z-a1b2c3",
- "participant":"P-3F9A0C12","scene":"Musical 2","event":"puzzle_attempt",
+{"id":"9c1f0d2e…","seq":42,"t":"2026-11-05T14:03:22.4810000Z","t_ms":81234.5,"session":"20261105T140201Z-a1b2c3",
+ "participant":"K7M2X","scene":"Musical 2","event":"puzzle_attempt",
  "data":{"level_type":"Musical","area":2,"attempt":3,"time_s":74.2}}
 ```
 
-`t_ms` é o tempo desde o início da sessão (relógio monotônico). O CSV facial usa o mesmo relógio,
-então dá para alinhar eventos e expressões.
-
-### Eventos registrados
-
-| Evento | Quando | Dados |
-|---|---|---|
-| `session_start` / `session_end` | cadastro concluído / volta ao menu ou saída | idade, gênero, série, versão, SO, controles / motivo, duração |
-| `scene_enter` / `scene_exit` | troca de cena | nome, tempo na cena |
-| `door_approach` / `door_leave` / `door_enter` | chega perto, se afasta ou entra numa porta | porta |
-| `puzzle_start` | início de uma fase | tipo, área, tentativas e tempo anteriores |
-| `puzzle_attempt` | cada teste da solução (`GetAttempt`) | tentativa nº, tempo |
-| `puzzle_complete` | vitória (`WinLevel`) | tentativas, tempo |
-| `jewel_earned` | joia nova | fase, total de joias, tempo de jogo |
-| `pause_open` / `pause_close`, `mission_panel_toggle`, `scene_restart` | menus e reinício | |
-| `idle_start` / `idle_end` | sem input por N s | duração |
-| `app_focus` / `app_blur` | janela ganha ou perde foco | |
-| `affect_capture_start` / `_stop` / `_paused` / `_resumed` | estado da câmera | câmera, resolução, motivo |
-| `affect_unavailable` | falha (sem plugin, sem câmera, sem modelo…) | motivo |
-| `affect_summary` | a cada N s | proporção de rosto presente, médias dos índices |
-| `solution_snapshot` | cada teste de solução (todos os puzzles) | estado da solução; veja a seção "Estado da solução" |
-| `object_pick` / `object_drop` / `object_place` | Conjuntos: pegar, soltar, encaixar | objeto, tipo, espaço, se o encaixe está correto |
-| `pillar_rotate` / `pillar_push` / `lens_used` | Espelhos: girar, empurrar, usar a lente | pilar, rotação/posição antes, direção |
-| `beam_blocked` / `beam_result` / `solution_final` | Espelhos: feixe bloqueado, fim do disparo, vitória | onde bateu, trechos acesos, configuração vencedora |
-| `recipe_place` / `recipe_remove` | Receitas: colocar/retirar da mesa | mesa, item, item esperado, se está correto |
-
-### Colunas de `affect_<sessão>.csv`
-
-`utc, t_ms, session, participant, scene, face_present, head_yaw, head_pitch, head_roll`,
-os índices derivados e `bs_*` (52 blendshapes, de 0 a 1; vazio quando não há rosto).
-
-| Índice derivado | Blendshapes | Leitura possível (heurística) |
-|---|---|---|
-| `smile` | mouthSmile L/R | alegria/diversão |
-| `frown` | mouthFrown L/R | desagrado |
-| `brow_down` | browDown L/R | esforço, concentração ou confusão |
-| `brow_inner_up` | browInnerUp | preocupação/surpresa |
-| `brow_outer_up` | browOuterUp L/R | surpresa |
-| `eye_wide` / `eye_squint` / `eye_blink` | eyeWide / eyeSquint / eyeBlink | surpresa / esforço / olhos fechados |
-| `jaw_open` | jawOpen | surpresa, fala, bocejo |
-| `mouth_press` | mouthPress L/R | tensão/frustração |
-| `nose_sneer` | noseSneer L/R | desconforto |
-| `gaze_away` | eyeLook* | olhar fora do centro |
-
-`face_present = 0` por muito tempo, ou `|head_yaw|` alto, indica que o aluno não está olhando para a tela.
+`t_ms` é o tempo desde o início da sessão (relógio monotônico), o mesmo do CSV facial. A lista completa de eventos
+e campos está no [catálogo](catalogo_eventos.json) e no codebook (`fabulasLA::exportar_codebook()`).
 
 ### Estado da solução (`solution_snapshot`)
 
-Cada vez que o jogador **testa** a solução, o jogo registra o que ele montou (`slots`), o gabarito
-(`expected`) e a comparação com a tentativa anterior na mesma fase. Gerado por `SolutionTracker.cs`.
-
-| Campo | Significado |
-|---|---|
-| `puzzle`, `attempt` | puzzle e número da tentativa nesta fase |
-| `slots` | o que está em cada posição (`""` = vazia) |
-| `expected` | resposta esperada em cada posição (ausente no Espelhos) |
-| `correct_positions`, `distance` | posições certas e posições que faltam acertar |
-| `first_error` | índice da primeira posição errada (`-1` = nenhuma) |
-| `changed_positions`, `n_changed` | posições alteradas desde a tentativa anterior (`null`/`-1` na 1ª) |
-| `success` | veredito do próprio jogo |
-
-O que é uma "posição" em cada puzzle:
-
 | Puzzle | Momento | `slots[i]` | Campos extras |
 |---|---|---|---|
-| **Musical** | fim da reprodução (`checarPartitura.Check`) | nota na posição *i* (partitura 1, depois 2) | `part1_notes`/`part1_repeat`/`part2_*` (veredito por partitura), início/fim/contador da repetição escolhidos, posições esperadas da repetição, `blocked_slots_used`, `repeat_times_selected` |
-| **Conjuntos** | todos os espaços preenchidos (`LeituraEspacos.Check`) | tipos dos objetos no espaço *i*, ordenados e separados por `\|` | `spaces`, `objects` (`objeto:tipo@espaço`), `misplaced_objects`, `confusions` (`esperado->colocado`) |
-| **Receitas** | ao cozinhar (`LerMesa.TempoDeEspera`) | `insumo+ação` do passo *i* | `step_errors`: `ok`, `empty_step`, `empty_food`, `empty_action`, `wrong_food`, `wrong_action`, `order` (insumo de outro passo) |
-| **Espelhos** | ao disparar a luz (`EmitLight`) | `r=x,y,z;p=x,z` do pilar *i* (rotação arredondada a 15°) | `pillars` (nomes); depois vem `beam_result` com `segments_lit` (alcance do feixe) e `blocked`; na vitória, `solution_final` com a configuração vencedora |
+| **Musical** | fim da reprodução | nota na posição *i* | veredito por partitura (`part*_repeat`), repetição escolhida, `blocked_slots_used` |
+| **Conjuntos** | todos os espaços preenchidos | tipos dos objetos no espaço *i* | `objects`, `misplaced_objects`, `confusions` (`esperado->colocado`) |
+| **Receitas** | ao cozinhar | `insumo+ação` do passo *i* | `step_errors` (`ok`, `empty_*`, `wrong_*`, `order`) |
+| **Espelhos** | ao disparar a luz | rotação/posição do pilar *i* | `pillars`; depois `beam_result` e, na vitória, `solution_final` |
 
-No **Musical** com repetição, o gabarito `expected` é o configurado na cena (`TipoNotaPart*`);
-o veredito oficial está em `part*_repeat`. No **Espelhos**, calcule a distância de cada tentativa até
-a `solution_final` do mesmo jogador (ou até a configuração vencedora mais comum) na análise.
+Campos comuns: `slots`, `expected`, `correct_positions`, `distance`, `first_error`, `changed_positions`, `n_changed`, `success`.
 
-**Teste sem jogar:** menu **Fabulas → Learning Analytics → Teste rápido da telemetria** (ou
-`-executeMethod TelemetrySmokeTest.Run`). Ele grava duas tentativas simuladas, confere o JSON e apaga os arquivos de teste.
+## 5. Qualidade e integridade
 
-## 4. Limitações e cuidados
+- Todo evento tem **`id`** (único) e **`seq`** (1, 2, 3… por sessão): duplicatas e perdas são detectáveis.
+- **Sessões interrompidas:** se o jogo fechar sem encerrar a sessão, a próxima abertura acrescenta
+  `session_end` com `reason = "interrupted"` e `recovered = true`.
+- Os eventos são gravados no disco imediatamente (sem perda em caso de queda).
+- `fabulasLA::validar_coleta()` confere integridade (manifesto), duplicatas, lacunas, início/fim, eventos fora do catálogo e cobertura da câmera.
 
-- **Os índices não são emoções.** Expressão facial não equivale a estado emocional (Barrett et al., 2019).
-  Trate os blendshapes como variáveis comportamentais e **triangule** com autorrelato e com os eventos do jogo.
-  Para inferir confusão ou frustração, treine modelos com rótulos de observação (ex.: BROMP) ou autorrelato.
+## 6. Análise em R (`fabulasLA`)
+
+```r
+install.packages("analysis/fabulasLA", repos = NULL, type = "source")   # uma vez
+library(fabulasLA)
+coleta <- ler_coleta(c("escola_A.zip", "escola_B.zip"))   # pastas e/ou .zip
+validar_coleta(coleta)
+tb <- tabelas_analise(coleta)                             # sessoes, fases, tentativas, afeto_sessao
+gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")
+exportar_codebook("codebook.csv")
+```
+
+## 7. Testes automatizados
+
+| Testes | Como rodar | O que cobrem |
+|---|---|---|
+| **Unity (35)** | Window → General → Test Runner → EditMode, ou `Unity.exe -batchmode -runTests -testPlatform EditMode -projectPath .` | JSON dos eventos, sequência e ids, recuperação de sessão, códigos (todo erro de 1 caractere e troca de vizinhos), condições, validador, exportação e checksums, estado da solução, índices faciais, catálogo ↔ código ↔ pacote R |
+| **Pacote R** | `testthat::test_dir("analysis/fabulasLA/tests/testthat", package = "fabulasLA", load_package = "installed")` | leitura, validação (incluindo dados corrompidos), tabelas, codebook, códigos; com `FABULAS_ZIP_TESTE=<zip>`, lê um .zip do jogo |
+| **Ponta a ponta** | `FabulasComputacionais.exe -batchmode -nographics -analyticsSelfTest completo -selfTestOut <pasta> -researchConfig <config> -analyticsDataFolder <pasta>` (modos: `interromper`, `completo`, `codigo_invalido`) | jogo real: cadastro com código, consentimento, fase com tentativas e vitória, painel, exportação, queda simulada e código inválido; o .zip é validado com o pacote R |
+
+## 8. Limitações e cuidados
+
+- **Os índices faciais não são emoções** (Barrett et al., 2019): triangule com autorrelato, observação e eventos do jogo.
 - O modelo foi treinado majoritariamente com adultos. Valide com crianças e com a iluminação das escolas.
-- **LGPD:** dados faciais derivados de crianças são dados pessoais sensíveis (arts. 11 e 14). É necessário
-  CEP, TCLE dos responsáveis, TALE da criança, finalidade explícita, armazenamento seguro e prazo de descarte.
-  O jogo nunca grava imagem, mas os blendshapes continuam sendo dados biométricos derivados.
-- A inferência roda no thread principal, no ritmo de `affectSampleRateHz`. Em PCs fracos, reduza para 1–2 Hz.
+- **LGPD:** dados faciais derivados de crianças são dados pessoais sensíveis (arts. 11 e 14): CEP, TCLE, TALE,
+  finalidade explícita, armazenamento seguro e prazo de descarte.
+- A inferência facial roda no thread principal, no ritmo de `affectSampleRateHz`. Em PCs fracos, use 1–2 Hz.
+- As condições A/B são registradas, mas as variações do jogo ainda precisam ser implementadas (consultando `TelemetryManager.Instance.Condition`).
 
-## 5. Documento de funcionalidades (.docx)
+## 9. Documentação
 
-`Learning_Analytics_Fabulas_Computacionais.docx` (nesta pasta) descreve todas as funcionalidades de
-learning analytics e traz exemplos de análises de pesquisa para cada uma. **Ele deve ser atualizado
-sempre que uma nova funcionalidade de coleta for implementada.**
+`Learning_Analytics_Fabulas_Computacionais.docx` (funcionalidades e exemplos de análise) e `Guia_do_Pesquisador.docx`
+(protocolo de coleta) **devem ser atualizados sempre que a coleta mudar**. Eles são gerados por scripts:
 
-O documento é gerado pelo script `Documentacao~/gerar_documento.js` (a pasta termina em `~` para o
-Unity ignorá-la). Para atualizar:
+```bash
+cd Assets/LearningAnalytics/Documentacao~ && npm install && node gerar_documento.js && node gerar_guia.js
+```
 
-1. Edite o conteúdo em `Documentacao~/gerar_documento.js` (seções, exemplos de análise, apêndices).
-2. Gere o arquivo: `cd Assets/LearningAnalytics/Documentacao~ && npm install && node gerar_documento.js`.
-3. Abra no Word e atualize o sumário (clique com o botão direito no sumário → Atualizar campo → Atualizar o índice inteiro).
+Depois, abra no Word e atualize o sumário (botão direito → Atualizar campo → Atualizar o índice inteiro).
+Os apêndices do documento de funcionalidades vêm do `catalogo_eventos.json`.
 
-## 6. Registrar novos eventos
+## 10. Registrar novos eventos
 
 ```csharp
 TelemetryManager.Log("note_selected", ("column", 3), ("note", "Do"), ("instrument", "Violao"));
 ```
+
+1. Inclua o evento em `catalogo_eventos.json` (o teste `TodoEventoUsadoNoCodigo_EstaNoCatalogo` falha se esquecer).
+2. Copie o catálogo para `analysis/fabulasLA/inst/extdata/` (outro teste confere a sincronia).
+3. Regere os documentos.
 
 Para reagir à expressão facial (ex.: abrir uma pergunta de autorrelato):
 

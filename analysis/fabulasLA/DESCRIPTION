@@ -1,0 +1,19 @@
+Package: fabulasLA
+Type: Package
+Title: Learning Analytics do Jogo Fabulas Computacionais
+Version: 0.1.0
+Authors@R: person("Rodrigo Lins", "Rodrigues", role = c("aut", "cre"),
+    email = "rodrigo.rodrigues@nees.ufal.br")
+Description: Leitura, validacao e analise dos dados de learning analytics gerados
+    pelo jogo Fabulas Computacionais: eventos (JSON Lines), estado da solucao a
+    cada tentativa e expressoes faciais (CSV). Junta coletas de varias escolas
+    (pastas ou arquivos .zip exportados pelo jogo), confere integridade e
+    qualidade, monta tabelas prontas para analise, gera o livro de codigos e um
+    relatorio completo em R Markdown. Inclui um simulador de dados para testes.
+License: file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: dplyr, tidyr, purrr, tibble, stringr, readr, jsonlite, rlang
+Suggests: testthat (>= 3.0.0), rmarkdown, knitr, ggplot2, lme4, survival,
+    pROC, ranger, patchwork, scales, openssl
+Config/testthat/edition: 3

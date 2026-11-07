@@ -121,7 +121,7 @@ add(
   new Paragraph({ children: [new TextRun({ text: "Documento técnico-científico", size: 22, color: "595959" })], alignment: AlignmentType.CENTER, spacing: { after: 80 } }),
   new Paragraph({ children: [new TextRun({ text: "Responsável: Rodrigo Lins Rodrigues", size: 22, color: "595959" })], alignment: AlignmentType.CENTER, spacing: { after: 80 } }),
   new Paragraph({ children: [new TextRun({ text: "Novembro de 2026", size: 22, color: "595959" })], alignment: AlignmentType.CENTER, spacing: { after: 80 } }),
-  new Paragraph({ children: runs("Versão do código: branch `feature/learning-analytics-mediapipe` (commits `9d1cd6d` e `7210a17`)", { size: 20, color: "595959" }), alignment: AlignmentType.CENTER }),
+  new Paragraph({ children: runs("Versão do código: branch `feature/learning-analytics-mediapipe` · esquema de dados 1.1", { size: 20, color: "595959" }), alignment: AlignmentType.CENTER }),
   BR(),
 );
 
@@ -154,6 +154,13 @@ add(
     ["`MirrorsTracker`", "Lógica específica do puzzle Espelhos: configuração dos pilares, alcance do feixe de luz e configuração vencedora."],
     ["`AffectManager`", "Captura de expressões faciais pela webcam com MediaPipe FaceLandmarker (52 blendshapes, índices derivados e orientação da cabeça)."],
     ["`ResearchConfig`", "Lê o arquivo `research_config.json`, que liga ou desliga a coleta em cada máquina sem recompilar o jogo."],
+    ["`ParticipantCodes`", "Códigos de participante com dígito verificador (detecta qualquer erro de digitação de um caractere e trocas de caracteres vizinhos)."],
+    ["`ResearchSessionFlow`", "Fluxo de início da sessão: valida o código, mostra a tela de consentimento e só então inicia a coleta."],
+    ["`ResearcherPanel`", "Painel do Pesquisador no jogo (Ctrl+Shift+R + PIN): estado da coleta, teste da câmera com prévia e exportação."],
+    ["`DataExporter`", "Exporta a coleta num .zip anonimizado com manifesto e checksums (SHA-256)."],
+    ["`StudyConfigValidator` / Painel do Estudo", "Configuração do estudo no Unity sem editar JSON, com avisos de riscos e geração de etiquetas de códigos."],
+    ["`catalogo_eventos.json`", "Catálogo de eventos: fonte única para o codebook, este documento e um teste que garante que o jogo só registra eventos documentados."],
+    ["Pacote R `fabulasLA`", "Leitura de pastas e .zip de várias escolas, validação, tabelas de análise, codebook e relatório completo (pasta `analysis/fabulasLA`)."],
     ["Ganchos nos scripts do jogo", "Linhas de registro adicionadas em `SignupManager`, `LevelDataManager`, `GameManager`, `LoadNewArea`, `checarPartitura`, `LeituraEspacos`, `SnapNovo`, `PickUp`, `EmitLight`, `StopScale`, `showCanvas`, `RotateObj`, `Launch`, `Lente`, `LerMesa` e `Snap`."],
   ], [2400, 6626]),
   H2("2.2 Arquivos gerados"),
@@ -166,15 +173,17 @@ add(
   H2("2.3 Estrutura de um evento"),
   P("Todos os eventos compartilham os mesmos campos de identificação e de tempo, o que permite cruzá-los entre si e com os dados faciais:"),
   ...code([
-    '{"t":"2026-11-05T14:03:22.481Z", "t_ms":81234.5,',
-    ' "session":"20261105T140201Z-a1b2c3", "participant":"P-3F9A0C12",',
+    '{"id":"9c1f…e07a", "seq":42, "t":"2026-11-05T14:03:22.481Z", "t_ms":81234.5,',
+    ' "session":"20261105T140201Z-a1b2c3", "participant":"K7M2X",',
     ' "scene":"Musical 2", "event":"puzzle_attempt",',
     ' "data":{"level_type":"Musical","area":2,"attempt":3,"time_s":74.2}}',
   ]),
   ...table(["Campo", "Significado"], [
+    ["`id`", "Identificador único do evento: permite detectar duplicatas ao juntar exportações."],
+    ["`seq`", "Número de sequência na sessão (1, 2, 3…): lacunas indicam eventos perdidos."],
     ["`t`", "Data e hora UTC (ISO 8601)."],
     ["`t_ms`", "Milissegundos desde o início da sessão (relógio monotônico). É o mesmo relógio do arquivo facial, usado para sincronização."],
-    ["`session` / `participant`", "Identificador da sessão e código pseudônimo do participante."],
+    ["`session` / `participant`", "Identificador da sessão e código do participante (pseudônimo gerado ou código de estudo)."],
     ["`scene`", "Cena (fase ou área) em que o evento ocorreu."],
     ["`event` / `data`", "Tipo do evento e campos específicos do evento."],
   ], [2400, 6626]),
@@ -314,7 +323,7 @@ add(...analysis(12, "Matriz de confusão entre categorias", {
 }));
 
 add(H3("3.5.3 Receitas — algoritmos passo a passo"));
-add(P("Registrado ao iniciar o preparo. Para cada passo, grava o insumo e a ação colocados e os esperados, e classifica o erro do passo: `ok`, `empty_step`, `empty_food`, `empty_action`, `wrong_food`, `wrong_action` ou `order` (insumo correto de outro passo, isto é, ordem trocada). Observação: as cenas de Receitas estão fora da build atual, mas o código está pronto para quando forem incluídas."));
+add(P("Registrado ao iniciar o preparo. Para cada passo, grava o insumo e a ação colocados e os esperados, e classifica o erro do passo: `ok`, `empty_step`, `empty_food`, `empty_action`, `wrong_food`, `wrong_action` ou `order` (insumo correto de outro passo, isto é, ordem trocada)."));
 add(...analysis(13, "Tipologia de erros algorítmicos", {
   pergunta: "Os erros das crianças são de sequência (ordem) ou de operação (ação errada)?",
   dados: "Campo `step_errors` de cada `solution_snapshot` de Receitas.",
@@ -407,12 +416,65 @@ add(...analysis(20, "Detector de confusão sem câmera", {
   resultado: "O detector baseado só em logs atingiu AUC = 0,72 — suficiente para disparar uma dica ou uma pergunta de autorrelato quando a criança parece confusa.",
 }));
 
+// 3.10 a 3.13 — recursos para o pesquisador e qualidade dos dados
+add(
+  H2("3.10 Identificação do estudo, códigos de participante e condições A/B"),
+  P("**O que é coletado.** O evento `session_start` registra o estudo (`study_id`), a escola (`school_id`), a turma (`class_id`), o computador (`machine_id`), a forma de identificação (`id_mode`) e a **condição experimental** (`condition`). No modo **código**, a criança digita um código impresso numa etiqueta (ex.: `K7M2X`) em vez do nome; o código tem dígito verificador, então erros de digitação são recusados na hora, e nenhum nome é gravado no computador. As condições podem ser fixas por máquina, sorteadas a cada sessão ou atribuídas de forma estável por participante."),
+);
+add(...analysis(21, "Comparação entre condições (A/B)", {
+  pergunta: "Uma variação do jogo (ex.: com dica × sem dica) muda o desempenho?",
+  dados: "`condition` de `session_start`, `puzzle_complete` e `solution_snapshot`.",
+  metodo: "Modelo misto (tentativas ~ condição + puzzle + (1 | participante) + (1 | escola/turma)); a atribuição estável por participante evita que a mesma criança passe pelas duas condições.",
+  resultado: "Na condição com dica, as crianças concluíram 9% mais fases e fizeram 14% menos tentativas no Musical Fase 2; nas demais fases não houve diferença — a dica ajuda justamente no conceito de laço.",
+}));
+add(...analysis(22, "Efeitos de escola e turma", {
+  pergunta: "Quanto da variação no desempenho se deve à escola e à turma?",
+  dados: "`school_id`, `class_id` e `puzzle_complete`.",
+  metodo: "Modelo multinível com efeitos aleatórios de escola e turma; coeficiente de correlação intraclasse (ICC).",
+  resultado: "A escola explicou 11% da variação nas tentativas e a turma mais 6% (ICC) — valores que justificam incluir esses níveis em qualquer modelo de efeito do jogo.",
+}));
+add(
+  H2("3.11 Consentimento na tela do jogo"),
+  P("**O que é coletado.** Com `requireConsent` ligado, a tela de consentimento (texto editável em `StreamingAssets/consent_text.txt`) aparece após o cadastro, com autorização separada para a câmera. Só com o \"concordo\" a sessão é iniciada; quem não concorda joga normalmente, sem nenhum registro. O evento `session_start` guarda `consent` e `camera_consent`."),
+);
+add(...analysis(23, "Viés de seleção da câmera", {
+  pergunta: "As crianças que autorizam a câmera diferem das que não autorizam?",
+  dados: "`camera_consent` de `session_start` e indicadores de desempenho dos logs.",
+  metodo: "Comparação de série, gênero e desempenho entre os dois grupos (testes qui-quadrado e Mann-Whitney); análises faciais reportadas com essa ressalva.",
+  resultado: "82% autorizaram a câmera; os dois grupos tiveram desempenho semelhante, o que reduz a preocupação de que as análises faciais representem só um subgrupo.",
+}));
+add(
+  H2("3.12 Qualidade e integridade dos dados"),
+  P("**O que é coletado.** Todo evento tem `id` único e `seq` (sequência na sessão). Se o jogo fechar sem encerrar a sessão (queda de energia, travamento), a próxima abertura acrescenta um `session_end` com `reason = \"interrupted\"` e `recovered = true`. A exportação gera um `manifest.json` com o SHA-256 de cada arquivo. A função `validar_coleta()` do pacote R confere tudo isso automaticamente: duplicatas, lacunas, sessões sem início ou fim, eventos fora do catálogo, integridade e cobertura da câmera."),
+);
+add(...analysis(24, "Análise de sensibilidade às sessões interrompidas", {
+  pergunta: "Os resultados mudam quando se excluem as sessões interrompidas?",
+  dados: "`session_end` (`reason`, `recovered`) e os desfechos de interesse.",
+  metodo: "Rodar o modelo principal com e sem as sessões interrompidas e comparar as estimativas; reportar a taxa de interrupção por escola e máquina.",
+  resultado: "5% das sessões foram interrompidas, todas numa mesma escola com quedas de energia; os efeitos estimados mudaram menos de 2%, indicando resultados robustos.",
+}));
+add(
+  H2("3.13 Ferramentas do pesquisador"),
+  B("**Painel do Estudo (Unity → Fabulas → Learning Analytics → Painel do Estudo):** configura o estudo, as condições, a câmera e o PIN; aponta riscos (câmera sem consentimento, PIN padrão, mapa de nomes na exportação); gera códigos de participante com **etiquetas para imprimir**."),
+  B("**Painel do Pesquisador (no jogo, Ctrl+Shift+R + PIN):** mostra estudo, sessão, eventos gravados, pasta e espaço em disco; **testa a câmera** com prévia e indicação de rosto detectado, sem gravar nada; **exporta a coleta** com um clique."),
+  B("**Exportação:** um .zip por máquina, anonimizado por padrão (sem o mapa de nomes), com manifesto e checksums."),
+  B("**Pacote R `fabulasLA`:** `ler_coleta()`, `validar_coleta()`, `tabelas_analise()`, `codebook()`, `gerar_relatorio()`, `simular_coleta()`, `gerar_codigos()` e `codigo_valido()`."),
+  B("**Testes automatizados:** 35 testes no Unity, testes do pacote R e um autoteste de ponta a ponta que joga uma sessão completa, simula uma queda e um código inválido, e valida o .zip exportado com o pacote R."),
+);
+
 // 4. Configuração
 add(
   BR(),
   H1("4. Configuração e operação da coleta"),
   P("A coleta é controlada pelo arquivo `research_config.json`. Na build, ele fica em `FabulasComputacionais_Data/StreamingAssets/` e pode ser editado em cada máquina sem recompilar o jogo."),
   ...table(["Campo", "Padrão", "Descrição"], [
+    ["`studyId` / `schoolId` / `classId`", "(vazio)", "Identificação do estudo, da escola e da turma (vão para cada sessão)."],
+    ["`machineId`", "(vazio)", "Identificação do computador; vazio = nome do computador."],
+    ["`conditions` / `conditionAssignment` / `condition`", "[] / fixed / (vazio)", "Condições A/B e como atribuí-las: fixed, random ou by_participant."],
+    ["`participantIdMode`", "name", "name (nome no cadastro + mapa separado) ou code (código de estudo, sem nomes)."],
+    ["`requireConsent` / `consentTextFile`", "false / consent_text.txt", "Exibe a tela de consentimento antes de iniciar a coleta."],
+    ["`researcherPin`", "1234", "PIN do Painel do Pesquisador (troque antes da coleta)."],
+    ["`exportFolder` / `exportIncludesNameMap`", "(vazio) / false", "Pasta da exportação e se o mapa de nomes vai junto."],
     ["`telemetryEnabled`", "true", "Liga o log de eventos."],
     ["`idleThresholdSeconds`", "30", "Segundos sem input para registrar ociosidade."],
     ["`affectCaptureEnabled`", "false", "Liga a câmera. Só ative com consentimento assinado."],
@@ -423,8 +485,8 @@ add(
     ["`saveRawBlendshapes`", "true", "Grava os 52 blendshapes brutos."],
     ["`showCameraIndicator`", "true", "Exibe o aviso de câmera ativa."],
   ], [3300, 1500, 4226]),
-  P("**Ferramentas de verificação no editor do Unity** (menu Fabulas → Learning Analytics): configurar o MediaPipe, abrir a pasta de dados coletados, teste rápido do MediaPipe sem câmera e teste rápido da telemetria (grava duas tentativas simuladas, confere o JSON e apaga os arquivos de teste)."),
-  P("**Consentimento no jogo (opcional):** um Toggle no painel de cadastro pode ser ligado a `SignupManager.SetCameraConsent`, permitindo que a captura só ocorra com a concordância registrada."),
+  P("A forma recomendada de editar é o **Painel do Estudo** no Unity, que valida os campos. Para testes, o jogo aceita `-researchConfig <arquivo>` (outra configuração) e `-analyticsDataFolder <pasta>` (outra pasta de dados) na linha de comando."),
+  P("**Ferramentas no editor do Unity** (menu Fabulas → Learning Analytics): Painel do Estudo, configurar o MediaPipe, abrir a pasta de dados, teste rápido do MediaPipe sem câmera e teste rápido da telemetria."),
 );
 
 // 5. Ética
@@ -434,6 +496,9 @@ add(
   B("**Dados faciais:** são processados localmente e nenhuma imagem é gravada. Ainda assim, os blendshapes são dados biométricos derivados e, por envolverem crianças, são dados pessoais sensíveis (LGPD, arts. 11 e 14)."),
   B("**Requisitos:** aprovação no Comitê de Ética em Pesquisa (CEP), TCLE assinado pelos responsáveis, TALE para a criança, finalidade explícita, armazenamento seguro e prazo de descarte definidos."),
   B("**Transparência e controle:** a câmera vem desligada por padrão, há indicador visível durante a captura e a criança ou o pesquisador pode pausá-la com F9."),
+  B("**Códigos de estudo:** no modo `code`, nenhum nome entra no computador; a lista nome ↔ código fica em papel com o pesquisador."),
+  B("**Consentimento registrado:** a tela de consentimento no jogo e os campos `consent`/`camera_consent` de cada sessão documentam a concordância."),
+  B("**Exportação anonimizada:** por padrão o .zip não leva o mapa de nomes; o Painel do Estudo alerta quando isso é alterado."),
   B("**Minimização:** coletar apenas o que estiver associado a perguntas de pesquisa definidas no projeto."),
 );
 
@@ -444,8 +509,8 @@ add(
   B("A captura facial ainda não foi testada com uma pessoa diante da câmera no ambiente final (a máquina de desenvolvimento não tem webcam); o carregamento do modelo e o processamento foram verificados (cerca de 2,6 ms por quadro sem rosto)."),
   B("No Espelhos não há gabarito fixo: a distância até a solução precisa ser calculada na análise, a partir da configuração vencedora."),
   B("No Musical com repetição, o gabarito posição a posição é o configurado na cena; o veredito oficial está nos campos `part*_repeat`."),
-  B("As cenas de Receitas estão fora da build atual; o código de coleta está pronto para quando forem incluídas."),
-  B("Os dados ficam em arquivos locais em cada máquina; a consolidação de várias máquinas exige copiar as pastas (ou implementar envio a um servidor)."),
+  B("Os dados ficam em arquivos locais em cada máquina; a consolidação é feita pelos .zip exportados (um por máquina) e pelo pacote R — ainda não há envio automático a um servidor."),
+  B("As condições A/B são registradas, mas o jogo ainda não tem variações implementadas: cada nova variação (ex.: dica) precisa consultar `TelemetryManager.Instance.Condition`."),
   B("O arquivo antigo `<NOME> GameData.csv`, gerado pelo `DataManager` original, continua existindo e contém o nome da criança; recomenda-se desativá-lo ou pseudonimizá-lo."),
 );
 
@@ -458,74 +523,44 @@ add(
   N("**Análises descritivas e exploratórias:** curvas de aprendizagem, mapas de equívocos, mapas de processo."),
   N("**Modelagem:** modelos mistos (alunos aninhados em turmas e escolas), análise de sobrevivência, agrupamentos de perfis e análise de janelas de eventos para a integração multimodal."),
   N("**Triangulação:** cruzar com pré e pós-teste de pensamento computacional, questionários e observação."),
-  H2("7.1 Exemplo de código (Python)"),
-  P("O trecho abaixo carrega os dados de todas as sessões, calcula a evolução da distância até a solução e mede a expressão facial nos 10 segundos seguintes a cada tentativa:", { para: { keepNext: true } }),
+  H2("7.1 Com o pacote R fabulasLA"),
+  P("Instalação (uma vez): `install.packages(\"analysis/fabulasLA\", repos = NULL, type = \"source\")`. Depois:", { para: { keepNext: true } }),
   ...code([
-    "import glob, json, pandas as pd",
+    "library(fabulasLA)",
     "",
-    "pasta = r\"C:\\dados\\LearningAnalytics\"",
-    "events = pd.DataFrame(json.loads(l)",
-    "    for f in glob.glob(pasta + r\"\\events_*.jsonl\")",
-    "    for l in open(f, encoding=\"utf-8\"))",
-    "affect = pd.concat(pd.read_csv(f) for f in glob.glob(pasta + r\"\\affect_*.csv\"))",
+    "coleta <- ler_coleta(c(\"escola_A.zip\", \"escola_B.zip\"))  # .zip do Painel do Pesquisador",
+    "validar_coleta(coleta)            # integridade, duplicatas, lacunas, interrupções",
+    "tb <- tabelas_analise(coleta)     # sessoes, fases, tentativas, afeto_sessao",
     "",
-    "# 1) Estado da solução: distância e posições alteradas por tentativa",
-    "snap = events[events.event == \"solution_snapshot\"].copy()",
-    "snap = snap.join(pd.json_normalize(snap.pop(\"data\")).set_index(snap.index))",
-    "print(snap.groupby([\"scene\", \"attempt\"])[\"distance\"].mean())",
+    "# Distância até a solução por tentativa, em cada fase",
+    "tb$tentativas |> dplyr::group_by(scene, attempt) |> dplyr::summarise(dist = mean(dist_rel))",
     "",
-    "# 2) Expressão facial nos 10 s após cada tentativa",
-    "def janela(e, ini=0, fim=10_000):",
-    "    a = affect[(affect.session == e.session) & (affect.face_present == 1)",
-    "               & affect.t_ms.between(e.t_ms + ini, e.t_ms + fim)]",
-    "    return a[[\"brow_down\", \"mouth_press\", \"smile\"]].mean()",
-    "",
-    "pos = snap.apply(janela, axis=1)",
-    "print(pd.concat([snap[[\"success\"]], pos], axis=1).groupby(\"success\").mean())",
+    "gerar_relatorio(c(\"escola_A.zip\", \"escola_B.zip\"), \"relatorio.html\")",
+    "exportar_codebook(\"codebook.csv\")  # dicionário de variáveis para o artigo",
   ]),
+  P("Os arquivos também podem ser lidos em Python ou em outras ferramentas: são JSON Lines e CSV comuns, descritos no Apêndice A."),
 );
 
-// Apêndice A
+// Apêndice A — gerado do catálogo (catalogo_eventos.json)
+const catalogo = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "catalogo_eventos.json"), "utf8"));
+const nomesCategoria = { sessao: "Sessão", navegacao: "Navegação", desempenho: "Desempenho", estado_solucao: "Estado da solução",
+  acoes: "Ações", engajamento: "Engajamento", afeto: "Afeto", pesquisa: "Pesquisa" };
 add(
   BR(),
   H1("Apêndice A — Dicionário de eventos"),
-  ...table(["Evento", "Quando ocorre", "Principais campos"], [
-    ["`session_start` / `session_end`", "Cadastro concluído / volta ao menu ou saída", "idade, gênero, série, versão, SO, tela, controles / motivo, duração"],
-    ["`scene_enter` / `scene_exit`", "Troca de cena", "nome da cena, tempo na cena"],
-    ["`door_approach` / `door_leave` / `door_enter`", "Aproximar-se, afastar-se ou entrar numa porta", "porta"],
-    ["`puzzle_start`", "Entrada numa fase", "tipo, área, tentativas e tempo anteriores, se já venceu"],
-    ["`puzzle_attempt`", "Cada teste de solução", "número da tentativa, tempo"],
-    ["`puzzle_complete`", "Vitória na fase", "tentativas, tempo"],
-    ["`jewel_earned`", "Nova joia", "fase, total de joias, tempo de jogo"],
-    ["`solution_snapshot`", "Cada teste de solução", "slots, expected, posições certas, distância, primeiro erro, posições alteradas, sucesso, campos do puzzle"],
-    ["`object_pick` / `object_drop` / `object_place`", "Conjuntos: pegar, soltar, encaixar", "objeto, tipo, espaço, correto"],
-    ["`pillar_rotate` / `pillar_push` / `lens_used`", "Espelhos: girar, empurrar, usar lente", "pilar, rotação ou posição anterior, direção"],
-    ["`beam_blocked` / `beam_result` / `solution_final`", "Espelhos: bloqueio, fim do disparo, vitória", "onde bateu, trechos acesos, configuração vencedora"],
-    ["`recipe_place` / `recipe_remove`", "Receitas: colocar/retirar item", "mesa, item, esperado, correto"],
-    ["`pause_open` / `pause_close`", "Menu de pausa", "—"],
-    ["`mission_panel_toggle`", "Consulta à missão (Y)", "—"],
-    ["`scene_restart`", "Reinício de cena", "—"],
-    ["`idle_start` / `idle_end`", "Sem input por N s", "limite, duração"],
-    ["`app_focus` / `app_blur`", "Janela ganha/perde foco", "—"],
-    ["`affect_capture_start` / `_stop` / `_paused` / `_resumed`", "Estado da câmera", "câmera, resolução, taxa, motivo"],
-    ["`affect_capture_disabled` / `affect_unavailable`", "Câmera desligada ou com falha", "motivo, detalhe"],
-    ["`affect_consent`", "Mudança de consentimento", "valor"],
-    ["`affect_summary`", "A cada 10 s de captura", "amostras, proporção de rosto, médias dos índices"],
-  ], [3300, 2600, 3126]),
+  P(`Gerado automaticamente do catálogo de eventos (esquema ${catalogo.schema_version}). Todo evento tem também os campos comuns: ` +
+    catalogo.common_fields.map((f) => "`" + f.name + "`").join(", ") + ". O codebook completo, com a descrição de cada campo, é obtido com `fabulasLA::exportar_codebook()`."),
+  ...table(["Evento", "Categoria", "Quando ocorre", "Campos em data"],
+    catalogo.events.map((e) => ["`" + e.name + "`", nomesCategoria[e.category] || e.category, e.when,
+      e.fields.length ? e.fields.map((f) => f.name).join(", ") : "—"]),
+    [2500, 1300, 2600, 2626]),
 );
 
-// Apêndice B
+// Apêndice B — colunas do arquivo facial (do catálogo)
 add(
   BR(),
   H1("Apêndice B — Colunas do arquivo facial"),
-  ...table(["Coluna(s)", "Descrição"], [
-    ["`utc`, `t_ms`", "Data e hora UTC e tempo desde o início da sessão (mesmo relógio dos eventos)."],
-    ["`session`, `participant`, `scene`", "Identificação da sessão, do participante e da cena."],
-    ["`face_present`", "1 se havia rosto na imagem, 0 caso contrário."],
-    ["`head_yaw`, `head_pitch`, `head_roll`", "Orientação aproximada da cabeça, em graus."],
-    ["`smile` … `gaze_away`", "12 índices derivados (seção 3.7)."],
-    ["`bs_neutral` … `bs_noseSneerRight`", "52 blendshapes brutos do MediaPipe (0 a 1; vazio quando não há rosto)."],
-  ], [3300, 5726]),
+  ...table(["Coluna", "Tipo", "Descrição"], catalogo.affect_columns.map((c) => ["`" + c.name + "`", c.type, c.description]), [2500, 1300, 5226]),
 );
 
 // ---------------------------------------------------------------- documento

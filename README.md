@@ -57,7 +57,6 @@ Além de ensinar, o jogo foi construído como **instrumento de pesquisa**: ele r
       <img src="docs/images/puzzle-receitas.jpg" alt="Puzzle Receitas">
       <h3>🍲 Receitas — algoritmos passo a passo</h3>
       A criança monta uma receita escolhendo o ingrediente e a ação (cortar, fritar) de cada passo; o personagem executa a sequência — um <b>algoritmo</b> em forma de culinária.
-      <br><sub><i>Fases em revisão, fora da build atual.</i></sub>
     </td>
   </tr>
 </table>
@@ -101,6 +100,16 @@ flowchart LR
 | **Ações intermediárias** | Pegar e encaixar objetos, girar e empurrar pilares, montar receitas |
 | **Engajamento** | Pausas, consulta à missão, reinícios, ociosidade e perda de foco |
 | **Expressões faciais** | 52 blendshapes, índices derivados (sorriso, sobrancelha franzida, tensão…) e orientação da cabeça, sincronizados com os eventos |
+| **Estudo e condições** | Estudo, escola, turma, máquina e condição experimental (A/B) em cada sessão |
+| **Qualidade dos dados** | `id` e `seq` em cada evento, recuperação de sessões interrompidas e exportação com checksums |
+
+### 🧑‍🔬 Para pesquisadores
+
+- **Painel do Estudo** (no Unity): configura o estudo sem editar JSON, aponta riscos e gera **códigos de participante com etiquetas para imprimir** — nenhum nome entra no computador da escola.
+- **Tela de consentimento** no jogo, com autorização separada para a câmera.
+- **Painel do Pesquisador** (no jogo, `Ctrl+Shift+R`): estado da coleta, **teste da câmera** com prévia e **exportação com um clique** (`.zip` anonimizado com manifesto).
+- **Pacote R [`fabulasLA`](analysis/fabulasLA)**: lê os `.zip` de todas as escolas, **valida** a coleta, monta tabelas de análise, gera o **codebook** e um **relatório completo** em HTML.
+- **Testes automatizados**: 35 testes no Unity, testes do pacote R e um autoteste de ponta a ponta no jogo compilado.
 
 Exemplo de evento registrado quando a criança testa a partitura:
 
@@ -112,9 +121,10 @@ Exemplo de evento registrado quando a criança testa a partitura:
   "correct_positions": 6, "distance": 2, "changed_positions": [6, 7], "success": false }}
 ```
 
-📄 A documentação completa — com o dicionário de eventos e **20 exemplos de análises de pesquisa** — está em
-[`Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx`](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx).
-A referência técnica está em [`Assets/LearningAnalytics/README.md`](Assets/LearningAnalytics/README.md).
+📄 Documentação:
+- [**Guia do Pesquisador**](Assets/LearningAnalytics/Guia_do_Pesquisador.docx) — protocolo de coleta passo a passo (antes, durante e depois), com checklists e solução de problemas.
+- [**Funcionalidades de Learning Analytics**](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx) — o que é coletado, dicionário de eventos e **24 exemplos de análises de pesquisa**.
+- [Referência técnica](Assets/LearningAnalytics/README.md) e [pacote R](analysis/fabulasLA/README.md).
 
 ---
 
@@ -153,6 +163,7 @@ A referência técnica está em [`Assets/LearningAnalytics/README.md`](Assets/Le
 | Ver missão | `Q` | `Y` |
 | Pausa | `Esc` | `Start` |
 | Pausar câmera da pesquisa | `F9` | — |
+| Painel do Pesquisador | `Ctrl+Shift+R` (+ PIN) | — |
 
 ---
 
@@ -170,6 +181,8 @@ A coleta é configurada pelo arquivo `Assets/StreamingAssets/research_config.jso
 ```
 
 Os dados são gravados em `%USERPROFILE%\AppData\LocalLow\DefaultCompany\Fabulas Computacionais\LearningAnalytics\`.
+O jeito recomendado de configurar é o **Painel do Estudo** (Unity → Fabulas → Learning Analytics → Painel do Estudo),
+e de recolher os dados é o botão **Exportar coleta** do Painel do Pesquisador (`Ctrl+Shift+R` no jogo).
 
 > [!IMPORTANT]
 > A captura facial vem **desligada** por padrão. Por envolver dados de crianças, ative-a apenas com aprovação
@@ -202,12 +215,17 @@ Assets/
 ├── Receitas/                # Puzzle Receitas
 ├── Scripts/                 # Jogador, manipulação de objetos, lógica dos puzzles
 ├── DataManagers/            # Cadastro e dados por fase
-├── LearningAnalytics/       # Telemetria, estado da solução, captura facial e documentação
+├── LearningAnalytics/       # Telemetria, estado da solução, captura facial, ferramentas do pesquisador
+│   ├── catalogo_eventos.json# Catálogo de eventos (fonte única do codebook e da documentação)
 │   ├── Editor/              # Configuração automática do MediaPipe
+│   ├── Ferramentas/Editor/  # Painel do Estudo (Unity)
+│   ├── Tests/Editor/        # Testes automatizados (Unity Test Framework)
+│   ├── SelfTest/            # Autoteste de ponta a ponta no jogo compilado
 │   ├── SmokeTest/           # Testes rápidos da telemetria e do MediaPipe
-│   └── Documentacao~/       # Gerador do documento de funcionalidades (.docx)
+│   └── Documentacao~/       # Geradores do Guia do Pesquisador e do documento de funcionalidades
 ├── StreamingAssets/         # research_config.json e modelo facial do MediaPipe
 └── Tools/                   # Ferramentas de desenvolvimento (tour de capturas de tela, render de cenas)
+analysis/fabulasLA/          # Pacote R: leitura, validação, tabelas, codebook e relatório
 docs/images/                 # Imagens deste README
 Packages/                    # Dependências (coloque aqui o .tgz do MediaPipe)
 ```
@@ -217,7 +235,7 @@ Packages/                    # Dependências (coloque aqui o .tgz do MediaPipe)
 ## 🚧 Status
 
 Projeto **em desenvolvimento** e em uso em pesquisa. Próximos passos planejados incluem autorrelato afetivo
-dentro do jogo, dicas sob demanda e consolidação dos dados de várias escolas em um banco central.
+dentro do jogo, dicas sob demanda (e variações A/B do jogo) e envio automático dos dados das escolas a um servidor.
 
 ## 👥 Equipe
 

@@ -1,0 +1,23 @@
+# Painel individual
+
+Exemplo de visão por aluno, útil para devolutivas a professores ou para análise qualitativa de casos: a linha do tempo de uma sessão com as tentativas (verde = acerto, vermelho = erro) e a evolução das expressões faciais (média móvel de 15 s).
+
+```{r painel, fig.height = 6}
+aluno <- fases |> filter(session %in% sessoes_validas_face) |> count(participant, session, wt = tentativas) |> slice_max(n, n = 1, with_ties = FALSE)
+tl_af <- afeto |> filter(session == aluno$session) |> arrange(t_ms) |>
+  mutate(across(c(smile, brow_down, mouth_press), ~ stats::filter(replace_na(.x, mean(.x, na.rm = TRUE)), rep(1 / 15, 15), sides = 1)))
+tl_tent <- snap |> filter(session == aluno$session)
+tl_cenas <- fases |> filter(session == aluno$session) |> transmute(scene, ini = t_ini / 60000, fim = coalesce(t_saida, t_fim) / 60000, puzzle)
+p1 <- ggplot() + geom_rect(data = tl_cenas, aes(xmin = ini, xmax = fim, ymin = 0, ymax = 1, fill = puzzle), alpha = .25) +
+  geom_point(data = tl_tent, aes(t_ms / 60000, .5, color = success), size = 2.5) +
+  scale_fill_manual(values = cores_puzzle) + scale_color_manual(values = c(`TRUE` = "#2CA02C", `FALSE` = "#C00000"), guide = "none") +
+  labs(title = paste("Linha do tempo —", aluno$participant), x = NULL, y = NULL, fill = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid = element_blank())
+p2 <- tl_af |> select(t_ms, smile, brow_down, mouth_press) |> pivot_longer(-t_ms) |>
+  mutate(name = recode(name, smile = "Sorriso", brow_down = "Sobrancelha franzida", mouth_press = "Lábios pressionados")) |>
+  ggplot(aes(t_ms / 60000, value, color = name)) + geom_line(linewidth = .7) +
+  scale_color_manual(values = c(Sorriso = "#2CA02C", `Sobrancelha franzida` = "#1F77B4", `Lábios pressionados` = "#C00000")) +
+  labs(x = "Minutos de sessão", y = "Índice", color = NULL)
+p1 / p2 + plot_layout(heights = c(1, 2))
+```
+

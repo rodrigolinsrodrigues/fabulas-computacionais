@@ -17,6 +17,12 @@ public class SignupManager : MonoBehaviour
     void Start()
     {
         SetGender(0);
+
+        // Learning analytics: no modo "code" o campo de nome pede o código do participante.
+        if (ResearchConfig.Current.UsesParticipantCodes && inputName != null && inputName.placeholder is Text placeholder)
+        {
+            placeholder.text = "Código do participante";
+        }
     }
     public void EnterName()
     {
@@ -68,15 +74,23 @@ public class SignupManager : MonoBehaviour
 
         if (age != 0 && playerName != "" && playerName.Length >= 3 && schoolGrade != "")
         {
-            // Learning analytics: inicia a sessão (e a câmera, se habilitada) antes da Area1.
-            if (TelemetryManager.Instance != null)
+            // Learning analytics: valida o código (modo "code"), pede consentimento (se exigido),
+            // inicia a sessão de coleta e só então começa o jogo.
+            if (ResearchSessionFlow.Instance != null)
             {
-                TelemetryManager.Instance.StartSession(playerName, age, gender, schoolGrade);
+                ResearchSessionFlow.Instance.Begin(playerName, age, gender, schoolGrade, StartGameplay);
             }
-
-            SceneManager.LoadScene("Area1");
-            GameManager.Instance.StartGame();
+            else
+            {
+                StartGameplay();
+            }
         }
+    }
+
+    private void StartGameplay()
+    {
+        SceneManager.LoadScene("Area1");
+        GameManager.Instance.StartGame();
     }
 }
 

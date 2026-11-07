@@ -1,0 +1,20 @@
+### Qualidade da captura facial *(Exemplo 18)*
+
+**Pergunta:** os dados faciais são suficientes e confiáveis? **Método:** proporção de amostras com rosto detectado por sessão e por máquina; sessões abaixo de 60% são marcadas para exclusão das análises faciais.
+
+```{r qualidade-afeto, fig.height = 4.5}
+cobertura <- afeto |> group_by(session, participant) |> summarise(face_ratio = mean(face_present), .groups = "drop") |>
+  left_join(sessoes |> select(session, maquina), by = "session")
+p1 <- ggplot(cobertura, aes(face_ratio)) + geom_histogram(bins = 25, fill = "#2E75B6", color = "white") +
+  geom_vline(xintercept = .6, linetype = 2, color = "red") +
+  scale_x_continuous(labels = scales::percent) + labs(title = "Cobertura facial por sessão", x = "% de amostras com rosto", y = "Sessões")
+p2 <- cobertura |> group_by(maquina) |> summarise(face = mean(face_ratio)) |>
+  ggplot(aes(reorder(maquina, face), face, fill = face < .6)) + geom_col() + coord_flip() +
+  scale_fill_manual(values = c(`FALSE` = "#2E75B6", `TRUE` = "#C0392B"), guide = "none") +
+  scale_y_continuous(labels = scales::percent) + labs(title = "Cobertura média por máquina", x = NULL, y = NULL)
+p1 + p2
+sessoes_validas_face <- cobertura |> filter(face_ratio >= .6) |> pull(session)
+```
+
+**Resultado:** `r pct(mean(cobertura$face_ratio < .6))` das sessões ficaram abaixo do critério de 60% de cobertura e serão excluídas das análises faciais. A queda se concentra em **`r paste(cobertura |> group_by(maquina) |> summarise(f = mean(face_ratio)) |> filter(f < .6) |> pull(maquina), collapse = ", ")`** — um padrão típico de webcam mal posicionada, que deve ser corrigido antes da coleta principal.
+

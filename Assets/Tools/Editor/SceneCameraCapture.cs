@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 /// <summary>
-/// Renderiza a câmera principal de uma cena (inclusive cenas fora da build) para PNG.
+/// Renderiza a câmera principal de uma cena para PNG, direto no editor (sem rodar o jogo).
 ///   Unity.exe -batchmode -quit -projectPath . -executeMethod SceneCameraCapture.Run
 ///             -captureScene "Assets/Scenes/Receitas/Receitas Fase 1.unity" -captureOut "C:\saida.png"
 /// Interfaces em modo Screen Space Overlay não aparecem nesta captura.
