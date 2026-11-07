@@ -1,7 +1,8 @@
 # Learning Analytics: Fábulas Computacionais
 
 Coleta de dados para pesquisa: **log de eventos do jogo**, **estado da solução a cada tentativa** e
-**expressões faciais pela webcam** (MediaPipe FaceLandmarker). Tudo é processado e gravado **localmente**.
+**expressões faciais pela webcam** (MediaPipe FaceLandmarker). Tudo é processado e gravado **localmente**;
+opcionalmente, uma cópia de todos os eventos e amostras faciais vai para um **servidor central (Supabase)**.
 Nenhuma imagem ou vídeo é salvo.
 
 > **Pesquisador:** comece pelo [Guia do Pesquisador](Guia_do_Pesquisador.docx) (protocolo antes, durante e
@@ -20,11 +21,13 @@ Nenhuma imagem ou vídeo é salvo.
 | `ResearchSessionFlow.cs` | Valida o código, mostra a tela de consentimento e só então inicia a sessão. |
 | `ResearcherPanel.cs` | Painel do Pesquisador no jogo (**Ctrl+Shift+R** + PIN). |
 | `DataExporter.cs` | Exporta a coleta num `.zip` anonimizado com `manifest.json` (SHA-256). |
-| `StudyConfigValidator.cs` | Confere a configuração e aponta riscos. |
+| `StudyConfigValidator.cs` | Confere a configuração (inclusive a do servidor) e aponta riscos. |
+| `ServerSyncConfig.cs` | Lê `StreamingAssets/server_sync.json` (ou `-serverConfig <arquivo>`): URL, chave pública e chave de envio. |
+| `DataUploader.cs` / `SyncEngine.cs` | Envio em segundo plano ao Supabase, com nova tentativa sem internet e sem apagar os arquivos locais. |
 | `catalogo_eventos.json` | **Catálogo de eventos** — fonte única para o codebook, o documento e os testes. |
 | `Ferramentas/Editor/StudyPanel.cs` | **Painel do Estudo** no Unity (Fabulas → Learning Analytics → Painel do Estudo). |
 | `Editor/MediaPipeSetup.cs` | Ativa o símbolo `FABULAS_MEDIAPIPE` quando o plugin está instalado e copia o modelo. |
-| `Tests/Editor/` | 35 testes automatizados (Unity Test Framework). |
+| `Tests/Editor/` | 43 testes automatizados (Unity Test Framework). |
 | `SelfTest/AnalyticsSelfTest.cs` | Autoteste de ponta a ponta no jogo compilado (só com argumento de linha de comando). |
 | `Documentacao~/` | Geradores dos dois documentos `.docx` (a pasta termina em `~` para o Unity ignorá-la). |
 
@@ -64,17 +67,40 @@ Use o **Painel do Estudo** (Unity → Fabulas → Learning Analytics → Painel 
 | `affectSampleRateHz` / `affectSummaryIntervalSeconds` | `2` / `10` | Amostras faciais por segundo e intervalo do resumo. |
 | `cameraDeviceName` / `cameraWidth/Height/Fps` | `""` / `640/480/15` | Webcam e resolução. |
 | `saveRawBlendshapes` / `showCameraIndicator` | `true` / `true` | 52 blendshapes brutos e aviso de câmera ativa. |
+| `showCameraPreviewOnSignup` | `true` | Telinha da câmera na tela de cadastro (canto superior direito), para o pesquisador conferir a posição; some quando o estudante inicia. Nada é gravado nela. |
 
 Linha de comando: `-researchConfig <arquivo>` usa outra configuração e `-analyticsDataFolder <pasta>` grava os dados em outra pasta.
+
+### Servidor central (opcional)
+
+O envio fica em `StreamingAssets/server_sync.json`, que **vem no repositório** ligado ao Supabase do projeto (estudo `FABULAS`):
+quem rodar o jogo, mesmo em testes, grava no servidor. A chave de envio só grava; a de leitura fica fora do Git, em `Pesquisa/`.
+Para uma coleta real, gere chaves de um estudo próprio para não misturar com testes. Configure pelo
+Painel do Estudo, seção *Servidor central*; o passo a passo do Supabase está em [`server/supabase`](../../server/supabase).
+
+| Campo | Padrão | Descrição |
+|---|---|---|
+| `enabled` | `false` | Liga o envio. |
+| `serverUrl` / `anonKey` | `""` | URL do projeto e chave **pública** (anon/publishable). Nunca a `service_role`. |
+| `studyId` | `""` | Vazio = o `studyId` do `research_config.json`. |
+| `uploadKey` | `""` | Chave de envio do estudo (botão *Gerar chaves do estudo*). Só grava; não lê. |
+| `syncIntervalSeconds` | `30` | Intervalo entre envios. |
+
+Como funciona: lotes de 500 eventos / 300 amostras; o servidor confirma até onde recebeu (`.sync_state.tsv`);
+sem internet, nova tentativa com espera crescente (até 5 min) e o restante vai na próxima abertura do jogo;
+eventos repetidos são ignorados pelo `id`. `-noServerSync` desliga o envio numa execução.
 
 ## 3. Ferramentas do pesquisador
 
 - **Códigos de participante:** o Painel do Estudo gera códigos (ex.: `K7M2X`) e uma página de **etiquetas para imprimir**
   em `Pesquisa/`. O último caractere é verificador: qualquer erro de um caractere ou troca de vizinhos é recusada no jogo.
+- **Prévia da câmera no cadastro** (`SignupCameraPreview.cs`): enquanto o cadastro está aberto, uma telinha no canto superior direito
+  mostra a câmera e indica "✓ Rosto detectado" / "ajuste a câmera" / "câmera indisponível". Some ao clicar em Iniciar.
 - **Tela de consentimento** (`requireConsent`): texto em `StreamingAssets/consent_text.txt`, com autorização separada para a câmera.
   Quem não concorda joga normalmente, sem registro.
 - **Painel do Pesquisador** (no jogo, **Ctrl+Shift+R** + PIN): estudo, sessão, eventos gravados, pasta, espaço em disco,
-  **teste da câmera** com prévia e "rosto detectado" (sem gravar) e **Exportar coleta (.zip)**.
+  **teste da câmera** com prévia e "rosto detectado" (sem gravar), **Exportar coleta (.zip)** e, com o servidor ligado,
+  o estado do envio e o botão **Sincronizar agora**.
 - **Exportação:** `coleta_<estudo>_<escola>_<máquina>_<data>.zip` com eventos, dados faciais e `manifest.json` (SHA-256 de cada arquivo).
   Por padrão **sem** o mapa de nomes.
 
@@ -89,6 +115,7 @@ Pasta: `Application.persistentDataPath/LearningAnalytics/` (Windows:
 | `affect_<sessão>.csv` | Uma linha por amostra da webcam. |
 | `participants_map.csv` | Só no modo `name`: nome ↔ código. **Único arquivo com nome.** |
 | `Exportacoes/coleta_*.zip` | Exportações feitas pelo Painel do Pesquisador. |
+| `.sync_state.tsv` | Com o servidor ligado: até onde o servidor confirmou cada sessão. |
 
 ```json
 {"id":"9c1f0d2e…","seq":42,"t":"2026-11-05T14:03:22.4810000Z","t_ms":81234.5,"session":"20261105T140201Z-a1b2c3",
@@ -126,17 +153,23 @@ library(fabulasLA)
 coleta <- ler_coleta(c("escola_A.zip", "escola_B.zip"))   # pastas e/ou .zip
 validar_coleta(coleta)
 tb <- tabelas_analise(coleta)                             # sessoes, fases, tentativas, afeto_sessao
-gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")
+gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")   # estudo em grupo
+gerar_relatorio_individual("K7M2X", c("escola_A.zip", "escola_B.zip"))   # um estudante
+estados_faciais(coleta)   # confusão, frustração, tédio, engajamento, encantamento (estimados na análise, não gravados)
 exportar_codebook("codebook.csv")
+
+# Com o servidor central (chave de leitura em FABULAS_CHAVE_LEITURA, no .Renviron)
+coleta <- ler_coleta_servidor("https://<projeto>.supabase.co", "<chave pública>", "PILOTO26")
 ```
 
 ## 7. Testes automatizados
 
 | Testes | Como rodar | O que cobrem |
 |---|---|---|
-| **Unity (35)** | Window → General → Test Runner → EditMode, ou `Unity.exe -batchmode -runTests -testPlatform EditMode -projectPath .` | JSON dos eventos, sequência e ids, recuperação de sessão, códigos (todo erro de 1 caractere e troca de vizinhos), condições, validador, exportação e checksums, estado da solução, índices faciais, catálogo ↔ código ↔ pacote R |
-| **Pacote R** | `testthat::test_dir("analysis/fabulasLA/tests/testthat", package = "fabulasLA", load_package = "installed")` | leitura, validação (incluindo dados corrompidos), tabelas, codebook, códigos; com `FABULAS_ZIP_TESTE=<zip>`, lê um .zip do jogo |
-| **Ponta a ponta** | `FabulasComputacionais.exe -batchmode -nographics -analyticsSelfTest completo -selfTestOut <pasta> -researchConfig <config> -analyticsDataFolder <pasta>` (modos: `interromper`, `completo`, `codigo_invalido`) | jogo real: cadastro com código, consentimento, fase com tentativas e vitória, painel, exportação, queda simulada e código inválido; o .zip é validado com o pacote R |
+| **Unity (43)** | Window → General → Test Runner → EditMode, ou `Unity.exe -batchmode -runTests -testPlatform EditMode -projectPath .` | JSON dos eventos, sequência e ids, recuperação de sessão, códigos (todo erro de 1 caractere e troca de vizinhos), condições, validador, exportação e checksums, estado da solução, índices faciais, catálogo ↔ código ↔ pacote R, envio ao servidor (servidor falso: sem internet, queda no meio, reinstalação, chave errada, linha incompleta) |
+| **Pacote R** | `testthat::test_dir("analysis/fabulasLA/tests/testthat", package = "fabulasLA", load_package = "installed")` | leitura, validação (incluindo dados corrompidos), tabelas, codebook, códigos, download do servidor (paginação); com `FABULAS_ZIP_TESTE=<zip>`, lê um .zip do jogo |
+| **Ponta a ponta** | `FabulasComputacionais.exe -batchmode -nographics -analyticsSelfTest completo -selfTestOut <pasta> -researchConfig <config> -analyticsDataFolder <pasta>` (modos: `interromper`, `completo`, `codigo_invalido`) | jogo real: cadastro com código, consentimento, fase com tentativas e vitória, painel, exportação, queda simulada e código inválido; o .zip é validado com o pacote R; com `-serverConfig`, confere que tudo chegou ao servidor |
+| **Banco de dados** | ver [`server/supabase/README.md`](../../server/supabase/README.md) | recebimento, duplicatas, chaves, permissões e leitura paginada |
 
 ## 8. Limitações e cuidados
 

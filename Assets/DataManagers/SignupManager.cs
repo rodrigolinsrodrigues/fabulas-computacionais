@@ -74,6 +74,7 @@ public class SignupManager : MonoBehaviour
 
         if (age != 0 && playerName != "" && playerName.Length >= 3 && schoolGrade != "")
         {
+            SignupCameraPreview.Dismiss();   // a telinha da câmera some quando o estudante inicia
             // Learning analytics: valida o código (modo "code"), pede consentimento (se exigido),
             // inicia a sessão de coleta e só então começa o jogo.
             if (ResearchSessionFlow.Instance != null)

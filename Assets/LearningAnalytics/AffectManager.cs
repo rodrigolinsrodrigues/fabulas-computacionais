@@ -245,7 +245,9 @@ public class AffectManager : MonoBehaviour
         if (tm == null || !tm.SessionActive) return;
         Directory.CreateDirectory(TelemetryManager.DataFolder);
         string path = Path.Combine(TelemetryManager.DataFolder, $"affect_{tm.SessionId}.csv");
+        bool exists = File.Exists(path) && new FileInfo(path).Length > 0;
         _csv = new StreamWriter(path, true, new UTF8Encoding(false));
+        if (exists) return;   // captura retomada na mesma sessão: não repete o cabeçalho
 
         var header = new StringBuilder("utc,t_ms,session,participant,scene,face_present,head_yaw,head_pitch,head_roll");
         foreach (var n in FaceAffectSample.DerivedNames) header.Append(',').Append(n);

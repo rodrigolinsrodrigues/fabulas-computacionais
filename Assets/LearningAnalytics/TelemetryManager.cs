@@ -74,6 +74,8 @@ public class TelemetryManager : MonoBehaviour
         go.AddComponent<AffectManager>();
         go.AddComponent<ResearchSessionFlow>();
         go.AddComponent<ResearcherPanel>();
+        go.AddComponent<DataUploader>();
+        go.AddComponent<SignupCameraPreview>();
     }
 
     private void Awake()
@@ -171,6 +173,7 @@ public class TelemetryManager : MonoBehaviour
         _writer?.Dispose();
         _writer = null;
         DeleteOpenMarker();
+        if (DataUploader.Instance != null) DataUploader.Instance.SyncNow();   // envia o fim da sessão ao servidor
     }
 
     /// <summary>

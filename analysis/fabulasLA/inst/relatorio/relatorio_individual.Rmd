@@ -1,0 +1,420 @@
+---
+title: "Fábulas Computacionais — Relatório Individual"
+subtitle: "`r if (nzchar(params$participante)) paste('Estudante', params$participante) else 'Estudante escolhido automaticamente (demonstração)'`"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    theme: flatly
+    highlight: tango
+    code_folding: hide
+    fig_width: 9
+    fig_height: 4.5
+params:
+  participante: ""     # código do estudante (ex.: "K7M2X"); vazio = o estudante com mais tentativas
+  caminhos: ""         # pastas/.zip separados por ";" (ex.: "C:/PILOTO26")
+  servidor_url: ""     # ou ler do Supabase: "https://<projeto>.supabase.co" (chave de leitura em FABULAS_CHAVE_LEITURA)
+  chave_publica: ""    # chave publishable/anon do projeto
+  estudo: ""           # studyId no servidor (ex.: "PILOTO26")
+  n_alunos: 30         # sem caminhos nem servidor: dados simulados com este número de estudantes
+  semente: 2026
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.align = "center", dpi = 110)
+options(knitr.kable.NA = "—")
+suppressPackageStartupMessages({
+  library(fabulasLA)
+  library(dplyr); library(tidyr); library(purrr); library(tibble); library(stringr)
+  library(ggplot2); library(patchwork)
+})
+theme_set(theme_minimal(base_size = 12) +
+            theme(plot.title = element_text(face = "bold"), legend.position = "bottom",
+                  panel.grid.minor = element_blank()))
+cores_puzzle <- c(Musical = "#7B3F99", Espelhos = "#1F77B4", Conjuntos = "#2CA02C", Receitas = "#E07B00", Área = "#9E9E9E")
+cores_indice <- c(Sorriso = "#2CA02C", `Sobrancelha franzida` = "#1F77B4", `Lábios pressionados` = "#C00000",
+                  `Olhos arregalados` = "#E07B00", `Olhar desviado` = "#7F7F7F")
+nomes_indice <- c(smile = "Sorriso", brow_down = "Sobrancelha franzida", mouth_press = "Lábios pressionados",
+                  eye_wide = "Olhos arregalados", gaze_away = "Olhar desviado")
+tabela <- function(df, digitos = 2, ...) knitr::kable(df, digits = digitos, format.args = list(big.mark = ".", decimal.mark = ","), ...)
+pct <- function(x, d = 0) scales::percent(x, accuracy = 10^-d, decimal.mark = ",")
+num <- function(x, d = 1) format(round(x, d), nsmall = d, decimal.mark = ",", big.mark = ".")
+garantir <- function(df, cols) { for (c in cols) if (!c %in% names(df)) df[[c]] <- NA; df }
+txt <- function(x) vapply(x, function(v) paste(unlist(v), collapse = " · "), "")
+puzzle_de <- function(cena) case_when(str_detect(cena, "^Musical") ~ "Musical", str_detect(cena, "^Espelhos") ~ "Espelhos",
+                                      str_detect(cena, "^Conjuntos") ~ "Conjuntos", str_detect(cena, "^Receitas") ~ "Receitas",
+                                      str_detect(cena, "^Area") ~ "Área", TRUE ~ NA_character_)
+norm <- function(x) toupper(gsub("[^A-Za-z0-9]", "", x))
+```
+
+```{r dados, include = FALSE}
+dados <- fabulasLA:::.carregar_coleta_relatorio(params$caminhos, params$servidor_url, params$chave_publica,
+                                                params$estudo, params$n_alunos, params$semente)
+coleta <- dados$coleta
+tb <- tabelas_analise(coleta)
+
+# Estudante: o indicado ou, sem indicação, o que fez mais tentativas
+codigo <- norm(params$participante)
+if (!nzchar(codigo)) codigo <- tb$fases |> count(participant, wt = tentativas) |> slice_max(n, n = 1, with_ties = FALSE) |> pull(participant)
+disponiveis <- sort(unique(coleta$eventos$participant))
+if (!codigo %in% norm(disponiveis))
+  stop("Participante '", codigo, "' não encontrado nestes dados. Alguns códigos disponíveis: ",
+       paste(head(disponiveis, 20), collapse = ", "))
+eh <- function(p) norm(p) == codigo
+
+ev_all <- garantir(coleta$eventos, c("idle_ms", "door", "level_type", "time_s", "segments_lit", "segments_total"))
+ev <- ev_all |> filter(eh(participant)) |> arrange(session, t_ms)
+ses <- tb$sessoes |> filter(eh(participant)) |> arrange(inicio_utc)
+fases <- tb$fases |> filter(eh(participant))
+snap <- tb$tentativas |> filter(eh(participant)) |> arrange(session, t_ms)
+af <- if (nrow(coleta$afeto) > 0) coleta$afeto |> filter(eh(participant)) |> arrange(session, t_ms) else tibble()
+tem_afeto <- nrow(af) > 0 && any(af$face_present == 1, na.rm = TRUE)
+indices <- intersect(names(nomes_indice), names(af))
+
+# Grupo (para comparação)
+fases_grupo <- tb$fases
+n_grupo <- n_distinct(tb$sessoes$participant)
+```
+
+<div style="background:#FFF4CE;border-left:5px solid #E0A800;padding:12px 16px;margin:16px 0;">
+`r if (dados$simulado) paste0("<b>Atenção: dados simulados.</b> Este relatório usa dados <b>fictícios</b> (", n_grupo, " estudantes gerados por <code>simular_coleta()</code>) e serve só para mostrar como fica a análise de um estudante. Com dados reais: <code>fabulasLA::gerar_relatorio_individual(\"K7M2X\", \"pasta_ou_zip\")</code>.") else paste0("Dados de: <code>", dados$fonte, "</code>. Comparações com o grupo usam os ", n_grupo, " estudantes desta coleta.")`
+</div>
+
+# Resumo do estudante
+
+```{r resumo}
+concl <- fases |> filter(concluiu)
+tent_media <- mean(concl$tentativas)
+# Percentil do estudante no grupo (menos tentativas e menos tempo = melhor)
+cmp <- fases_grupo |> filter(concluiu) |> group_by(participant) |>
+  summarise(tent = mean(tentativas), tempo = mean(tempo_s, na.rm = TRUE), concluidas = n(), .groups = "drop")
+meu <- cmp |> filter(eh(participant))
+perc <- function(v, x) if (length(x) == 0 || is.na(x)) NA else mean(v <= x)
+p_tent <- perc(cmp$tent, meu$tent); p_tempo <- perc(cmp$tempo, meu$tempo)
+p_concl <- perc(cmp$concluidas, meu$concluidas)
+joias <- ev |> filter(event == "jewel_earned") |> nrow()
+resumo <- tibble(
+  Indicador = c("Sessões", "Tempo total de jogo", "Fases iniciadas", "Fases concluídas", "Fases abandonadas",
+                "Joias conquistadas", "Tentativas por fase concluída", "Tempo médio por fase concluída",
+                "Tentativas com acerto"),
+  Valor = c(nrow(ses), paste(num(sum(ses$duracao_min, na.rm = TRUE), 0), "min"), nrow(fases), nrow(concl),
+            sum(fases$abandonou, na.rm = TRUE), joias, num(tent_media, 1),
+            paste(num(mean(concl$tempo_s, na.rm = TRUE) / 60, 1), "min"),
+            if (nrow(snap) > 0) pct(mean(snap$success, na.rm = TRUE)) else "—"),
+  `No grupo` = c("", "", "", paste0("concluiu mais que ", pct(1 - p_concl), " dos colegas"), "", "",
+                 paste0("menos tentativas que ", pct(1 - p_tent), " dos colegas"),
+                 paste0("mais rápido que ", pct(1 - p_tempo), " dos colegas"), ""))
+tabela(resumo)
+```
+
+```{r destaques, include = FALSE}
+por_puzzle <- fases |> filter(!is.na(puzzle)) |> group_by(puzzle) |>
+  summarise(concl = mean(concluiu), tent = mean(tentativas[concluiu]), .groups = "drop")
+ref_puzzle <- fases_grupo |> filter(!is.na(puzzle), concluiu) |> group_by(puzzle) |> summarise(tent_g = median(tentativas), .groups = "drop")
+por_puzzle <- por_puzzle |> left_join(ref_puzzle, by = "puzzle") |> mutate(razao = tent / tent_g)
+forte <- por_puzzle |> filter(concl > 0) |> slice_min(razao, n = 1, with_ties = FALSE)
+fraco <- por_puzzle |> slice_max(coalesce(razao, 99) + (1 - concl) * 10, n = 1, with_ties = FALSE)
+```
+
+**Destaques (calculados automaticamente):**
+
+- Melhor desempenho relativo em **`r forte$puzzle`** (`r num(forte$tent, 1)` tentativas por fase, contra mediana de `r num(forte$tent_g, 1)` no grupo).
+- Maior dificuldade em **`r fraco$puzzle`** (`r pct(fraco$concl)` das fases concluídas`r if (!is.na(fraco$tent)) paste0(", ", num(fraco$tent, 1), " tentativas por fase") else ""`).
+- `r if (sum(fases$abandonou, na.rm = TRUE) > 0) paste0("Abandonou ", sum(fases$abandonou, na.rm = TRUE), " fase(s): ", paste(fases$scene[which(fases$abandonou)], collapse = ", "), ".") else "Não abandonou nenhuma fase iniciada."`
+- `r if (tem_afeto) paste0("Câmera: rosto detectado em ", pct(mean(af$face_present == 1, na.rm = TRUE)), " das amostras.") else "Sem dados faciais para este estudante (câmera desligada, sem consentimento ou sem webcam)."`
+
+# Sessões
+
+```{r sessoes}
+ses |> transmute(Sessão = session, Início = substr(inicio_utc, 1, 16), Escola = escola, Turma = turma,
+                 Condição = condicao, Idade = idade, Série = serie, Gênero = genero, Dispositivo = dispositivo,
+                 `Duração (min)` = duracao_min, Fim = recode(motivo_fim, back_to_menu = "voltou ao menu", app_quit = "fechou o jogo",
+                                                            interrupted = "interrompida (queda)")) |>
+  tabela(digitos = 1)
+```
+
+# Percurso no jogo
+
+**Pergunta:** por onde o estudante andou, em que ordem e quanto tempo ficou em cada cena? Cada faixa é uma cena (áreas em cinza, fases coloridas pelo tipo de puzzle); os pontos são tentativas (verde = acerto, vermelho = erro).
+
+```{r percurso, fig.height = 2.2 + 1.3 * nrow(ses)}
+entradas <- ev |> filter(event %in% c("scene_enter", "session_end")) |> group_by(session) |>
+  mutate(fim = lead(t_ms)) |> ungroup() |> filter(event == "scene_enter", !is.na(fim)) |>
+  transmute(session, scene, ini = t_ms / 60000, fim = fim / 60000, tipo = puzzle_de(scene))
+ggplot(entradas) +
+  geom_rect(aes(xmin = ini, xmax = fim, ymin = 0, ymax = 1, fill = tipo), alpha = .45, color = "white") +
+  geom_text(data = entradas |> filter(fim - ini > 2.5), aes(x = (ini + fim) / 2, y = .85, label = str_replace(scene, " Fase ", " ")), size = 2.3) +
+  geom_point(data = snap, aes(t_ms / 60000, .4, color = success), size = 2.4) +
+  scale_fill_manual(values = cores_puzzle, na.value = "grey85") +
+  scale_color_manual(values = c(`TRUE` = "#2CA02C", `FALSE` = "#C00000"), guide = "none") +
+  facet_wrap(~session, ncol = 1, scales = "free_x") +
+  labs(title = "Linha do tempo das sessões", x = "Minutos de sessão", y = NULL, fill = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid = element_blank())
+```
+
+```{r ordem}
+ev |> filter(event == "puzzle_start") |> transmute(Ordem = row_number(), Fase = scene, `Minuto` = t_ms / 60000) |>
+  head(30) |> tabela(digitos = 1, caption = "Ordem em que as fases foram iniciadas")
+```
+
+# Desempenho em cada fase
+
+**Pergunta:** em que fases o estudante foi melhor ou pior que os colegas? Os pontos vermelhos são o estudante; as caixas mostram a distribuição do grupo (só fases concluídas).
+
+```{r desempenho-tabela}
+fases |> arrange(t_ini) |>
+  left_join(fases_grupo |> filter(concluiu) |> group_by(scene) |>
+              summarise(med_tent = median(tentativas), med_tempo = median(tempo_s, na.rm = TRUE) / 60, .groups = "drop"), by = "scene") |>
+  transmute(Fase = scene, Tentativas = tentativas, `Mediana do grupo` = med_tent,
+            `Tempo (min)` = tempo_s / 60, `Mediana grupo (min)` = med_tempo,
+            Resultado = case_when(concluiu ~ "✅ concluiu", abandonou ~ "❌ abandonou", TRUE ~ "— em andamento")) |>
+  tabela(digitos = 1)
+```
+
+```{r desempenho-grafico, fig.height = 5}
+g <- fases_grupo |> filter(concluiu, scene %in% fases$scene)
+p1 <- ggplot(g, aes(tentativas, reorder(scene, desc(scene)))) + geom_boxplot(fill = "grey90", outlier.alpha = .3) +
+  geom_point(data = fases |> filter(concluiu), color = "#C00000", size = 3) +
+  labs(title = "Tentativas até concluir", x = "Tentativas", y = NULL)
+p2 <- ggplot(g, aes(tempo_s / 60, reorder(scene, desc(scene)))) + geom_boxplot(fill = "grey90", outlier.alpha = .3) +
+  geom_point(data = fases |> filter(concluiu), color = "#C00000", size = 3) +
+  labs(title = "Tempo até concluir", x = "Minutos", y = NULL) + theme(axis.text.y = element_blank())
+p1 + p2
+```
+
+# Como o estudante resolveu
+
+## Distância até a solução a cada tentativa
+
+**Pergunta:** a cada tentativa, o estudante se aproximava da resposta (depuração sistemática) ou mudava tudo de novo (tentativa e erro)? A distância é a proporção de posições erradas (0 = solução correta).
+
+```{r curvas, fig.height = 4.5}
+if (nrow(snap) > 0) {
+  ggplot(snap |> filter(!is.na(dist_rel)), aes(attempt, dist_rel, color = puzzle)) +
+    geom_line(linewidth = .9) + geom_point(aes(shape = success), size = 2.6) +
+    scale_color_manual(values = cores_puzzle, guide = "none") + scale_shape_manual(values = c(`TRUE` = 16, `FALSE` = 1), labels = c(`TRUE` = "acerto", `FALSE` = "erro")) +
+    scale_y_continuous(labels = scales::percent) + facet_wrap(~scene) +
+    labs(title = "Distância até a solução por tentativa", x = "Tentativa", y = "Posições erradas", shape = NULL)
+}
+```
+
+```{r estrategia, include = FALSE}
+mudancas <- snap |> filter(!success, !is.na(n_changed), n_changed >= 0, attempt > 1)
+estrategia <- if (nrow(mudancas) == 0) "Poucas tentativas para identificar uma estratégia." else {
+  m <- mean(mudancas$n_changed <= 2)
+  if (m >= .6) paste0("Na maioria das novas tentativas (", pct(m), "), mudou **poucas posições** — sinal de depuração sistemática: corrige o que está errado e mantém o que está certo.")
+  else paste0("Em ", pct(1 - m), " das novas tentativas mudou **muitas posições ao mesmo tempo** — sinal de tentativa e erro; pode se beneficiar de orientação para testar uma mudança por vez.")
+}
+```
+
+**Estratégia observada:** `r estrategia`
+
+## Tentativas em detalhe
+
+```{r tentativas}
+snap |> transmute(Fase = scene, `#` = attempt, Montou = txt(slots), Esperado = txt(expected),
+                  `Posições erradas` = distance, Mudou = ifelse(n_changed < 0, NA, n_changed), Acerto = ifelse(success, "✅", "❌")) |>
+  head(60) |> tabela(digitos = 0)
+```
+
+## Erros recorrentes
+
+```{r erros}
+achatar <- function(df, col) {
+  if (!col %in% names(df) || nrow(df) == 0) return(tibble(puzzle = character(), erro = character()))
+  map2_dfr(df$puzzle, df[[col]], function(p, v) { v <- as.character(unlist(v)); tibble(puzzle = rep(p, length(v)), erro = v) })
+}
+erros <- bind_rows(achatar(snap, "confusions"), achatar(snap, "step_errors")) |>
+  filter(!is.na(erro), !erro %in% c("", "ok"))
+if (nrow(erros) > 0) {
+  erros |> count(Puzzle = puzzle, `Erro (esperado->colocado ou tipo)` = erro, sort = TRUE, name = "Vezes") |> head(15) |> tabela()
+} else cat("Nenhum erro de classificação (Conjuntos) ou de passo (Receitas) registrado.")
+```
+
+# Engajamento
+
+```{r engajamento}
+ocio <- ev |> filter(event == "idle_end")
+eng <- tibble(
+  Indicador = c("Períodos ociosos (sem mexer)", "Tempo total ocioso", "Pausas (menu Esc)", "Consultas à missão",
+                "Reinícios de fase", "Saiu da janela do jogo"),
+  Valor = c(nrow(ocio), paste(num(sum(as.numeric(ocio$idle_ms), na.rm = TRUE) / 60000, 1), "min"),
+            sum(ev$event == "pause_open"), sum(ev$event == "mission_panel_toggle"),
+            sum(ev$event == "scene_restart"), sum(ev$event == "app_blur")))
+tabela(eng)
+```
+
+`r if (nrow(ocio) > 0) paste0("Os períodos ociosos aconteceram principalmente em: ", paste(names(sort(table(ocio$scene), decreasing = TRUE))[1:min(3, n_distinct(ocio$scene))], collapse = ", "), ". Ociosidade longa logo depois de erros costuma indicar que a criança ficou travada.") else ""`
+
+# Expressões faciais integradas às ações
+
+`r if (!tem_afeto) "*Sem dados faciais para este estudante: esta seção foi omitida.*" else paste0("A câmera registrou ", num(nrow(af), 0), " amostras (rosto detectado em ", pct(mean(af$face_present == 1, na.rm = TRUE)), "). Os índices são mostrados em **escore z em relação à linha de base do próprio estudante**: 0 é o normal dele; +1 é um desvio-padrão acima do normal dele. Assim não se compara o rosto de uma criança com o de outra.")`
+
+```{r afeto-prep, include = FALSE, eval = tem_afeto}
+com_rosto <- af |> filter(face_present == 1)
+lb <- com_rosto |> summarise(across(all_of(indices), list(m = ~ mean(.x, na.rm = TRUE), s = ~ sd(.x, na.rm = TRUE))))
+z <- function(v, i) (v - lb[[paste0(i, "_m")]]) / lb[[paste0(i, "_s")]]
+afz <- com_rosto
+for (i in indices) afz[[i]] <- z(afz[[i]], i)
+```
+
+## Linha do tempo: ações e expressões
+
+```{r afeto-tempo, eval = tem_afeto, fig.height = 3 + 2.6 * nrow(ses)}
+suav <- afz |> group_by(session) |> arrange(t_ms, .by_group = TRUE) |>
+  mutate(across(all_of(intersect(c("smile", "brow_down", "mouth_press"), indices)),
+                ~ as.numeric(stats::filter(replace_na(.x, 0), rep(1 / 15, 15), sides = 1)))) |> ungroup() |>
+  select(session, t_ms, any_of(c("smile", "brow_down", "mouth_press"))) |> pivot_longer(-c(session, t_ms)) |>
+  mutate(name = nomes_indice[name])
+ggplot(suav, aes(t_ms / 60000, value, color = name)) +
+  geom_rect(data = entradas, aes(xmin = ini, xmax = fim, ymin = -Inf, ymax = Inf, fill = tipo), inherit.aes = FALSE, alpha = .12) +
+  geom_hline(yintercept = 0, color = "grey50") + geom_line(linewidth = .6, na.rm = TRUE) +
+  geom_point(data = snap, aes(t_ms / 60000, -2.2, shape = success), inherit.aes = FALSE, size = 2) +
+  scale_color_manual(values = cores_indice) + scale_fill_manual(values = cores_puzzle, guide = "none", na.value = "grey90") +
+  scale_shape_manual(values = c(`TRUE` = 16, `FALSE` = 4), labels = c(`TRUE` = "tentativa certa", `FALSE` = "tentativa errada")) +
+  coord_cartesian(ylim = c(-2.5, 3)) + facet_wrap(~session, ncol = 1, scales = "free_x") +
+  labs(title = "Expressões ao longo do jogo (média móvel de ~7 s, escore z)", x = "Minutos de sessão", y = "Desvios da linha de base", color = NULL, shape = NULL)
+```
+
+## Expressão em cada cena
+
+**Pergunta:** em quais cenas o estudante sorriu mais, franziu mais a sobrancelha ou desviou mais o olhar, em relação ao próprio normal?
+
+```{r afeto-cena, eval = tem_afeto, fig.height = 4.5}
+por_cena <- afz |> group_by(scene) |> summarise(amostras = n(), across(all_of(indices), ~ mean(.x, na.rm = TRUE)), .groups = "drop") |>
+  filter(amostras >= 10) |> pivot_longer(all_of(indices)) |> mutate(name = nomes_indice[name])
+ggplot(por_cena, aes(name, reorder(scene, desc(scene)), fill = value)) + geom_tile(color = "white") +
+  geom_text(aes(label = num(value, 1)), size = 3) +
+  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B", midpoint = 0, limits = c(-1.5, 1.5), oob = scales::squish) +
+  labs(title = "Média por cena (escore z: vermelho = acima do normal do estudante)", x = NULL, y = NULL, fill = "z") +
+  theme(axis.text.x = element_text(angle = 20, hjust = 1))
+```
+
+## Reação a erros e acertos
+
+**Pergunta:** como o rosto do estudante mudou nos segundos seguintes a uma tentativa errada, comparado com uma certa? **Método:** média das amostras de 5 s antes a 10 s depois de cada tentativa, em escore z.
+
+```{r afeto-reacao, eval = tem_afeto && nrow(snap) > 0, fig.height = 4}
+jan <- snap |> transmute(session, t0 = t_ms, resultado = ifelse(success, "Acerto", "Erro"), lo = t_ms - 5000, hi = t_ms + 10000) |>
+  inner_join(afz |> select(session, t_ms, any_of(c("smile", "brow_down", "mouth_press"))), by = join_by(session, between(y$t_ms, x$lo, x$hi))) |>
+  mutate(rel = round((t_ms - t0) / 1000)) |> pivot_longer(any_of(c("smile", "brow_down", "mouth_press"))) |>
+  group_by(resultado, name, rel) |> summarise(value = mean(value, na.rm = TRUE), n = n(), .groups = "drop") |>
+  mutate(name = nomes_indice[name])
+ggplot(jan, aes(rel, value, color = resultado)) + geom_vline(xintercept = 0, linetype = 2, color = "grey50") +
+  geom_hline(yintercept = 0, color = "grey80") + geom_line(linewidth = 1) + facet_wrap(~name) +
+  scale_color_manual(values = c(Acerto = "#2CA02C", Erro = "#C00000")) +
+  labs(title = "Expressão em torno das tentativas", x = "Segundos em relação à tentativa", y = "Escore z", color = NULL)
+reacao <- jan |> filter(rel >= 1, rel <= 6) |> group_by(resultado, name) |> summarise(v = mean(value), .groups = "drop")
+dif_brow <- with(reacao, v[resultado == "Erro" & name == "Sobrancelha franzida"] - v[resultado == "Acerto" & name == "Sobrancelha franzida"])
+dif_smile <- with(reacao, v[resultado == "Acerto" & name == "Sorriso"] - v[resultado == "Erro" & name == "Sorriso"])
+```
+
+`r if (tem_afeto && nrow(snap) > 0 && exists("dif_brow") && length(dif_brow) == 1 && length(dif_smile) == 1) paste0("**Resultado:** depois de errar, a sobrancelha franzida ficou ", num(abs(dif_brow), 2), " desvio(s) ", ifelse(dif_brow > 0, "**acima**", "abaixo"), " do que depois de acertar; depois de acertar, o sorriso ficou ", num(abs(dif_smile), 2), " desvio(s) ", ifelse(dif_smile > 0, "**acima**", "abaixo"), " do que depois de errar. ", ifelse(dif_brow > .3, "Há sinal de reação negativa ao erro, que vale observar em sala.", "A reação ao erro foi discreta.")) else ""`
+
+## Expressão em cada ação
+
+Para cada ação do estudante, a expressão de 1 s antes a 3 s depois (`afeto_por_evento()`), em escore z. Use para ver **exatamente** o que acontecia no rosto em um momento do jogo.
+
+```{r afeto-acoes, eval = tem_afeto}
+acoes <- afeto_por_evento(coleta, eventos = c("puzzle_start", "solution_snapshot", "puzzle_complete", "jewel_earned",
+                                              "idle_start", "scene_restart", "mission_panel_toggle", "pause_open"),
+                          participante = codigo)
+acoes |> left_join(snap |> select(session, t_ms, success), by = c("session", "t_ms")) |>
+  transmute(Minuto = t_ms / 60000, Cena = scene,
+            Ação = case_when(event == "solution_snapshot" & success ~ "tentativa ✅", event == "solution_snapshot" ~ "tentativa ❌",
+                             TRUE ~ recode(event, puzzle_start = "iniciou a fase", puzzle_complete = "concluiu a fase",
+                                           jewel_earned = "ganhou joia", idle_start = "ficou parado", scene_restart = "reiniciou a fase",
+                                           mission_panel_toggle = "consultou a missão", pause_open = "pausou o jogo")),
+            `Rosto` = pct(rosto), Sorriso = z_smile, `Sobr. franzida` = z_brow_down, `Lábios press.` = z_mouth_press,
+            `Olhar desviado` = if ("z_gaze_away" %in% names(acoes)) z_gaze_away else NA) |>
+  head(80) |> tabela(digitos = 1, caption = "Escore z em relação ao normal do estudante (vazio = rosto não detectado)")
+```
+
+# Estados afetivos de aprendizagem (estimados)
+
+<div style="background:#EEF4FB;border-left:5px solid #1F4E79;padding:10px 14px;margin:10px 0;">
+<b>Como ler:</b> cada janela de 10 s recebe um escore de <b>confusão, frustração, tédio, engajamento e encantamento</b>, combinando o rosto (em relação ao normal do estudante) e o que ele fazia no jogo (<code>estados_faciais()</code>, regras versão `r regras_estados()$versao`). São <b>indícios para observar</b>, não diagnósticos: as regras ainda não foram validadas com crianças. Janelas sem sinais fortes ficam como "neutro"; sem rosto visível, só o comportamento é usado (confiança baixa).
+</div>
+
+```{r estados-prep, include = FALSE}
+cores_estado <- c(confusao = "#E07B00", frustracao = "#C00000", tedio = "#7F7F7F", engajamento = "#1F77B4",
+                  encantamento = "#2CA02C", neutro = "#E6E6E6")
+nomes_estado <- c(confusao = "Confusão", frustracao = "Frustração", tedio = "Tédio", engajamento = "Engajamento",
+                  encantamento = "Encantamento", neutro = "Neutro")
+est_todos <- estados_faciais(coleta)
+est <- est_todos |> filter(eh(participant))
+dist_meu <- est |> count(estado) |> mutate(p = n / sum(n), quem = "Estudante")
+dist_grupo <- est_todos |> count(participant, estado) |> group_by(participant) |> mutate(p = n / sum(n)) |>
+  group_by(estado) |> summarise(p = sum(p) / n_grupo, .groups = "drop") |> mutate(quem = "Média do grupo")
+```
+
+## Quanto tempo em cada estado
+
+```{r estados-dist, fig.height = 3.2}
+bind_rows(dist_meu, dist_grupo) |> mutate(estado = factor(estado, names(cores_estado))) |>
+  ggplot(aes(p, quem, fill = estado)) + geom_col(position = position_stack(reverse = TRUE), width = .6) +
+  geom_text(aes(label = ifelse(p >= .04, pct(p), "")), position = position_stack(vjust = .5, reverse = TRUE), size = 3.2) +
+  scale_fill_manual(values = cores_estado, labels = nomes_estado) + scale_x_continuous(labels = scales::percent) +
+  labs(title = "Proporção do tempo de jogo em cada estado", x = NULL, y = NULL, fill = NULL)
+dif <- dist_meu |> select(estado, p) |> left_join(dist_grupo |> select(estado, g = p), by = "estado") |>
+  filter(estado != "neutro") |> mutate(d = p - coalesce(g, 0)) |> arrange(desc(d))
+```
+
+`r if (nrow(dif) > 0 && dif$d[1] > .03) paste0("**", nomes_estado[dif$estado[1]], "** aparece mais neste estudante (", pct(dif$p[1]), " do tempo) do que na média do grupo (", pct(dif$g[1]), ").") else "A distribuição dos estados é parecida com a do grupo."`
+
+## Estados ao longo do jogo
+
+```{r estados-tempo, fig.height = 1.6 + 1.2 * nrow(ses)}
+ggplot(est) +
+  geom_rect(aes(xmin = t_ini / 60000, xmax = t_fim / 60000, ymin = 0, ymax = 1, fill = estado)) +
+  geom_point(data = snap, aes(t_ms / 60000, 1.15, color = success), size = 1.8) +
+  scale_fill_manual(values = cores_estado, labels = nomes_estado) +
+  scale_color_manual(values = c(`TRUE` = "#2CA02C", `FALSE` = "#C00000"), labels = c(`TRUE` = "acerto", `FALSE` = "erro")) +
+  facet_wrap(~session, ncol = 1, scales = "free_x") +
+  labs(title = "Estado predominante a cada 10 s (pontos: tentativas)", x = "Minutos de sessão", y = NULL, fill = NULL, color = NULL) +
+  theme(axis.text.y = element_blank(), panel.grid = element_blank())
+```
+
+## Estados em cada fase
+
+```{r estados-cena, fig.height = 4.2}
+est |> filter(!is.na(scene)) |> count(scene, estado) |> group_by(scene) |> mutate(p = n / sum(n)) |> ungroup() |>
+  mutate(estado = factor(estado, names(cores_estado))) |>
+  ggplot(aes(p, reorder(scene, desc(scene)), fill = estado)) + geom_col(position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = cores_estado, labels = nomes_estado) + scale_x_continuous(labels = scales::percent) +
+  labs(title = "Distribuição dos estados por cena", x = NULL, y = NULL, fill = NULL)
+```
+
+## O que acontece depois da confusão
+
+Na aprendizagem, a confusão é produtiva quando é **resolvida** (volta ao engajamento) e prejudicial quando vira **frustração** ou **tédio** (D'Mello & Graesser, 2012). A tabela mostra para qual estado o estudante passou depois de cada estado (ignorando as janelas neutras).
+
+```{r estados-transicoes}
+seqs <- est |> filter(estado != "neutro") |> group_by(session) |>
+  mutate(proximo = lead(estado)) |> ungroup() |> filter(!is.na(proximo), proximo != estado)
+if (nrow(seqs) > 0) {
+  seqs |> count(De = nomes_estado[estado], Para = nomes_estado[proximo]) |> group_by(De) |> mutate(p = pct(n / sum(n))) |>
+    ungroup() |> select(-n) |> pivot_wider(names_from = Para, values_from = p, values_fill = "—") |> tabela()
+} else cat("Poucas mudanças de estado para montar as transições.")
+conf_res <- seqs |> filter(estado == "confusao")
+```
+
+`r if (nrow(conf_res) > 0) paste0("Depois de momentos de confusão, o estudante passou para **engajamento** em ", pct(mean(conf_res$proximo == "engajamento")), " das vezes e para **frustração ou tédio** em ", pct(mean(conf_res$proximo %in% c("frustracao", "tedio"))), ".") else ""`
+
+# Como interpretar
+
+- Os índices faciais são **movimentos do rosto**, não emoções medidas diretamente: sobrancelha franzida pode ser frustração **ou** concentração. Interprete junto com o que acontecia no jogo e, se possível, com observação em sala ou conversa com o estudante.
+- Os escores z comparam o estudante **com ele mesmo**; valores perto de 0 são o comportamento habitual dele.
+- Os **estados afetivos** são estimados por regras (`regras_estados()`) e ainda precisam de validação com observação em sala; trate-os como pistas para conversar com o estudante ou observar a próxima sessão.
+- Comparações com o grupo dependem de quantos colegas fizeram cada fase; com poucos estudantes, use com cautela.
+- Para outro estudante: `fabulasLA::gerar_relatorio_individual("CODIGO", "pasta_ou_zip")`. Para o estudo todo: `fabulasLA::gerar_relatorio("pasta_ou_zip")`.
+
+<details><summary>Informações da sessão R</summary>
+
+```{r sessao, echo = FALSE}
+sessionInfo()
+```
+</details>

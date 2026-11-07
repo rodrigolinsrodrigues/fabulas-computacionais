@@ -95,7 +95,13 @@ ler_coleta <- function(caminhos, verificar_integridade = TRUE) {
 
 .ler_afeto <- function(arqs) {
   if (length(arqs) == 0) return(tibble())
-  map_dfr(arqs, read_csv, show_col_types = FALSE, col_types = cols(utc = col_character(), .default = "?"))
+  # Lê tudo como texto e converte depois: um arquivo só com cabeçalho (câmera que falhou)
+  # ou com uma coluna toda vazia não pode mudar o tipo da coluna nos demais.
+  af <- map_dfr(arqs, read_csv, show_col_types = FALSE, col_types = cols(.default = col_character()), na = "")
+  if (nrow(af) == 0) return(tibble())
+  texto <- c("utc", "session", "participant", "scene")
+  af[setdiff(names(af), texto)] <- lapply(af[setdiff(names(af), texto)], function(x) suppressWarnings(as.numeric(x)))
+  af
 }
 
 #' @export

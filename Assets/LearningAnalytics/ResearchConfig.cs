@@ -61,6 +61,7 @@ public class ResearchConfig
     public int cameraFps = 15;
     public bool saveRawBlendshapes = true;
     public bool showCameraIndicator = true;
+    public bool showCameraPreviewOnSignup = true;   // telinha da câmera na tela de cadastro (para o pesquisador)
     public string modelFileName = "MediaPipe/face_landmarker_v2_with_blendshapes.bytes";
 
     private static ResearchConfig _current;

@@ -15,6 +15,7 @@ using UnityEngine;
 public class StudyPanel : EditorWindow
 {
     private ResearchConfig _cfg;
+    private ServerSyncConfig _server;
     private string _conditionsText = "";
     private int _codeCount = 30;
     private Vector2 _scroll;
@@ -31,6 +32,7 @@ public class StudyPanel : EditorWindow
     {
         _cfg = ResearchConfig.LoadFrom(Path.Combine(Application.streamingAssetsPath, ResearchConfig.FileName));
         _conditionsText = string.Join(", ", _cfg.conditions ?? new string[0]);
+        _server = ServerSyncConfig.LoadFrom(Path.Combine(Application.streamingAssetsPath, ServerSyncConfig.FileName));
         _message = "";
     }
 
@@ -69,6 +71,7 @@ public class StudyPanel : EditorWindow
         {
             _cfg.affectSampleRateHz = EditorGUILayout.Slider("Amostras por segundo", _cfg.affectSampleRateHz, 0.5f, 10f);
             _cfg.showCameraIndicator = EditorGUILayout.Toggle("Mostrar aviso de câmera", _cfg.showCameraIndicator);
+            _cfg.showCameraPreviewOnSignup = EditorGUILayout.Toggle(new GUIContent("Prévia da câmera no cadastro", "Telinha para o pesquisador conferir a posição da câmera; some quando o estudante inicia"), _cfg.showCameraPreviewOnSignup);
             _cfg.saveRawBlendshapes = EditorGUILayout.Toggle("Gravar 52 blendshapes", _cfg.saveRawBlendshapes);
         }
 
@@ -79,13 +82,46 @@ public class StudyPanel : EditorWindow
         _cfg.idleThresholdSeconds = EditorGUILayout.FloatField("Ociosidade (segundos)", _cfg.idleThresholdSeconds);
 
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Servidor central (Supabase)", EditorStyles.boldLabel);
+        _server.enabled = EditorGUILayout.Toggle(new GUIContent("Enviar ao servidor", "Os dados continuam salvos no computador; o envio é uma cópia."), _server.enabled);
+        using (new EditorGUI.DisabledScope(!_server.enabled))
+        {
+            _server.serverUrl = EditorGUILayout.TextField(new GUIContent("URL do projeto", "https://<projeto>.supabase.co"), _server.serverUrl);
+            _server.anonKey = EditorGUILayout.TextField(new GUIContent("Chave pública (anon)", "Settings > API Keys: anon / publishable. NUNCA a service_role/secret."), _server.anonKey);
+            _server.uploadKey = EditorGUILayout.PasswordField(new GUIContent("Chave de envio do estudo", "Gerada abaixo; só permite enviar dados deste estudo."), _server.uploadKey);
+            _server.syncIntervalSeconds = EditorGUILayout.FloatField("Intervalo de envio (s)", _server.syncIntervalSeconds);
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Gerar chaves do estudo"))
+            {
+                if (string.IsNullOrWhiteSpace(_cfg.studyId)) _message = "Informe o studyId antes de gerar as chaves.";
+                else if (string.IsNullOrEmpty(_server.uploadKey) || EditorUtility.DisplayDialog("Gerar novas chaves",
+                         "Já existe uma chave de envio. Gerar novas exige cadastrar o estudo de novo no Supabase. Continuar?", "Gerar", "Cancelar"))
+                {
+                    var keys = StudyTools.GenerateServerKeys(_cfg.studyId, StudyFolder);
+                    _server.uploadKey = keys.uploadKey;
+                    _message = "Chaves geradas e guardadas em " + keys.file +
+                               ". Abra o arquivo, copie o comando SQL e rode no SQL Editor do Supabase. Depois clique em Salvar configuração.";
+                    EditorUtility.RevealInFinder(keys.file);
+                }
+            }
+            if (GUILayout.Button("Testar conexão"))
+            {
+                var engine = new SyncEngine(TelemetryManager.DataFolder, _server.EffectiveStudyIdFor(_cfg), _server.uploadKey,
+                    (rpc, body) => DataUploader.Post(_server.serverUrl, _server.anonKey, rpc, body, 15000));
+                _message = engine.TestConnection(out bool ok);
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.Space();
         if (GUILayout.Button("Salvar configuração", GUILayout.Height(30))) Save();
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Verificação", EditorStyles.boldLabel);
         ApplyConditions();
         var issues = StudyConfigValidator.Validate(_cfg, MediaPipePresent());
-        if (issues.Count == 0) EditorGUILayout.HelpBox("Configuração pronta para a coleta.", MessageType.Info);
+        issues.AddRange(StudyConfigValidator.ValidateServer(_server, _cfg));
+        if (!issues.Any(i => i.level != StudyConfigValidator.Level.Info)) EditorGUILayout.HelpBox("Configuração pronta para a coleta.", MessageType.Info);
         foreach (var i in issues)
             EditorGUILayout.HelpBox(i.message, i.level == StudyConfigValidator.Level.Error ? MessageType.Error
                 : i.level == StudyConfigValidator.Level.Warning ? MessageType.Warning : MessageType.Info);
@@ -132,6 +168,9 @@ public class StudyPanel : EditorWindow
         string path = Path.Combine(Application.streamingAssetsPath, ResearchConfig.FileName);
         _cfg.Save(path);
         ResearchConfig.SetCurrent(null);
+        _server.serverUrl = (_server.serverUrl ?? "").Trim().TrimEnd('/');
+        _server.Save(Path.Combine(Application.streamingAssetsPath, ServerSyncConfig.FileName));
+        ServerSyncConfig.SetCurrent(null);
         AssetDatabase.Refresh();
         _message = "Configuração salva em " + path;
     }
@@ -143,6 +182,50 @@ public class StudyPanel : EditorWindow
 /// <summary>Funções do Painel do Estudo que não dependem da janela (testáveis).</summary>
 public static class StudyTools
 {
+    /// <summary>
+    /// Gera a chave de envio (vai para o jogo) e a chave de leitura (só para a análise) do estudo
+    /// e grava em Pesquisa/servidor_&lt;estudo&gt;.txt, junto com o comando SQL que cadastra o estudo.
+    /// As chaves não são mostradas na tela nem enviadas a lugar nenhum.
+    /// </summary>
+    public static (string uploadKey, string readKey, string file) GenerateServerKeys(string studyId, string folder)
+    {
+        string upload = "env_" + RandomKey(32);
+        string read = "lei_" + RandomKey(32);
+        Directory.CreateDirectory(folder);
+        string file = Path.Combine(folder, $"servidor_{studyId}.txt");
+        string sqlStudy = studyId.Replace("'", "''");
+        var lines = new[]
+        {
+            $"Fábulas Computacionais — chaves do estudo {studyId} (gerado em {DateTime.Now:yyyy-MM-dd HH:mm})",
+            "A chave de ENVIO pode ser pública (só grava). A de LEITURA é secreta: guarde este arquivo em local seguro.",
+            "",
+            "1) Cadastre o estudo no Supabase: SQL Editor > New query > cole e rode:",
+            "",
+            $"   select public.fc_create_study('{sqlStudy}', '{upload}', '{read}');",
+            "",
+            "2) Chave de ENVIO (já foi colocada no jogo, em StreamingAssets/server_sync.json):",
+            $"   {upload}",
+            "",
+            "3) Chave de LEITURA (para baixar os dados no R; não vai para o jogo):",
+            $"   {read}",
+            "",
+            "   No R:  Sys.setenv(FABULAS_CHAVE_LEITURA = \"" + read + "\")",
+            "          fabulasLA::ler_coleta_servidor(url, chave_publica, \"" + studyId + "\")",
+        };
+        File.WriteAllText(file, string.Join("\n", lines) + "\n", new UTF8Encoding(false));
+        return (upload, read, file);
+    }
+
+    private static string RandomKey(int length)
+    {
+        const string alphabet = "abcdefghijkmnpqrstuvwxyz23456789";
+        var bytes = new byte[length];
+        using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create()) rng.GetBytes(bytes);
+        var sb = new StringBuilder(length);
+        foreach (var b in bytes) sb.Append(alphabet[b % alphabet.Length]);   // 32 símbolos: sem viés
+        return sb.ToString();
+    }
+
     /// <summary>Gera códigos e salva uma planilha (CSV) e etiquetas para imprimir (HTML).</summary>
     public static (string csv, string html) GenerateCodeSheet(string studyId, string schoolId, string classId, int count, string folder, int? seed = null)
     {

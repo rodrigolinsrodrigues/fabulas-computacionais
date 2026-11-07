@@ -189,6 +189,24 @@ public class ResearcherPanel : MonoBehaviour
         Row("Espaço livre", FreeSpace(TelemetryManager.DataFolder));
 
         GUILayout.Space(8);
+        GUILayout.Label("Servidor central (Supabase)", _title);
+        var up = DataUploader.Instance;
+        if (up == null || !up.Enabled)
+            Row("Envio", ServerSyncConfig.Current.enabled
+                ? "<color=#b22222>server_sync.json incompleto — envio desligado</color>"
+                : "desligado (dados só neste computador)");
+        else
+        {
+            string when = up.LastSuccessUtc.HasValue ? up.LastSuccessUtc.Value.ToLocalTime().ToString("HH:mm:ss") : "ainda não";
+            Row("Envio", up.Busy ? "<color=#2e8b57>enviando…</color>"
+                       : string.IsNullOrEmpty(up.LastError) ? $"<color=#2e8b57>em dia</color> (último contato: {when})"
+                       : $"<color=#b8860b>sem conexão — tentando de novo</color> (último sucesso: {when})");
+            Row("Aguardando envio", $"{up.PendingEvents} eventos · {up.PendingAffect} amostras faciais (salvos no computador)");
+            Row("Enviados nesta execução", $"{up.TotalEventsSent} eventos · {up.TotalAffectSent} amostras faciais");
+            if (!string.IsNullOrEmpty(up.LastError)) Row("Último erro", $"<color=#b22222>{up.LastError}</color>");
+        }
+
+        GUILayout.Space(8);
         GUILayout.Label("Câmera (expressões faciais)", _title);
         Row("Configuração", cfg.affectCaptureEnabled ? "ligada no research_config" : "desligada no research_config");
         Row("Plugin MediaPipe", AffectManager.PluginAvailable ? "instalado" : "<color=#b22222>não instalado</color>");
@@ -222,6 +240,11 @@ public class ResearcherPanel : MonoBehaviour
         GUILayout.BeginHorizontal();
         if (am != null && !am.IsCapturing && GUILayout.Button(am.IsPreviewing ? "Parar teste da câmera" : "Testar câmera", _button)) ToggleCameraTest();
         if (GUILayout.Button("Exportar coleta (.zip)", _button)) ExportNow();
+        if (up != null && up.Enabled && GUILayout.Button("Sincronizar agora", _button))
+        {
+            up.SyncNow();
+            _status = "Envio ao servidor solicitado.";
+        }
         if (GUILayout.Button("Abrir pasta de dados", _button)) OpenFolder(TelemetryManager.DataFolder);
         if (GUILayout.Button("Fechar", _button)) Close();
         GUILayout.EndHorizontal();

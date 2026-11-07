@@ -146,7 +146,7 @@ add(
 // 2. Arquitetura
 add(
   H1("2. Visão geral da arquitetura"),
-  P("A coleta é feita localmente, no computador onde o jogo roda, sem necessidade de internet. Os componentes são criados automaticamente quando o jogo abre — não é preciso alterar nenhuma cena."),
+  P("A coleta é feita localmente, no computador onde o jogo roda, sem necessidade de internet. Opcionalmente, uma **cópia** de todos os eventos e de todas as amostras faciais é enviada a um **servidor central (Supabase)** sempre que houver conexão; os arquivos locais continuam sendo gravados e servem de backup. Os componentes são criados automaticamente quando o jogo abre — não é preciso alterar nenhuma cena."),
   H2("2.1 Componentes"),
   ...table(["Componente", "Função"], [
     ["`TelemetryManager`", "Gerencia a sessão, gera o código pseudônimo do participante e grava todos os eventos do jogo (JSON Lines). Também detecta ociosidade e perda de foco da janela."],
@@ -158,7 +158,9 @@ add(
     ["`ResearchSessionFlow`", "Fluxo de início da sessão: valida o código, mostra a tela de consentimento e só então inicia a coleta."],
     ["`ResearcherPanel`", "Painel do Pesquisador no jogo (Ctrl+Shift+R + PIN): estado da coleta, teste da câmera com prévia e exportação."],
     ["`DataExporter`", "Exporta a coleta num .zip anonimizado com manifesto e checksums (SHA-256)."],
-    ["`StudyConfigValidator` / Painel do Estudo", "Configuração do estudo no Unity sem editar JSON, com avisos de riscos e geração de etiquetas de códigos."],
+    ["`StudyConfigValidator` / Painel do Estudo", "Configuração do estudo no Unity sem editar JSON, com avisos de riscos, geração de etiquetas de códigos e das chaves do servidor."],
+    ["`DataUploader` / `SyncEngine`", "Envio em segundo plano ao servidor central: lotes, nova tentativa sem internet, retomada de onde parou e nenhum dado local apagado."],
+    ["Servidor central (`server/supabase/schema.sql`)", "Banco PostgreSQL no Supabase com funções de recebimento e de leitura protegidas por chaves por estudo; ignora envios repetidos."],
     ["`catalogo_eventos.json`", "Catálogo de eventos: fonte única para o codebook, este documento e um teste que garante que o jogo só registra eventos documentados."],
     ["Pacote R `fabulasLA`", "Leitura de pastas e .zip de várias escolas, validação, tabelas de análise, codebook e relatório completo (pasta `analysis/fabulasLA`)."],
     ["Ganchos nos scripts do jogo", "Linhas de registro adicionadas em `SignupManager`, `LevelDataManager`, `GameManager`, `LoadNewArea`, `checarPartitura`, `LeituraEspacos`, `SnapNovo`, `PickUp`, `EmitLight`, `StopScale`, `showCanvas`, `RotateObj`, `Launch`, `Lente`, `LerMesa` e `Snap`."],
@@ -168,7 +170,8 @@ add(
   ...table(["Arquivo", "Formato", "Conteúdo"], [
     ["`events_<sessão>.jsonl`", "JSON Lines", "Um evento por linha: navegação, fases, tentativas, estado da solução, ações, engajamento e resumos afetivos."],
     ["`affect_<sessão>.csv`", "CSV (vírgula)", "Uma linha por amostra da webcam (padrão: 2 por segundo), com 52 blendshapes, índices derivados e pose da cabeça."],
-    ["`participants_map.csv`", "CSV (ponto e vírgula)", "Tabela que liga o nome da criança ao código pseudônimo. É o único arquivo com nome e deve ser guardado separadamente."],
+    ["`participants_map.csv`", "CSV (ponto e vírgula)", "Tabela que liga o nome da criança ao código pseudônimo. É o único arquivo com nome e deve ser guardado separadamente. **Nunca** é enviado ao servidor."],
+    ["`.sync_state.tsv`", "Texto (tabulação)", "Só com o envio ao servidor ligado: até que evento e amostra o servidor confirmou o recebimento, por sessão."],
   ], [2700, 1700, 4626]),
   H2("2.3 Estrutura de um evento"),
   P("Todos os eventos compartilham os mesmos campos de identificação e de tempo, o que permite cruzá-los entre si e com os dados faciais:"),
@@ -389,7 +392,7 @@ add(...analysis(17, "Atenção à tela", {
 // 3.8
 add(
   H2("3.8 Controle da captura e consentimento"),
-  P("**O que é coletado.** Toda mudança de estado da câmera é registrada: início (`affect_capture_start`, com câmera, resolução e taxa), pausa e retomada pela tecla F9 (`affect_capture_paused`/`affect_capture_resumed`), desativação por configuração ou falta de consentimento (`affect_capture_disabled`), falhas técnicas (`affect_unavailable`, ex.: sem câmera) e alterações de consentimento (`affect_consent`). Durante a captura, um indicador visível ('● Câmera ativa (pesquisa)') é exibido no canto da tela."),
+  P("**O que é coletado.** Toda mudança de estado da câmera é registrada: início (`affect_capture_start`, com câmera, resolução e taxa), pausa e retomada pela tecla F9 (`affect_capture_paused`/`affect_capture_resumed`), desativação por configuração ou falta de consentimento (`affect_capture_disabled`), falhas técnicas (`affect_unavailable`, ex.: sem câmera) e alterações de consentimento (`affect_consent`). Durante a captura, um indicador visível ('● Câmera ativa (pesquisa)') é exibido no canto da tela. Antes disso, na tela de cadastro, uma **telinha da câmera** no canto superior direito mostra a imagem e se o rosto está sendo detectado, para o pesquisador ajustar a webcam; ela some quando o estudante clica em Iniciar e nada é gravado enquanto está aberta."),
 );
 add(...analysis(18, "Qualidade e cobertura dos dados faciais", {
   pergunta: "Os dados faciais são suficientes e confiáveis para análise?",
@@ -458,9 +461,43 @@ add(
   B("**Painel do Estudo (Unity → Fabulas → Learning Analytics → Painel do Estudo):** configura o estudo, as condições, a câmera e o PIN; aponta riscos (câmera sem consentimento, PIN padrão, mapa de nomes na exportação); gera códigos de participante com **etiquetas para imprimir**."),
   B("**Painel do Pesquisador (no jogo, Ctrl+Shift+R + PIN):** mostra estudo, sessão, eventos gravados, pasta e espaço em disco; **testa a câmera** com prévia e indicação de rosto detectado, sem gravar nada; **exporta a coleta** com um clique."),
   B("**Exportação:** um .zip por máquina, anonimizado por padrão (sem o mapa de nomes), com manifesto e checksums."),
-  B("**Pacote R `fabulasLA`:** `ler_coleta()`, `validar_coleta()`, `tabelas_analise()`, `codebook()`, `gerar_relatorio()`, `simular_coleta()`, `gerar_codigos()` e `codigo_valido()`."),
-  B("**Testes automatizados:** 35 testes no Unity, testes do pacote R e um autoteste de ponta a ponta que joga uma sessão completa, simula uma queda e um código inválido, e valida o .zip exportado com o pacote R."),
+  B("**Pacote R `fabulasLA`:** `ler_coleta()`, `ler_coleta_servidor()`, `status_servidor()`, `validar_coleta()`, `tabelas_analise()`, `afeto_por_evento()`, `estados_faciais()`, `codebook()`, `gerar_relatorio()` (estudo em grupo), `gerar_relatorio_individual()` (um estudante), `copiar_modelos_relatorio()`, `simular_coleta()`, `gerar_codigos()` e `codigo_valido()`."),
+  B("**Testes automatizados:** 43 testes no Unity, testes do pacote R, testes do banco de dados (`server/supabase/teste_schema.sql`) e um autoteste de ponta a ponta que joga uma sessão completa, simula uma queda sem internet e um código inválido, envia tudo a um servidor e confere que o download é idêntico aos arquivos locais."),
 );
+add(
+  H2("3.14 Envio ao servidor central (Supabase)"),
+  P("**O que é feito.** Com o envio ligado, o jogo manda ao servidor, em segundo plano, **todos os eventos** e **todas as amostras faciais** (incluindo os 52 blendshapes), em lotes de 500 eventos ou 300 amostras, a cada 30 segundos e ao fim de cada sessão. O servidor confirma até onde recebeu cada sessão; o progresso fica em `.sync_state.tsv`. Sem internet, o jogo segue normalmente e tenta de novo com espera crescente (até 5 minutos); o que faltar é enviado na próxima vez que o jogo abrir — inclusive sessões interrompidas por queda de energia."),
+  B("**Backup local garantido:** os arquivos `events_*.jsonl` e `affect_*.csv` continuam sendo gravados e **nunca** são apagados pelo envio. A exportação .zip continua disponível."),
+  B("**Sem duplicatas:** o servidor ignora eventos repetidos (pelo `id`) e amostras repetidas (sessão + número da amostra); reenviar é sempre seguro."),
+  B("**Segurança:** o jogo só tem a **chave de envio** do estudo, que permite gravar dados novos, mas não ler nem apagar. A leitura usa uma **chave de leitura** separada, que fica só com a equipe de pesquisa. O nome da criança e o `participants_map.csv` nunca são enviados."),
+  B("**Acompanhamento:** o Painel do Pesquisador mostra o estado do envio (em dia, sem conexão, quantos itens aguardam) e tem o botão **Sincronizar agora**. No R, `status_servidor()` lista as sessões recebidas de todas as escolas."),
+);
+add(...analysis(25, "Monitoramento da coleta em várias escolas", {
+  pergunta: "A coleta em andamento está completa e equilibrada entre escolas e condições, a ponto de permitir a análise interina prevista no protocolo?",
+  dados: "`status_servidor()` (sessões, eventos, amostras e fim de cada sessão por escola) e `ler_coleta_servidor()` com `validar_coleta()`.",
+  metodo: "Acompanhamento semanal: número de participantes por escola e condição, taxa de sessões interrompidas, cobertura da câmera e lacunas de sequência; comparação com a meta amostral do projeto.",
+  resultado: "Na terceira semana, 214 participantes em 6 escolas; uma escola aparecia sem sessões novas há 4 dias — o painel da máquina indicava “sem conexão”, e os dados locais foram enviados quando a rede voltou, sem perda.",
+}));
+add(
+  H2("3.15 Estados afetivos de aprendizagem (estimados na análise)"),
+  P("**O que é feito.** O jogo não grava emoções: grava sinais (rosto e comportamento). Na análise, a função `estados_faciais()` do pacote R estima, para cada janela de 10 segundos, um escore de 0 a 1 para os cinco estados centrais da aprendizagem (D'Mello & Graesser, 2012) e o estado predominante (ou “neutro”):"),
+  ...table(["Estado", "Sinais do rosto (escore z em relação à própria criança)", "Sinais do comportamento"], [
+    ["Confusão", "sobrancelha abaixada, pálpebras tensas, lábios pressionados", "longe da solução, tentativas sem progresso, erros, consulta à missão"],
+    ["Frustração", "lábios pressionados, cantos da boca para baixo, nariz franzido", "erros repetidos sem progresso, reiniciar a fase"],
+    ["Tédio", "olhar desviado, cabeça virada, bocejo", "ociosidade, sair da janela do jogo, poucas ações"],
+    ["Engajamento", "rosto voltado para a tela", "ações contínuas, tentativas"],
+    ["Encantamento", "sorriso, olhos arregalados", "acerto, joia, fase concluída"],
+  ], [1700, 3700, 3626]),
+  B("**Por que na análise e não no jogo:** as regras serão ajustadas e validadas; calculando na análise, todo o histórico é recalculado com a mesma versão, o banco guarda só o que foi medido e nenhum rótulo interpretativo sobre a criança fica armazenado. As regras têm versão (`regras_estados()`), registrada em cada resultado."),
+  B("**Validade:** são indicadores heurísticos, não diagnósticos. A forma recomendada de validar é a observação em sala (BROMP): o relatório compara as regras com as observações e com um detector treinado nelas."),
+  B("**Nos relatórios:** o relatório individual mostra o tempo em cada estado (comparado com o grupo), a sequência ao longo do jogo, os estados por fase e as transições; o de grupo mostra estados por puzzle e por condição, a dinâmica das transições e a concordância com a observação."),
+);
+add(...analysis(26, "Confusão produtiva ou improdutiva", {
+  pergunta: "Quando as crianças ficam confusas no jogo, a confusão é resolvida (volta ao engajamento) ou evolui para frustração e tédio?",
+  dados: "`estados_faciais()` (estado predominante a cada 10 s) por sessão.",
+  metodo: "Probabilidade de transição L de D'Mello e Graesser entre estados consecutivos não neutros; comparação entre puzzles e entre condições A/B.",
+  resultado: "Da confusão, L = 0,44 para engajamento e L ≈ 0 para frustração: predomina a confusão produtiva. No Receitas, porém, a confusão durou mais e precedeu mais abandonos — indicando onde uma dica ajudaria.",
+}));
 
 // 4. Configuração
 add(
@@ -484,6 +521,16 @@ add(
     ["`cameraWidth` / `cameraHeight` / `cameraFps`", "640 / 480 / 15", "Resolução pedida à webcam."],
     ["`saveRawBlendshapes`", "true", "Grava os 52 blendshapes brutos."],
     ["`showCameraIndicator`", "true", "Exibe o aviso de câmera ativa."],
+    ["`showCameraPreviewOnSignup`", "true", "Mostra uma telinha da câmera na tela de cadastro, para o pesquisador conferir a posição; some quando o estudante inicia."],
+  ], [3300, 1500, 4226]),
+  P("O envio ao servidor central fica num arquivo separado, `server_sync.json` (mesma pasta), que vem no repositório já configurado para o projeto Supabase do Fábulas (estudo `FABULAS`). A chave de envio é pública de propósito: quem baixar e rodar o jogo, mesmo em testes, grava no servidor — mas ninguém consegue ler ou apagar dados com ela. Para separar testes da coleta real, use outro `studyId` com chaves próprias:", { para: { keepNext: true } }),
+  ...table(["Campo", "Padrão", "Descrição"], [
+    ["`enabled`", "false", "Liga o envio. Desligado, os dados ficam só no computador."],
+    ["`serverUrl`", "(vazio)", "URL do projeto Supabase (`https://<projeto>.supabase.co`)."],
+    ["`anonKey`", "(vazio)", "Chave **pública** do projeto (anon/publishable). Nunca a chave secreta (service_role)."],
+    ["`studyId`", "(vazio)", "Estudo no servidor; vazio = o `studyId` do `research_config.json`."],
+    ["`uploadKey`", "(vazio)", "Chave de envio do estudo, gerada pelo Painel do Estudo."],
+    ["`syncIntervalSeconds`", "30", "Intervalo entre envios (mínimo 5 s)."],
   ], [3300, 1500, 4226]),
   P("A forma recomendada de editar é o **Painel do Estudo** no Unity, que valida os campos. Para testes, o jogo aceita `-researchConfig <arquivo>` (outra configuração) e `-analyticsDataFolder <pasta>` (outra pasta de dados) na linha de comando."),
   P("**Ferramentas no editor do Unity** (menu Fabulas → Learning Analytics): Painel do Estudo, configurar o MediaPipe, abrir a pasta de dados, teste rápido do MediaPipe sem câmera e teste rápido da telemetria."),
@@ -495,11 +542,12 @@ add(
   B("**Pseudonimização:** o nome da criança aparece somente em `participants_map.csv`; todos os demais arquivos usam o código do participante."),
   B("**Dados faciais:** são processados localmente e nenhuma imagem é gravada. Ainda assim, os blendshapes são dados biométricos derivados e, por envolverem crianças, são dados pessoais sensíveis (LGPD, arts. 11 e 14)."),
   B("**Requisitos:** aprovação no Comitê de Ética em Pesquisa (CEP), TCLE assinado pelos responsáveis, TALE para a criança, finalidade explícita, armazenamento seguro e prazo de descarte definidos."),
-  B("**Transparência e controle:** a câmera vem desligada por padrão, há indicador visível durante a captura e a criança ou o pesquisador pode pausá-la com F9."),
+  B("**Transparência e controle:** a câmera só liga quando `affectCaptureEnabled` está ativo na configuração (na versão atual do repositório está ligado: a câmera começa junto com a sessão, se o computador tiver webcam); há indicador visível durante a captura e a criança ou o pesquisador pode pausá-la com F9. Desligue em máquinas ou turmas sem consentimento para a câmera."),
   B("**Códigos de estudo:** no modo `code`, nenhum nome entra no computador; a lista nome ↔ código fica em papel com o pesquisador."),
   B("**Consentimento registrado:** a tela de consentimento no jogo e os campos `consent`/`camera_consent` de cada sessão documentam a concordância."),
   B("**Exportação anonimizada:** por padrão o .zip não leva o mapa de nomes; o Painel do Estudo alerta quando isso é alterado."),
   B("**Minimização:** coletar apenas o que estiver associado a perguntas de pesquisa definidas no projeto."),
+  B("**Servidor central:** com o envio ligado, eventos e dados faciais (pseudonimizados) passam a ficar também no Supabase. Recomenda-se criar o projeto na região **São Paulo**, citar o armazenamento em servidor no TCLE e no protocolo do CEP, restringir o acesso ao painel do Supabase à equipe e guardar a chave de leitura e a senha do banco fora do repositório. As tabelas têm acesso direto bloqueado (RLS); só as funções com chave do estudo leem ou gravam."),
 );
 
 // 6. Limitações
@@ -509,7 +557,7 @@ add(
   B("A captura facial ainda não foi testada com uma pessoa diante da câmera no ambiente final (a máquina de desenvolvimento não tem webcam); o carregamento do modelo e o processamento foram verificados (cerca de 2,6 ms por quadro sem rosto)."),
   B("No Espelhos não há gabarito fixo: a distância até a solução precisa ser calculada na análise, a partir da configuração vencedora."),
   B("No Musical com repetição, o gabarito posição a posição é o configurado na cena; o veredito oficial está nos campos `part*_repeat`."),
-  B("Os dados ficam em arquivos locais em cada máquina; a consolidação é feita pelos .zip exportados (um por máquina) e pelo pacote R — ainda não há envio automático a um servidor."),
+  B("O envio ao servidor depende de internet na escola; sem ela, os dados ficam no computador até a próxima conexão (ou seguem pelo .zip). O plano gratuito do Supabase tem limite de 500 MB de banco: com câmera a 2 amostras/s, cada hora de jogo gera cerca de 7.200 amostras faciais (alguns MB) — para estudos grandes, planeje o plano pago ou reduza `affectSampleRateHz`."),
   B("As condições A/B são registradas, mas o jogo ainda não tem variações implementadas: cada nova variação (ex.: dica) precisa consultar `TelemetryManager.Instance.Condition`."),
   B("O arquivo antigo `<NOME> GameData.csv`, gerado pelo `DataManager` original, continua existindo e contém o nome da criança; recomenda-se desativá-lo ou pseudonimizá-lo."),
 );
@@ -535,8 +583,14 @@ add(
     "# Distância até a solução por tentativa, em cada fase",
     "tb$tentativas |> dplyr::group_by(scene, attempt) |> dplyr::summarise(dist = mean(dist_rel))",
     "",
-    "gerar_relatorio(c(\"escola_A.zip\", \"escola_B.zip\"), \"relatorio.html\")",
+    "gerar_relatorio(c(\"escola_A.zip\", \"escola_B.zip\"), \"relatorio.html\")   # estudo em grupo",
+    "gerar_relatorio_individual(\"K7M2X\", c(\"escola_A.zip\", \"escola_B.zip\"))   # um estudante",
+    "afeto_por_evento(coleta, \"solution_snapshot\", antes_ms = 2000, depois_ms = 5000)  # rosto em cada tentativa",
     "exportar_codebook(\"codebook.csv\")  # dicionário de variáveis para o artigo",
+    "",
+    "# Com o servidor central: baixa tudo de todas as escolas (chave de LEITURA no .Renviron)",
+    "coleta <- ler_coleta_servidor(\"https://<projeto>.supabase.co\", \"<chave pública>\", \"PILOTO26\")",
+    "status_servidor(\"https://<projeto>.supabase.co\", \"<chave pública>\", \"PILOTO26\")",
   ]),
   P("Os arquivos também podem ser lidos em Python ou em outras ferramentas: são JSON Lines e CSV comuns, descritos no Apêndice A."),
 );

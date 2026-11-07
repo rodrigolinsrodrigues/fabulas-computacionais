@@ -1,5 +1,5 @@
 ---
-title: "Fábulas Computacionais — Relatório de Learning Analytics"
+title: "Fábulas Computacionais — Relatório do Estudo (grupo)"
 subtitle: "`r if (nzchar(params$titulo_estudo)) params$titulo_estudo else 'Análise completa dos dados gerados pelo jogo'`"
 date: "`r format(Sys.Date(), '%d/%m/%Y')`"
 output:
@@ -14,8 +14,11 @@ output:
     fig_width: 9
     fig_height: 5
 params:
-  caminhos: ""         # vazio = simular dados; ou pastas/.zip separados por ";"
-  n_alunos: 100
+  caminhos: ""         # pastas/.zip separados por ";" (ex.: "C:/PILOTO26")
+  servidor_url: ""     # ou ler do Supabase: "https://<projeto>.supabase.co" (chave de leitura em FABULAS_CHAVE_LEITURA)
+  chave_publica: ""    # chave publishable/anon do projeto
+  estudo: ""           # studyId no servidor (ex.: "PILOTO26")
+  n_alunos: 100        # sem caminhos nem servidor: dados simulados com este número de estudantes
   semente: 2026
   titulo_estudo: ""
 ---
@@ -42,11 +45,10 @@ fase_de <- function(cena) suppressWarnings(as.integer(str_extract(cena, "\\d+$")
 ```
 
 ```{r dados, include = FALSE}
-usar_simulacao <- !nzchar(params$caminhos)
-caminhos <- if (usar_simulacao) {
-  simular_coleta(n_alunos = params$n_alunos, seed = params$semente, pasta = file.path(tempdir(), "fabulas_simulado"))
-} else trimws(strsplit(params$caminhos, ";")[[1]])
-coleta <- ler_coleta(caminhos)
+dados <- fabulasLA:::.carregar_coleta_relatorio(params$caminhos, params$servidor_url, params$chave_publica,
+                                                params$estudo, params$n_alunos, params$semente)
+usar_simulacao <- dados$simulado
+coleta <- dados$coleta
 validacao <- validar_coleta(coleta)
 tb <- tabelas_analise(coleta)
 
@@ -62,7 +64,7 @@ tem_afeto <- nrow(afeto) > 0
 ```
 
 <div style="background:#FFF4CE;border-left:5px solid #E0A800;padding:12px 16px;margin:16px 0;">
-`r if (usar_simulacao) paste0("<b>Atenção: dados simulados.</b> Este relatório foi gerado com dados <b>fictícios</b> de ", params$n_alunos, " estudantes, produzidos por <code>fabulasLA::simular_coleta()</code> no mesmo formato de arquivos que o jogo grava. Os números servem apenas para mostrar <b>como as análises ficariam</b>. Para usar dados reais: <code>fabulasLA::gerar_relatorio(\"pasta_ou_zip\")</code>.") else paste0("Relatório gerado a partir dos dados em: <code>", paste(caminhos, collapse = "; "), "</code>.")`
+`r if (usar_simulacao) paste0("<b>Atenção: dados simulados.</b> Este relatório foi gerado com dados <b>fictícios</b> de ", params$n_alunos, " estudantes, produzidos por <code>fabulasLA::simular_coleta()</code> no mesmo formato de arquivos que o jogo grava. Os números servem apenas para mostrar <b>como as análises ficariam</b>. Para usar dados reais: <code>fabulasLA::gerar_relatorio(\"pasta_ou_zip\")</code>.") else paste0("Relatório gerado a partir de: <code>", dados$fonte, "</code>.")`
 </div>
 
 # Sobre este relatório
@@ -484,6 +486,79 @@ p1 + p2
 ```{r sec-afeto, child = "secao_afeto.Rmd", eval = tem_afeto}
 ```
 
+# Estados afetivos de aprendizagem (estimados)
+
+<div style="background:#EEF4FB;border-left:5px solid #1F4E79;padding:10px 14px;margin:10px 0;">
+<b>Como ler:</b> cada janela de 10 s de cada sessão recebe um escore de <b>confusão, frustração, tédio, engajamento e encantamento</b> (D'Mello &amp; Graesser, 2012), combinando o rosto — em escore z em relação à linha de base de cada criança — com o comportamento no jogo (erros, impasse, ociosidade, ações, acertos). Função <code>estados_faciais()</code>, regras versão `r regras_estados()$versao` (pesos em <code>regras_estados()</code>). São <b>indicadores heurísticos</b>, ainda não validados com crianças: use para explorar e gerar hipóteses.
+</div>
+
+```{r estados-prep}
+cores_estado <- c(confusao = "#E07B00", frustracao = "#C00000", tedio = "#7F7F7F", engajamento = "#1F77B4",
+                  encantamento = "#2CA02C", neutro = "#E6E6E6")
+nomes_estado <- c(confusao = "Confusão", frustracao = "Frustração", tedio = "Tédio", engajamento = "Engajamento",
+                  encantamento = "Encantamento", neutro = "Neutro")
+est <- estados_faciais(coleta) |> mutate(puzzle = coalesce(puzzle_de(scene), ifelse(str_detect(scene, "^Area"), "Áreas", NA)))
+dist_geral <- est |> count(estado) |> mutate(p = n / sum(n))
+tibble(Estado = nomes_estado[dist_geral$estado], `Janelas` = dist_geral$n, `% do tempo` = pct(dist_geral$p, 1)) |>
+  tabela(caption = paste0("Distribuição dos estados em ", num(nrow(est), 0), " janelas de 10 s (", pct(mean(est$confianca == "baixa")), " sem rosto suficiente: só comportamento)"))
+```
+
+## Estados por puzzle
+
+**Pergunta:** quais desafios geram mais confusão, frustração ou encantamento?
+
+```{r estados-puzzle, fig.height = 4}
+por_pz <- est |> filter(!is.na(puzzle)) |> count(puzzle, estado) |> group_by(puzzle) |> mutate(p = n / sum(n)) |> ungroup()
+ggplot(por_pz |> mutate(estado = factor(estado, names(cores_estado))), aes(p, puzzle, fill = estado)) +
+  geom_col(position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = cores_estado, labels = nomes_estado) + scale_x_continuous(labels = scales::percent) +
+  labs(title = "Proporção do tempo em cada estado, por puzzle", x = NULL, y = NULL, fill = NULL)
+top_conf <- por_pz |> filter(estado == "confusao") |> slice_max(p, n = 1, with_ties = FALSE)
+top_enc <- por_pz |> filter(estado == "encantamento") |> slice_max(p, n = 1, with_ties = FALSE)
+```
+
+**Resultado:** `r if (nrow(top_conf)) paste0("**", top_conf$puzzle, "** concentra mais sinais de confusão (", pct(top_conf$p), " do tempo)") else ""``r if (nrow(top_enc)) paste0(" e **", top_enc$puzzle, "** mais encantamento (", pct(top_enc$p), ")") else ""`. Puzzles com muita confusão e pouca resolução são candidatos a receber dicas ou ajustes de dificuldade.
+
+## Dinâmica dos estados: o que vem depois da confusão?
+
+**Pergunta:** a confusão das crianças é produtiva (volta ao engajamento) ou leva à frustração e ao tédio? **Método:** transições entre estados consecutivos não neutros, com a probabilidade de transição *L* de D'Mello e Graesser (L > 0: a transição ocorre mais do que o acaso).
+
+```{r estados-transicoes}
+seqs <- est |> filter(estado != "neutro") |> arrange(session, t_ini) |> group_by(session) |>
+  mutate(proximo = lead(estado)) |> ungroup() |> filter(!is.na(proximo), proximo != estado)
+base_prox <- seqs |> count(proximo) |> mutate(pb = n / sum(n)) |> select(-n)
+trans <- seqs |> count(estado, proximo) |> group_by(estado) |> mutate(pc = n / sum(n)) |> ungroup() |>
+  left_join(base_prox, by = "proximo") |> mutate(L = (pc - pb) / (1 - pb))
+trans |> transmute(De = nomes_estado[estado], Para = nomes_estado[proximo], L = round(L, 2)) |>
+  pivot_wider(names_from = Para, values_from = L) |> tabela(caption = "Probabilidade de transição L (linhas: estado atual; colunas: próximo estado)")
+l_ce <- trans |> filter(estado == "confusao", proximo == "engajamento") |> pull(L)
+l_cf <- trans |> filter(estado == "confusao", proximo == "frustracao") |> pull(L)
+```
+
+`r if (length(l_ce) && length(l_cf)) paste0("**Resultado:** da confusão, a transição para o engajamento tem L = ", num(l_ce, 2), " e para a frustração L = ", num(l_cf, 2), ". ", ifelse(l_ce > l_cf, "Predomina a confusão **produtiva**, que tende a ser resolvida.", "A confusão tende a evoluir para frustração: vale investigar onde as crianças ficam travadas.")) else "Poucas transições para estimar a dinâmica."`
+
+## Estados por condição experimental
+
+```{r estados-condicao, fig.height = 3.3}
+est_c <- est |> left_join(sessoes |> select(session, condicao), by = "session") |> filter(!is.na(condicao), condicao != "")
+if (n_distinct(est_c$condicao) > 1) {
+  est_c |> count(condicao, estado) |> group_by(condicao) |> mutate(p = n / sum(n)) |> ungroup() |>
+    mutate(estado = factor(estado, names(cores_estado))) |>
+    ggplot(aes(p, condicao, fill = estado)) + geom_col(position = position_stack(reverse = TRUE)) +
+    scale_fill_manual(values = cores_estado, labels = nomes_estado) + scale_x_continuous(labels = scales::percent) +
+    labs(title = "Estados por condição", x = NULL, y = "Condição", fill = NULL)
+} else cat("Esta coleta não tem condições experimentais definidas.")
+```
+
+## Concordância com a observação em sala
+
+```{r estados-bromp, eval = !is.null(obs)}
+j <- obs |> mutate(t_ini = floor(t_ms / 10000) * 10000) |> left_join(est |> select(session, t_ini, confusao), by = c("session", "t_ini"))
+auc_regra <- as.numeric(auc(roc(j$confuso, j$confusao, quiet = TRUE)))
+```
+
+`r if (!is.null(obs)) paste0("Comparando o escore de confusão das regras com os rótulos de observação (BROMP) disponíveis, a concordância é **AUC = ", num(auc_regra, 2), "**", if (exists("roc_log")) paste0(", contra AUC = ", num(auc(roc_log), 2), " do detector treinado com esses rótulos (Exemplo 20)") else "", ". Regras genéricas são um ponto de partida; **com observações em sala, um detector treinado para estas crianças e este jogo é mais preciso** — por isso a coleta BROMP é recomendada antes de usar os estados em conclusões ou intervenções.", if (usar_simulacao) " *(Com dados simulados, os rótulos também são simulados.)*" else "") else "*Sem observações em sala (observacoes_bromp.csv) nesta coleta: a concordância das regras não pôde ser verificada.*"`
+
 # Condições experimentais (A/B)
 
 **Pergunta:** a condição experimental (por exemplo, jogo *com* e *sem* dica) altera o desempenho? **Método:** comparação da taxa de conclusão e do número de tentativas por condição; modelo misto de Poisson (tentativas ~ condição + puzzle + (1 | participante)). Só faz sentido quando o `research_config.json` define condições (`conditions`).
@@ -517,7 +592,9 @@ library(fabulasLA)
 coleta <- ler_coleta(c("escola_A.zip", "escola_B.zip"))   # pastas ou .zip exportados pelo jogo
 validar_coleta(coleta)                                   # qualidade e integridade
 tb <- tabelas_analise(coleta)                            # sessões, fases, tentativas, afeto
-gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")
+gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")   # este relatório (grupo)
+gerar_relatorio_individual("K7M2X", c("escola_A.zip", "escola_B.zip"))  # relatório de um estudante
+copiar_modelos_relatorio("meus_relatorios")              # copia os .Rmd para editar no RStudio
 exportar_codebook("codebook.csv")                        # dicionário de variáveis
 ```
 

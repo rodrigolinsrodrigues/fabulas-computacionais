@@ -60,4 +60,28 @@ public static class StudyConfigValidator
 
         return list;
     }
+
+    /// <summary>Confere server_sync.json (envio ao Supabase).</summary>
+    public static List<Issue> ValidateServer(ServerSyncConfig s, ResearchConfig c)
+    {
+        var list = new List<Issue>();
+        void Add(Level l, string m) => list.Add(new Issue { level = l, message = m });
+        if (s == null || !s.enabled)
+        {
+            Add(Level.Info, "Envio ao servidor desligado: os dados ficam só neste computador (use a exportação .zip).");
+            return list;
+        }
+        if (string.IsNullOrWhiteSpace(s.serverUrl) || !s.serverUrl.StartsWith("https://"))
+            Add(Level.Error, "Informe a URL do projeto Supabase (https://<projeto>.supabase.co).");
+        if (string.IsNullOrWhiteSpace(s.anonKey))
+            Add(Level.Error, "Informe a chave pública (anon/publishable) do projeto Supabase.");
+        else if (s.anonKey.StartsWith("sb_secret_") || s.anonKey.Contains("service_role"))
+            Add(Level.Error, "A chave informada é a chave SECRETA (service_role). Use a chave pública (anon/publishable): a secreta dá acesso total ao banco.");
+        if (string.IsNullOrWhiteSpace(s.uploadKey))
+            Add(Level.Error, "Falta a chave de envio do estudo. Use \"Gerar chaves do estudo\" e cadastre o estudo no Supabase.");
+        if (string.IsNullOrWhiteSpace(s.EffectiveStudyIdFor(c)))
+            Add(Level.Error, "O envio ao servidor precisa do identificador do estudo (studyId).");
+        if (s.syncIntervalSeconds < 5) Add(Level.Warning, "Intervalo de envio menor que 5 s; será usado 5 s.");
+        return list;
+    }
 }

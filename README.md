@@ -28,7 +28,7 @@ Além de ensinar, o jogo foi construído como **instrumento de pesquisa**: ele r
 - 💎 **Progressão por joias**: cada fase concluída rende uma joia, e novas áreas são liberadas com 2 e 5 joias.
 - 📊 **Learning Analytics nativo**: log de eventos, estado da solução a cada tentativa, ações intermediárias e indicadores de engajamento.
 - 🙂 **Captura de expressões faciais** com MediaPipe (52 blendshapes), processada localmente — **nenhuma imagem é gravada**.
-- 🔒 **Privacidade desde o design**: participantes pseudonimizados, câmera desligada por padrão e indicador visível durante a captura.
+- 🔒 **Privacidade desde o design**: participantes pseudonimizados, câmera controlada pela configuração do estudo (pode ser desligada em cada máquina) e indicador visível durante a captura.
 
 ---
 
@@ -102,6 +102,7 @@ flowchart LR
 | **Expressões faciais** | 52 blendshapes, índices derivados (sorriso, sobrancelha franzida, tensão…) e orientação da cabeça, sincronizados com os eventos |
 | **Estudo e condições** | Estudo, escola, turma, máquina e condição experimental (A/B) em cada sessão |
 | **Qualidade dos dados** | `id` e `seq` em cada evento, recuperação de sessões interrompidas e exportação com checksums |
+| **Servidor central** | Cópia automática de todos os eventos e dados faciais no Supabase, com os arquivos locais mantidos como backup |
 
 ### 🧑‍🔬 Para pesquisadores
 
@@ -109,7 +110,8 @@ flowchart LR
 - **Tela de consentimento** no jogo, com autorização separada para a câmera.
 - **Painel do Pesquisador** (no jogo, `Ctrl+Shift+R`): estado da coleta, **teste da câmera** com prévia e **exportação com um clique** (`.zip` anonimizado com manifesto).
 - **Pacote R [`fabulasLA`](analysis/fabulasLA)**: lê os `.zip` de todas as escolas, **valida** a coleta, monta tabelas de análise, gera o **codebook** e um **relatório completo** em HTML.
-- **Testes automatizados**: 35 testes no Unity, testes do pacote R e um autoteste de ponta a ponta no jogo compilado.
+- **Servidor central (opcional)**: o jogo envia em segundo plano todos os eventos e dados faciais a um banco [Supabase](https://supabase.com); sem internet, guarda e envia depois. Os arquivos locais continuam sendo o backup. No R, `ler_coleta_servidor()` baixa a coleta de todas as escolas.
+- **Testes automatizados**: 43 testes no Unity, testes do pacote R e do banco de dados, e um autoteste de ponta a ponta no jogo compilado (incluindo envio ao servidor sem e com internet).
 
 Exemplo de evento registrado quando a criança testa a partitura:
 
@@ -123,7 +125,7 @@ Exemplo de evento registrado quando a criança testa a partitura:
 
 📄 Documentação:
 - [**Guia do Pesquisador**](Assets/LearningAnalytics/Guia_do_Pesquisador.docx) — protocolo de coleta passo a passo (antes, durante e depois), com checklists e solução de problemas.
-- [**Funcionalidades de Learning Analytics**](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx) — o que é coletado, dicionário de eventos e **24 exemplos de análises de pesquisa**.
+- [**Funcionalidades de Learning Analytics**](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx) — o que é coletado, dicionário de eventos e **26 exemplos de análises de pesquisa**.
 - [Referência técnica](Assets/LearningAnalytics/README.md) e [pacote R](analysis/fabulasLA/README.md).
 
 ---
@@ -135,6 +137,12 @@ Exemplo de evento registrado quando a criança testa a partitura:
 - **Unity 2021.3.31f1** (instale pelo [Unity Hub](https://unity.com/download): `unityhub://2021.3.31f1/3409e2af086f`)
 - Windows 10/11 (64 bits)
 - Webcam (opcional, apenas para a captura de expressões faciais)
+- **[Blender](https://www.blender.org/download/) 3.x ou 4.x** instalado, para o Unity importar os cenários (são arquivos `.blend`)
+
+> [!WARNING]
+> Sem o Blender, o Unity não consegue importar os `.blend`. Se ele precisar reimportá-los (projeto aberto sem a
+> pasta `Library`, troca de plataforma em *Build Settings*, *Reimport All*), os cenários ficam vazios e o jogo mostra
+> só o personagem num fundo preto.
 
 ### Passo a passo
 
@@ -182,10 +190,12 @@ A coleta é configurada pelo arquivo `Assets/StreamingAssets/research_config.jso
 
 Os dados são gravados em `%USERPROFILE%\AppData\LocalLow\DefaultCompany\Fabulas Computacionais\LearningAnalytics\`.
 O jeito recomendado de configurar é o **Painel do Estudo** (Unity → Fabulas → Learning Analytics → Painel do Estudo),
-e de recolher os dados é o botão **Exportar coleta** do Painel do Pesquisador (`Ctrl+Shift+R` no jogo).
+e de recolher os dados é o botão **Exportar coleta** do Painel do Pesquisador (`Ctrl+Shift+R` no jogo) — ou,
+com o **servidor central** ligado, os dados chegam sozinhos ao Supabase (passo a passo em [`server/supabase`](server/supabase)).
 
 > [!IMPORTANT]
-> A captura facial vem **desligada** por padrão. Por envolver dados de crianças, ative-a apenas com aprovação
+> Nesta versão, a captura facial está **ligada** em `research_config.json`: a câmera começa junto com a sessão, se
+> houver webcam (sem webcam, o jogo segue normalmente). Por envolver dados de crianças, use-a apenas com aprovação
 > do Comitê de Ética em Pesquisa (CEP), TCLE assinado pelos responsáveis e TALE da criança, conforme a LGPD.
 > O jogo nunca grava imagens: apenas valores numéricos das expressões. O nome da criança fica somente em
 > `participants_map.csv`, que deve ser guardado separadamente dos dados de análise.
@@ -202,6 +212,7 @@ e de recolher os dados é o botão **Exportar coleta** do Painel do Pesquisador 
 | [TextMesh Pro](https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html) | Interface e textos |
 | [MediaPipe Unity Plugin](https://github.com/homuler/MediaPipeUnityPlugin) (v0.15.0) | Detecção de expressões faciais (FaceLandmarker) |
 | [LootLocker SDK](https://lootlocker.com/) | Serviços online (sessão de convidado) |
+| [Supabase](https://supabase.com/) (PostgreSQL) | Servidor central opcional para os dados de pesquisa |
 
 ---
 
@@ -226,6 +237,7 @@ Assets/
 ├── StreamingAssets/         # research_config.json e modelo facial do MediaPipe
 └── Tools/                   # Ferramentas de desenvolvimento (tour de capturas de tela, render de cenas)
 analysis/fabulasLA/          # Pacote R: leitura, validação, tabelas, codebook e relatório
+server/supabase/             # Banco do servidor central (schema.sql) e seus testes
 docs/images/                 # Imagens deste README
 Packages/                    # Dependências (coloque aqui o .tgz do MediaPipe)
 ```
@@ -235,7 +247,7 @@ Packages/                    # Dependências (coloque aqui o .tgz do MediaPipe)
 ## 🚧 Status
 
 Projeto **em desenvolvimento** e em uso em pesquisa. Próximos passos planejados incluem autorrelato afetivo
-dentro do jogo, dicas sob demanda (e variações A/B do jogo) e envio automático dos dados das escolas a um servidor.
+dentro do jogo e dicas sob demanda (e variações A/B do jogo).
 
 ## 👥 Equipe
 

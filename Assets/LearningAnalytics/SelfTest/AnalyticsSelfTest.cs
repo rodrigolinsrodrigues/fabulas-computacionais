@@ -28,7 +28,7 @@ public class AnalyticsSelfTest : MonoBehaviour
     private readonly List<string> _errors = new List<string>();
     private static readonly string[] OurTypes =
         { "TelemetryManager", "AffectManager", "ResearchSessionFlow", "ResearcherPanel", "DataExporter",
-          "SolutionTracker", "MirrorsTracker", "ParticipantCodes", "ResearchConfig", "AnalyticsSelfTest", "SignupManager" };
+          "SolutionTracker", "MirrorsTracker", "ParticipantCodes", "ResearchConfig", "AnalyticsSelfTest", "SignupManager", "DataUploader", "SyncEngine", "SignupCameraPreview" };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Init()
@@ -73,6 +73,7 @@ public class AnalyticsSelfTest : MonoBehaviour
             case "completo": yield return Completo(); break;
             case "interromper": yield return Interromper(); yield break;   // o processo morre lá dentro
             case "codigo_invalido": yield return CodigoInvalido(); break;
+            case "cadastro_camera": yield return CadastroCamera(); break;
             default: Check(false, "modo conhecido", _mode); break;
         }
         Finish();
@@ -151,6 +152,55 @@ public class AnalyticsSelfTest : MonoBehaviour
 
         string zipFinal = DataExporter.Export(Path.Combine(_out, "exportacao_final"));
         Check(File.Exists(zipFinal), "exportação final", zipFinal);
+
+        // Servidor central: com -serverConfig ligado, tudo (inclusive sessões antigas) deve chegar lá.
+        var up = DataUploader.Instance;
+        if (up != null && up.Enabled)
+        {
+            float limit = Time.realtimeSinceStartup + 60f;
+            var asked = DateTime.UtcNow;
+            up.SyncNow();
+            yield return new WaitForSecondsRealtime(1f);
+            while (Time.realtimeSinceStartup < limit &&
+                   (up.Busy || !(up.LastSuccessUtc > asked) || up.PendingEvents + up.PendingAffect > 0 || !string.IsNullOrEmpty(up.LastError)))
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                if (!up.Busy && !string.IsNullOrEmpty(up.LastError)) up.SyncNow();
+            }
+            Check(string.IsNullOrEmpty(up.LastError), "envio ao servidor sem erro", up.LastError);
+            Check(up.PendingEvents == 0 && up.PendingAffect == 0, "servidor recebeu todos os eventos e amostras faciais",
+                $"enviados {up.TotalEventsSent} eventos e {up.TotalAffectSent} amostras; pendentes {up.PendingEvents}/{up.PendingAffect}");
+            Check(File.Exists(events), "arquivos locais mantidos após o envio");
+        }
+    }
+
+    /// <summary>Telinha da câmera: aparece com o cadastro aberto e some ao iniciar.</summary>
+    private IEnumerator CadastroCamera()
+    {
+        var su = FindObjectOfType<SignupManager>(true);
+        Check(su != null, "painel de cadastro encontrado");
+        if (su == null) yield break;
+        var preview = SignupCameraPreview.Instance;
+        Check(preview != null && !preview.Visible, "telinha escondida antes de abrir o cadastro");
+        su.gameObject.SetActive(true);   // o que o botão "Jogar" faz
+        yield return new WaitForSecondsRealtime(4f);
+        bool expected = ResearchConfig.Current.affectCaptureEnabled && AffectManager.PluginAvailable;
+        Check(preview.Visible == expected, "telinha da câmera aparece com o cadastro aberto", AffectManager.Instance.IsPreviewing ? "câmera ligada" : AffectManager.Instance.LastError);
+        Check(TelemetryManager.Instance != null && !TelemetryManager.Instance.SessionActive, "nada é gravado enquanto a telinha está aberta");
+        yield return new WaitForEndOfFrame();
+        ScreenCapture.CaptureScreenshot(Path.Combine(_out, "cadastro_com_camera.png"));
+        yield return new WaitForSecondsRealtime(1f);
+
+        string code = ParticipantCodes.Generate(1, Environment.TickCount + 7)[0];
+        yield return Signup(code, acceptConsent: true, cameraConsent: true);
+        Check(!preview.Visible, "telinha some quando o estudante inicia");
+        yield return WaitScene("Area1", 20f);
+        yield return new WaitForSecondsRealtime(2f);
+        Check(!preview.Visible, "telinha continua escondida durante o jogo");
+        ScreenCapture.CaptureScreenshot(Path.Combine(_out, "apos_iniciar.png"));
+        yield return new WaitForSecondsRealtime(1f);
+        GameManager.Instance.BackToHome();
+        yield return WaitScene("MainMenu", 20f);
     }
 
     private IEnumerator Interromper()
