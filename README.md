@@ -242,6 +242,8 @@ dentro do jogo, dicas sob demanda (e variações A/B do jogo) e envio automátic
 Desenvolvido por **Miguel** ([@MiguelxD14](https://github.com/MiguelxD14)), **Raphael Albino de Lima**,
 **Laryssa Maciel**, **Hanna** e **Rodrigo Lins Rodrigues** ([@rodrigolinsrodrigues](https://github.com/rodrigolinsrodrigues)).
 
+Modelos e imagens 3D criados por **Daniel Nipo**.
+
 ## 📄 Licença
 
 Este repositório ainda não define uma licença de uso. Entre em contato com a equipe antes de reutilizar o código ou os recursos do jogo.
