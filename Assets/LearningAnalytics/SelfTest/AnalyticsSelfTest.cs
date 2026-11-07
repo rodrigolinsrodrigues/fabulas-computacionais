@@ -188,6 +188,14 @@ public class AnalyticsSelfTest : MonoBehaviour
         Check(preview.Visible == expected, "telinha da câmera aparece com o cadastro aberto", AffectManager.Instance.IsPreviewing ? "câmera ligada" : AffectManager.Instance.LastError);
         Check(TelemetryManager.Instance != null && !TelemetryManager.Instance.SessionActive, "nada é gravado enquanto a telinha está aberta");
         yield return new WaitForEndOfFrame();
+        // Campo "Escola" (criado pelo SignupManager no estilo dos demais)
+        Check(su.inputSchoolName != null && su.inputSchoolName.gameObject.activeInHierarchy, "campo Escola presente no cadastro");
+        yield return new WaitForEndOfFrame();
+        ScreenCapture.CaptureScreenshot(Path.Combine(_out, "cadastro_vazio.png"));
+        yield return new WaitForSecondsRealtime(0.5f);
+        if (su.inputSchoolName != null) su.inputSchoolName.text = "Escola Municipal Teste";
+        Check(su.schoolName == "Escola Municipal Teste", "escola digitada é lida pelo cadastro", su.schoolName);
+        yield return new WaitForEndOfFrame();
         ScreenCapture.CaptureScreenshot(Path.Combine(_out, "cadastro_com_camera.png"));
         yield return new WaitForSecondsRealtime(1f);
 
@@ -197,6 +205,12 @@ public class AnalyticsSelfTest : MonoBehaviour
         yield return WaitScene("Area1", 20f);
         yield return new WaitForSecondsRealtime(2f);
         Check(!preview.Visible, "telinha continua escondida durante o jogo");
+        string arq = TelemetryManager.Instance != null ? TelemetryManager.Instance.CurrentEventsFile : null;
+        string conteudo = "";
+        if (arq != null && File.Exists(arq))
+            using (var fs = new FileStream(arq, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))   // o jogo ainda está escrevendo
+            using (var sr = new StreamReader(fs)) conteudo = sr.ReadToEnd();
+        Check(conteudo.Contains("\"school_name\":\"Escola Municipal Teste\""), "escola digitada gravada no session_start");
         ScreenCapture.CaptureScreenshot(Path.Combine(_out, "apos_iniciar.png"));
         yield return new WaitForSecondsRealtime(1f);
         GameManager.Instance.BackToHome();

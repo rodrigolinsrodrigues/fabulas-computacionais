@@ -198,7 +198,7 @@ add(BR(), H1("3. Funcionalidades e exemplos de análise"));
 // 3.1
 add(
   H2("3.1 Sessão e perfil pseudonimizado do participante"),
-  P("**O que é coletado.** Ao concluir o cadastro, o jogo inicia uma sessão e registra o evento `session_start` com idade, gênero, série escolar, versão do jogo, sistema operacional, modelo do computador, resolução da tela e controles conectados. O nome **não** vai para o log: o participante recebe um código estável (ex.: `P-3F9A0C12`), e a ligação nome↔código fica apenas em `participants_map.csv`. A sessão termina com `session_end` (motivo e duração), seja ao voltar ao menu, seja ao fechar o jogo."),
+  P("**O que é coletado.** Ao concluir o cadastro, o jogo inicia uma sessão e registra o evento `session_start` com idade, gênero, série escolar, nome da escola digitado no cadastro (`school_name`, opcional), versão do jogo, sistema operacional, modelo do computador, resolução da tela e controles conectados. O nome **não** vai para o log: o participante recebe um código estável (ex.: `P-3F9A0C12`), e a ligação nome↔código fica apenas em `participants_map.csv`. A sessão termina com `session_end` (motivo e duração), seja ao voltar ao menu, seja ao fechar o jogo."),
   ...code(['{"event":"session_start","data":{"age":9,"gender":"f","school_grade":"4º ano",', ' "game_version":"0.1","os":"Windows 11","screen":"1920x1080","joysticks":"Xbox Controller"}}']),
 );
 add(...analysis(1, "Caracterização da amostra e equidade", {
@@ -461,7 +461,7 @@ add(
   B("**Painel do Estudo (Unity → Fabulas → Learning Analytics → Painel do Estudo):** configura o estudo, as condições, a câmera e o PIN; aponta riscos (câmera sem consentimento, PIN padrão, mapa de nomes na exportação); gera códigos de participante com **etiquetas para imprimir**."),
   B("**Painel do Pesquisador (no jogo, Ctrl+Shift+R + PIN):** mostra estudo, sessão, eventos gravados, pasta e espaço em disco; **testa a câmera** com prévia e indicação de rosto detectado, sem gravar nada; **exporta a coleta** com um clique."),
   B("**Exportação:** um .zip por máquina, anonimizado por padrão (sem o mapa de nomes), com manifesto e checksums."),
-  B("**Pacote R `fabulasLA`:** `ler_coleta()`, `ler_coleta_servidor()`, `status_servidor()`, `validar_coleta()`, `tabelas_analise()`, `afeto_por_evento()`, `estados_faciais()`, `codebook()`, `gerar_relatorio()` (estudo em grupo), `gerar_relatorio_individual()` (um estudante), `copiar_modelos_relatorio()`, `simular_coleta()`, `gerar_codigos()` e `codigo_valido()`."),
+  B("**Pacote R `fabulasLA`:** `ler_coleta()`, `ler_coleta_servidor()`, `status_servidor()`, `validar_coleta()`, `tabelas_analise()`, `afeto_por_evento()`, `estados_faciais()`, `dominio_habilidades()`, `abrir_painel()` (painel Shiny), `codebook()`, `gerar_relatorio()` (estudo em grupo), `gerar_relatorio_individual()` (um estudante), `copiar_modelos_relatorio()`, `simular_coleta()`, `gerar_codigos()` e `codigo_valido()`."),
   B("**Testes automatizados:** 43 testes no Unity, testes do pacote R, testes do banco de dados (`server/supabase/teste_schema.sql`) e um autoteste de ponta a ponta que joga uma sessão completa, simula uma queda sem internet e um código inválido, envia tudo a um servidor e confere que o download é idêntico aos arquivos locais."),
 );
 add(
@@ -470,6 +470,7 @@ add(
   B("**Backup local garantido:** os arquivos `events_*.jsonl` e `affect_*.csv` continuam sendo gravados e **nunca** são apagados pelo envio. A exportação .zip continua disponível."),
   B("**Sem duplicatas:** o servidor ignora eventos repetidos (pelo `id`) e amostras repetidas (sessão + número da amostra); reenviar é sempre seguro."),
   B("**Segurança:** o jogo só tem a **chave de envio** do estudo, que permite gravar dados novos, mas não ler nem apagar. A leitura usa uma **chave de leitura** separada, que fica só com a equipe de pesquisa. O nome da criança e o `participants_map.csv` nunca são enviados."),
+  B("**Painel Shiny (`fabulasLA::abrir_painel()`):** conecta sozinho ao Supabase (credenciais num arquivo local, fora do Git), sem baixar nem enviar arquivos, e se atualiza automaticamente. Tem três módulos: **Monitor da coleta** (sessões chegando em tempo real, situação de cada uma — em andamento, encerrada, interrompida ou sem dados novos —, completude da sequência de eventos, dados faciais, alertas e últimos eventos de cada sessão), **Estudo em grupo** e **Estudante** (as análises dos dois relatórios, com filtros e download do relatório completo)."),
   B("**Acompanhamento:** o Painel do Pesquisador mostra o estado do envio (em dia, sem conexão, quantos itens aguardam) e tem o botão **Sincronizar agora**. No R, `status_servidor()` lista as sessões recebidas de todas as escolas."),
 );
 add(...analysis(25, "Monitoramento da coleta em várias escolas", {
@@ -497,7 +498,27 @@ add(...analysis(26, "Confusão produtiva ou improdutiva", {
   dados: "`estados_faciais()` (estado predominante a cada 10 s) por sessão.",
   metodo: "Probabilidade de transição L de D'Mello e Graesser entre estados consecutivos não neutros; comparação entre puzzles e entre condições A/B.",
   resultado: "Da confusão, L = 0,44 para engajamento e L ≈ 0 para frustração: predomina a confusão produtiva. No Receitas, porém, a confusão durou mais e precedeu mais abandonos — indicando onde uma dica ajudaria.",
+}));add(
+  H2("3.16 Domínio dos conceitos de pensamento computacional (modelo de conhecimento)"),
+  P("**O que é feito.** Cada fase exercita conceitos de pensamento computacional. O pacote R tem um mapa editável (`mapa_habilidades.csv`) que liga as fases aos conceitos e define a evidência de cada um. Para cada conceito, um modelo *Bayesian Knowledge Tracing* (Corbett & Anderson, 1995) estima o conhecimento inicial (L0), a aprendizagem por oportunidade (T), o chute (G) e o deslize (S), e calcula para cada criança a probabilidade de dominar o conceito, atualizada a cada fase. Acima de 95%, o conceito é considerado dominado; com menos de 3 oportunidades, a situação fica como “poucos dados”."),
+  ...table(["Conceito", "Fases", "Evidência"], [
+    ["Sequência", "Musical", "crédito parcial na 1ª tentativa de cada fase (posições certas antes de corrigir)"],
+    ["Repetição (laços)", "Musical 2 e 3", "usou a repetição corretamente na tentativa"],
+    ["Classificação e padrões", "Conjuntos", "crédito parcial na 1ª tentativa"],
+    ["Algoritmos", "Receitas", "crédito parcial na 1ª tentativa"],
+    ["Raciocínio espacial", "Espelhos", "crédito parcial na 1ª tentativa"],
+    ["Depuração", "todas", "depois de um erro, a nova tentativa ficou mais perto da solução"],
+  ], [2400, 2000, 4626]),
+  B("**Por que a primeira tentativa:** no jogo a criança tenta até acertar, então “acertou a tentativa” quase sempre vale 0 até o acerto final — isso reflete a regra do jogo, não o conhecimento. O crédito parcial na primeira tentativa mede o que a criança já sabia ao chegar (BKT com crédito parcial; Wang & Heffernan, 2013)."),
+  B("**Qualidade do modelo:** o relatório mostra, para cada conceito, a AUC com validação cruzada por estudante (quão bem prevê crianças que não entraram no ajuste) e as curvas de aprendizagem observadas e previstas. Nos dados simulados, a AUC fica entre 0,61 e 0,74 e o domínio estimado tem correlação de cerca de 0,8 com a habilidade verdadeira de cada criança."),
+);
+add(...analysis(27, "O que o jogo ensina", {
+  pergunta: "Quais conceitos as crianças já trazem, quais o jogo ensina e quais continuam difíceis ao fim do jogo?",
+  dados: "`dominio_habilidades()`: parâmetros L0 e T por conceito e situação de cada criança; série e condição em `tabelas_analise()$sessoes`.",
+  metodo: "BKT por conceito; comparação de L0 (conhecimento prévio) com T (ganho por oportunidade); proporção de crianças que dominam cada conceito por série e por condição A/B.",
+  resultado: "Repetição teve o maior ganho por oportunidade (T = 35%) e foi dominada por 89% das crianças; Sequência, com T baixo, foi dominada por apenas 1% — o jogo pratica, mas não está ensinando sequência: candidata a dicas ou a uma fase intermediária.",
 }));
+
 
 // 4. Configuração
 add(

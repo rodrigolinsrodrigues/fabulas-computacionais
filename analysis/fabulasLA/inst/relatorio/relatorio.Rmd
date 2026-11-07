@@ -461,6 +461,72 @@ p1 + p2
 
 **Resultado:** quem altera **poucos pilares entre disparos** se aproxima da solução com mais frequência — a depuração incremental funciona melhor do que mudar tudo de uma vez.
 
+# Domínio dos conceitos de pensamento computacional *(modelo de conhecimento)*
+
+**Pergunta:** quais conceitos as crianças já dominam, quais o jogo ensina e quais continuam difíceis? **Método:** cada fase exercita conceitos de pensamento computacional (mapa abaixo, editável em `mapa_habilidades.csv`). Para cada conceito, um modelo *Bayesian Knowledge Tracing* (Corbett & Anderson, 1995) estima quatro parâmetros — conhecimento inicial (L0), aprendizagem por oportunidade (T), chute (G) e deslize (S) — e, para cada criança, a probabilidade de dominar o conceito ao fim do jogo. Nas fases, a evidência é o crédito parcial da **primeira tentativa** (o que a criança já sabia ao chegar); na repetição, o uso correto do laço; na depuração, se a nova tentativa melhorou.
+
+```{r dominio-mapa}
+dom <- dominio_habilidades(coleta)
+dom$mapa |> transmute(Conceito = rotulo, `O que significa` = descricao, `Fases (expressão)` = cenas,
+                      Evidência = recode(evidencia, primeira_tentativa = "crédito parcial na 1ª tentativa da fase",
+                                         repeticao = "usou a repetição corretamente", melhora = "nova tentativa melhorou",
+                                         sucesso = "resolveu a fase")) |> tabela(caption = "Mapa de conceitos")
+```
+
+```{r dominio-parametros}
+dom$parametros |> transmute(Conceito = rotulo, `Já dominava (L0)` = pct(L0), `Aprende por oportunidade (T)` = pct(T),
+                            `Chute (G)` = pct(G), `Deslize (S)` = pct(S), Estudantes = estudantes, Oportunidades = oportunidades,
+                            `AUC (validação cruzada)` = num(auc_cv, 2)) |>
+  tabela(caption = "Parâmetros do modelo por conceito (AUC: quão bem o modelo prevê o desempenho de estudantes que não usou no ajuste; 0,5 = acaso)")
+```
+
+```{r dominio-situacao, fig.height = 4}
+cores_sit <- c(domina = "#2CA02C", `em progresso` = "#E0A800", `ainda não domina` = "#C00000", `poucos dados` = "#BDBDBD")
+sit <- dom$final |> count(rotulo, situacao) |> group_by(rotulo) |> mutate(p = n / sum(n)) |> ungroup()
+ordem_h <- sit |> filter(situacao == "domina") |> arrange(p) |> pull(rotulo)
+ggplot(sit |> mutate(rotulo = factor(rotulo, unique(c(ordem_h, sit$rotulo))), situacao = factor(situacao, names(cores_sit))),
+       aes(p, rotulo, fill = situacao)) + geom_col(position = position_stack(reverse = TRUE)) +
+  geom_text(aes(label = ifelse(p >= .06, pct(p), "")), position = position_stack(vjust = .5, reverse = TRUE), size = 3.2, color = "white") +
+  scale_fill_manual(values = cores_sit) + scale_x_continuous(labels = scales::percent) +
+  labs(title = "Situação das crianças em cada conceito ao fim do jogo", x = NULL, y = NULL, fill = NULL)
+mais_dif <- dom$final |> group_by(rotulo) |> summarise(d = mean(situacao == "domina"), .groups = "drop") |> arrange(d)
+mais_aprende <- dom$parametros |> arrange(desc(T)) |> slice(1)
+```
+
+**Resultado:** o conceito mais difícil é **`r mais_dif$rotulo[1]`** (`r pct(mais_dif$d[1])` das crianças o dominam ao fim do jogo), e o mais dominado é **`r mais_dif$rotulo[nrow(mais_dif)]`** (`r pct(mais_dif$d[nrow(mais_dif)])`). O maior ganho por oportunidade está em **`r mais_aprende$rotulo`** (T = `r pct(mais_aprende$T)`): é onde o jogo mais *ensina*. Conceitos com L0 alto e T baixo são aqueles que as crianças já traziam; com L0 baixo e T baixo, o jogo ainda não está ensinando — candidatos a dicas ou fases intermediárias.
+
+## Domínio por série e por condição
+
+```{r dominio-grupos, fig.height = 4}
+dg <- dom$final |> left_join(sessoes |> distinct(participant, .keep_all = TRUE) |> select(participant, serie, condicao), by = "participant")
+dg |> filter(!is.na(serie)) |> group_by(serie, rotulo) |> summarise(p = mean(situacao == "domina"), n = n(), .groups = "drop") |>
+  ggplot(aes(serie, p, fill = serie)) + geom_col(show.legend = FALSE) + facet_wrap(~rotulo, nrow = 1) +
+  scale_y_continuous(labels = scales::percent) + labs(title = "Crianças que dominam cada conceito, por série", x = NULL, y = NULL) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+if (n_distinct(dg$condicao, na.rm = TRUE) > 1) {
+  dg |> filter(!is.na(condicao), condicao != "") |> group_by(Conceito = rotulo, condicao) |> summarise(p = pct(mean(situacao == "domina")), .groups = "drop") |>
+    pivot_wider(names_from = condicao, values_from = p, names_prefix = "Condição ") |> tabela(caption = "Crianças que dominam cada conceito, por condição")
+}
+```
+
+## Curvas de aprendizagem por conceito
+
+```{r dominio-curvas, fig.height = 4.2}
+dom$trajetoria |> left_join(dom$mapa |> select(habilidade, rotulo), by = "habilidade") |>
+  group_by(rotulo, ordem) |> summarise(observado = mean(correto), previsto = mean(p_acerto), n = n(), .groups = "drop") |>
+  filter(n >= 10) |> pivot_longer(c(observado, previsto)) |>
+  ggplot(aes(ordem, value, color = name)) + geom_line(linewidth = .9) + geom_point(size = 1.2) + facet_wrap(~rotulo, scales = "free_x") +
+  scale_color_manual(values = c(observado = "#1F4E79", previsto = "#E07B00"), labels = c(observado = "acerto observado", previsto = "previsto pelo modelo")) +
+  scale_y_continuous(labels = scales::percent) + labs(title = "Acerto médio a cada oportunidade (com pelo menos 10 crianças)", x = "Oportunidade", y = NULL, color = NULL)
+```
+
+```{r dominio-verdade, include = FALSE, eval = !is.null(verdade)}
+val <- dom$final |> group_by(participant) |> summarise(dominio = mean(p_dominio)) |> inner_join(verdade |> select(participant, theta), by = "participant")
+r_val <- cor(val$dominio, val$theta)
+```
+
+`r if (!is.null(verdade)) paste0("*Validação com dados simulados:* o domínio médio estimado tem correlação **r = ", num(r_val, 2), "** com a habilidade “verdadeira” usada para gerar cada criança — o modelo recupera bem quem sabe mais.") else ""`
+
 # Ações intermediárias *(Exemplo 15)*
 
 **Pergunta:** as crianças planejam antes de agir ou exploram por manipulação? **Método:** tempo até a primeira ação na fase, ações por tentativa e taxa de ações desfeitas (pegar e soltar sem encaixar) por perfil.

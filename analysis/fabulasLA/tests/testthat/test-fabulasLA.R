@@ -195,3 +195,129 @@ test_that("estados_faciais estima os cinco estados por janela", {
   expect_true(all(sem_rosto$confianca == "baixa"))
   expect_equal(nrow(estados_faciais(list(eventos = coleta$eventos[0, ], afeto = tibble::tibble()))), 0)
 })
+
+test_that("BKT: filtro bate com a conta à mão e o ajuste recupera parâmetros conhecidos", {
+  # Conta à mão para uma sequência curta (L0 = .3, T = .2, G = .1, S = .1)
+  p <- c(L0 = .3, T = .2, G = .1, S = .1)
+  o <- tibble::tibble(participant = "A", ordem = 1:2, correto = c(1, 0))
+  tr <- fabulasLA:::.bkt_filtrar(o, p)
+  pc1 <- .3 * .9 + .7 * .1
+  post1 <- .3 * .9 / pc1; L1 <- post1 + (1 - post1) * .2
+  pc2 <- L1 * .9 + (1 - L1) * .1
+  post2 <- L1 * .1 / (1 - pc2); L2 <- post2 + (1 - post2) * .2
+  expect_equal(tr$p_acerto, c(pc1, pc2))
+  expect_equal(tr$p_dominio, c(L1, L2))
+  # Crédito parcial 0,5 fica entre acerto e erro
+  meio <- fabulasLA:::.bkt_filtrar(tibble::tibble(participant = "A", ordem = 1, correto = .5), p)$p_dominio
+  acerto <- fabulasLA:::.bkt_filtrar(tibble::tibble(participant = "A", ordem = 1, correto = 1), p)$p_dominio
+  erro <- fabulasLA:::.bkt_filtrar(tibble::tibble(participant = "A", ordem = 1, correto = 0), p)$p_dominio
+  expect_true(erro < meio && meio < acerto)
+
+  # Recuperação: 400 estudantes x 12 oportunidades gerados com parâmetros conhecidos
+  set.seed(7)
+  verd <- c(L0 = .25, T = .15, G = .2, S = .1)
+  gera <- function() {
+    dom <- runif(1) < verd[["L0"]]; out <- integer(12)
+    for (k in 1:12) {
+      out[k] <- as.integer(runif(1) < ifelse(dom, 1 - verd[["S"]], verd[["G"]]))
+      if (!dom) dom <- runif(1) < verd[["T"]]
+    }
+    out
+  }
+  sim <- purrr::map_dfr(1:400, function(i) tibble::tibble(participant = sprintf("P%03d", i), ordem = 1:12, correto = gera()))
+  est <- fabulasLA:::.bkt_ajustar(sim)
+  expect_equal(unname(est), unname(verd), tolerance = 0.06)
+  expect_gt(fabulasLA:::.bkt_auc_cv(sim), 0.7)
+})
+
+test_that("dominio_habilidades estima o domínio de cada conceito por estudante", {
+  mapa <- mapa_habilidades()
+  expect_true(all(c("habilidade", "rotulo", "descricao", "cenas", "evidencia") %in% names(mapa)))
+  expect_true(all(mapa$evidencia %in% c("primeira_tentativa", "sucesso", "repeticao", "melhora")))
+  ob <- observacoes_habilidades(coleta, mapa)
+  expect_true(all(ob$correto >= 0 & ob$correto <= 1))
+  expect_true(all(ob$habilidade %in% mapa$habilidade))
+  d <- dominio_habilidades(coleta, validacao_cruzada = FALSE)
+  expect_s3_class(d, "fabulas_dominio")
+  expect_true(all(d$final$p_dominio >= 0 & d$final$p_dominio <= 1))
+  expect_true(all(d$final$situacao %in% c("domina", "em progresso", "ainda não domina", "poucos dados")))
+  expect_true(all(d$final$situacao[d$final$oportunidades < 3] == "poucos dados"))
+  with(d$parametros, {
+    expect_true(all(L0 >= .01 & L0 <= .99)); expect_true(all(G >= .05 & G <= .3)); expect_true(all(S >= .05 & S <= .3))
+  })
+  # a trajetória termina no domínio final
+  ult <- d$trajetoria |> dplyr::group_by(participant, habilidade) |> dplyr::slice_max(ordem, n = 1) |> dplyr::ungroup()
+  comb <- dplyr::inner_join(ult, d$final, by = c("participant", "habilidade"))
+  expect_equal(comb$p_dominio.x, comb$p_dominio.y)
+  # parâmetros fixos são respeitados
+  fixos <- d$parametros |> dplyr::select(habilidade, L0, T, G, S) |> dplyr::mutate(T = 0.5)
+  d2 <- dominio_habilidades(coleta, parametros = fixos, validacao_cruzada = FALSE)
+  expect_equal(d2$parametros$T, rep(0.5, nrow(fixos)))
+  # o domínio estimado acompanha a habilidade "verdadeira" da simulação
+  v <- coleta$extras[["_verdade_simulacao"]]
+  m <- d$final |> dplyr::group_by(participant) |> dplyr::summarise(dom = mean(p_dominio)) |> dplyr::inner_join(v, by = "participant")
+  expect_gt(cor(m$dom, m$theta), 0.4)
+  expect_output(print(d), "Domínio de habilidades")
+})
+
+test_that("painel Shiny: arquivos carregam e a camada de dados funciona", {
+  skip_if_not_installed("shiny"); skip_if_not_installed("bslib"); skip_if_not_installed("DT"); skip_if_not_installed("bsicons")
+  pasta_app <- system.file("painel", package = "fabulasLA")
+  expect_true(file.exists(file.path(pasta_app, "app.R")))
+  amb <- new.env()
+  for (f in list.files(file.path(pasta_app, "R"), full.names = TRUE)) sys.source(f, envir = amb)
+  expect_true(all(c("monitorUI", "monitorServer", "grupoUI", "grupoServer", "individualUI", "individualServer") %in% ls(amb)))
+  fonte <- list(modo = "pasta", caminhos = pasta_sim, n_alunos = 12)
+  vs <- amb$visao_sessoes(fonte)
+  expect_equal(nrow(vs), dplyr::n_distinct(coleta$eventos$session))
+  expect_equal(sum(vs$eventos), nrow(coleta$eventos))
+  expect_true(all(c("session", "participant", "encerrada", "ultimo_seq", "eventos", "amostras", "ultimo") %in% names(vs)))
+  a <- amb$preparar_analise(coleta)
+  expect_true(all(c("tb", "dom", "est", "validacao") %in% names(a)))
+  ev <- amb$eventos_da_sessao(fonte, vs$session[1], coleta)
+  expect_true(all(ev$session == vs$session[1]))
+  # interface monta sem erro
+  expect_s3_class(amb$monitorUI("m"), "shiny.tag")
+  expect_s3_class(amb$grupoUI("g"), "shiny.tag")
+  expect_s3_class(amb$individualUI("i"), "shiny.tag")
+})
+
+test_that("painel: cópia das funções do pacote está em dia (rode analysis/sincronizar_painel.R)", {
+  pacote_r <- file.path("..", "..", "R"); painel_r <- file.path("..", "..", "inst", "painel", "R")
+  skip_if_not(dir.exists(pacote_r) && dir.exists(painel_r), "fontes do pacote não disponíveis")
+  origem <- setdiff(list.files(pacote_r, pattern = "[.]R$"), c("relatorio.R", "painel.R"))
+  for (f in origem) {
+    copia <- file.path(painel_r, paste0("pacote_", f))
+    expect_true(file.exists(copia), info = paste("falta a cópia de", f))
+    esperado <- readLines(file.path(pacote_r, f), encoding = "UTF-8", warn = FALSE)
+    esperado <- gsub('system.file\\("extdata", "([^"]+)", package = "fabulasLA"\\)', 'file.path(pasta_extdata(), "\\1")', esperado)
+    esperado <- gsub("fabulasLA:::?", "", esperado)
+    atual <- readLines(copia, encoding = "UTF-8", warn = FALSE)
+    expect_identical(atual[-(1:3)], esperado, info = paste(f, "desatualizado: rode analysis/sincronizar_painel.R"))
+  }
+  for (f in list.files(file.path("..", "..", "inst", "extdata"))) {
+    expect_identical(unname(tools::md5sum(file.path("..", "..", "inst", "extdata", f))),
+                     unname(tools::md5sum(file.path("..", "..", "inst", "painel", "extdata", f))), info = f)
+  }
+  # nenhuma referência ao pacote que faça o shinyapps.io tentar instalá-lo
+  codigo <- unlist(lapply(list.files(file.path("..", "..", "inst", "painel"), pattern = "[.]R$", recursive = TRUE, full.names = TRUE),
+                          readLines, encoding = "UTF-8", warn = FALSE))
+  codigo <- codigo[!grepl("^\\s*#", codigo)]
+  expect_false(any(grepl("fabulasLA::|library\\(fabulasLA|require\\(fabulasLA", codigo)))
+})
+
+test_that("coletas sem tentativas ou só com navegação não quebram as análises", {
+  # Ex.: logo depois de limpar o banco — crianças entraram, andaram pelo mundo, mas não tentaram nenhum puzzle
+  sem_tent <- coleta
+  sem_tent$eventos <- coleta$eventos[!coleta$eventos$event %in% c("solution_snapshot", "puzzle_attempt", "puzzle_complete", "solution_final"), ]
+  sem_tent$eventos <- sem_tent$eventos[, setdiff(names(sem_tent$eventos), c("puzzle", "slots", "expected", "distance", "total_positions",
+                                                                              "n_changed", "success", "part1_repeat", "attempt", "attempts"))]
+  sem_tent$afeto <- tibble::tibble()
+  tb <- tabelas_analise(sem_tent)
+  expect_equal(nrow(tb$tentativas), 0)
+  expect_gt(nrow(tb$sessoes), 0)
+  expect_s3_class(dominio_habilidades(sem_tent, validacao_cruzada = FALSE), "fabulas_dominio")
+  expect_true(is.data.frame(estados_faciais(sem_tent)))
+  expect_s3_class(validar_coleta(sem_tent), "fabulas_validacao")
+  expect_equal(nrow(afeto_por_evento(sem_tent, "scene_enter")), sum(sem_tent$eventos$event == "scene_enter"))
+})

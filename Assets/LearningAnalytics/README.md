@@ -155,6 +155,8 @@ validar_coleta(coleta)
 tb <- tabelas_analise(coleta)                             # sessoes, fases, tentativas, afeto_sessao
 gerar_relatorio(c("escola_A.zip", "escola_B.zip"), "relatorio.html")   # estudo em grupo
 gerar_relatorio_individual("K7M2X", c("escola_A.zip", "escola_B.zip"))   # um estudante
+abrir_painel()   # painel Shiny direto do Supabase: monitor da coleta, grupo e estudante
+dominio_habilidades(coleta)   # domínio de cada conceito por estudante (BKT)
 estados_faciais(coleta)   # confusão, frustração, tédio, engajamento, encantamento (estimados na análise, não gravados)
 exportar_codebook("codebook.csv")
 

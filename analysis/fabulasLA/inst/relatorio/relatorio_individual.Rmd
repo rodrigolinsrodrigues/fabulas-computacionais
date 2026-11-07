@@ -234,6 +234,61 @@ if (nrow(erros) > 0) {
 } else cat("Nenhum erro de classificação (Conjuntos) ou de passo (Receitas) registrado.")
 ```
 
+# Domínio dos conceitos de pensamento computacional
+
+<div style="background:#EEF4FB;border-left:5px solid #1F4E79;padding:10px 14px;margin:10px 0;">
+<b>Como ler:</b> cada fase exercita conceitos (sequência, repetição, classificação, algoritmos, raciocínio espacial e depuração — ver <code>mapa_habilidades()</code>). Um modelo de rastreamento de conhecimento (<i>Bayesian Knowledge Tracing</i>, <code>dominio_habilidades()</code>), ajustado com todos os estudantes desta coleta, estima a <b>probabilidade de o estudante dominar cada conceito</b>, atualizada a cada fase ou tentativa. Por convenção, acima de 95% o conceito é considerado <b>dominado</b>.
+</div>
+
+```{r dominio-prep, include = FALSE}
+dom <- dominio_habilidades(coleta, validacao_cruzada = FALSE)
+dom_meu <- dom$final |> filter(eh(participant))
+dom_traj <- dom$trajetoria |> filter(eh(participant)) |> left_join(dom$mapa |> select(habilidade, rotulo), by = "habilidade")
+dom_grupo <- dom$final |> group_by(habilidade, rotulo) |>
+  summarise(mediana = median(p_dominio), pct_domina = mean(situacao == "domina"), .groups = "drop")
+tem_dom <- nrow(dom_meu) > 0
+```
+
+`r if (!tem_dom) "*O estudante ainda não tem tentativas suficientes para estimar o domínio dos conceitos.*" else ""`
+
+```{r dominio-barras, eval = tem_dom, fig.height = 3.8}
+cores_sit <- c(domina = "#2CA02C", `em progresso` = "#E0A800", `ainda não domina` = "#C00000", `poucos dados` = "#BDBDBD")
+d <- dom_meu |> left_join(dom_grupo |> select(habilidade, mediana), by = "habilidade")
+ggplot(d, aes(p_dominio, reorder(rotulo, p_dominio))) +
+  geom_col(aes(fill = situacao), width = .6) +
+  geom_point(aes(x = mediana), shape = 124, size = 7, color = "grey20") +
+  geom_vline(xintercept = dom$limiar, linetype = 2, color = "grey40") +
+  geom_text(aes(label = pct(p_dominio)), hjust = -0.15, size = 3.4) +
+  scale_fill_manual(values = cores_sit) + scale_x_continuous(labels = scales::percent, limits = c(0, 1.12), breaks = seq(0, 1, .25)) +
+  labs(title = "Probabilidade de dominar cada conceito", subtitle = "Traço preto: mediana do grupo · linha tracejada: limiar de domínio (95%)",
+       x = NULL, y = NULL, fill = NULL)
+```
+
+```{r dominio-tabela, eval = tem_dom}
+dom_meu |> left_join(dom_grupo, by = c("habilidade", "rotulo")) |> arrange(desc(p_dominio)) |>
+  transmute(Conceito = rotulo, Oportunidades = oportunidades, `Acerto médio` = pct(media_acerto),
+            `Probabilidade de domínio` = pct(p_dominio), Situação = situacao,
+            `Mediana do grupo` = pct(mediana), `Dominam no grupo` = pct(pct_domina)) |> tabela()
+fortes <- dom_meu |> filter(situacao == "domina") |> pull(rotulo)
+fracos <- dom_meu |> filter(situacao == "ainda não domina") |> arrange(p_dominio) |> pull(rotulo)
+poucos <- dom_meu |> filter(situacao == "poucos dados") |> pull(rotulo)
+```
+
+`r if (tem_dom) paste0(if (length(fortes)) paste0("**Domina:** ", paste(fortes, collapse = ", "), ". ") else "Ainda não domina nenhum conceito com segurança. ", if (length(fracos)) paste0("**Precisa de apoio em:** ", paste(fracos, collapse = ", "), " — bons alvos para atividades de reforço ou para uma conversa sobre como pensou nessas fases. ") else "", if (length(poucos)) paste0("Com poucos dados ainda (menos de 3 oportunidades): ", paste(poucos, collapse = ", "), ".") else "") else ""`
+
+## Evolução ao longo do jogo
+
+```{r dominio-trajetoria, eval = tem_dom, fig.height = 4.5}
+ggplot(dom_traj, aes(ordem, p_dominio)) +
+  geom_hline(yintercept = dom$limiar, linetype = 2, color = "grey50") +
+  geom_line(color = "#1F4E79", linewidth = .9) + geom_point(aes(color = correto), size = 2.2) +
+  scale_color_gradient(low = "#C00000", high = "#2CA02C", limits = c(0, 1), labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) + scale_x_continuous(breaks = scales::breaks_pretty()) +
+  facet_wrap(~rotulo, scales = "free_x") +
+  labs(title = "Probabilidade de domínio a cada oportunidade", x = "Oportunidade (fase ou tentativa)", y = NULL,
+       color = "Acerto na oportunidade")
+```
+
 # Engajamento
 
 ```{r engajamento}
@@ -410,6 +465,7 @@ conf_res <- seqs |> filter(estado == "confusao")
 - Os escores z comparam o estudante **com ele mesmo**; valores perto de 0 são o comportamento habitual dele.
 - Os **estados afetivos** são estimados por regras (`regras_estados()`) e ainda precisam de validação com observação em sala; trate-os como pistas para conversar com o estudante ou observar a próxima sessão.
 - Comparações com o grupo dependem de quantos colegas fizeram cada fase; com poucos estudantes, use com cautela.
+- O **domínio dos conceitos** é uma estimativa de modelo (BKT) ajustada com os estudantes desta coleta: com poucas fases jogadas, a incerteza é grande.
 - Para outro estudante: `fabulasLA::gerar_relatorio_individual("CODIGO", "pasta_ou_zip")`. Para o estudo todo: `fabulasLA::gerar_relatorio("pasta_ou_zip")`.
 
 <details><summary>Informações da sessão R</summary>

@@ -10,19 +10,22 @@ tabelas_analise <- function(coleta) {
   ev <- .garantir(coleta$eventos, c("level_type", "area", "attempt", "attempts", "time_s", "door", "distance",
     "n_changed", "success", "segments_lit", "segments_total", "part1_repeat", "idle_ms", "reason", "schema",
     "study_id", "school_id", "class_id", "machine_id", "condition", "age", "gender", "school_grade",
-    "device_model", "joysticks", "total_positions", "recovered"))
+    "school_name", "device_model", "joysticks", "total_positions", "recovered", "puzzle"))
 
   inicio <- ev |> filter(.data$event == "session_start")
   fim <- ev |> filter(.data$event == "session_end") |> group_by(.data$session) |> slice(1) |> ungroup() |>
     transmute(session = .data$session, motivo_fim = .data$reason, duracao_min = .data$duration_ms / 60000)
   sessoes <- inicio |>
     transmute(session = .data$session, participant = .data$participant, inicio_utc = .data$t,
-              estudo = .data$study_id, escola = .data$school_id, turma = .data$class_id,
+              estudo = .data$study_id, escola = .data$school_id, escola_informada = .data$school_name, turma = .data$class_id,
               maquina = coalesce(na_if(.data$machine_id, ""), .data$device_model),
               condicao = .data$condition, idade = .data$age, genero = .data$gender, serie = .data$school_grade,
               dispositivo = ifelse(.data$joysticks %in% c("", NA), "teclado/mouse", "gamepad"), schema = .data$schema) |>
     left_join(fim, by = "session") |>
-    mutate(escola = ifelse(is.na(.data$escola) | .data$escola == "", "Não informada", .data$escola),
+    mutate(escola_informada = ifelse(is.na(.data$escola_informada), "", trimws(.data$escola_informada)),
+           # escola do estudo (research_config); sem ela, a escola digitada pelo estudante no cadastro
+           escola = ifelse(is.na(.data$escola) | .data$escola == "",
+                           ifelse(.data$escola_informada == "", "Não informada", .data$escola_informada), .data$escola),
            condicao = ifelse(is.na(.data$condicao) | .data$condicao == "", "(sem condição)", .data$condicao),
            interrompida = .data$motivo_fim %in% "interrupted")
 

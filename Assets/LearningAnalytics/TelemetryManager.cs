@@ -44,6 +44,9 @@ public class TelemetryManager : MonoBehaviour
     /// <summary>Usado pelos testes para isolar os dados; null = padrão.</summary>
     public static string DataFolderOverride;
 
+    /// <summary>Nome da escola digitado pelo estudante no cadastro (campo "Escola"); vai no session_start.</summary>
+    public static string EscolaInformada = "";
+
     public static string DataFolder
     {
         get
@@ -150,6 +153,7 @@ public class TelemetryManager : MonoBehaviour
             ("age", age),
             ("gender", gender),
             ("school_grade", schoolGrade),
+            ("school_name", EscolaInformada ?? ""),
             ("game_version", Application.version),
             ("unity_version", Application.unityVersion),
             ("platform", Application.platform.ToString()),

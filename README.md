@@ -74,7 +74,9 @@ As **áreas externas** funcionam como mundo central: cada uma tem portas para um
 
 ## 📊 Learning Analytics
 
-O jogo inclui uma camada completa de coleta de dados para pesquisa, que roda **localmente** e **não altera a jogabilidade**.
+O jogo inclui uma camada completa de coleta de dados para pesquisa, que **não altera a jogabilidade**. Tudo é gravado
+no computador da escola e, quando há internet, copiado para um **servidor central (Supabase)**, de onde o
+**painel Shiny** e os **relatórios em R** leem os dados de todas as escolas.
 
 ```mermaid
 flowchart LR
@@ -83,17 +85,26 @@ flowchart LR
         P -->|"estado da solução"| S["SolutionTracker<br/>MirrorsTracker"]
         S --> T
         W["Webcam"] --> A["AffectManager<br/>MediaPipe FaceLandmarker"]
+        T --> U["DataUploader<br/>envio em segundo plano"]
+        A --> U
     end
-    T --> E[("events_*.jsonl")]
-    T --> M[("participants_map.csv")]
-    A --> F[("affect_*.csv")]
-    E --> R["Análise<br/>Python / R"]
-    F --> R
+    T --> E[("events_*.jsonl<br/>backup local")]
+    A --> F[("affect_*.csv<br/>backup local")]
+    U -->|"HTTPS · chave de envio"| DB[("Supabase<br/>PostgreSQL")]
+    DB -->|"chave de leitura"| D["Painel Shiny"]
+    D --> D1["Monitor da coleta<br/>(tempo real)"]
+    D --> D2["Estudo em grupo"]
+    D --> D3["Estudante"]
+    DB --> R["Pacote R fabulasLA"]
+    E -. ".zip sem internet" .-> R
+    F -.-> R
+    R --> R1["Relatórios HTML<br/>grupo e individual"]
+    R --> R2["Domínio dos conceitos (BKT)<br/>estados afetivos"]
 ```
 
 | Funcionalidade | O que registra |
 |---|---|
-| **Sessão e perfil** | Idade, gênero, série, dispositivo e controles, com código pseudônimo por participante |
+| **Sessão e perfil** | Idade, gênero, série, escola, dispositivo e controles, com código pseudônimo por participante |
 | **Navegação** | Entrada e saída de cenas; aproximação, desistência e entrada em portas |
 | **Desempenho** | Início, tentativas e conclusão de cada fase; joias conquistadas |
 | **Estado da solução** | O que a criança montou a cada tentativa, comparado com o gabarito e com a tentativa anterior (posições certas, distância até a solução, posições alteradas) |
@@ -104,12 +115,22 @@ flowchart LR
 | **Qualidade dos dados** | `id` e `seq` em cada evento, recuperação de sessões interrompidas e exportação com checksums |
 | **Servidor central** | Cópia automática de todos os eventos e dados faciais no Supabase, com os arquivos locais mantidos como backup |
 
+Com esses dados, o pacote R e o painel calculam:
+
+| Análise | O que mostra |
+|---|---|
+| **Domínio dos conceitos** | Probabilidade de cada criança dominar sequência, repetição, classificação, algoritmos, raciocínio espacial e depuração (*Bayesian Knowledge Tracing*) |
+| **Estados afetivos** | Confusão, frustração, tédio, engajamento e encantamento a cada 10 s, combinando rosto e comportamento (indicadores, não diagnósticos) |
+| **Expressão em cada ação** | O que o rosto fazia antes e depois de cada tentativa, erro ou acerto, em relação ao normal de cada criança |
+
 ### 🧑‍🔬 Para pesquisadores
 
 - **Painel do Estudo** (no Unity): configura o estudo sem editar JSON, aponta riscos e gera **códigos de participante com etiquetas para imprimir** — nenhum nome entra no computador da escola.
-- **Tela de consentimento** no jogo, com autorização separada para a câmera.
+- **Tela de consentimento** no jogo, com autorização separada para a câmera, e **prévia da câmera** no cadastro para o pesquisador ajustar a posição.
 - **Painel do Pesquisador** (no jogo, `Ctrl+Shift+R`): estado da coleta, **teste da câmera** com prévia e **exportação com um clique** (`.zip` anonimizado com manifesto).
-- **Pacote R [`fabulasLA`](analysis/fabulasLA)**: lê os `.zip` de todas as escolas, **valida** a coleta, monta tabelas de análise, gera o **codebook** e um **relatório completo** em HTML.
+- **Pacote R [`fabulasLA`](analysis/fabulasLA)**: lê os `.zip` ou o servidor, **valida** a coleta, monta tabelas de análise, estima o **domínio dos conceitos** e os **estados afetivos** e gera o **codebook**.
+- **Painel Shiny** (`fabulasLA::abrir_painel()`, também publicável no shinyapps.io): conecta direto ao Supabase e tem três módulos — **Monitor da coleta** (sessões chegando de cada escola em tempo real, completude, alertas de máquinas sem conexão ou sem câmera), **Estudo em grupo** e **Estudante**.
+- **Relatórios em R Markdown**: `gerar_relatorio()` para o estudo em grupo e `gerar_relatorio_individual("CÓDIGO")` para a devolutiva de cada criança.
 - **Servidor central (opcional)**: o jogo envia em segundo plano todos os eventos e dados faciais a um banco [Supabase](https://supabase.com); sem internet, guarda e envia depois. Os arquivos locais continuam sendo o backup. No R, `ler_coleta_servidor()` baixa a coleta de todas as escolas.
 - **Testes automatizados**: 43 testes no Unity, testes do pacote R e do banco de dados, e um autoteste de ponta a ponta no jogo compilado (incluindo envio ao servidor sem e com internet).
 
@@ -125,7 +146,7 @@ Exemplo de evento registrado quando a criança testa a partitura:
 
 📄 Documentação:
 - [**Guia do Pesquisador**](Assets/LearningAnalytics/Guia_do_Pesquisador.docx) — protocolo de coleta passo a passo (antes, durante e depois), com checklists e solução de problemas.
-- [**Funcionalidades de Learning Analytics**](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx) — o que é coletado, dicionário de eventos e **26 exemplos de análises de pesquisa**.
+- [**Funcionalidades de Learning Analytics**](Assets/LearningAnalytics/Learning_Analytics_Fabulas_Computacionais.docx) — o que é coletado, dicionário de eventos e **27 exemplos de análises de pesquisa**.
 - [Referência técnica](Assets/LearningAnalytics/README.md) e [pacote R](analysis/fabulasLA/README.md).
 
 ---
@@ -213,6 +234,7 @@ com o **servidor central** ligado, os dados chegam sozinhos ao Supabase (passo a
 | [MediaPipe Unity Plugin](https://github.com/homuler/MediaPipeUnityPlugin) (v0.15.0) | Detecção de expressões faciais (FaceLandmarker) |
 | [LootLocker SDK](https://lootlocker.com/) | Serviços online (sessão de convidado) |
 | [Supabase](https://supabase.com/) (PostgreSQL) | Servidor central opcional para os dados de pesquisa |
+| [R](https://www.r-project.org/) + [Shiny](https://shiny.posit.co/) | Pacote de análise `fabulasLA`, relatórios em R Markdown e painel de acompanhamento |
 
 ---
 
@@ -236,7 +258,8 @@ Assets/
 │   └── Documentacao~/       # Geradores do Guia do Pesquisador e do documento de funcionalidades
 ├── StreamingAssets/         # research_config.json e modelo facial do MediaPipe
 └── Tools/                   # Ferramentas de desenvolvimento (tour de capturas de tela, render de cenas)
-analysis/fabulasLA/          # Pacote R: leitura, validação, tabelas, codebook e relatório
+analysis/fabulasLA/          # Pacote R: leitura, validação, tabelas, modelos, codebook e relatórios
+│   └── inst/painel/         # Painel Shiny (monitor da coleta, grupo e estudante)
 server/supabase/             # Banco do servidor central (schema.sql) e seus testes
 docs/images/                 # Imagens deste README
 Packages/                    # Dependências (coloque aqui o .tgz do MediaPipe)

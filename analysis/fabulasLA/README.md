@@ -79,6 +79,50 @@ estados |> dplyr::count(estado)
 Os estados são **calculados na análise** (nada é gravado no jogo ou no servidor) e aparecem nos dois
 relatórios. São indicadores heurísticos: valide com observação em sala (BROMP) antes de tirar conclusões.
 
+### Painel Shiny (direto do Supabase)
+
+```r
+fabulasLA::abrir_painel()   # conecta sozinho ao Supabase (credenciais em inst/painel/credenciais.R)
+```
+
+As credenciais ficam em `inst/painel/credenciais.R`, **fora do Git** porque contém a chave de leitura
+(modelo em `credenciais_exemplo.R`). Depois de editá-las, reinstale o pacote. Ao abrir, o painel conecta e
+carrega tudo sozinho: o monitor se atualiza a cada 15 s a 5 min, e as abas de grupo e de estudante recarregam
+a coleta a cada 10 min.
+
+Os dados são lidos **direto do Supabase**, sem baixar nem enviar arquivos. Três módulos:
+
+| Módulo | Para quê |
+|---|---|
+| **Monitor da coleta** | Acompanhar a coleta enquanto as crianças jogam: sessões em andamento, encerradas, interrompidas ou sem dados novos, completude da sequência de eventos, dados faciais, alertas e os últimos eventos de cada sessão. Atualiza sozinho (15 s a 5 min). |
+| **Estudo em grupo** | As análises do relatório de grupo com filtros (escola, turma, condição, série): qualidade, desempenho por fase, estratégias, domínio dos conceitos, estados afetivos, expressões e A/B. Botão para baixar o relatório completo em HTML. |
+| **Estudante** | As análises do relatório individual do estudante escolhido: percurso, desempenho comparado ao grupo, tentativas, domínio dos conceitos, estados e expressões em cada ação. Botão para baixar o relatório individual. |
+
+Para treinamento sem servidor: `abrir_painel(demonstracao = TRUE)` (dados simulados).
+
+**Publicar no shinyapps.io.** O painel é autossuficiente: as funções de análise ficam copiadas em
+`inst/painel/R/pacote_*.R` (e os dados de referência em `inst/painel/extdata/`), então o shinyapps.io só
+precisa de pacotes do CRAN — o `fabulasLA` não está no CRAN e não pode ser instalado lá. Abra
+`inst/painel/app.R` no RStudio e use o botão **Publish**, ou rode `Pesquisa/publicar_painel.R`.
+Sempre que mudar uma função em `R/`, rode `analysis/sincronizar_painel.R` para atualizar a cópia
+(um teste avisa se ela estiver desatualizada). O painel publicado não tem senha: qualquer pessoa com o
+link vê os dados.
+
+### Domínio dos conceitos (modelo de conhecimento)
+
+```r
+dom <- dominio_habilidades(coleta)
+dom                 # parâmetros por conceito (L0, T, G, S, AUC com validação cruzada) e situação das crianças
+dom$final           # estudante x conceito: probabilidade de domínio e situação (domina / em progresso / ...)
+dom$trajetoria      # probabilidade atualizada a cada fase ou tentativa
+mapa_habilidades()  # que fase exercita que conceito (copie o CSV, edite e passe em `mapa =`)
+```
+
+Cada conceito tem um modelo BKT (Corbett & Anderson, 1995) ajustado por máxima verossimilhança. Nas fases,
+a evidência é o crédito parcial da **primeira tentativa** (posições certas antes de corrigir); na repetição,
+o uso correto do laço; na depuração, se a nova tentativa melhorou. Nos dados simulados, o domínio estimado
+tem correlação ≈ 0,8 com a habilidade verdadeira de cada criança. Aparece nos dois relatórios.
+
 ### Sem dados reais ainda?
 
 ```r
@@ -105,6 +149,8 @@ codigo_valido(c("K7M2X", "k7m2x", "K7M3X"))
 | `tabelas_analise()` | Sessões, fases, tentativas e afeto por sessão. |
 | `gerar_relatorio()` | **Estudo em grupo**: relatório HTML com validação, estudo/escolas, 20+ análises e comparação A/B. |
 | `gerar_relatorio_individual()` | **Um estudante**: sessões, percurso, desempenho por fase comparado com o grupo, estratégia de resolução, erros recorrentes, engajamento e expressões faciais integradas a cada ação (escore z em relação ao próprio estudante). |
+| `abrir_painel()` | Painel Shiny ligado ao Supabase: monitor da coleta em tempo real, estudo em grupo e estudante individual. |
+| `dominio_habilidades()` / `mapa_habilidades()` | Domínio de cada conceito de pensamento computacional (sequência, repetição, classificação, algoritmos, raciocínio espacial, depuração) por estudante, com *Bayesian Knowledge Tracing*; mapa fase→conceito editável em `inst/extdata/mapa_habilidades.csv`. |
 | `estados_faciais()` / `regras_estados()` | Estados de aprendizagem (confusão, frustração, tédio, engajamento, encantamento) a cada 10 s, combinando rosto e comportamento; regras versionadas e documentadas. Indicadores, não diagnósticos. |
 | `afeto_por_evento()` | Expressão facial antes/depois de cada evento (janela de tempo), com escore z pela linha de base do participante. |
 | `copiar_modelos_relatorio()` | Copia os dois `.Rmd` (grupo e individual) para uma pasta, para editar e rodar com *Knit* no RStudio. |

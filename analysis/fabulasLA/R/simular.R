@@ -267,7 +267,7 @@
   add(0, "session_start", "MainMenu", schema = "1.1", study_id = al$estudo, school_id = al$escola,
       class_id = al$turma, machine_id = al$maquina, condition = al$condicao, id_mode = "code",
       consent = TRUE, camera_consent = TRUE, age = al$idade, gender = al$genero,
-      school_grade = paste0(al$serie, "º ano"), game_version = "0.1", platform = "WindowsPlayer",
+      school_grade = paste0(al$serie, "º ano"), school_name = al$escola, game_version = "0.1", platform = "WindowsPlayer",
       os = "Windows 11", device_model = al$maquina, screen = "1920x1080",
       joysticks = ifelse(al$dispositivo == "gamepad", "Xbox Controller", ""))
   t <- 800; joias <- 0; duracao <- runif(1, 35, 55) * 60000; primeira_visita <- TRUE
